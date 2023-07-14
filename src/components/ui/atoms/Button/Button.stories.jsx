@@ -1,5 +1,6 @@
-import MuiButton from './Button'
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
+
+import MuiButton from './Button'
 
 export default {
 	title: 'Atom/Button',
