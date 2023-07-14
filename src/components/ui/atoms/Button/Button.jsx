@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { Button } from '@mui/material'
+import PropTypes from 'prop-types'
 
 export const MuiButton = ({ ...args }) => {
 	return <Button {...args}>{args.label}</Button>

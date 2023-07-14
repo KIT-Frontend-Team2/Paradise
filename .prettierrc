@@ -1,4 +1,5 @@
 {
+  "printWidth": 80,
   "endOfLine": "lf",
   "semi": false,
   "singleQuote": true,
@@ -6,6 +7,9 @@
   "tabWidth": 2,
   "useTabs": true,
   "trailingComma": "all",
-  "arrowParens": "avoid"
+  "arrowParens": "avoid",
+  "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
 
