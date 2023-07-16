@@ -1,31 +1,46 @@
 export const PALETTE = {
 	primary: {
-		100: '#CCFFF9',
-		200: '#00ESC9',
-		300: '#00C7AE',
+		100: '#009D91',
+		200: '#007679',
+		300: '#005465',
 	},
-	secondary: '#EBF1F4',
-	fontColor: '#FFFFFF',
-	white: '#FFFFFF',
+	secondary: '#F2714F',
+	tertiary: '#36BAC6',
+	fontColor: '#333333',
+	black: '#333333',
+	white: '#ffffff',
 	background: {
-		white: '#FFFFFF',
+		white: '#ffffff',
+		black: '#333333',
 	},
-	error: '#FF0000',
+	error: '#F00',
 	gray: {
-		100: '#E9E9E9',
+		100: '#F8F8F8',
+		200: '#EEEEEE',
+		300: '#E6E6E6',
+		400: '#DDDDDD',
+		500: '#CCCCCC',
+		600: '#B0B0B0',
+		700: '#999999',
+		800: '#666666',
+		900: '#555555',
 	},
 }
 
 const FONT_SIZE = {
-	small: '12px',
-	medium: '16px',
-	large: '20px',
+	xxsmall: '12px',
+	xsmall: '13px',
+	small: '14px',
+	normal: '15px',
+	large: '16px',
+	xlarge: '18px',
 }
 
 const FONT_WEIGHT = {
-	thin: '100',
+	light: '300',
 	regular: '400',
-	bold: '800',
+	medium: '500',
+	bold: '700',
 }
 
 const FONT_LINE = {
