@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'styled-components'
@@ -10,13 +11,16 @@ function App() {
 	if (process.env.NODE_ENV === 'development') {
 		worker.start()
 	}
+	const queryClient = new QueryClient()
 
 	return (
 		<>
 			<ThemeProvider theme={theme}>
-				<RecoilRoot>
-					<RouterProvider router={router} />
-				</RecoilRoot>
+				<QueryClientProvider client={queryClient}>
+					<RecoilRoot>
+						<RouterProvider router={router} />
+					</RecoilRoot>
+				</QueryClientProvider>
 			</ThemeProvider>
 		</>
 	)
