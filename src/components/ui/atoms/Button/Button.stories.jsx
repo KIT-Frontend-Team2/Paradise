@@ -1,19 +1,27 @@
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
+import ChatIcon from '@mui/icons-material/Chat'
+import { ThemeProvider } from 'styled-components'
+import theme from 'styles/theme'
 
-import MuiButton from './Button'
+import Button from './Button'
 
 export default {
 	title: 'Atom/Button',
 	tags: ['autodocs'],
-	component: MuiButton,
+	component: Button,
+	decorators: [
+		Story => (
+			<ThemeProvider theme={theme}>
+				<Story />
+			</ThemeProvider>
+		),
+	],
 	argTypes: {
 		button: { control: { type: 'text' } },
-		disabled: { control: 'boolean' },
 		size: {
 			control: {
 				type: 'select',
 			},
-			options: ['default', 'small', 'medium', 'large'],
+			options: ['small', 'medium', 'medium-1', 'large', 'full'],
 		},
 		onClick: { action: '클릭' },
 	},
@@ -21,24 +29,48 @@ export default {
 
 export const 중간사이즈 = {
 	args: {
+		label: '채팅하기',
 		size: 'medium',
-		label: 'Error',
-		endIcon: <AccessAlarmIcon />,
+		variant: 'primary',
+		starticon: <ChatIcon fontSize="small" />,
+	},
+}
+export const 중간사이즈_ver2 = {
+	args: {
+		label: '중복확인',
+		size: 'medium-1',
+		variant: 'outlined',
 	},
 }
 
 export const 작은사이즈 = {
 	args: {
+		label: '확인',
 		size: 'small',
-		label: 'send',
+		variant: 'gray-outlined',
+	},
+}
+
+export const 큰사이즈 = {
+	args: {
+		label: '확인',
+		size: 'large',
+		variant: 'primary',
+	},
+}
+
+export const 풀사이즈 = {
+	args: {
+		label: '확인',
+		size: 'full',
+		variant: 'primary',
 	},
 }
 
 export const 비활성화 = {
 	args: {
-		size: 'small',
-		label: 'send',
-		color: 'error',
+		label: '거래완료',
+		size: 'medium',
 		disabled: true,
 	},
 }

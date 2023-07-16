@@ -1,27 +1,36 @@
-import { Button } from '@mui/material'
 import PropTypes from 'prop-types'
 
-export const MuiButton = ({ ...args }) => {
-	return <Button {...args}>{args.label}</Button>
+import S from './style'
+
+const Button = ({ ...args }) => {
+	return (
+		<S.Button {...args}>
+			{args.starticon}
+			{args.label}
+			{args.endicon}
+		</S.Button>
+	)
 }
 
-MuiButton.propTypes = {
+Button.propTypes = {
 	/**
 	 * 버튼내의 글자를 입력해주세요
 	 */
 	label: PropTypes.string.isRequired,
 	/**
-	 * 버튼의 형식을 골라주세요
-	 */
-	variant: PropTypes.oneOf(['text', 'contained', 'outlined']),
-	/**
 	 * 버튼의 사이즈를 골라주세요
 	 */
-	size: PropTypes.oneOf(['default', 'small', 'medium', 'large']),
+	size: PropTypes.oneOf(['small', 'medium', 'medium-1', 'large', 'full']),
 	/**
-	 * 버튼의 색깔을 골라주세요
+	 * 버튼의 형식을 골라주세요
 	 */
-	color: PropTypes.oneOf(['secondary', 'success', 'error', 'primary']),
+	variant: PropTypes.oneOf([
+		'primary',
+		'primary-outlined',
+		'gray-outlined',
+		'outlined',
+		'cancel',
+	]),
 	/**
 	 * 버튼의 활성화 상태를 골라주세요
 	 */
@@ -32,11 +41,9 @@ MuiButton.propTypes = {
 	sx: PropTypes.shape({}),
 }
 
-MuiButton.defaultProps = {
-	label: '확인',
-	size: 'default',
-	variant: 'contained',
+Button.defaultProps = {
+	size: 'medium',
+	variant: 'primary',
 	disabled: false,
 }
-
-export default MuiButton
+export default Button
