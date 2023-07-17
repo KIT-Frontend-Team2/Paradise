@@ -1,11 +1,16 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
 import { Box, IconButton } from '@mui/material'
+import { headerMock } from '__mock__/datas/header.mock'
 import React from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
+import UserInfo from './UserInfo'
+
 const MainHeader = props => {
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 	return (
 		<Box
 			sx={{
@@ -33,13 +38,17 @@ const MainHeader = props => {
 					</IconButton>
 				</S.SearchBox>
 				<S.SignBox>
-					<a href="/" alt="로그인">
+					{/* <a href="/" alt="로그인">
 						로그인
 					</a>
 					<span>I</span>
 					<a href="/" alt="회원가입">
 						회원가입
-					</a>
+					</a> */}
+					<UserInfo
+						user_profile_url={headerMock.data.user_info.user_profile_url}
+						user_nick_name={headerMock.data.user_info.user_nick_name}
+					/>
 				</S.SignBox>
 			</S.SearchContainer>
 			<S.Container>
@@ -53,9 +62,21 @@ const MainHeader = props => {
 						fontSize: '20px',
 					}}
 				>
-					<S.InnerBox>
+					<S.InnerBox onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
 						<MenuIcon />
 						카테고리
+						{isDropdownOpen && (
+							<S.DropdownMenu>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+								<span>카테고리</span>
+							</S.DropdownMenu>
+						)}
 					</S.InnerBox>
 				</Box>
 				<Box
@@ -164,7 +185,7 @@ const SignBox = styled.div`
 	}
 `
 const ParadiseSection = styled.div`
-	width: 80%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -181,6 +202,24 @@ const ParadiseSection = styled.div`
 	}
 `
 
+const DropdownMenu = styled.div`
+	position: absolute;
+	background-color: #fff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 8px;
+	border-radius: 5px;
+	z-index: 1;
+	top: 180px;
+	span {
+		display: block;
+		padding: 5px;
+		cursor: pointer;
+		&:hover {
+			background-color: #f5f5f5;
+		}
+	}
+`
+
 const S = {
 	SearchContainer,
 	SearchBox,
@@ -189,4 +228,5 @@ const S = {
 	InnerBox,
 	SignBox,
 	ParadiseSection,
+	DropdownMenu,
 }

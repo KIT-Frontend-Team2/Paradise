@@ -1,4 +1,4 @@
-const headerMock = {
+export const headerMock = {
 	status: 200,
 	message: 'success',
 	data: {
