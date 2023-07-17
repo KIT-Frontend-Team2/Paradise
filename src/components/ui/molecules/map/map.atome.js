@@ -1,8 +1,6 @@
-
-
-import {atom} from 'recoil'
+import { atom } from 'recoil'
 
 export const MapAtom = atom({
-  key: 'addressState',
-  default:''
+	key: 'addressState',
+	default: '',
 })
