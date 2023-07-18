@@ -37,6 +37,12 @@ const variantCSS = {
 		color: ${({ theme }) => theme.PALETTE.black};
 		border: 1px solid ${({ theme }) => theme.PALETTE.gray[500]};
 		background-color: ${({ theme }) => theme.PALETTE.background.white};
+
+		&.selected {
+			color: ${({ theme }) => theme.PALETTE.background.white};
+			border: 1px solid ${({ theme }) => theme.PALETTE.black};
+			background-color: ${({ theme }) => theme.PALETTE.black};
+		}
 	`,
 
 	cancel: css`
