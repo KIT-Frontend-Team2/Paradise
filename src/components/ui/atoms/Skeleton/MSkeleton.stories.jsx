@@ -22,6 +22,9 @@ export default {
 	},
 }
 
+const Template = args => <MSkeleton {...args} />
+export const Controls = Template.bind({})
+
 export const 텍스트 = {
 	args: {
 		variant: 'text',

@@ -1,5 +1,12 @@
+import ProductForm from 'components/templates/ProductForm'
 import React from 'react'
 
-const ProductRegisterPage = props => <div>register</div>
+const ProductRegisterPage = () => {
+	return (
+		<>
+			<ProductForm />
+		</>
+	)
+}
 
 export default ProductRegisterPage

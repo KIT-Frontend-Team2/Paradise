@@ -17,9 +17,13 @@ export default {
 }
 
 export const flex = {
-	display: 'flex',
+	args: {
+		display: 'flex',
+	},
 }
 
 export const inline_flex = {
-	display: 'inline-flex',
+	args: {
+		display: 'inline-flex',
+	},
 }

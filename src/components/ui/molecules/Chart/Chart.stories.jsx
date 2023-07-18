@@ -1,22 +1,23 @@
 import Chart from './Chart'
 
 export default {
-	title: 'Atom/Chart',
+	title: 'Molecules/Chart',
 	tags: ['autodocs'],
 	component: Chart,
 }
 
 const Template = args => (
-	<Chart size={args.size} chart_data={args.chart_data} margin={args.margin} />
+	<Chart size={args.size} chartData={args.chartData} margin={args.margin} />
 )
 
 export const Controls = Template.bind({})
+
 Controls.args = {
 	size: {
 		width: 400,
 		height: 300,
 	},
-	chart_data: {
+	chartData: {
 		data: [
 			{
 				name: '5월',
@@ -37,7 +38,7 @@ Controls.args = {
 		],
 		x: 'name',
 		y: 'value',
-		formatter: y => `${y / 1000}만원`,
+		formatter: y => `${y / 10000}만원`,
 	},
 	margin: {
 		top: 5,
