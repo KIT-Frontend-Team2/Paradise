@@ -27,7 +27,7 @@ const ProductDetailPage = () => {
 		user_temperature,
 	} = productInfo.seller_info
 	const chartData = { ...productInfo.chart_data }
-	const new_chartData = {
+	const newChartData = {
 		...chartData,
 		x: 'name',
 		y: '평균 거래가',
@@ -61,7 +61,7 @@ const ProductDetailPage = () => {
 							userName={user_nick_name}
 						/>
 						<DeProductChartSection
-							chartData={new_chartData}
+							chartData={newChartData}
 							size={{
 								width: 550,
 								height: 300,
