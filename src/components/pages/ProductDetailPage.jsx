@@ -44,6 +44,7 @@ const ProductDetailPage = () => {
 					<S.RightSection>
 						<DeProductSection
 							chatCount={productInfo.product_chat_count}
+							isLike={productInfo.isLike}
 							like={productInfo.product_like}
 							userState={productInfo.isBuyer}
 							price={productInfo.product_price}
