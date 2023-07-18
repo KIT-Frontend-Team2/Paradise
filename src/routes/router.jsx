@@ -5,10 +5,10 @@ import AuthPage from '../components/pages/AuthPage'
 import ErrorPage from '../components/pages/ErrorPage'
 import MyPage from '../components/pages/MyPage'
 import ProductDetailPage from '../components/pages/ProductDetailPage'
-import ProductUpdatePage from '../components/pages/ProductFixPage'
 import ProductListPage from '../components/pages/ProductListPage'
 import ProductRegisterPage from '../components/pages/ProductRegisterPage'
 import ProductSearchPage from '../components/pages/ProductSearchPage'
+import ProductUpdatePage from '../components/pages/ProductUpdatePage'
 import RendingPage from '../components/pages/RendingPage'
 
 const router = createBrowserRouter([
