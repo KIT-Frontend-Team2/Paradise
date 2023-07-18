@@ -1,5 +1,5 @@
 import axios from 'axios'
-import ProductForm from 'components/templates/ProductForm'
+import ProductForm from 'components/templates/ProductFormTemplate/ProductForm'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
