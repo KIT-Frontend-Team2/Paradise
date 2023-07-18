@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import randomMaker from '../../../utils/random-number-maker'
+import LineBar from '../../ui/atoms/Linebar/LineBar'
 import MSkeleton from '../../ui/atoms/Skeleton/MSkeleton'
 
 const ProductDetailTemplate = () => (
@@ -11,17 +12,26 @@ const ProductDetailTemplate = () => (
 				<S.LeftSection>
 					<S.ImgBox>
 						<S.SelectImg>
-							<MSkeleton width={500} height={500} variant={'rectangular'} />
+							<MSkeleton variant={'rectangular'} sx={{ paddingTop: '100%' }} />
 						</S.SelectImg>
 						<S.Images>
 							<S.Image>
-								<MSkeleton width={120} height={120} variant={'rectangular'} />
+								<MSkeleton
+									sx={{ paddingTop: '100%' }}
+									variant={'rectangular'}
+								/>
 							</S.Image>
 							<S.Image>
-								<MSkeleton width={120} height={120} variant={'rectangular'} />
+								<MSkeleton
+									sx={{ paddingTop: '100%' }}
+									variant={'rectangular'}
+								/>
 							</S.Image>
 							<S.Image>
-								<MSkeleton width={120} height={120} variant={'rectangular'} />
+								<MSkeleton
+									sx={{ paddingTop: '100%' }}
+									variant={'rectangular'}
+								/>
 							</S.Image>
 						</S.Images>
 					</S.ImgBox>
@@ -52,7 +62,7 @@ const ProductDetailTemplate = () => (
 								</S.ProductActionButton>
 							</S.ProductButtons>
 						</S.ProductFlexBox>
-						<S.LineBar />
+						<LineBar />
 						<S.ProductInfo>
 							<MSkeleton width={randomMaker(150, 300)} height={50} />
 							<MSkeleton width={randomMaker(150, 300)} height={50} />
@@ -182,16 +192,20 @@ S.RightSection = styled.div``
 S.ImgBox = styled.div`
 	position: sticky;
 	top: 0;
+	margin-right: 10px;
 `
 
 S.SelectImg = styled.div``
 
 S.Images = styled(S.Flex)`
-	margin-top: 10px;
+	margin: 10px 0 0 0;
 	gap: 10px;
+	width: 100%;
 `
 
-S.Image = styled.div``
+S.Image = styled.div`
+	width: 100%;
+`
 
 S.ProductBox = styled.div``
 
@@ -214,7 +228,7 @@ S.ProductPrice = styled.div`
 
 S.ProductButtons = styled(S.Flex)`
 	justify-content: space-between;
-	gap: 10px;
+	gap: 5px;
 `
 S.ProductSmallButton = styled.div``
 
@@ -222,11 +236,6 @@ S.ProductActionButton = styled.div``
 
 S.ProductInfo = styled.div``
 
-S.LineBar = styled.div`
-	width: 100%;
-	border-bottom: 0.5px solid #dddddd;
-	margin: 20px 0 20px 0;
-`
 S.DepsTitle = styled.div`
 	margin-top: 40px;
 `
