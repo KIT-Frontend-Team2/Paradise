@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Button from '../../atoms/Button/Button'
 
-const DeUserProductButton = ({ productCount, backgroundColor }) => {
+const DeUserProductButton = ({ productCount }) => {
 	if (productCount <= 6) return null
 
 	productCount -= 6
@@ -19,7 +19,7 @@ export default DeUserProductButton
 
 DeUserProductButton.propTypes = {
 	/**
-	 * 이미지 주소를 입력해주세요 없을 시 대체이미지가 등록이 됩니다.
+	 * 숫자가 5 이하일 경우 해당 버튼은 보이지가 않습니다.
 	 */
 	productCount: PropTypes.number.isRequired,
 }
