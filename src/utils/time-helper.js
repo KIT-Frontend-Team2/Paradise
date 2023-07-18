@@ -1,6 +1,7 @@
 /**
  *
- * @param {type Date} date
+ * @param {Date} date
+ * @return {String} 숫자를 형식에 맞게 변환해줍니다, ex) 10 초전
  */
 const timeHelper = date => {
 	let changeTime = ''
