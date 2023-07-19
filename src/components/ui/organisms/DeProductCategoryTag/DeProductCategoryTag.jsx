@@ -1,20 +1,26 @@
-import PropTypes, { string } from 'prop-types'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
 import { MChip } from '../../atoms/Chip/MChip'
 import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
 
-const DeProductCategoryTag = ({ category }) => (
-	<>
-		<DeSectionTitle title={'태그'} />
-		<S.CategoryBox>
-			{category.map(item => (
-				<MChip key={item} label={item} />
-			))}
-		</S.CategoryBox>
-	</>
-)
+const DeProductCategoryTag = ({ category }) => {
+	const onClick = keyWord => {
+		console.log(keyWord, ' 로 검색합니다.')
+	}
+
+	return (
+		<>
+			<DeSectionTitle title={'태그'} />
+			<S.CategoryBox>
+				{category.map(item => (
+					<MChip key={item} onClick={item => onClick(item)} label={item} />
+				))}
+			</S.CategoryBox>
+		</>
+	)
+}
 
 export default DeProductCategoryTag
 
@@ -45,7 +51,5 @@ DeProductCategoryTag.propTypes = {
 	/**
 	 * 태그의 이름, 배열을 알려주세요
 	 */
-	category: PropTypes.shape({
-		name: string,
-	}),
+	category: PropTypes.array,
 }

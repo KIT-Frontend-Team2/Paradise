@@ -6,8 +6,10 @@ import styled from 'styled-components'
 import cssToken from '../../../../styles/cssToken'
 import timeHelper from '../../../../utils/time-helper'
 import Button from '../../atoms/Button/Button'
+import UpdateButton from '../../atoms/Button/UpdateButton'
 import WishButton from '../../atoms/Button/WishButton'
 import LineBar from '../../atoms/Linebar/LineBar'
+import MTooltip from '../../atoms/Tooltip/MTooltip'
 
 const DeProductSection = ({
 	isLike,
@@ -16,7 +18,7 @@ const DeProductSection = ({
 	like,
 	chatCount,
 	price,
-	userState,
+	isBuyer,
 	productInfo,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(false | isLike)
@@ -38,16 +40,29 @@ const DeProductSection = ({
 					{'원'}
 				</S.ProductPrice>
 				<S.ProductButtons>
-					<WishButton
-						onClick={onClick}
-						variant={isLikeState ? 'wish' : 'wish-on'}
-					/>
-					<Button
-						size={'medium'}
-						variant={'primary'}
-						starticon={<ChatIcon fontSize="small" />}
-						label={userState ? '채팅하기' : '채팅목록'}
-					/>
+					{!isBuyer ? (
+						<WishButton
+							onClick={onClick}
+							variant={isLikeState ? 'wish' : 'wish-on'}
+						/>
+					) : (
+						<MTooltip title={'상품의 수정 페이지로 이동'} placement={'top'}>
+							<UpdateButton
+								onClick={() => console.log('업데이트 페이지로이동')}
+							/>
+						</MTooltip>
+					)}
+					<MTooltip
+						title={!isBuyer ? '판매자와 채팅하기' : '채팅목록 확인하기'}
+						placement={'top'}
+					>
+						<Button
+							size={'medium'}
+							variant={'primary'}
+							starticon={<ChatIcon fontSize="small" />}
+							label={!isBuyer ? '채팅하기' : '채팅목록'}
+						/>
+					</MTooltip>
 				</S.ProductButtons>
 			</S.ProductFlexBox>
 			<LineBar />
@@ -98,12 +113,6 @@ S.ProductPriceNumber = styled.span`
 S.ProductButtons = styled.div`
 	display: flex;
 	gap: 5px;
-	transition: transform 0.5s;
-	> button {
-		:hover {
-			transform: scale(1.1);
-		}
-	}
 `
 
 S.ProductInfo = styled.div`
@@ -140,7 +149,7 @@ DeProductSection.propTypes = {
 	/**
 	 * 해당 상품의 본의 역할을 알려주세요. 판매자 혹은 구매자
 	 */
-	userState: PropTypes.bool.isRequired,
+	isBuyer: PropTypes.bool.isRequired,
 	/**
 	 * 해당 상품의 소개글에 대해서 알려주세요.
 	 */
