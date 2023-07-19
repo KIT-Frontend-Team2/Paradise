@@ -15,6 +15,7 @@ export default {
 		),
 	],
 	argTypes: {
+		size: { control: { type: 'number' } },
 		id: { control: 'text' },
 		name: { control: 'text' },
 		place: { control: 'text' },
@@ -30,6 +31,7 @@ export default {
 
 const Template = args => (
 	<ProductCard
+		size={args.size}
 		price={args.price}
 		time={args.time}
 		like={args.like}
@@ -46,6 +48,7 @@ const Template = args => (
 export const Controls = Template.bind({})
 
 Controls.args = {
+	size: 200,
 	id: '3asd4',
 	name: '스타벅스 기프티콘',
 	content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
