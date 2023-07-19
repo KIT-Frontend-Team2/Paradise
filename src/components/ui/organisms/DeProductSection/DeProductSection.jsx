@@ -1,6 +1,6 @@
 import ChatIcon from '@mui/icons-material/Chat'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import cssToken from '../../../../styles/cssToken'
@@ -10,42 +10,51 @@ import WishButton from '../../atoms/Button/WishButton'
 import LineBar from '../../atoms/Linebar/LineBar'
 
 const DeProductSection = ({
+	isLike,
 	title,
 	time,
 	like,
 	chatCount,
 	price,
-	wish,
 	userState,
 	productInfo,
-}) => (
-	<>
-		<S.ProductTitle>{title}</S.ProductTitle>
-		<S.ProductTitleBox>
-			<S.ProductCreateAt>{timeHelper(time)}</S.ProductCreateAt>
-			<S.ProductCountInfo>
-				{'관심 ' + like + ' 채팅 ' + chatCount}
-			</S.ProductCountInfo>
-		</S.ProductTitleBox>
-		<S.ProductFlexBox>
-			<S.ProductPrice>
-				<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
-				{'원'}
-			</S.ProductPrice>
-			<S.ProductButtons>
-				<WishButton variant={wish} />
-				<Button
-					size={'medium'}
-					variant={'primary'}
-					starticon={<ChatIcon fontSize="small" />}
-					label={userState ? '채팅하기' : '채팅목록'}
-				/>
-			</S.ProductButtons>
-		</S.ProductFlexBox>
-		<LineBar />
-		<S.ProductInfo>{productInfo}</S.ProductInfo>
-	</>
-)
+}) => {
+	const [isLikeState, setIsLikeState] = useState(false | isLike)
+	const onClick = () => {
+		setIsLikeState(prev => !prev)
+	}
+	return (
+		<>
+			<S.ProductTitle>{title}</S.ProductTitle>
+			<S.ProductTitleBox>
+				<S.ProductCreateAt>{timeHelper(time)}</S.ProductCreateAt>
+				<S.ProductCountInfo>
+					{'관심 ' + like + ' 채팅 ' + chatCount}
+				</S.ProductCountInfo>
+			</S.ProductTitleBox>
+			<S.ProductFlexBox>
+				<S.ProductPrice>
+					<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
+					{'원'}
+				</S.ProductPrice>
+				<S.ProductButtons>
+					<WishButton
+						onClick={onClick}
+						variant={isLikeState ? 'wish' : 'wish-on'}
+					/>
+					<Button
+						size={'medium'}
+						variant={'primary'}
+						starticon={<ChatIcon fontSize="small" />}
+						label={userState ? '채팅하기' : '채팅목록'}
+					/>
+				</S.ProductButtons>
+			</S.ProductFlexBox>
+			<LineBar />
+			<S.ProductInfo>{productInfo}</S.ProductInfo>
+		</>
+	)
+}
 
 export default DeProductSection
 
@@ -89,6 +98,12 @@ S.ProductPriceNumber = styled.span`
 S.ProductButtons = styled.div`
 	display: flex;
 	gap: 5px;
+	transition: transform 0.5s;
+	> button {
+		:hover {
+			transform: scale(1.1);
+		}
+	}
 `
 
 S.ProductInfo = styled.div`
@@ -111,6 +126,10 @@ DeProductSection.propTypes = {
 	 */
 	like: PropTypes.number.isRequired,
 	/**
+	 * 해당 상품을 좋아요 했는지 안했는지 알려주세요
+	 */
+	isLike: PropTypes.bool.isRequired,
+	/**
 	 * 해당 상품 채팅 채널의 열린 채팅방 수를 알려주세요
 	 */
 	chatCount: PropTypes.number.isRequired,
@@ -118,10 +137,6 @@ DeProductSection.propTypes = {
 	 * 해당 상품의 가격을 알려주세요
 	 */
 	price: PropTypes.number.isRequired,
-	/**
-	 * 해당 상품의 본인의 상태를 알려주세요
-	 */
-	wish: PropTypes.oneOf(['wish', 'wish-on']),
 	/**
 	 * 해당 상품의 본의 역할을 알려주세요. 판매자 혹은 구매자
 	 */

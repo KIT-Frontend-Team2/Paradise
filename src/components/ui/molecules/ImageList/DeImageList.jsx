@@ -27,7 +27,10 @@ const DeImageList = ({ width, height, cols, rowHeight, itemData }) => {
 					sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 				>
 					<S.ImgBox size={rowHeight} onClick={() => onLinkWithId(item.id)}>
-						<MTooltip title={`${item.name}` + ' 페이지로 이동'}>
+						<MTooltip
+							placement={'top'}
+							title={`${item.name}` + ' 페이지로 이동'}
+						>
 							<img src={item.img} alt={item.title} loading={'lazy'} />
 						</MTooltip>
 					</S.ImgBox>

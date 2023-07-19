@@ -59,12 +59,23 @@ S.UserName = styled.div`
 `
 
 S.UserInfo = styled.div`
+	display: flex;
+	gap: 15px;
 	color: #999999;
 	font-size: ${cssToken.TEXT_SIZE['text-12']};
+
+	span:last-child {
+		position: relative;
+	}
+
 	span:last-child:before {
+		position: absolute;
 		content: '';
-		margin: 4px 4px 4px 4px;
-		border-right: 1px solid #dddddd;
+		top: 4px;
+		left: -8px;
+		width: 1px;
+		height: 10px;
+		background-color: ${({ theme }) => theme.PALETTE.gray[400]};
 	}
 `
 

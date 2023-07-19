@@ -27,7 +27,7 @@ const ProductDetailPage = () => {
 		user_temperature,
 	} = productInfo.seller_info
 	const chartData = { ...productInfo.chart_data }
-	const new_chartData = {
+	const newChartData = {
 		...chartData,
 		x: 'name',
 		y: '평균 거래가',
@@ -44,6 +44,7 @@ const ProductDetailPage = () => {
 					<S.RightSection>
 						<DeProductSection
 							chatCount={productInfo.product_chat_count}
+							isLike={productInfo.isLike}
 							like={productInfo.product_like}
 							userState={productInfo.isBuyer}
 							price={productInfo.product_price}
@@ -61,7 +62,7 @@ const ProductDetailPage = () => {
 							userName={user_nick_name}
 						/>
 						<DeProductChartSection
-							chartData={new_chartData}
+							chartData={newChartData}
 							size={{
 								width: 550,
 								height: 300,

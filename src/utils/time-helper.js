@@ -10,19 +10,19 @@ const timeHelper = date => {
 	if (thisTime.getFullYear() !== createTime.getFullYear())
 		return (changeTime = `${
 			thisTime.getFullYear() - createTime.getFullYear()
-		} 년 전`)
+		}년 전`)
 	if (thisTime.getMonth() !== createTime.getMonth())
-		return (changeTime = `${thisTime.getMonth() - createTime.getMonth()} 달 전`)
+		return (changeTime = `${thisTime.getMonth() - createTime.getMonth()}달 전`)
 	if (thisTime.getDate() !== createTime.getDate())
-		return (changeTime = `${thisTime.getDate() - createTime.getDate()} 일 전`)
+		return (changeTime = `${thisTime.getDate() - createTime.getDate()}일 전`)
 	if (thisTime.getHours() !== createTime.getHours())
 		return (changeTime = `${
 			thisTime.getHours() - createTime.getHours()
-		} 시간 전`)
+		}시간 전`)
 	if (thisTime.getMinutes() !== createTime.getMinutes())
 		return (changeTime = `${
 			thisTime.getMinutes() - createTime.getMinutes()
-		} 분 전`)
+		}분 전`)
 	changeTime = `방금`
 
 	return changeTime
