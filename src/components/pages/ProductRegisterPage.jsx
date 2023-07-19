@@ -1,4 +1,4 @@
-import ProductForm from 'components/templates/ProductForm'
+import ProductForm from 'components/templates/ProductFormTemplate/ProductForm'
 import React from 'react'
 
 const ProductRegisterPage = () => {
