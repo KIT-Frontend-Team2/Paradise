@@ -1,12 +1,12 @@
 import { ThemeProvider } from 'styled-components'
 import theme from 'styles/theme'
 
-import InputGroup from './InputGroup'
+import Tag from './Tag'
 
 export default {
-	title: 'Molecules/InputGroup',
+	title: 'Atom/Tag',
 	tags: ['autodocs'],
-	component: InputGroup,
+	component: Tag,
 	decorators: [
 		Story => (
 			<ThemeProvider theme={theme}>
@@ -16,14 +16,8 @@ export default {
 	],
 }
 
-export const flex = {
+export const 기본_태그 = {
 	args: {
-		display: 'flex',
-	},
-}
-
-export const inline_flex = {
-	args: {
-		display: 'inline-flex',
+		label: '판매',
 	},
 }

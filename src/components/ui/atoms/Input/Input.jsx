@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types'
+import React from 'react'
 
 import S from './style'
 
-const Input = ({ ...args }) => {
+const Input = React.forwardRef(({ error, ...args }, ref) => {
 	return (
 		<S.InputBox {...args}>
-			<S.Input {...args} readOnly={args.readOnly} />
-			{args.error && <span className="error">{args.error}</span>}
+			<S.Input error={error} {...args} ref={ref} readOnly={args.readOnly} />
+			{error && <span className="error">{error}</span>}
 		</S.InputBox>
 	)
-}
+})
 
 Input.propTypes = {
 	/**

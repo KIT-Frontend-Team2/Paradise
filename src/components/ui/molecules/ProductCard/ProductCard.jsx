@@ -10,6 +10,7 @@ import timeHelper from '../../../../utils/time-helper'
 import MTooltip from '../../atoms/Tooltip/MTooltip'
 
 const ProductCard = ({
+	size,
 	id,
 	name,
 	place,
@@ -28,7 +29,7 @@ const ProductCard = ({
 		console.log(id + ' 찜상태 변경 요청보내기')
 	}
 	return (
-		<S.Card>
+		<S.Card size={size}>
 			<S.ImgBox>
 				<S.LikeBox>
 					<Checkbox
@@ -73,6 +74,10 @@ const ProductCard = ({
 export default ProductCard
 
 ProductCard.propTypes = {
+	/**
+	 * 상품 카드의 가로 길이를 설정할 수 있습니다. 이미지의 세로길이도 동일합니다.
+	 */
+	size: PropTypes.number.isRequired,
 	/**
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
@@ -126,13 +131,11 @@ S.LikeBox = styled.div`
 `
 
 S.Card = styled.div`
-	width: 200px;
-	height: auto;
+	width: ${({ size }) => size + 'px'};
 `
 S.ImgBox = styled.div`
 	position: relative;
-	width: 200px;
-	height: 200px;
+	aspect-ratio: 1/1;
 	border-radius: 8px;
 	overflow: hidden;
 	margin-bottom: 9px;
@@ -174,15 +177,15 @@ S.PlaceWithTimeBox = styled.div`
 `
 
 S.TitleBox = styled.div`
-  white-space: nowrap;
-  overflow: hidden;
-  color: ${({ theme }) => theme.PALETTE.black};
-  text-overflow: ellipsis;
-  font-size: ${({ theme }) => theme.FONT_SIZE.normal}
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-bottom: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	color: ${({ theme }) => theme.PALETTE.black};
+	text-overflow: ellipsis;
+	font-size: ${({ theme }) => theme.FONT_SIZE.normal};
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin-bottom: 5px;
 `
 
 S.PriceBox = styled.div`

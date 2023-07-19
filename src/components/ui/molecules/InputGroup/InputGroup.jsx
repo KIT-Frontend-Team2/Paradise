@@ -1,7 +1,7 @@
+import Button from 'components/ui/atoms/Button/Button'
+import Input from 'components/ui/atoms/Input/Input'
 import PropTypes from 'prop-types'
 
-import Button from '../../atoms/Button/Button'
-import Input from '../../atoms/Input/Input'
 import S from './style'
 
 const InputGroup = ({ ...args }) => {
