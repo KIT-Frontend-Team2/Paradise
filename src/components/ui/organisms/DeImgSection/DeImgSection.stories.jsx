@@ -15,19 +15,15 @@ export default {
 		),
 	],
 	argTypes: {
-		size: { control: { type: 'number' } },
 		itemData: { control: { type: 'object' } },
 	},
 }
 
-const Template = args => (
-	<DeImgSection size={args.size} itemData={args.itemData} />
-)
+const Template = args => <DeImgSection itemData={args.itemData} />
 
 export const Controls = Template.bind({})
 
 Controls.args = {
-	size: 541,
 	itemData: [
 		{
 			id: '120',

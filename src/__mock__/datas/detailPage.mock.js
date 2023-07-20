@@ -11,23 +11,23 @@ const detailPageMock = {
 		product_coordinate: [37.50011480738251, 127.03674852807775], // 상품의 위도 경도
 		product_imgs: [
 			{
-				id: 1,
+				id: '1',
 				img: 'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
 			},
 			{
-				id: 2,
+				id: '2',
 				img: 'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
 			},
 			{
-				id: 3,
+				id: '3',
 				img: 'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
 			},
 			{
-				id: 4,
+				id: '4',
 				img: 'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
 			},
 			{
-				id: 5,
+				id: '5',
 				img: 'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
 			},
 		],
@@ -107,67 +107,102 @@ const detailPageMock = {
 		recommended_product: [
 			// 추천 상품 혹은 연관된 상품들
 			{
-				product_id: 270,
+				product_id: '270',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노', // 상품 상세 내용(컨텐츠)
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 			{
-				product_id: 420,
+				product_id: '420',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 			{
-				product_id: 520,
+				product_id: '520',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 			{
-				product_id: 18,
+				product_id: '18',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: true,
 			},
 			{
-				product_id: 25,
+				product_id: '25',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 			{
-				product_id: 11,
+				product_id: '11',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 			{
-				product_id: 41,
+				product_id: '41',
 				product_name: '스타벅스 아메리카노 기프티콘',
+				product_content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 				product_price: 15000,
+				product_place: '천호동',
+				product_create_at: '2023-04-14T13:59:49.690Z', // 상품을 업로드한 시간
+				product_update_at: '2023-04-14T13:59:49.690Z',
 				product_main_img_url:
 					'https://media.bunjang.co.kr/product/229963877_1_1689343314_w292.jpg', // 상품의 대표 이미지 주소
 				product_like: 10, // 상품의 좋아요 갯수
 				product_chat_count: 21, // 상품의 채팅 갯수
+				isLike: false,
 			},
 		],
 	},

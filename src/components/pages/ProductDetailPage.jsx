@@ -1,18 +1,24 @@
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { useLoadDetailPage } from '../../hooks/pageQuery/useLoadPage'
+import { loadDetailPage } from '../../hooks/pageQuery/useLoadPage'
 import ProductDetailTemplate from '../templates/ProductDetailTemplate/ProductDetailTemplate'
 import DeImgSection from '../ui/organisms/DeImgSection/DeImgSection'
 import DeProductCategoryTag from '../ui/organisms/DeProductCategoryTag/DeProductCategoryTag'
 import DeProductChartSection from '../ui/organisms/DeProductChartSection/DeProductChartSection'
 import DeProductMapSection from '../ui/organisms/DeProductMapSection/DeProductMapSection'
 import DeProductSection from '../ui/organisms/DeProductSection/DeProductSection'
+import DeRelatedCarousel from '../ui/organisms/DeRelatedCarousel/DeRelatedCarousel'
 import DeUserProductSection from '../ui/organisms/DeUserProductSection/DeUserProductSection'
 
 const ProductDetailPage = () => {
 	const productId = useParams().productId
-	const { data, isError, isLoading } = useLoadDetailPage(productId)
+
+	const { data, isError, isLoading } = loadDetailPage(productId)
+
+	if (isError) {
+		return <>'Error Loading'</>
+	}
 
 	if (isLoading) {
 		return <ProductDetailTemplate />
@@ -25,6 +31,7 @@ const ProductDetailPage = () => {
 		user_product_list,
 		user_profile_url,
 		user_temperature,
+		user_id,
 	} = productInfo.seller_info
 	const chartData = { ...productInfo.chart_data }
 	const newChartData = {
@@ -36,17 +43,18 @@ const ProductDetailPage = () => {
 			return `${y / 10000}만원`
 		},
 	}
+
 	return (
 		<S.Wrapper>
 			<S.Container>
 				<S.FlexBox>
-					<DeImgSection itemData={productInfo.product_imgs} size={500} />
+					<DeImgSection itemData={productInfo.product_imgs} />
 					<S.RightSection>
 						<DeProductSection
+							isBuyer={productInfo.isBuyer}
 							chatCount={productInfo.product_chat_count}
 							isLike={productInfo.isLike}
 							like={productInfo.product_like}
-							userState={productInfo.isBuyer}
 							price={productInfo.product_price}
 							time={productInfo.product_create_at}
 							title={productInfo.product_name}
@@ -60,6 +68,7 @@ const ProductDetailPage = () => {
 							itemData={user_product_list}
 							productCount={user_product_count}
 							userName={user_nick_name}
+							userId={user_id}
 						/>
 						<DeProductChartSection
 							chartData={newChartData}
@@ -77,6 +86,7 @@ const ProductDetailPage = () => {
 						/>
 					</S.RightSection>
 				</S.FlexBox>
+				<DeRelatedCarousel products={productInfo.recommended_product} />
 			</S.Container>
 		</S.Wrapper>
 	)
@@ -101,6 +111,7 @@ S.Flex = styled.div`
 `
 
 S.FlexBox = styled(S.Flex)`
+	padding-bottom: 30px;
 	> div {
 		width: 50%;
 	}

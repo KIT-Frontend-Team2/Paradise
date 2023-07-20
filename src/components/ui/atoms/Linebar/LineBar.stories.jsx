@@ -6,6 +6,9 @@ export default {
 	title: 'Atom/LineBar',
 	tags: ['autodocs'],
 	component: LineBar,
+	argTypes: {
+		width: { control: { type: 'number' } },
+	},
 	decorators: [
 		Story => (
 			<S.Block>
@@ -17,11 +20,15 @@ export default {
 const S = {}
 
 S.Block = styled.div`
-	width: 70%;
-	height: 50px;
+	width: 100%;
+	margin: 0 auto;
 	border: 1px solid darkgray;
 `
 
-const Template = args => <LineBar />
+const Template = args => <LineBar {...args} />
 
 export const Controls = Template.bind({})
+
+Controls.args = {
+	width: 90,
+}
