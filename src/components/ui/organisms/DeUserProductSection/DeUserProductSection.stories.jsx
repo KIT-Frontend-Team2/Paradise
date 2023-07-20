@@ -30,6 +30,7 @@ const Template = args => (
 		itemData={args.itemData}
 		productCount={args.productCount}
 		userName={args.userName}
+		userId={args.userId}
 	/>
 )
 
@@ -41,6 +42,7 @@ Controls.args = {
 	userName: '네이쳐',
 	productCount: 41,
 	userTemplate: 39.2,
+	userId: 'uudi4',
 	itemData: [
 		{
 			id: '120',

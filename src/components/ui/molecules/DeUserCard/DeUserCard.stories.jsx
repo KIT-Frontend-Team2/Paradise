@@ -1,9 +1,19 @@
+import { ThemeProvider } from 'styled-components'
+
+import theme from '../../../../styles/theme'
 import DeUserCard from './DeUserCard'
 
 export default {
 	title: 'Molecules/DeUserCard',
 	tags: ['autodocs'],
 	component: DeUserCard,
+	decorators: [
+		Story => (
+			<ThemeProvider theme={theme}>
+				<Story />
+			</ThemeProvider>
+		),
+	],
 	argTypes: {
 		imgProfile: { control: 'text' },
 		size: { control: { type: 'number' } },

@@ -7,7 +7,6 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import timeHelper from '../../../../utils/time-helper'
-import MTooltip from '../../atoms/Tooltip/MTooltip'
 
 const ProductCard = ({
 	size,
@@ -34,18 +33,16 @@ const ProductCard = ({
 				<S.LikeBox>
 					<Checkbox
 						onClick={onClickWithLike}
-						checked={likeState}
+						checked={Boolean(likeState)}
 						icon={<FavoriteBorder />}
 						checkedIcon={<Favorite sx={{ color: 'red' }} />}
 					/>
 				</S.LikeBox>
-				<MTooltip placement={'top'} title={name + '의 게시물 로 이동합니다.'}>
-					<img
-						src={img_url}
-						alt={name}
-						onClick={() => console.log(id + '의 게시물 로 이동합니다.')}
-					/>
-				</MTooltip>
+				<img
+					src={img_url}
+					alt={name}
+					onClick={() => console.log(id + '의 게시물 로 이동합니다.')}
+				/>
 			</S.ImgBox>
 			<S.PlaceWithTimeBox>
 				<span>{place}</span>
@@ -189,13 +186,13 @@ S.TitleBox = styled.div`
 `
 
 S.PriceBox = styled.div`
-  height: 25px;
-  color: ${({ theme }) => theme.PALETTE.primary[200]};
-  font-size: ${({ theme }) => theme.FONT_SIZE.xlarge}
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-bottom: 5px;
+	height: 25px;
+	color: ${({ theme }) => theme.PALETTE.primary[200]};
+	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
+	font-weight: 500;
+	line-height: normal;
+	margin-bottom: 5px;
+	text-align: left;
 `
 
 S.FlexBox = styled.div`
