@@ -1,8 +1,8 @@
-import registerIcon from 'assets/images/ico-image-register.png'
 import wonIcon from 'assets/images/ico-won.png'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import DeformImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -10,11 +10,12 @@ import { styled } from 'styled-components'
 
 const ProductForm = ({ detail }) => {
 	const MAX_IMAGE_CNT = 5
-	const [imageList, setImageList] = useState([])
+	const [imagePreviews, setImagePreviews] = useState([])
 	const [isFreeProduct, setIsFreeProduct] = useState(false)
 	const [tagList, setTagList] = useState([])
 
 	const {
+		product_imgs,
 		product_name,
 		is_free_product,
 		product_price,
@@ -22,15 +23,60 @@ const ProductForm = ({ detail }) => {
 		product_content,
 		product_place,
 	} = detail || {
+		product_imgs: [],
 		product_tag: [],
 	}
 
+	const {
+		register,
+		getValues,
+		setValue,
+		trigger,
+		handleSubmit,
+		setError,
+		reset,
+		formState: { isValid, errors },
+	} = useForm({
+		mode: 'onChange',
+		defaultValues: {
+			title: detail ? product_name : '',
+			price: detail ? product_price : '',
+			content: detail ? product_content : '',
+			place: detail ? product_place : '',
+		},
+	})
+
 	useEffect(() => {
+		setImagePreviews(product_imgs)
 		setTagList(product_tag)
 		setIsFreeProduct(is_free_product)
+		reset({
+			title: detail ? product_name : '',
+			price: detail ? product_price : '',
+			content: detail ? product_content : '',
+			place: detail ? product_place : '',
+		})
 	}, [detail])
 
-	const onClickFile = () => {}
+	const handleImageChange = e => {
+		const files = e.target.files
+		const imagePreviewsArray = [...imagePreviews]
+
+		for (let i = 0; i < files.length; i++) {
+			const reader = new FileReader()
+
+			reader.onload = event => {
+				imagePreviewsArray.push({ id: i, img: event.target.result })
+				if (imagePreviewsArray.length > 5) {
+					return alert('이미지는 최대 5장까지 등록 가능합니다.')
+				}
+				setImagePreviews([...imagePreviewsArray])
+			}
+
+			reader.readAsDataURL(files[i])
+		}
+		e.target.value = ''
+	}
 
 	// 판매, 나눔 변경
 	const onClickIsFree = isFree => {
@@ -65,17 +111,28 @@ const ProductForm = ({ detail }) => {
 		setTagList(_tagList)
 	}
 
-	const {
-		register,
-		getValues,
-		setValue,
-		trigger,
-		handleSubmit,
-		formState: { isValid, errors },
-	} = useForm({ mode: 'onChange' })
-
-	const onSubmitProductForm = () => {
+	const onProductRegisterForm = data => {
+		if (tagList.length === 0) {
+			setError('tag', {
+				type: 'manual',
+				message: '태그를 하나 이상 추가해주세요.',
+			})
+			return
+		}
+		console.log(data)
 		window.alert('물품 등록이 완료되었습니다.')
+	}
+
+	const onProductUpdateForm = data => {
+		if (tagList.length === 0) {
+			setError('tag', {
+				type: 'manual',
+				message: '태그를 하나 이상 추가해주세요.',
+			})
+			return
+		}
+		console.log(data)
+		window.alert('물품 수정이 완료되었습니다.')
 	}
 
 	return (
@@ -89,25 +146,27 @@ const ProductForm = ({ detail }) => {
 						</span>
 					</S.RightArea>
 				</S.TitleArea>
-				<form onSubmit={handleSubmit(onSubmitProductForm)}>
+				<form
+					onSubmit={handleSubmit(
+						detail ? onProductUpdateForm : onProductRegisterForm,
+					)}
+				>
 					{/* 물품 이미지 */}
 					<S.FormGroup>
 						<S.FormLabel required={'required'}>
 							물품 이미지
 							<span id="cnt">
-								({imageList.length}/{MAX_IMAGE_CNT})
+								({imagePreviews.length}/{MAX_IMAGE_CNT})
 							</span>
 						</S.FormLabel>
 						<S.FormRegister>
 							<div>
-								<input type="file" id="file" accept="image/*" multiple />
-								<label htmlFor="file">
-									<img
-										className="registerIcon"
-										src={registerIcon}
-										onClick={onClickFile}
-									/>
-								</label>
+								<DeformImagePreviewGroup
+									register={register}
+									handleImageChange={handleImageChange}
+									imagePreviews={imagePreviews}
+									setImagePreviews={setImagePreviews}
+								/>
 							</div>
 							<ul className="infoMessage">
 								<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
@@ -123,7 +182,6 @@ const ProductForm = ({ detail }) => {
 								name="title"
 								placeholder={'제목을 입력해주세요'}
 								width={'500'}
-								defaultValue={detail ? product_name : ''}
 								{...register('title', {
 									required: '제목을 입력해주세요',
 								})}
@@ -162,7 +220,6 @@ const ProductForm = ({ detail }) => {
 									name="price"
 									placeholder={'가격을 입력해주세요'}
 									width={'348'}
-									defaultValue={detail ? product_price : ''}
 									disabled={isFreeProduct}
 									{...register('price', {
 										required: '물품 가격을 입력해주세요',
@@ -185,6 +242,7 @@ const ProductForm = ({ detail }) => {
 										placeholder={'태그를 입력해주세요'}
 										width={'348'}
 										{...register('tag')}
+										error={errors.tag && errors.tag.message}
 									/>
 								</S.CustomInput>
 								<Button
@@ -206,7 +264,6 @@ const ProductForm = ({ detail }) => {
 								name="content"
 								row={'5'}
 								placeholder={'텍스트를 적어주세요'}
-								defaultValue={detail ? product_content : ''}
 								{...register('content', {
 									required: '내용을 입력해주세요',
 								})}
@@ -226,7 +283,6 @@ const ProductForm = ({ detail }) => {
 								<Input
 									name="place"
 									placeholder={'ex. 서울시 강남구 역삼동'}
-									defaultValue={detail ? product_place : ''}
 									{...register('place', {
 										required: '거래 희망 장소을 입력해주세요',
 									})}
@@ -341,18 +397,6 @@ S.FormRegister = styled.dt`
 	flex-direction: column;
 	flex: 1;
 	gap: 12px;
-
-	img {
-		width: 160px;
-	}
-
-	input[type='file'] {
-		display: none;
-	}
-
-	.registerIcon {
-		cursor: pointer;
-	}
 
 	.infoMessage {
 		padding-left: 15px;

@@ -41,7 +41,7 @@ DeProductChartSection.propTypes = {
 	/**
 	 * 차트의 데이터는 어떻게 할까요?
 	 */
-	chartData: PropTypes.array.isRequired,
+	chartData: PropTypes.object.isRequired,
 	/**
 	 * 차트의 여백은 어떻게 할까요?
 	 */

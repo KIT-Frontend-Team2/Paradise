@@ -1,6 +1,10 @@
 import Tooltip from '@mui/material/Tooltip'
 import PropTypes from 'prop-types'
 
+/**
+ * Failed prop type: Invalid prop `children` supplied to `ForwardRef(Tooltip) 오류가 생기지만 실제 Mui 라이브러리를 사용하여도 생기는 오류입니다.
+ * 지장 없는 오류입니다.
+ */
 export const MTooltip = ({ title, children, ...rest }) => {
 	return (
 		<Tooltip title={title} {...rest}>

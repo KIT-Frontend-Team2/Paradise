@@ -20,12 +20,7 @@ export default {
 		like: { control: { type: 'number' } },
 		productInfo: { control: 'text' },
 		time: { control: 'date' },
-		userState: {
-			control: {
-				type: 'select',
-			},
-			options: ['buyer', 'seller'],
-		},
+		isBuyer: { control: { type: 'boolean' } },
 		isLike: { control: { type: 'boolean' } },
 	},
 }
@@ -38,7 +33,7 @@ const Template = args => (
 		productInfo={args.productInfo}
 		time={args.time}
 		price={args.price}
-		userState={args.userState}
+		isBuyer={args.isBuyer}
 		isLike={args.isLike}
 	/>
 )
@@ -47,6 +42,7 @@ export const Controls = Template.bind({})
 
 Controls.args = {
 	title: '바오바오 (링숄더백)',
+	isBuyer: false,
 	chatCount: 2,
 	like: 40,
 	isLike: true,
@@ -55,5 +51,4 @@ Controls.args = {
     초등학생입니다.  믿고 거래하실분 찾습니다!`,
 	time: '2023-07-12T07:12:01.656Z',
 	price: 115000,
-	userState: 'buyer',
 }

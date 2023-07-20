@@ -1,17 +1,26 @@
 import { ImageList, ImageListItem } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-const DeImgSection = ({ size, itemData }) => {
-	const [titleImg, setTitleImg] = useState(itemData[0].img)
+const DeImgSection = ({ itemData }) => {
+	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img)
+	const inputRef = useRef(null)
+	const [useWidth, setUseWidth] = useState(0)
+	window.addEventListener('resize', () => {
+		setUseWidth(() => inputRef.current.offsetWidth - 30)
+	})
+	useEffect(() => {
+		setUseWidth(() => inputRef.current.offsetWidth - 30)
+	}, [])
+
 	return (
-		<S.LeftSection>
+		<S.LeftSection ref={inputRef}>
 			<S.ImgBoxSticky>
-				<S.TitleImg size={size} titleImg={titleImg} />
+				<S.TitleImg size={useWidth} image={useTitleImg} />
 				<ImageList
-					sx={{ width: size }}
+					sx={{ width: useWidth }}
 					cols={itemData.length}
-					rowHeight={size / itemData - 10}
+					rowHeight={Math.floor(useWidth / itemData.length - 10)}
 				>
 					{itemData.map(item => (
 						<ImageListItem
@@ -19,8 +28,8 @@ const DeImgSection = ({ size, itemData }) => {
 							sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 						>
 							<S.ImgBox
-								size={size / itemData - 10}
-								onClick={() => setTitleImg(item.img)}
+								size={useWidth / itemData.length - 10}
+								onClick={() => setUseTitleImg(item.img)}
 							>
 								<img src={item.img} alt={item.title} loading={'lazy'} />
 							</S.ImgBox>
@@ -48,7 +57,7 @@ S.ImgBoxSticky = styled.div`
 `
 
 S.TitleImg = styled.div`
-	background-image: ${({ titleImg }) => `url(${titleImg})`};
+	background-image: ${({ image }) => `url(${image})`};
 	background-size: cover;
 	width: ${({ size }) => size}px;
 	height: ${({ size }) => size}px;

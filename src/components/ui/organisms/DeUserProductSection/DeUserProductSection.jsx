@@ -12,6 +12,7 @@ const DeUserProductSection = ({
 	productCount,
 	userTemplate,
 	userName,
+	userId,
 	itemData,
 }) => (
 	<S.ProductBox>
@@ -29,7 +30,7 @@ const DeUserProductSection = ({
 			rowHeight={169}
 			itemData={itemData}
 		/>
-		<DeUserProductButton productCount={productCount} />
+		<DeUserProductButton productCount={productCount} userId={userId} />
 	</S.ProductBox>
 )
 
@@ -56,6 +57,10 @@ DeUserProductSection.propTypes = {
 	 * 판매자가 파는 품목을 알려주세요
 	 */
 	itemData: PropTypes.array.isRequired,
+	/**
+	 * 해당 판매자의 아이디로 조회하기 위해 아이디를 받아옵니다.
+	 */
+	userId: PropTypes.string.isRequired,
 }
 
 const S = {}
