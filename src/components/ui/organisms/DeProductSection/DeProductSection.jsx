@@ -20,11 +20,13 @@ const DeProductSection = ({
 	price,
 	isBuyer,
 	productInfo,
+	containerWidth,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(false | isLike)
 	const onClick = () => {
 		setIsLikeState(prev => !prev)
 	}
+
 	return (
 		<>
 			<S.ProductTitle>{title}</S.ProductTitle>
@@ -34,7 +36,7 @@ const DeProductSection = ({
 					{'관심 ' + like + ' 채팅 ' + chatCount}
 				</S.ProductCountInfo>
 			</S.ProductTitleBox>
-			<S.ProductFlexBox>
+			<S.ProductFlexBox size={containerWidth}>
 				<S.ProductPrice>
 					<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
 					{'원'}
@@ -96,7 +98,7 @@ S.ProductCreateAt = styled.span``
 S.ProductCountInfo = styled.span``
 
 S.ProductFlexBox = styled.div`
-	display: flex;
+	display: ${({ size }) => (size > 400 ? 'flex' : 'block')};
 	justify-content: space-between;
 	margin-bottom: 10px;
 `

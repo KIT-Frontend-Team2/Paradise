@@ -14,8 +14,12 @@ const DeProductCategoryTag = ({ category }) => {
 		<>
 			<DeSectionTitle title={'태그'} />
 			<S.CategoryBox>
-				{category.map(item => (
-					<MChip key={item} onClick={item => onClick(item)} label={item} />
+				{category.map((item, index) => (
+					<MChip
+						key={item + index}
+						onClick={item => onClick(item)}
+						label={item}
+					/>
 				))}
 			</S.CategoryBox>
 		</>
@@ -27,9 +31,8 @@ export default DeProductCategoryTag
 const S = {}
 
 S.CategoryBox = styled.div`
-	width: ${({ width }) => width + 'px'};
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	gap: 10px;
 
 	div {

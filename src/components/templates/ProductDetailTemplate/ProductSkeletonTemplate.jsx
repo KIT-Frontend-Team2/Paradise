@@ -5,7 +5,7 @@ import randomMaker from '../../../utils/random-number-maker'
 import LineBar from '../../ui/atoms/Linebar/LineBar'
 import MSkeleton from '../../ui/atoms/Skeleton/MSkeleton'
 
-const ProductDetailTemplate = () => (
+const ProductSkeletonTemplate = () => (
 	<S.Wrapper>
 		<S.Container>
 			<S.FlexBox>
@@ -158,7 +158,7 @@ const ProductDetailTemplate = () => (
 	</S.Wrapper>
 )
 
-export default ProductDetailTemplate
+export default ProductSkeletonTemplate
 
 export const S = {}
 

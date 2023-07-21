@@ -37,7 +37,15 @@ const detailPageMock = {
 		product_update_at: '2023-04-14T13:59:49.690Z', // 상품을 업데이트한 시간
 		product_like: 2, // 상품의 좋아요 갯수
 		product_chat_count: 5, // 상품의 채팅 갯수
-		product_tag: ['의류 / 신발', '바오바오', '중고', '한번만씀'],
+		product_tag: [
+			'의류 / 신발',
+			'바오바오',
+			'중고',
+			'한번만씀',
+			'바오바오',
+			'중고',
+			'한번만씀',
+		],
 		seller_info: {
 			user_id: 'nature', // 상품을 게시한 사람의 아이디
 			user_nick_name: '네이쳐', // 판매자의 닉네임
