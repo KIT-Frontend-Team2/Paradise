@@ -1,29 +1,55 @@
-import React, { useState } from 'react'
+import { isLoggedInAtom } from 'atom/header/atom'
+import { useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
-	const [isLogin, setIsLogin] = useState(true)
+	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
+	const navigate = useNavigate()
+	const handleLogin = e => {
+		e.preventDefault()
+		setIsLoggedIn(true)
+	}
+	const handleLogout = e => {
+		e.preventDefault()
+		setIsLoggedIn(false)
+	}
 	return (
 		<S.SignBox>
-			{isLogin ? (
+			{isLoggenIn ? (
 				<S.UserInfoContainer>
 					<S.UserImageBox>
-						<S.UserImage src={user_profile_url} alt={user_nick_name} />
+						<S.UserImage
+							src={user_profile_url}
+							alt={user_nick_name}
+							onClick={() => navigate('/mypage')}
+						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
 					<S.UserName>
-						<a href="/">{user_nick_name} 님</a> <sapn>I</sapn>{' '}
-						<a href="/">로그아웃</a>
+						<a
+							href="/mypage"
+							onClick={e => {
+								e.preventDefault()
+								navigate('/mypage')
+							}}
+						>
+							{user_nick_name} 님
+						</a>{' '}
+						<sapn>I</sapn>{' '}
+						<a href="/" onClick={handleLogout}>
+							로그아웃
+						</a>
 					</S.UserName>
 				</S.UserInfoContainer>
 			) : (
 				<>
-					<a href="/" alt="로그인">
+					<a href="/login" alt="로그인" onClick={handleLogin}>
 						로그인
 					</a>
 					<span>I</span>
-					<a href="/" alt="회원가입">
+					<a href="/signup" alt="회원가입">
 						회원가입
 					</a>
 				</>
@@ -36,7 +62,7 @@ export default UserInfo
 
 export const S = {}
 
-S.UserInfoContainer = styled.div`
+S.UserInfoContainer = styled.form`
 	${flexCenter}
 	gap:10px;
 	position: relative;
