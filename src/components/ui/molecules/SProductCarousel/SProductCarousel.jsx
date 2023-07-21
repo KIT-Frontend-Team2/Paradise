@@ -45,11 +45,11 @@ const SProductCarousel = ({ products }) => {
 				navigation={false}
 				modules={[Navigation]}
 				breakpoints={{
-					660: {
+					460: {
 						slidesPerView: 2,
 						spaceBetween: 20,
 					},
-					820: {
+					650: {
 						slidesPerView: 3,
 						spaceBetween: 20,
 					},

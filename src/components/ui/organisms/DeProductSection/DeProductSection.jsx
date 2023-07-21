@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import cssToken from '../../../../styles/cssToken'
-import timeHelper from '../../../../utils/time-helper'
 import Button from '../../atoms/Button/Button'
 import UpdateButton from '../../atoms/Button/UpdateButton'
 import WishButton from '../../atoms/Button/WishButton'
 import LineBar from '../../atoms/Linebar/LineBar'
 import MTooltip from '../../atoms/Tooltip/MTooltip'
+import DeProductTitle from '../../molecules/DeProductTitle/DeProductTitle'
 
 const DeProductSection = ({
 	isLike,
@@ -29,13 +28,12 @@ const DeProductSection = ({
 
 	return (
 		<>
-			<S.ProductTitle>{title}</S.ProductTitle>
-			<S.ProductTitleBox>
-				<S.ProductCreateAt>{timeHelper(time)}</S.ProductCreateAt>
-				<S.ProductCountInfo>
-					{'관심 ' + like + ' 채팅 ' + chatCount}
-				</S.ProductCountInfo>
-			</S.ProductTitleBox>
+			<DeProductTitle
+				title={title}
+				time={time}
+				like={like}
+				chatCount={chatCount}
+			/>
 			<S.ProductFlexBox size={containerWidth}>
 				<S.ProductPrice>
 					<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
@@ -76,26 +74,6 @@ const DeProductSection = ({
 export default DeProductSection
 
 const S = {}
-
-S.ProductTitle = styled.div`
-	color: ${({ theme }) => theme.PALETTE.black};
-	font-size: ${cssToken.TEXT_SIZE['text-24']};
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-	margin-bottom: 4px;
-`
-
-S.ProductTitleBox = styled.div`
-	display: flex;
-	justify-content: space-between;
-	font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
-	color: ${({ theme }) => theme.PALETTE.gray[700]};
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
-	margin-bottom: 10px;
-`
-
-S.ProductCreateAt = styled.span``
-
-S.ProductCountInfo = styled.span``
 
 S.ProductFlexBox = styled.div`
 	display: ${({ size }) => (size > 400 ? 'flex' : 'block')};

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 
 import { loadDetailPage } from '../../hooks/pageQuery/useLoadPage'
-import ProductDetailDeskTop from '../templates/ProductDetailTemplate/ProductDetailDeskTop'
+import ProductDetailTemplate from '../templates/ProductDetailTemplate/ProductDetailTemplate'
 import ProductSkeletonTemplate from '../templates/ProductDetailTemplate/ProductSkeletonTemplate'
 
 const ProductDetailPage = () => {
@@ -17,7 +17,7 @@ const ProductDetailPage = () => {
 		return <ProductSkeletonTemplate />
 	}
 
-	return <ProductDetailDeskTop productInfo={data.data.data} />
+	return <ProductDetailTemplate productInfo={data.data.data} />
 }
 
 export default ProductDetailPage

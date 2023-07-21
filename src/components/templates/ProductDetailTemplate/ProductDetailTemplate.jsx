@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useDevice } from '../../../hooks/mediaquery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaquery/useResizeEventGetWidth'
+import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
 import DeProductCategoryTag from '../../ui/organisms/DeProductCategoryTag/DeProductCategoryTag'
 import DeProductChartSection from '../../ui/organisms/DeProductChartSection/DeProductChartSection'
@@ -10,7 +12,7 @@ import DeProductSection from '../../ui/organisms/DeProductSection/DeProductSecti
 import DeRelatedCarousel from '../../ui/organisms/DeRelatedCarousel/DeRelatedCarousel'
 import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUserProductSection'
 
-const ProductDetailDeskTop = ({ productInfo }) => {
+const ProductDetailTemplate = ({ productInfo }) => {
 	const {
 		user_nick_name,
 		user_product_count,
@@ -31,17 +33,26 @@ const ProductDetailDeskTop = ({ productInfo }) => {
 		},
 	}
 
-	const [containerWidth, widthRef] = useResizeEventGetWidth()
+	const { isDesktop, isTablet } = useDevice()
 
+	const isDesk = isDesktop || isTablet
+	const [containerWidth, widthRef] = useResizeEventGetWidth()
 	return (
 		<S.Wrapper>
-			<S.Container>
-				<S.FlexBox>
-					<DeImgSection
-						containerWidth={containerWidth}
-						itemData={productInfo.product_imgs}
-					/>
-					<div ref={widthRef}>
+			<S.Container deskTop={isDesk}>
+				<S.FlexBox deskTop={isDesk}>
+					{isDesk ? (
+						<DeImgSection
+							containerWidth={containerWidth}
+							itemData={productInfo.product_imgs}
+						/>
+					) : (
+						<SSlideBanner Images={productInfo.product_imgs} loop={true} />
+					)}
+					<div
+						ref={widthRef}
+						style={{ boxSizing: 'border-box', padding: '10px' }}
+					>
 						<DeProductSection
 							isBuyer={productInfo.isBuyer}
 							chatCount={productInfo.product_chat_count}
@@ -51,7 +62,7 @@ const ProductDetailDeskTop = ({ productInfo }) => {
 							time={productInfo.product_create_at}
 							title={productInfo.product_name}
 							productInfo={productInfo.product_content}
-							containerWidth={containerWidth}
+							containerWidth={containerWidth - 30}
 						/>
 						<DeProductCategoryTag category={productInfo.product_tag} />
 						<DeProductMapSection rightTitle={productInfo.product_place} />
@@ -62,19 +73,21 @@ const ProductDetailDeskTop = ({ productInfo }) => {
 							productCount={user_product_count}
 							userName={user_nick_name}
 							userId={user_id}
-							containerWidth={containerWidth}
+							containerWidth={containerWidth - 30}
 						/>
-						<DeProductChartSection
-							containerWidth={containerWidth}
-							chartData={newChartData}
-							category={productInfo.chart_data.product_tag}
-							margin={{
-								top: 5,
-								right: 5,
-								bottom: 20,
-								left: 20,
-							}}
-						/>
+						{isDesk && (
+							<DeProductChartSection
+								containerWidth={containerWidth - 30}
+								chartData={newChartData}
+								category={productInfo.chart_data.product_tag}
+								margin={{
+									top: 5,
+									right: 5,
+									bottom: 20,
+									left: 20,
+								}}
+							/>
+						)}
 					</div>
 				</S.FlexBox>
 				<DeRelatedCarousel products={productInfo.recommended_product} />
@@ -91,7 +104,7 @@ S.Wrapper = styled.div`
 `
 S.Container = styled.div`
 	max-width: 1100px;
-	width: 90%;
+	width: ${({ deskTop }) => (deskTop ? 90 : 100)}%;
 	margin: 0 auto;
 `
 
@@ -101,9 +114,10 @@ S.Flex = styled.div`
 
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;
+	display: ${({ deskTop }) => (deskTop ? 'flex' : 'block')};
 	> div {
-		width: 50%;
+		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
 	}
 `
 
-export default ProductDetailDeskTop
+export default ProductDetailTemplate

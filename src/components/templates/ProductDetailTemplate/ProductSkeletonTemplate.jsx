@@ -1,162 +1,148 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useDevice } from '../../../hooks/mediaquery/useDevice'
 import randomMaker from '../../../utils/random-number-maker'
 import LineBar from '../../ui/atoms/Linebar/LineBar'
 import MSkeleton from '../../ui/atoms/Skeleton/MSkeleton'
 
-const ProductSkeletonTemplate = () => (
-	<S.Wrapper>
-		<S.Container>
-			<S.FlexBox>
-				<S.LeftSection>
-					<S.ImgBox>
-						<S.SelectImg>
-							<MSkeleton variant={'rectangular'} sx={{ paddingTop: '100%' }} />
-						</S.SelectImg>
-						<S.Images>
-							<S.Image>
-								<MSkeleton
-									sx={{ paddingTop: '100%' }}
-									variant={'rectangular'}
-								/>
-							</S.Image>
-							<S.Image>
-								<MSkeleton
-									sx={{ paddingTop: '100%' }}
-									variant={'rectangular'}
-								/>
-							</S.Image>
-							<S.Image>
-								<MSkeleton
-									sx={{ paddingTop: '100%' }}
-									variant={'rectangular'}
-								/>
-							</S.Image>
-						</S.Images>
-					</S.ImgBox>
-				</S.LeftSection>
-				<S.RightSection>
-					<S.ProductBox>
-						<S.ProductTitle>
-							<MSkeleton width={200} height={35} />
-						</S.ProductTitle>
-						<S.ProductTitleBox>
-							<S.ProductCreateAt>
-								<MSkeleton width={100} height={22} />
-							</S.ProductCreateAt>
-							<S.ProductCountInfo>
-								<MSkeleton width={120} height={22} />
-							</S.ProductCountInfo>
-						</S.ProductTitleBox>
-						<S.ProductFlexBox>
-							<S.ProductPrice>
-								<MSkeleton width={180} height={50} variant={'text'} />
-							</S.ProductPrice>
-							<S.ProductButtons>
-								<S.ProductSmallButton>
-									<MSkeleton width={50} height={50} variant={'rounded'} />
-								</S.ProductSmallButton>
-								<S.ProductActionButton>
-									<MSkeleton width={170} height={50} variant={'rounded'} />
-								</S.ProductActionButton>
-							</S.ProductButtons>
-						</S.ProductFlexBox>
-						<LineBar />
-						<S.ProductInfo>
-							<MSkeleton width={randomMaker(150, 300)} height={50} />
-							<MSkeleton width={randomMaker(150, 300)} height={50} />
-							<MSkeleton width={randomMaker(150, 300)} height={50} />
-							<MSkeleton width={randomMaker(150, 300)} height={50} />
-							<MSkeleton width={randomMaker(150, 300)} height={50} />
-						</S.ProductInfo>
-						<S.DepsTitle>
-							<MSkeleton width={100} height={50} />
-						</S.DepsTitle>
-						<S.ProductTagBox>
-							<MSkeleton width={randomMaker(70, 100)} height={50} />
-							<MSkeleton width={randomMaker(70, 100)} height={50} />
-							<MSkeleton width={randomMaker(70, 100)} height={50} />
-							<MSkeleton width={randomMaker(70, 100)} height={50} />
-						</S.ProductTagBox>
-						<S.MapBox>
-							<S.MapInfo>
-								<S.DepsTitle>
-									<MSkeleton width={120} height={40} />
-								</S.DepsTitle>
-								<S.MapPlace>
-									<MSkeleton width={130} height={40} />
-								</S.MapPlace>
-							</S.MapInfo>
-							<S.Map>
-								<MSkeleton height={300} variant={'rectangular'} />
-							</S.Map>
-						</S.MapBox>
-						<S.DepsTitle>
-							<MSkeleton width={100} height={50} />
-						</S.DepsTitle>
-						<S.UserProfile>
-							<S.UserFlexBox>
-								<S.UserImg>
-									<MSkeleton height={50} width={50} variant={'circular'} />
-								</S.UserImg>
-								<S.UserInfoBox>
-									<S.UserName>
+const ProductSkeletonTemplate = () => {
+	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
+	const isDesk = isDesktop || isTablet || isTabletAndLaptop
+	return (
+		<S.Wrapper>
+			<S.Container isDesk={isDesk}>
+				<S.FlexBox isDesk={isDesk}>
+					{isDesk ? (
+						<S.LeftSection>
+							<S.ImgBox>
+								<S.SelectImg>
+									<MSkeleton
+										variant={'rectangular'}
+										sx={{ paddingTop: '100%' }}
+									/>
+								</S.SelectImg>
+								<S.Images>
+									<S.Image>
 										<MSkeleton
-											height={24}
-											width={100}
+											sx={{ paddingTop: '100%' }}
 											variant={'rectangular'}
 										/>
-									</S.UserName>
-									<S.UserInfo>
-										<MSkeleton height={16} width={70} variant={'rectangular'} />
-									</S.UserInfo>
-								</S.UserInfoBox>
-							</S.UserFlexBox>
-						</S.UserProfile>
-						<S.UserProductBox>
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-							<MSkeleton height={170} width={170} variant={'rounded'} />
-						</S.UserProductBox>
-						<S.UserProductButton>
-							<MSkeleton height={90} width={undefined} />
-						</S.UserProductButton>
-						<S.ChartTitle>
-							<MSkeleton height={50} width={200} />
-						</S.ChartTitle>
-						<S.ChartImg>
-							<MSkeleton height={250} variant={'rectangular'} />
-						</S.ChartImg>
-					</S.ProductBox>
-				</S.RightSection>
-			</S.FlexBox>
-			<S.DepsTitle>
-				<MSkeleton width={150} height={50} />
-			</S.DepsTitle>
-			<S.Carousel>
-				<S.ProductCard>
-					<MSkeleton height={300} width={200} variant={'rounded'} />
-				</S.ProductCard>
-				<S.ProductCard>
-					<MSkeleton height={300} width={200} variant={'rounded'} />
-				</S.ProductCard>
-				<S.ProductCard>
-					<MSkeleton height={300} width={200} variant={'rounded'} />
-				</S.ProductCard>
-				<S.ProductCard>
-					<MSkeleton height={300} width={200} variant={'rounded'} />
-				</S.ProductCard>
-				<S.ProductCard>
-					<MSkeleton height={300} width={200} variant={'rounded'} />
-				</S.ProductCard>
-			</S.Carousel>
-		</S.Container>
-	</S.Wrapper>
-)
+									</S.Image>
+									<S.Image>
+										<MSkeleton
+											sx={{ paddingTop: '100%' }}
+											variant={'rectangular'}
+										/>
+									</S.Image>
+									<S.Image>
+										<MSkeleton
+											sx={{ paddingTop: '100%' }}
+											variant={'rectangular'}
+										/>
+									</S.Image>
+								</S.Images>
+							</S.ImgBox>
+						</S.LeftSection>
+					) : (
+						''
+					)}
+					<S.RightSection>
+						{
+							<div>
+								{!isDesk ? (
+									<MSkeleton height={500} variant={'rectangular'} />
+								) : (
+									''
+								)}
+							</div>
+						}
+						<S.ProductBox>
+							<S.ProductTitle>
+								<MSkeleton width={200} height={35} />
+							</S.ProductTitle>
+							<S.ProductTitleBox>
+								<MSkeleton width={100} height={22} />
+							</S.ProductTitleBox>
+							<MSkeleton width={randomMaker(150, 300)} height={50} />
+							<LineBar />
+							<S.ProductInfo>
+								<MSkeleton width={randomMaker(150, 300)} height={50} />
+								<MSkeleton width={randomMaker(150, 300)} height={50} />
+								<MSkeleton width={randomMaker(150, 300)} height={50} />
+								<MSkeleton width={randomMaker(150, 300)} height={50} />
+								<MSkeleton width={randomMaker(150, 300)} height={50} />
+							</S.ProductInfo>
+							<S.DepsTitle>
+								<MSkeleton width={100} height={50} />
+							</S.DepsTitle>
+							<S.ProductTagBox>
+								<MSkeleton width={randomMaker(70, 100)} height={50} />
+								<MSkeleton width={randomMaker(70, 100)} height={50} />
+							</S.ProductTagBox>
+							<S.MapBox>
+								<S.MapInfo>
+									<S.DepsTitle>
+										<MSkeleton width={120} height={40} />
+									</S.DepsTitle>
+								</S.MapInfo>
+								<S.Map>
+									<MSkeleton height={300} variant={'rectangular'} />
+								</S.Map>
+							</S.MapBox>
+							<S.DepsTitle>
+								<MSkeleton width={100} height={50} />
+							</S.DepsTitle>
+							<S.UserProfile>
+								<S.UserFlexBox>
+									<S.UserImg>
+										<MSkeleton height={50} width={50} variant={'circular'} />
+									</S.UserImg>
+									<S.UserInfoBox>
+										<S.UserName>
+											<MSkeleton
+												height={24}
+												width={100}
+												variant={'rectangular'}
+											/>
+										</S.UserName>
+										<S.UserInfo>
+											<MSkeleton
+												height={16}
+												width={70}
+												variant={'rectangular'}
+											/>
+										</S.UserInfo>
+									</S.UserInfoBox>
+								</S.UserFlexBox>
+							</S.UserProfile>
+							<S.UserProductBox>
+								<MSkeleton height={170} variant={'text'} />
+							</S.UserProductBox>
+							<S.UserProductButton>
+								<MSkeleton height={90} width={undefined} />
+							</S.UserProductButton>
+							<S.ChartTitle>
+								<MSkeleton height={50} width={200} />
+							</S.ChartTitle>
+							<S.ChartImg>
+								<MSkeleton height={250} variant={'rectangular'} />
+							</S.ChartImg>
+						</S.ProductBox>
+					</S.RightSection>
+				</S.FlexBox>
+				<S.DepsTitle>
+					<MSkeleton width={150} height={50} />
+				</S.DepsTitle>
+				<S.Carousel>
+					<S.ProductCard>
+						<MSkeleton height={200} variant={'rectangular'} />
+					</S.ProductCard>
+				</S.Carousel>
+			</S.Container>
+		</S.Wrapper>
+	)
+}
 
 export default ProductSkeletonTemplate
 
@@ -168,17 +154,21 @@ S.Wrapper = styled.div`
 `
 S.Container = styled.div`
 	max-width: 1100px;
-	width: 90%;
+	width: ${({ deskTop }) => (deskTop ? 90 : 100)}%;
 	margin: 0 auto;
 `
 
 S.Flex = styled.div`
 	display: flex;
 `
+S.PhoneBox = styled.div``
 
-S.FlexBox = styled(S.Flex)`
+S.FlexBox = styled.div`
+	padding-bottom: 30px;
+	display: ${({ deskTop }) => (!deskTop ? 'flex' : 'block')};
+
 	> div {
-		width: 50%;
+		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
 	}
 `
 
@@ -187,7 +177,9 @@ S.LeftSection = styled.div`
 	height: inherit;
 `
 
-S.RightSection = styled.div``
+S.RightSection = styled.div`
+	overflow: hidden;
+`
 
 S.ImgBox = styled.div`
 	position: sticky;
@@ -277,12 +269,7 @@ S.UserName = styled.div``
 
 S.UserInfo = styled.div``
 
-S.UserProductBox = styled(S.Flex)`
-	margin-top: 20px;
-	justify-content: space-between;
-	gap: 10px;
-	flex-wrap: wrap;
-`
+S.UserProductBox = styled.div``
 
 S.UserProductButton = styled.div``
 
@@ -298,4 +285,6 @@ S.Carousel = styled.div`
 	justify-content: space-between;
 `
 
-S.ProductCard = styled.div``
+S.ProductCard = styled.div`
+	width: 100%;
+`

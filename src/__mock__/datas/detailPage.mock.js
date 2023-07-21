@@ -12,23 +12,28 @@ const detailPageMock = {
 		product_imgs: [
 			{
 				id: '1',
-				img: 'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
 			},
 			{
 				id: '2',
-				img: 'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
 			},
 			{
 				id: '3',
-				img: 'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
 			},
 			{
 				id: '4',
-				img: 'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
 			},
 			{
 				id: '5',
-				img: 'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
 			},
 		],
 		product_content:

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 const DeImgSection = ({ itemData, containerWidth }) => {
-	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img)
+	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img_url)
 
 	return (
 		<S.LeftSection>
@@ -21,9 +21,9 @@ const DeImgSection = ({ itemData, containerWidth }) => {
 						>
 							<S.ImgBox
 								size={containerWidth / itemData.length - 10}
-								onClick={() => setUseTitleImg(item.img)}
+								onClick={() => setUseTitleImg(item.img_url)}
 							>
-								<img src={item.img} alt={item.title} loading={'lazy'} />
+								<img src={item.img_url} alt={item.title} loading={'lazy'} />
 							</S.ImgBox>
 						</ImageListItem>
 					))}

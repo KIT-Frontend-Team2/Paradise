@@ -2,12 +2,12 @@ import { ThemeProvider } from 'styled-components'
 
 import detailPageMock from '../../../__mock__/datas/detailPage.mock'
 import theme from '../../../styles/theme'
-import ProductDetailDeskTop from './ProductDetailDeskTop'
+import ProductDetailTemplate from './ProductDetailTemplate'
 
 export default {
-	title: 'Template/ProductDetailDeskTop',
+	title: 'Template/ProductDetailTemplate',
 	tags: ['autodocs'],
-	component: ProductDetailDeskTop,
+	component: ProductDetailTemplate,
 	decorators: [
 		Story => (
 			<ThemeProvider theme={theme}>
@@ -17,7 +17,9 @@ export default {
 	],
 }
 
-const Template = args => <ProductDetailDeskTop productInfo={args.productInfo} />
+const Template = args => (
+	<ProductDetailTemplate productInfo={args.productInfo} />
+)
 
 export const Controls = Template.bind({})
 

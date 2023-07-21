@@ -1,10 +1,27 @@
+import styled, { ThemeProvider } from 'styled-components'
+
+import theme from '../../../../styles/theme'
 import Chart from './Chart'
 
 export default {
 	title: 'Molecules/Chart',
 	tags: ['autodocs'],
 	component: Chart,
+	decorators: [
+		Story => (
+			<ThemeProvider theme={theme}>
+				<S.Wrapper>
+					<Story />
+				</S.Wrapper>
+			</ThemeProvider>
+		),
+	],
 }
+
+const S = {}
+S.Wrapper = styled.div`
+	aspect-ratio: 16 / 9;
+`
 
 const Template = args => (
 	<Chart size={args.size} chartData={args.chartData} margin={args.margin} />
@@ -13,10 +30,6 @@ const Template = args => (
 export const Controls = Template.bind({})
 
 Controls.args = {
-	size: {
-		width: 400,
-		height: 300,
-	},
 	chartData: {
 		data: [
 			{

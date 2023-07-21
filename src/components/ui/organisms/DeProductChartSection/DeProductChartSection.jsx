@@ -53,4 +53,8 @@ DeProductChartSection.propTypes = {
 	 * 차트의 여백은 어떻게 할까요?
 	 */
 	margin: PropTypes.object,
+	/**
+	 * 차트를 감싸는 컴포넌트
+	 */
+	containerWidth: PropTypes.number.isRequired,
 }

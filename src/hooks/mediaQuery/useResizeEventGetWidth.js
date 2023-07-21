@@ -15,7 +15,6 @@ const useResizeEventGetWidth = () => {
 	useEffect(() => {
 		window.addEventListener('resize', ResizeWidth)
 		return () => {
-			// 메모리 누수를 줄이기 위한 removeEvent
 			window.removeEventListener('resize', ResizeWidth)
 		}
 	}, [])
