@@ -123,6 +123,9 @@ S.Container = styled.div`
 	height: 100%;
 	span {
 		cursor: pointer;
+		&:hover {
+			color: #009d91;
+		}
 	}
 `
 

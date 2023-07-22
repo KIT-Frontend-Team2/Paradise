@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
-import footerlogo from './img/github_logo.png'
+import footerlogo from '../../../../assets/images/github_logo.png'
 
 const MainFooter = props => {
 	return (

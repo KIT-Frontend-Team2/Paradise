@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
+import headerlogo from '../../../../assets/images/headerlogo.png'
 import UserInfo from './UserInfo'
-import headerlogo from './img/headerlogo.png'
 
 const HeaderSearch = () => {
 	const navigate = useNavigate()

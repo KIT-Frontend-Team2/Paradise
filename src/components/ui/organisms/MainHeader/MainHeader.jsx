@@ -28,7 +28,8 @@ const MainHeader = props => {
 			<Box
 				sx={{
 					position: 'relative',
-					width: '1100px',
+					maxWidth: '1100px',
+					width: '100%',
 					height: '200px',
 					backgroundColor: '#FFFFFF',
 					padding: '16px',
