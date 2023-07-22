@@ -65,7 +65,7 @@ const SProductCarousel = ({ products }) => {
 				className="mySwiper"
 				ref={swiperRef}
 			>
-				{products.map((product) => (
+				{products.map(product => (
 					<SwiperSlide key={product.product_id}>
 						<ProductCard
 							size={200}

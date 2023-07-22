@@ -1,9 +1,7 @@
-import { AddressAtom } from "atom/map/mapAtom"
-import { useEffect, useState } from "react"
-import { useRecoilValue } from "recoil"
-import styled  from "styled-components"
-
-
+import { AddressAtom } from 'atom/map/mapAtom'
+import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
+import styled from 'styled-components'
 
 const ProductMap = () => {
 	const { kakao } = window
@@ -16,7 +14,7 @@ const ProductMap = () => {
 			console.log(result, status)
 			if (status === 'OK') {
 				const { x, y } = result[0].road_address || result[0].address
-				setCoordinates({ x, y }) 
+				setCoordinates({ x, y })
 			}
 		})
 	}, [formAddres])
@@ -29,16 +27,15 @@ const ProductMap = () => {
 				level: 3,
 			}
 			const map = new kakao.maps.Map(container, options)
-      const markerPosition = new kakao.maps.LatLng(coordinates.y, coordinates.x);
-      const marker = new kakao.maps.Marker({
-        position: markerPosition,
-      });
-  
-      // 마커를 지도에 추가
-      marker.setMap(map);
-      
+			const markerPosition = new kakao.maps.LatLng(coordinates.y, coordinates.x)
+			const marker = new kakao.maps.Marker({
+				position: markerPosition,
+			})
+
+			// 마커를 지도에 추가
+			marker.setMap(map)
 		}
-	}, [coordinates]) 
+	}, [coordinates])
 
 	return <MapContainer id="map2"></MapContainer>
 }

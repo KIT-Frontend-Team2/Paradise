@@ -1,9 +1,7 @@
-import { AddressAtom } from "atom/map/mapAtom"
-import { useEffect, useState } from "react"
-import { useRecoilState } from "recoil"
-import { styled } from "styled-components"
-
-
+import { AddressAtom } from 'atom/map/mapAtom'
+import { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { styled } from 'styled-components'
 
 const MapComponent = ({ searchaddress }) => {
 	const { kakao } = window
@@ -23,7 +21,7 @@ const MapComponent = ({ searchaddress }) => {
 
 	console.log(`최초 주소`, formAddres)
 
-  useEffect(() => {
+	useEffect(() => {
 		if (coordinates.x !== 0 && coordinates.y !== 0) {
 			const container = document.getElementById('map')
 			const options = {
@@ -36,20 +34,20 @@ const MapComponent = ({ searchaddress }) => {
 			if (searchaddress) {
 				geocoder.addressSearch(searchaddress, function (result, status) {
 					if (status === kakao.maps.services.Status.OK) {
-						let region, district, village;
+						let region, district, village
 						if (result[0].address) {
-							region = result[0].address.region_1depth_name;
-							district = result[0].address.region_2depth_name;
-							village = result[0].address.region_3depth_name;
+							region = result[0].address.region_1depth_name
+							district = result[0].address.region_2depth_name
+							village = result[0].address.region_3depth_name
 						} else if (result[0].road_address) {
-							region = result[0].road_address.region_1depth_name;
-							district = result[0].road_address.region_2depth_name;
-              village = result[0].road_address.region_3depth_name;
+							region = result[0].road_address.region_1depth_name
+							district = result[0].road_address.region_2depth_name
+							village = result[0].road_address.region_3depth_name
 						}
 
 						if (region && district && village) {
 							console.log(`구`, region, `시`, district, `동`, village)
-							let searchaddress2 = `${region} ${district} ${village}`; // 띄어쓰기 추가
+							let searchaddress2 = `${region} ${district} ${village}` // 띄어쓰기 추가
 							console.log(searchaddress2)
 							setformAddress(searchaddress2)
 							geocoder.addressSearch(searchaddress2, function (result, status) {
@@ -71,7 +69,6 @@ const MapComponent = ({ searchaddress }) => {
 			}
 		}
 	}, [searchaddress, coordinates])
-
 
 	return (
 		<ConTiainer>

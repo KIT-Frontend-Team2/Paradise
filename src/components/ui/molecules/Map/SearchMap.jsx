@@ -1,13 +1,9 @@
-import { AddressAtom } from "atom/map/mapAtom"
-import { useForm } from "react-hook-form"
-import { useRecoilState } from "recoil"
-import MapComponent from "./UploadMap"
-import { styled } from "styled-components"
+import { AddressAtom } from 'atom/map/mapAtom'
+import { useForm } from 'react-hook-form'
+import { useRecoilState } from 'recoil'
+import { styled } from 'styled-components'
 
-
-
-
-
+import MapComponent from './UploadMap'
 
 const SearchMap = () => {
 	const { register, handleSubmit, mode, watch } = useForm({
