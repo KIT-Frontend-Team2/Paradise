@@ -34,7 +34,7 @@ npm run storybook
     <td>
       <a href="https://github.com/Jihyeong00">
         <img src="https://github.com/KIT-Frontend-Team2/Paradise_/assets/115636461/a46f29aa-bbab-4cce-a0c5-071ca6b39f41" width="120px" height="120px"/>
-        </a>
+      </a>
     </td>
     <td>
       <a href="https://github.com/dbs271">
@@ -57,16 +57,24 @@ npm run storybook
   </tr>
   <tr>
     <th>
-      Jihyeong
+      <a href="https://github.com/Jihyeong00">
+        Jihyeong
+      </a>
     </th>
     <th>
-      Peter
+      <a href="https://github.com/dbs271">
+        Peter
+      </a>
     </th>
     <th>
-      uniend
+      <a href="https://github.com/uniend">
+        uniend
+      </a>
     </th>
     <th>
-      naturej
+      <a href="https://github.com/naturej">
+        naturej
+      </a>
     </th>
     <th>
       Peanut
