@@ -1,9 +1,10 @@
 const API_KEY = {
+	LIST: '/list',
 	PRODUCT: '/product',
 	INFO: '/info',
 	POPULAR: '/popular',
 	SALES: '/sales',
-	Share: '/share',
+	SHARE: '/share',
 	DETAIL: '/detail',
 	MYPAGE: '/mypage',
 	LIKE: '/like',

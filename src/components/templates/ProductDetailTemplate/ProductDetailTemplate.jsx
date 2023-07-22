@@ -62,7 +62,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 							like={productInfo.product_like}
 							price={productInfo.product_price}
 							time={productInfo.product_create_at}
-							title={productInfo.product_name}
+							title={productInfo.product_title}
 							state={productInfo.product_state}
 							productInfo={productInfo.product_content}
 							containerWidth={containerWidth - 30}

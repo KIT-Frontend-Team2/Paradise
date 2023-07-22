@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../components/layout/MainLayout'
 import AuthPage from '../components/pages/AuthPage'
 import ErrorPage from '../components/pages/ErrorPage'
+import MainPage from '../components/pages/MainPage'
 import MyPage from '../components/pages/MyPage'
 import ProductDetailPage from '../components/pages/ProductDetailPage'
 import ProductListPage from '../components/pages/ProductListPage'
@@ -16,9 +17,10 @@ const router = createBrowserRouter([
 		path: '/',
 		element: <MainLayout />,
 		children: [
+			{ path: '/', element: <MainPage /> },
 			{ path: '/*', element: <ErrorPage /> },
 			{ path: '/auth', element: <AuthPage /> },
-			{ path: '/product/list', element: <ProductListPage /> },
+			{ path: '/list/:filter', element: <ProductListPage /> },
 			{ path: '/product/register', element: <ProductRegisterPage /> },
 			{ path: '/product/update/:productId', element: <ProductUpdatePage /> },
 			{
