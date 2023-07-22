@@ -4,8 +4,8 @@ import { CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts'
 
 const Chart = ({ size, chartData, margin }) => (
 	<LineChart
-		width={size.width}
-		height={size.height}
+		width={size}
+		height={size * 0.6}
 		data={chartData.data}
 		margin={margin}
 	>
@@ -23,7 +23,7 @@ Chart.propTypes = {
 	/**
 	 * 차트의 사이즈는 어떻게 할까요?
 	 */
-	size: PropTypes.object.isRequired,
+	size: PropTypes.number,
 	/**
 	 * 차트의 데이터는 어떻게 할까요?
 	 */

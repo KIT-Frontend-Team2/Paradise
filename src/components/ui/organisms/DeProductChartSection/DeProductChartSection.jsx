@@ -5,14 +5,25 @@ import styled from 'styled-components'
 import cssToken from '../../../../styles/cssToken'
 import Chart from '../../molecules/Chart/Chart'
 
-const DeProductChartSection = ({ category, size, chartData, margin }) => (
-	<>
-		<S.ChartTitle>
-			<S.ProdcutCategory>{category}</S.ProdcutCategory> 상품의 최근 시세
-		</S.ChartTitle>
-		<Chart size={size} chartData={chartData} margin={margin}></Chart>
-	</>
-)
+const DeProductChartSection = ({
+	category,
+	chartData,
+	margin,
+	containerWidth,
+}) => {
+	return (
+		<>
+			<S.ChartTitle>
+				<S.ProdcutCategory>{category}</S.ProdcutCategory> 상품의 최근 시세
+			</S.ChartTitle>
+			<Chart
+				size={containerWidth}
+				chartData={chartData}
+				margin={margin}
+			></Chart>
+		</>
+	)
+}
 
 export default DeProductChartSection
 
@@ -35,10 +46,6 @@ DeProductChartSection.propTypes = {
 	 */
 	category: PropTypes.string.isRequired,
 	/**
-	 * 차트의 사이즈는 어떻게 할까요?
-	 */
-	size: PropTypes.object.isRequired,
-	/**
 	 * 차트의 데이터는 어떻게 할까요?
 	 */
 	chartData: PropTypes.object.isRequired,
@@ -46,4 +53,8 @@ DeProductChartSection.propTypes = {
 	 * 차트의 여백은 어떻게 할까요?
 	 */
 	margin: PropTypes.object,
+	/**
+	 * 차트를 감싸는 컴포넌트
+	 */
+	containerWidth: PropTypes.number.isRequired,
 }

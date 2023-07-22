@@ -19,6 +19,7 @@ const ProductCard = ({
 	time,
 	like,
 	chat_count,
+	state,
 	...rest
 }) => {
 	const [likeState, setLikeState] = useState(isLike | false)
@@ -43,26 +44,35 @@ const ProductCard = ({
 					alt={name}
 					onClick={() => console.log(id + '의 게시물 로 이동합니다.')}
 				/>
+				{state === '판매완료' && (
+					<S.CloseBox>
+						<span>판매완료</span>
+					</S.CloseBox>
+				)}
 			</S.ImgBox>
 			<S.PlaceWithTimeBox>
 				<span>{place}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{content}</S.TitleBox>
-			{rest.price ? (
+			{rest.price !== 0 ? (
 				<S.PriceBox>{rest.price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<S.PriceBox></S.PriceBox>
+				<S.PriceBox />
 			)}
 			<S.FlexBox>
-				<S.IconWithText>
-					<FavoriteBorderIcon />
-					<span>{like}</span>
-				</S.IconWithText>
-				<S.IconWithText>
-					<ChatBubbleOutlineOutlinedIcon />
-					<span>{chat_count}</span>
-				</S.IconWithText>
+				{like > 0 && (
+					<S.IconWithText>
+						<FavoriteBorderIcon />
+						<span>{like}</span>
+					</S.IconWithText>
+				)}
+				{chat_count > 0 && (
+					<S.IconWithText>
+						<ChatBubbleOutlineOutlinedIcon />
+						<span>{chat_count}</span>
+					</S.IconWithText>
+				)}
 			</S.FlexBox>
 		</S.Card>
 	)
@@ -79,6 +89,10 @@ ProductCard.propTypes = {
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
 	id: PropTypes.string.isRequired,
+	/**
+	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
+	 */
+	state: PropTypes.string.isRequired,
 	/**
 	 * 상품 게시물의 이름을 입력합니다.
 	 */
@@ -141,6 +155,24 @@ S.ImgBox = styled.div`
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+`
+
+S.CloseBox = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(00, 00, 00, 50%);
+	z-index: 100;
+	top: 0;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+
+	span {
+		font-weight: bold;
+		font-size: 24px;
+		color: ${({ theme }) => theme.PALETTE.white};
 	}
 `
 
