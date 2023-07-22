@@ -1,26 +1,18 @@
 import { ImageList, ImageListItem } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 
-const DeImgSection = ({ itemData }) => {
-	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img)
-	const inputRef = useRef(null)
-	const [useWidth, setUseWidth] = useState(0)
-	window.addEventListener('resize', () => {
-		setUseWidth(() => inputRef.current.offsetWidth - 30)
-	})
-	useEffect(() => {
-		setUseWidth(() => inputRef.current.offsetWidth - 30)
-	}, [])
+const DeImgSection = ({ itemData, containerWidth }) => {
+	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img_url)
 
 	return (
-		<S.LeftSection ref={inputRef}>
+		<S.LeftSection>
 			<S.ImgBoxSticky>
-				<S.TitleImg size={useWidth} image={useTitleImg} />
+				<S.TitleImg size={containerWidth} image={useTitleImg} />
 				<ImageList
-					sx={{ width: useWidth }}
+					sx={{ width: containerWidth }}
 					cols={itemData.length}
-					rowHeight={Math.floor(useWidth / itemData.length - 10)}
+					rowHeight={Math.floor(containerWidth / itemData.length - 10)}
 				>
 					{itemData.map(item => (
 						<ImageListItem
@@ -28,10 +20,10 @@ const DeImgSection = ({ itemData }) => {
 							sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 						>
 							<S.ImgBox
-								size={useWidth / itemData.length - 10}
-								onClick={() => setUseTitleImg(item.img)}
+								size={containerWidth / itemData.length - 10}
+								onClick={() => setUseTitleImg(item.img_url)}
 							>
-								<img src={item.img} alt={item.title} loading={'lazy'} />
+								<img src={item.img_url} alt={item.title} loading={'lazy'} />
 							</S.ImgBox>
 						</ImageListItem>
 					))}
@@ -48,24 +40,22 @@ const S = {}
 S.LeftSection = styled.div`
 	position: relative;
 	height: inherit;
+	margin-right: 20px;
 `
 
 S.ImgBoxSticky = styled.div`
 	position: sticky;
 	top: 0;
-	margin-right: 10px;
 `
 
 S.TitleImg = styled.div`
 	background-image: ${({ image }) => `url(${image})`};
 	background-size: cover;
-	width: ${({ size }) => size}px;
-	height: ${({ size }) => size}px;
+	aspect-ratio: 1/1;
 	border: 1px solid ${({ theme }) => theme.PALETTE.gray['300']};
 `
 S.ImgBox = styled.div`
-	width: ${({ size }) => size}px;
-	height: ${({ size }) => size}px;
+	aspect-ratio: 1/1;
 	overflow: hidden;
 	margin: 0 auto;
 	cursor: pointer;

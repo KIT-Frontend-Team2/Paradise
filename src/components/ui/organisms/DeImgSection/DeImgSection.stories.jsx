@@ -26,24 +26,29 @@ export const Controls = Template.bind({})
 Controls.args = {
 	itemData: [
 		{
-			id: '120',
-			img: 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fbrvjmx%2FbtrQfeNBD8C%2FPulqvzCWn30z0ssA5CL0vk%2Fimg.jpg', // 상품의 대표 이미지 주소
+			id: '1',
+			img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
 		},
 		{
-			id: '50',
-			img: 'https://media.bunjang.co.kr/product/229927983_1_1689321636_w292.jpg',
+			id: '2',
+			img_url:
+				'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
 		},
 		{
-			id: '44',
-			img: 'https://media.bunjang.co.kr/product/229927983_1_1689321636_w292.jpg',
+			id: '3',
+			img_url:
+				'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
 		},
 		{
-			id: '145',
-			img: 'https://media.bunjang.co.kr/product/192869261_1_1685019943_w292.jpg',
+			id: '4',
+			img_url:
+				'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
 		},
 		{
-			id: '5124',
-			img: 'https://media.bunjang.co.kr/product/226840555_1_1686560346_w292.jpg',
+			id: '5',
+			img_url:
+				'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
 		},
 	],
 }
