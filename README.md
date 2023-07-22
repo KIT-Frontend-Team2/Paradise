@@ -1,7 +1,7 @@
 <div align="center">
 
 # 🏖️Paradise 프로젝트
-많은 사용자들이 물건을 거래하기에 없는 물건이 없는 사이트 <strong>팔아다있음!<strong/>
+많은 사용자들이 물건을 거래하기에 없는 물건이 없는 사이트 <strong>팔아다있음!</strong>
 
 <br/>
 
