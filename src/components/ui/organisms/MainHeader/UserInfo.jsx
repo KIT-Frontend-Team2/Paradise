@@ -1,5 +1,5 @@
 import { isLoggedInAtom } from 'atom/header/atom'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
@@ -28,30 +28,30 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						<S.NotificationDot />
 					</S.UserImageBox>
 					<S.UserLoginContent>
-						<a
-							href="/mypage"
+						<Link
+							to="/mypage"
 							onClick={e => {
 								e.preventDefault()
 								navigate('/mypage')
 							}}
 						>
 							{user_nick_name} 님
-						</a>
+						</Link>
 						<span>I</span>
-						<a href="/" onClick={handleLogout}>
+						<Link to="/" onClick={handleLogout}>
 							로그아웃
-						</a>
+						</Link>
 					</S.UserLoginContent>
 				</S.UserInfoContent>
 			) : (
 				<S.UserLoginContent>
-					<a href="/login" alt="로그인" onClick={handleLogin}>
+					<Link to="/login" alt="로그인" onClick={handleLogin}>
 						로그인
-					</a>
+					</Link>
 					<span>I</span>
-					<a href="/signup" alt="회원가입">
+					<Link to="/signup" alt="회원가입">
 						회원가입
-					</a>
+					</Link>
 				</S.UserLoginContent>
 			)}
 		</S.UserInfoContainer>
