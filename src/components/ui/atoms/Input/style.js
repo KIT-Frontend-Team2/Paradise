@@ -1,4 +1,4 @@
-const { styled } = require('styled-components')
+import { styled } from 'styled-components'
 
 const S = {}
 
@@ -19,6 +19,7 @@ S.Input = styled.input`
 	height: 50px;
 	line-height: 50px;
 	font-size: 18px;
+	font-family: inherit;
 	color: ${({ theme }) => theme.PALETTE.black};
 	border: 1px solid
 		${({ theme, error }) =>
