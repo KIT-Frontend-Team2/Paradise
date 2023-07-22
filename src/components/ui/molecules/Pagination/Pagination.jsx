@@ -9,7 +9,7 @@ import styled from 'styled-components'
  * 리액트 라우터와 동일하게 움직이기에 스토리북 작성이 어렵습니다 하지만 ListPage 를 본다면 정상적으로 작동하는걸 확인할 수 있습니다.
  */
 const Pagination = ({ total, page, item_length }) => {
-	const [searchParam, setSearchParam] = useSearchParams()
+	const [_, setSearchParam] = useSearchParams()
 	const Buttons = new Array(Math.ceil(total / item_length))
 		.fill('')
 		.map((_, i) => i + 1)
@@ -18,25 +18,27 @@ const Pagination = ({ total, page, item_length }) => {
 		i => (ShowPageNumber - 1) * 10 + 1 <= i && ShowPageNumber * 10 + 1 > i,
 	)
 	const TopPage = Buttons.length
-	console.log(searchParam.get('page'))
 
 	if (Buttons.length === 1) {
 		return null
 	}
 
+	const ChangePage = newPage => {
+		window.scrollTo({ top: 0 })
+		setSearchParam({ page: newPage })
+	}
+
 	return (
 		<S.PaginationBox>
 			{/*<S.Button disabled={page === 1} onClick={() => setSearchParam(()=>{ page: 1 })}></S.Button>*/}
-			<S.Button
-				disabled={page === 1}
-				onClick={() => setSearchParam({ page: page - 1 })}
-			>
+			<S.Button disabled={page === 1} onClick={() => ChangePage(page - 1)}>
 				<NavigateBeforeOutlinedIcon />
 			</S.Button>
 			{ShowButtons.map(number => (
 				<S.Button
-					onClick={() => setSearchParam({ page: number })}
-					select={page === number}
+					key={number}
+					onClick={() => ChangePage(number)}
+					select={(page === number).toString()}
 					disabled={page === number}
 				>
 					{number}
@@ -44,7 +46,7 @@ const Pagination = ({ total, page, item_length }) => {
 			))}
 			<S.Button
 				disabled={page === TopPage}
-				onClick={() => setSearchParam({ page: page + 1 })}
+				onClick={() => ChangePage(page + 1)}
 			>
 				<NavigateNextOutlinedIcon />
 			</S.Button>
@@ -59,6 +61,7 @@ S.PaginationBox = styled.div`
 	display: flex;
 	gap: 10px;
 	justify-content: center;
+
 	:disabled {
 		cursor: inherit;
 	}
@@ -77,7 +80,7 @@ S.Button = styled.button`
 	border-radius: 12px;
 	padding: 15px;
 	color: ${({ select, theme }) =>
-		select ? theme.PALETTE.primary[100] : 'black'};
+		select === 'true' ? theme.PALETTE.primary[100] : 'black'};
 `
 
 Pagination.proptype = {

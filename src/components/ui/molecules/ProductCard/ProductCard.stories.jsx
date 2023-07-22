@@ -1,6 +1,5 @@
-import { ThemeProvider } from 'styled-components'
+import { BrowserRouter } from 'react-router-dom'
 
-import theme from '../../../../styles/theme'
 import ProductCard from './ProductCard'
 
 export default {
@@ -9,9 +8,9 @@ export default {
 	component: ProductCard,
 	decorators: [
 		Story => (
-			<ThemeProvider theme={theme}>
+			<BrowserRouter>
 				<Story />
-			</ThemeProvider>
+			</BrowserRouter>
 		),
 	],
 	argTypes: {

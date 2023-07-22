@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useDevice } from '../../../hooks/mediaquery/useDevice'
+import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import randomMaker from '../../../utils/random-number-maker'
 import LineBar from '../../ui/atoms/Linebar/LineBar'
 import MSkeleton from '../../ui/atoms/Skeleton/MSkeleton'

@@ -10,6 +10,7 @@ import ProductListPage from '../components/pages/ProductListPage'
 import ProductRegisterPage from '../components/pages/ProductRegisterPage'
 import ProductSearchPage from '../components/pages/ProductSearchPage'
 import ProductUpdatePage from '../components/pages/ProductUpdatePage'
+import ProductUserListPage from '../components/pages/ProductUserListPage'
 import RendingPage from '../components/pages/RendingPage'
 
 const router = createBrowserRouter([
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
 			{ path: '/list/:filter', element: <ProductListPage /> },
 			{ path: '/product/register', element: <ProductRegisterPage /> },
 			{ path: '/product/update/:productId', element: <ProductUpdatePage /> },
+			{ path: '/product/user/:userId', element: <ProductUserListPage /> },
 			{
 				path: '/product/detail/:productId',
 				element: <ProductDetailPage />,

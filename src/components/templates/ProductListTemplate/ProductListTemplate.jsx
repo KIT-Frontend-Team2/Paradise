@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Pagination from '../../ui/molecules/Pagination/Pagination'
+import ProductList from '../../ui/organisms/ProductList/ProductList'
 
 const ProductListTemplate = ({ page, total, filter, products }) => {
 	let title = ''
@@ -26,6 +27,7 @@ const ProductListTemplate = ({ page, total, filter, products }) => {
 					<S.ListFilter>{title}</S.ListFilter>
 					<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
 				</S.ListTitle>
+				<ProductList products={products} />
 				<Pagination
 					page={parseInt(page)}
 					item_length={item_length}

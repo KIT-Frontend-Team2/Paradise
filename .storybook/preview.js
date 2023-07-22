@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'styled-components'
 import { RecoilRoot } from 'recoil'
 import theme from '../src/styles/theme'
+import { BrowserRouter } from 'react-router-dom'
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
@@ -18,11 +19,13 @@ const preview = {
 export const decorators = [
 	(Story) => (
 		<ThemeProvider theme={theme}>
-			<RecoilRoot>
-				<Story />
-			</RecoilRoot>
+			<BrowserRouter>
+				<RecoilRoot>
+					<Story />
+				</RecoilRoot>
+			</BrowserRouter>
 		</ThemeProvider>
 	),
-];
+]
 
 export default preview
