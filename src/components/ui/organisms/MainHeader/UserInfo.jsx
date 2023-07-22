@@ -16,9 +16,9 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 		setIsLoggedIn(false)
 	}
 	return (
-		<S.SignBox>
+		<S.UserInfoContainer>
 			{isLoggenIn ? (
-				<S.UserInfoContainer>
+				<S.UserInfoContent>
 					<S.UserImageBox>
 						<S.UserImage
 							src={user_profile_url}
@@ -27,7 +27,7 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
-					<S.UserName>
+					<S.UserLoginContent>
 						<a
 							href="/mypage"
 							onClick={e => {
@@ -36,15 +36,15 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 							}}
 						>
 							{user_nick_name} 님
-						</a>{' '}
-						<sapn>I</sapn>{' '}
+						</a>
+						<span>I</span>
 						<a href="/" onClick={handleLogout}>
 							로그아웃
 						</a>
-					</S.UserName>
-				</S.UserInfoContainer>
+					</S.UserLoginContent>
+				</S.UserInfoContent>
 			) : (
-				<>
+				<S.UserLoginContent>
 					<a href="/login" alt="로그인" onClick={handleLogin}>
 						로그인
 					</a>
@@ -52,9 +52,9 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 					<a href="/signup" alt="회원가입">
 						회원가입
 					</a>
-				</>
+				</S.UserLoginContent>
 			)}
-		</S.SignBox>
+		</S.UserInfoContainer>
 	)
 }
 
@@ -62,9 +62,36 @@ export default UserInfo
 
 export const S = {}
 
-S.UserInfoContainer = styled.form`
+S.UserInfoContainer = styled.div`
+	width: 100%;
+	display: flex;
+	align-items: center;
+`
+
+S.UserInfoContent = styled.div`
 	${flexCenter}
-	gap:10px;
+	gap: 10px;
+	position: relative;
+`
+
+S.UserLoginContent = styled.div`
+	display: flex;
+	align-items: center;
+
+	a {
+		color: #000;
+		text-decoration: none;
+	}
+
+	span {
+		color: #999;
+		margin: 0 20px;
+		font-size: 20px;
+	}
+`
+
+S.UserImageBox = styled.div`
+	${flexCenter}
 	position: relative;
 `
 
@@ -76,15 +103,6 @@ S.UserImage = styled.img`
 	cursor: pointer;
 `
 
-S.UserName = styled.div`
-	font-size: 16px;
-	color: #333;
-	span {
-		color: #333;
-		margin: 0 20px;
-		font-size: 36px;
-	}
-`
 S.NotificationDot = styled.div`
 	width: 8px;
 	height: 8px;
@@ -94,26 +112,4 @@ S.NotificationDot = styled.div`
 	position: absolute;
 	top: -4px;
 	right: 0;
-`
-
-S.UserImageBox = styled.div`
-	${flexCenter}
-	position: relative;
-`
-
-S.SignBox = styled.div`
-	display: flex;
-	align-items: center;
-	position: absolute;
-	right: 10%;
-	a {
-		color: #000;
-		text-decoration: none;
-	}
-
-	span {
-		color: #999;
-		margin: 0 20px;
-		font-size: 20px;
-	}
 `

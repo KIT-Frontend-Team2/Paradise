@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import { headerMock } from '__mock__/datas/header.mock'
 import { selectApiTypeAtom } from 'atom/header/atom'
 import { API_KEYWORD } from 'consts/header/apiKeyword'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -13,6 +13,7 @@ import HeaderCategory from './HeaderCategory'
 import UserInfo from './UserInfo'
 
 const HeaderScroll = () => {
+	const [isVisible, setIsVisible] = useState(false)
 	const setSelectType = useSetRecoilState(selectApiTypeAtom)
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
@@ -26,12 +27,30 @@ const HeaderScroll = () => {
 		navigate('/search/' + keyword)
 		inputRef.current.value = ''
 	}
-	return (
+	const handleScroll = () => {
+		const currentScrollPos = window.pageYOffset
+		if (currentScrollPos > 200) {
+			setIsVisible(true)
+		} else {
+			setIsVisible(false)
+		}
+	}
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll)
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll)
+		}
+	}, [])
+	return isVisible ? (
 		<Box
 			sx={{
 				position: 'fixed',
 				top: 0,
-				width: '100%',
+				left: '50%',
+				transform: 'translateX(-50%)',
+				width: '1100px',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
 				padding: '16px',
@@ -46,8 +65,10 @@ const HeaderScroll = () => {
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						gap: '80px',
-						fontSize: '20px',
+						justifyContent: 'center',
+						gap: '40px',
+						fontSize: '18px',
+						flex: 1,
 					}}
 				>
 					<HeaderCategory />
@@ -80,14 +101,16 @@ const HeaderScroll = () => {
 							placeholder="어떤 상품을 찾으시나요?"
 						/>
 					</S.SearchBox>
-					<UserInfo
-						user_profile_url={headerMock.data.user_info.user_profile_url}
-						user_nick_name={headerMock.data.user_info.user_nick_name}
-					/>
+					<S.UserInfoContainer>
+						<UserInfo
+							user_profile_url={headerMock.data.user_info.user_profile_url}
+							user_nick_name={headerMock.data.user_info.user_nick_name}
+						/>
+					</S.UserInfoContainer>
 				</S.UserSearchContainer>
 			</S.Container>
 		</Box>
-	)
+	) : null
 }
 
 export default HeaderScroll
@@ -96,7 +119,7 @@ export const S = {}
 
 S.Container = styled.div`
 	width: 100%;
-	${flexCenter};
+	${flexCenter}
 	height: 100%;
 	span {
 		cursor: pointer;
@@ -130,4 +153,9 @@ S.SearchBar = styled.input`
 	::placeholder {
 		color: #999;
 	}
+`
+S.UserInfoContainer = styled.div`
+	margin-left: 48px;
+	display: flex;
+	align-items: center;
 `
