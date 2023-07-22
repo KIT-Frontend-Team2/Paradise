@@ -8,7 +8,7 @@ const detailPageMock = {
 		product_name: '바오바오 (링숄더백)', // 상품의 이름
 		product_price: 115000, // 상품의 가격
 		product_place: '서울시 강남구 역삼동', // 상품이 올라온 장소
-		product_coordinate: [37.50011480738251, 127.03674852807775], // 상품의 위도 경도
+		product_state: '판매중', // 상품의 상태
 		product_imgs: [
 			{
 				id: '1',

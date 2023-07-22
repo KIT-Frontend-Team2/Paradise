@@ -28,7 +28,9 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		x: 'name',
 		y: '평균 거래가',
 		formatter: y => {
-			if (y === 0) return 0
+			if (y === 0) {
+				return 0
+			}
 			return `${y / 10000}만원`
 		},
 	}
@@ -61,6 +63,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 							price={productInfo.product_price}
 							time={productInfo.product_create_at}
 							title={productInfo.product_name}
+							state={productInfo.product_state}
 							productInfo={productInfo.product_content}
 							containerWidth={containerWidth - 30}
 						/>
