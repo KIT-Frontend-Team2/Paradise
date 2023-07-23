@@ -30,4 +30,16 @@ export const service = {
 			throw new Error(err)
 		}
 	},
+
+	async getSearchKeyWord(keyWord, page) {
+		try {
+			return await axios.get(API_KEY.SEARCH + '/' + keyWord, {
+				params: {
+					page,
+				},
+			})
+		} catch (err) {
+			throw new Error(err)
+		}
+	},
 }

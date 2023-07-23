@@ -34,6 +34,16 @@ const useLoadApi = {
 
 		return { data, isLoading, isError }
 	},
+
+	SearchPage: (keyWord, page) => {
+		const { data, isLoading, isError } = useQuery(
+			[API_KEY.SEARCH, keyWord, page],
+			() => service.getSearchKeyWord(keyWord, page),
+			{ ...queryConfig },
+		)
+
+		return { data, isLoading, isError }
+	},
 }
 
 export default useLoadApi
