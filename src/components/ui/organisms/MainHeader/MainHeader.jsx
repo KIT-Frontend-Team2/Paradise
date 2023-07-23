@@ -39,6 +39,7 @@ const MainHeader = props => {
 					justifyContent: 'center',
 					alignItems: 'center',
 					margin: 'auto',
+					zIndex: 30,
 				}}
 			>
 				<HeaderSearch />
