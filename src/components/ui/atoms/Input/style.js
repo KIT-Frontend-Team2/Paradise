@@ -7,7 +7,8 @@ S.InputBox = styled.div`
 	flex-direction: column;
 	gap: 8px;
 	${({ width }) => (width ? `` : `flex-grow: 1;`)}
-	width: ${({ width }) => `${width}px`};
+	width: ${({ width, theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? `${width}px` : `100%`};
 	.error {
 		color: ${({ theme }) => theme.PALETTE.secondary};
 		font-size: ${({ theme }) => theme.FONT_SIZE.small};
