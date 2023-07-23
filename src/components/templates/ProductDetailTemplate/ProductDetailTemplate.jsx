@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useDevice } from '../../../hooks/mediaquery/useDevice'
-import useResizeEventGetWidth from '../../../hooks/mediaquery/useResizeEventGetWidth'
+import { useDevice } from '../../../hooks/mediaQuery/useDevice'
+import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
 import DeProductCategoryTag from '../../ui/organisms/DeProductCategoryTag/DeProductCategoryTag'

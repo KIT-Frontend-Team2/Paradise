@@ -1,20 +1,19 @@
-import { AddressAtom } from 'atom/map/mapAtom'
-import { useForm } from 'react-hook-form'
-import { useRecoilState } from 'recoil'
-import { styled } from 'styled-components'
 
-import MapComponent from './UploadMap'
+import { useForm } from 'react-hook-form'
+import { styled } from 'styled-components'
+import { useState } from 'react'
+import ProductMap from './ProductMap'
 
 const SearchMap = () => {
 	const { register, handleSubmit, mode, watch } = useForm({
 		mode: 'onblue',
 	})
 
-	const [address, setAddress] = useRecoilState(AddressAtom)
-	const searchAddress = watch('address')
+	const [address, setAddress] = useState()
+	const searchAddress2 = watch('address')
 
 	const onSubmit = () => {
-		let extractedAddress = searchAddress
+		let extractedAddress = searchAddress2
 		setAddress(extractedAddress)
 	}
 
@@ -29,7 +28,7 @@ const SearchMap = () => {
 				/>
 				<S.Button type="submit">주소찾기</S.Button>
 			</S.Form>
-			<MapComponent searchaddress={address} />
+			<ProductMap searchaddress={address} />
 		</S.Warrper>
 	)
 }
