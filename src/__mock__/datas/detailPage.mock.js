@@ -6,7 +6,7 @@ const detailPageMock = {
 		isLike: false, // 상품을 좋아요 했는지 안했는지
 		is_free_product: false, // 상품이 나눔 여부인지
 		product_id: 715, // 상품의 아이디
-		product_name: '바오바오 (링숄더백)', // 상품의 이름
+		product_title: '바오바오 (링숄더백)', // 상품의 이름
 		product_price: 115000, // 상품의 가격
 		product_place: '서울시 강남구 역삼동', // 상품이 올라온 장소
 		product_state: '판매중', // 상품의 상태

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
 
 const ProductCard = ({
@@ -20,9 +21,10 @@ const ProductCard = ({
 	like,
 	chat_count,
 	state,
-	...rest
+	price,
 }) => {
 	const [likeState, setLikeState] = useState(isLike | false)
+	const { linkDetailPage } = useMove()
 
 	const onClickWithLike = () => {
 		setLikeState(prev => !prev)
@@ -40,9 +42,10 @@ const ProductCard = ({
 					/>
 				</S.LikeBox>
 				<img
+					style={{ cursor: 'pointer' }}
 					src={img_url}
 					alt={name}
-					onClick={() => console.log(id + '의 게시물 로 이동합니다.')}
+					onClick={() => linkDetailPage(id)}
 				/>
 				{state === '판매완료' && (
 					<S.CloseBox>
@@ -55,8 +58,8 @@ const ProductCard = ({
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{content}</S.TitleBox>
-			{rest.price !== 0 ? (
-				<S.PriceBox>{rest.price.toLocaleString() + '원'}</S.PriceBox>
+			{price !== 0 ? (
+				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
 				<S.PriceBox />
 			)}
@@ -125,6 +128,10 @@ ProductCard.propTypes = {
 	 * 상품의 채팅 갯수를 입력합니다.
 	 */
 	chat_count: PropTypes.number.isRequired,
+	/**
+	 * 상품의 가격을 결정합니다.
+	 */
+	price: PropTypes.number,
 }
 
 const S = {}
@@ -242,3 +249,6 @@ S.IconWithText = styled.div`
 		font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
 	}
 `
+ProductCard.defaultProps = {
+	price: 0,
+}

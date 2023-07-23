@@ -1,19 +1,9 @@
-import { ThemeProvider } from 'styled-components'
-
-import theme from '../../../../styles/theme'
 import DeImgSection from './DeImgSection'
 
 export default {
 	title: 'Organisms/DeImgSection',
 	tags: ['autodocs'],
 	component: DeImgSection,
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
 	argTypes: {
 		itemData: { control: { type: 'object' } },
 	},

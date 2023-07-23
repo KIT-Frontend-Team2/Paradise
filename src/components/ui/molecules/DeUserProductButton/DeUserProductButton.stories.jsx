@@ -20,11 +20,12 @@ export default {
 }
 
 const Template = args => (
-	<DeUserProductButton productCount={args.productCount} />
+	<DeUserProductButton userId={args.userId} productCount={args.productCount} />
 )
 
 export const Controls = Template.bind({})
 
 Controls.args = {
+	userId: '4422',
 	productCount: 42,
 }

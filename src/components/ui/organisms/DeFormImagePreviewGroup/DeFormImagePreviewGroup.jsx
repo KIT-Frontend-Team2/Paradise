@@ -1,83 +1,87 @@
 import registerIcon from 'assets/images/ico-image-register.png'
 import deleteIcon from 'assets/images/ico-preview-del.png'
+import { forwardRef } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
-const DeFormImagePreviewGroup = ({
-	handleImageChange,
-	imagePreviews,
-	setImagePreviews,
-}) => {
-	const { register } = useForm({
-		mode: 'onChange',
-	})
+const DeFormImagePreviewGroup = forwardRef(
+	({ register, handleImageChange, imagePreviews, setImagePreviews }, ref) => {
+		const onDragEnd = ({ source, destination }) => {
+			if (!destination) return
+			const _imagePreviews = [...imagePreviews]
+			const [targetPreview] = _imagePreviews.splice(source.index, 1)
+			_imagePreviews.splice(destination.index, 0, targetPreview)
+			setImagePreviews(_imagePreviews)
+		}
 
-	const onDragEnd = ({ source, destination }) => {
-		if (!destination) return
-		const _imagePreviews = [...imagePreviews]
-		const [targetPreview] = _imagePreviews.splice(source.index, 1)
-		_imagePreviews.splice(destination.index, 0, targetPreview)
-		setImagePreviews(_imagePreviews)
-	}
+		const onDeleteImage = deleteIndex => {
+			const _imagePreviews = imagePreviews.filter((_preview, index) => {
+				return index !== deleteIndex
+			})
 
-	const onDeleteImage = deleteIndex => {
-		const _imagePreviews = imagePreviews.filter((_preview, index) => {
-			return index !== deleteIndex
-		})
+			setImagePreviews(_imagePreviews)
+		}
 
-		setImagePreviews(_imagePreviews)
-	}
-
-	return (
-		<S.PreviewGroup>
-			<input
-				type="file"
-				name="file"
-				id="file"
-				accept="image/*"
-				multiple
-				onChange={handleImageChange}
-			/>
-			<label htmlFor="file">
-				<img className="registerIcon" src={registerIcon} />
-			</label>
-			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId="droppable" direction="horizontal">
-					{provided => (
-						<div
-							className="previewBoxWrap"
-							ref={provided.innerRef}
-							{...provided.droppableProps}
-						>
-							{imagePreviews.map((preview, index) => (
-								<Draggable
-									className="previewBox"
-									key={`Preview-${index}`}
-									draggableId={`Preview-${index}`}
-									index={index}
-								>
-									{provided => (
-										<div
-											ref={provided.innerRef}
-											{...provided.draggableProps}
-											{...provided.dragHandleProps}
-										>
-											<img src={preview.img} alt={`Preview ${index + 1}`} />
-											<S.DeleteButton onClick={() => onDeleteImage(index)}>
-												<img src={deleteIcon} />
-											</S.DeleteButton>
-										</div>
-									)}
-								</Draggable>
-							))}
-						</div>
-					)}
-				</Droppable>
-			</DragDropContext>
-		</S.PreviewGroup>
-	)
-}
+		return (
+			<S.PreviewGroup>
+				<input
+					type="file"
+					name="file"
+					id="file"
+					accept="image/*"
+					multiple
+					onChange={handleImageChange}
+				/>
+				<label htmlFor="file">
+					<img className="registerIcon" src={registerIcon} ref={ref} />
+				</label>
+				<DragDropContext onDragEnd={onDragEnd}>
+					<Droppable droppableId="droppable" direction="horizontal">
+						{provided => (
+							<div
+								className="previewBoxWrap"
+								ref={provided.innerRef}
+								{...provided.droppableProps}
+							>
+								{imagePreviews.map((preview, index) => (
+									<Draggable
+										className="previewBox"
+										key={`Preview-${index}`}
+										draggableId={`Preview-${index}`}
+										index={index}
+									>
+										{provided => (
+											<div
+												ref={provided.innerRef}
+												{...provided.draggableProps}
+												{...provided.dragHandleProps}
+											>
+												<img src={preview.img} alt={`Preview ${index + 1}`} />
+												<input
+													type="hidden"
+													value={index}
+													{...register(`product_img.${index}.id`)}
+												/>
+												<input
+													type="hidden"
+													value={preview.img}
+													{...register(`product_img.${index}.img`)}
+												/>
+												<S.DeleteButton onClick={() => onDeleteImage(index)}>
+													<img src={deleteIcon} />
+												</S.DeleteButton>
+											</div>
+										)}
+									</Draggable>
+								))}
+							</div>
+						)}
+					</Droppable>
+				</DragDropContext>
+			</S.PreviewGroup>
+		)
+	},
+)
 
 export default DeFormImagePreviewGroup
 

@@ -1,10 +1,13 @@
 const API_KEY = {
+	LIST: '/list',
 	PRODUCT: '/product',
 	INFO: '/info',
 	POPULAR: '/popular',
-	SALES: '/sales',
-	Share: '/share',
+	SELL: '/sell',
+	FREE: '/free',
+	SHARE: '/share',
 	DETAIL: '/detail',
+	SEARCH: '/search',
 	MYPAGE: '/mypage',
 	LIKE: '/like',
 	ACCOUNT: '/account',
@@ -14,6 +17,7 @@ const API_KEY = {
 	BUYER: '/buyer',
 	USER: '/user',
 	COUNT: '/count',
+	UPDATE: '/update',
 }
 
 export default API_KEY

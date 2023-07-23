@@ -35,81 +35,69 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
-	const { isDesktop, isTablet } = useDevice()
+	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
 
-	const isDesk = isDesktop || isTablet
+	const isDesk = isDesktop || isTablet || isTabletAndLaptop
 	const [containerWidth, widthRef] = useResizeEventGetWidth()
 	return (
-		<S.Wrapper>
-			<S.Container deskTop={isDesk}>
-				<S.FlexBox deskTop={isDesk}>
-					{isDesk ? (
-						<DeImgSection
-							containerWidth={containerWidth}
-							itemData={productInfo.product_imgs}
+		<>
+			<S.FlexBox deskTop={isDesk}>
+				{isDesk ? (
+					<DeImgSection
+						containerWidth={containerWidth}
+						itemData={productInfo.product_imgs}
+					/>
+				) : (
+					<SSlideBanner Images={productInfo.product_imgs} loop={true} />
+				)}
+				<div
+					ref={widthRef}
+					style={{ boxSizing: 'border-box', padding: '10px' }}
+				>
+					<DeProductSection
+						isBuyer={productInfo.isBuyer}
+						chatCount={productInfo.product_chat_count}
+						isLike={productInfo.isLike}
+						like={productInfo.product_like}
+						price={productInfo.product_price}
+						time={productInfo.product_create_at}
+						title={productInfo.product_title}
+						state={productInfo.product_state}
+						productInfo={productInfo.product_content}
+						containerWidth={containerWidth - 30}
+					/>
+					<DeProductCategoryTag category={productInfo.product_tag} />
+					<DeProductMapSection rightTitle={productInfo.product_place} />
+					<DeUserProductSection
+						imgProfile={user_profile_url}
+						userTemplate={user_temperature}
+						itemData={user_product_list}
+						productCount={user_product_count}
+						userName={user_nick_name}
+						userId={user_id}
+						containerWidth={containerWidth - 30}
+					/>
+					{isDesk && (
+						<DeProductChartSection
+							containerWidth={containerWidth - 30}
+							chartData={newChartData}
+							category={productInfo.chart_data.product_tag}
+							margin={{
+								top: 5,
+								right: 5,
+								bottom: 20,
+								left: 20,
+							}}
 						/>
-					) : (
-						<SSlideBanner Images={productInfo.product_imgs} loop={true} />
 					)}
-					<div
-						ref={widthRef}
-						style={{ boxSizing: 'border-box', padding: '10px' }}
-					>
-						<DeProductSection
-							isBuyer={productInfo.isBuyer}
-							chatCount={productInfo.product_chat_count}
-							isLike={productInfo.isLike}
-							like={productInfo.product_like}
-							price={productInfo.product_price}
-							time={productInfo.product_create_at}
-							title={productInfo.product_name}
-							state={productInfo.product_state}
-							productInfo={productInfo.product_content}
-							containerWidth={containerWidth - 30}
-						/>
-						<DeProductCategoryTag category={productInfo.product_tag} />
-						<DeProductMapSection rightTitle={productInfo.product_place} />
-						<DeUserProductSection
-							imgProfile={user_profile_url}
-							userTemplate={user_temperature}
-							itemData={user_product_list}
-							productCount={user_product_count}
-							userName={user_nick_name}
-							userId={user_id}
-							containerWidth={containerWidth - 30}
-						/>
-						{isDesk && (
-							<DeProductChartSection
-								containerWidth={containerWidth - 30}
-								chartData={newChartData}
-								category={productInfo.chart_data.product_tag}
-								margin={{
-									top: 5,
-									right: 5,
-									bottom: 20,
-									left: 20,
-								}}
-							/>
-						)}
-					</div>
-				</S.FlexBox>
-				<DeRelatedCarousel products={productInfo.recommended_product} />
-			</S.Container>
-		</S.Wrapper>
+				</div>
+			</S.FlexBox>
+			<DeRelatedCarousel products={productInfo.recommended_product} />
+		</>
 	)
 }
 
 export const S = {}
-
-S.Wrapper = styled.div`
-	width: 100%;
-	height: auto;
-`
-S.Container = styled.div`
-	max-width: 1100px;
-	width: ${({ deskTop }) => (deskTop ? 90 : 100)}%;
-	margin: 0 auto;
-`
 
 S.Flex = styled.div`
 	display: flex;
