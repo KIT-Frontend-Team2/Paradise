@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const ProductUpdatePage = () => {
-	const [detail, setDetail] = useState([])
-	const { detailId } = useParams()
+	const [detail, setDetail] = useState(null)
+	const { productId } = useParams()
 
 	const getDetail = async () => {
-		const response = await axios.get(`/detail/${detailId}`)
+		const response = await axios.get(`/detail/${productId}`)
 		setDetail(response.data.data)
 	}
 
