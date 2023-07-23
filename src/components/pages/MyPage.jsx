@@ -1,18 +1,14 @@
-
 // import ProductMap from 'components/ui/molecules/Map/ProductMap'
 import ProductMap from 'components/ui/molecules/Map/ProductMap'
 import SearchMap from 'components/ui/molecules/Map/SearchMap'
-
 import React from 'react'
-
 import styled from 'styled-components'
 
 const MyPage = props => {
-
 	return (
 		<div>
 			<ConTainer>
-			<ProductMap formAddress='서울시 강남구 역삼동' />
+				<ProductMap formAddress="서울시 강남구 역삼동" />
 			</ConTainer>
 			<SearchMap />
 		</div>
@@ -21,7 +17,7 @@ const MyPage = props => {
 export default MyPage
 
 const ConTainer = styled.div`
-display: flex;
+	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
 	height: auto; // 지도의 내용에 따라 높이가 유동적으로 변하도록 수정
