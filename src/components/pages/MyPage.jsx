@@ -1,4 +1,3 @@
-
 import ProductMap from 'components/ui/molecules/Map/ProductMap'
 import SearchMap from 'components/ui/molecules/Map/SearchMap'
 import React from 'react'
@@ -16,15 +15,14 @@ const MyPage = props => {
 }
 export default MyPage
 
-
 const Wrrapper = styled.div`
-height: 1500px;
+	height: 1500px;
 `
 
 const ConTainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	width: 800px;
-	height: 300px; 
+	height: 300px;
 	margin-bottom: 20px;
 `
