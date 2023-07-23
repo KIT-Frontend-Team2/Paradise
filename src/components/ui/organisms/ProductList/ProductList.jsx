@@ -1,9 +1,10 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../../hooks/mediaQuery/useDevice'
 import ProductCard from '../../molecules/ProductCard/ProductCard'
 
-const ProductList = ({ products }) => {
+const ProductList = ({ products, size }) => {
 	const {
 		isDesktop,
 		isTabletAndLaptop,
@@ -15,18 +16,23 @@ const ProductList = ({ products }) => {
 	if (isDesktop || isTabletAndLaptop) {
 		repeat = 4
 	}
-	if (isTablet || isMobileAndTablet) {
+	if (isTablet) {
 		repeat = 3
 	}
-	if (isMobile) {
+	if (isMobileAndTablet) {
 		repeat = 2
+	}
+
+	if (isMobile) {
+		repeat = 1
 	}
 	return (
 		<S.Container repeat={repeat}>
 			{products.map(product => (
 				<ProductCard
+					key={product.productId}
 					price={product.productPrice}
-					size={200}
+					size={size}
 					isLike={product.isLike}
 					chat_count={product.product_chat_count}
 					img_url={product.product_img}

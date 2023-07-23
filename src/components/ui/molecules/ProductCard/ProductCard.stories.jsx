@@ -1,18 +1,10 @@
-import { BrowserRouter } from 'react-router-dom'
-
 import ProductCard from './ProductCard'
 
 export default {
 	title: 'Molecules/ProductCard',
 	tags: ['autodocs'],
 	component: ProductCard,
-	decorators: [
-		Story => (
-			<BrowserRouter>
-				<Story />
-			</BrowserRouter>
-		),
-	],
+	decorators: [Story => <Story />],
 	argTypes: {
 		size: { control: { type: 'number' } },
 		id: { control: 'text' },

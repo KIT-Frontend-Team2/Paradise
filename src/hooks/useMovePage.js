@@ -3,27 +3,38 @@ import { useNavigate } from 'react-router-dom'
 import API_KEY from '../consts/ApiKey'
 
 const useMove = () => {
+	// 페이지 이동만 시켜주고 싶을 때
 	const move = useNavigate()
 
-	const linkMainPage = () => move('/')
+	// 페이지 이동과 스크롤 0 으로 이동하고 싶을 때
+	const topMove = link => {
+		window.scrollTo({ top: 0 })
+		move(link)
+	}
 
-	const linkSellList = () => move(API_KEY.LIST + API_KEY.SELL + '?page=0')
+	const linkMainPage = () => topMove('/')
 
-	const linkShareList = () => move(API_KEY.LIST + API_KEY.FREE + '?page=0')
+	const linkSellList = () => topMove(API_KEY.LIST + API_KEY.SELL + '?page=1')
 
-	const linkMyPage = () => move(API_KEY.MYPAGE)
+	const linkShareList = () => topMove(API_KEY.LIST + API_KEY.FREE + '?page=1')
+
+	const linkMyPage = () => topMove(API_KEY.MYPAGE)
 
 	const linkUserProduct = userId =>
-		move(API_KEY.PRODUCT + API_KEY.USER + `/${userId}`)
+		topMove(API_KEY.PRODUCT + API_KEY.USER + `/${userId}`)
 
 	const linkDetailPage = productId =>
-		move(API_KEY.PRODUCT + API_KEY.DETAIL + `/${productId}`)
+		topMove(API_KEY.PRODUCT + API_KEY.DETAIL + `/${productId}`)
 
 	const linkSearchProduct = keyWord =>
-		move(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord}}`)
+		topMove(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord}}`)
 
 	const linkModifyProduct = productId =>
-		move(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
+		topMove(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
+
+	const linkAuthPage = () => topMove(API_KEY.ACCOUNT)
+
+	const linkRegister = () => topMove(API_KEY.PRODUCT + API_KEY.REGISTER)
 
 	return {
 		linkMainPage,
@@ -34,6 +45,8 @@ const useMove = () => {
 		linkUserProduct,
 		linkSearchProduct,
 		linkModifyProduct,
+		linkAuthPage,
+		linkRegister,
 	}
 }
 

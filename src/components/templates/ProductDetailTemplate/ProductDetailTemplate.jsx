@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
+import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
 import DeProductCategoryTag from '../../ui/organisms/DeProductCategoryTag/DeProductCategoryTag'
@@ -40,7 +41,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop
 	const [containerWidth, widthRef] = useResizeEventGetWidth()
 	return (
-		<>
+		<Container>
 			<S.FlexBox deskTop={isDesk}>
 				{isDesk ? (
 					<DeImgSection
@@ -93,7 +94,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 				</div>
 			</S.FlexBox>
 			<DeRelatedCarousel products={productInfo.recommended_product} />
-		</>
+		</Container>
 	)
 }
 
