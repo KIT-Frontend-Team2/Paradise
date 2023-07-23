@@ -23,7 +23,7 @@ const DeImgSection = ({ itemData, containerWidth }) => {
 								size={containerWidth / itemData.length - 10}
 								onClick={() => setUseTitleImg(item.img_url)}
 							>
-								<img src={item.img_url} alt={item.title} loading={'lazy'} />
+								<img src={item.img_url} alt={item.title} />
 							</S.ImgBox>
 						</ImageListItem>
 					))}

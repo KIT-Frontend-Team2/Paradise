@@ -18,6 +18,7 @@ const API_KEY = {
 	USER: '/user',
 	COUNT: '/count',
 	UPDATE: '/update',
+	REGISTER: '/register',
 }
 
 export default API_KEY

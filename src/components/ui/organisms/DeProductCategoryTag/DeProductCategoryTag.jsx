@@ -12,9 +12,9 @@ const DeProductCategoryTag = ({ category }) => {
 		<>
 			<DeSectionTitle title={'태그'} />
 			<S.CategoryBox>
-				{category.map((item, index) => (
+				{category.map(item => (
 					<MChip
-						key={item + index}
+						key={item}
 						onClick={() => linkSearchProduct(item)}
 						label={item}
 					/>
