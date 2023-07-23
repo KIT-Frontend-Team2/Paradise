@@ -41,7 +41,7 @@ S.ChatModal = styled.div`
 	align-items: center;
 	justify-content: center;
 	padding: 0 10px;
-	right: 20px;
+	right: 0px;
 `
 
 S.ChatBox = styled.div`
