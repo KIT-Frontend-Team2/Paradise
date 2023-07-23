@@ -1,27 +1,39 @@
 import { useNavigate } from 'react-router-dom'
 
+import API_KEY from '../consts/ApiKey'
+
 const useMove = () => {
 	const move = useNavigate()
 
-	const linkSellList = () => move('/list/sell?page=0')
+	const linkMainPage = () => move('/')
 
-	const linkShareList = () => move('/list/free?page=0')
+	const linkSellList = () => move(API_KEY.LIST + API_KEY.SELL + '?page=0')
 
-	const linkMyPage = () => move('/mypage')
+	const linkShareList = () => move(API_KEY.LIST + API_KEY.FREE + '?page=0')
 
-	const linkDetailPage = productId => move(`/product/detail/${productId}`)
+	const linkMyPage = () => move(API_KEY.MYPAGE)
 
-	const linkUserProduct = userId => move(`/product/user/${userId}`)
+	const linkUserProduct = userId =>
+		move(API_KEY.PRODUCT + API_KEY.USER + `/${userId}`)
 
-	const linkSearchProduct = keyWord => move(`/product/search/${keyWord}}`)
+	const linkDetailPage = productId =>
+		move(API_KEY.PRODUCT + API_KEY.DETAIL + `/${productId}`)
+
+	const linkSearchProduct = keyWord =>
+		move(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord}}`)
+
+	const linkModifyProduct = productId =>
+		move(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
 
 	return {
+		linkMainPage,
 		linkSellList,
 		linkShareList,
 		linkMyPage,
 		linkDetailPage,
 		linkUserProduct,
 		linkSearchProduct,
+		linkModifyProduct,
 	}
 }
 
