@@ -1,3 +1,4 @@
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
@@ -13,9 +14,11 @@ function App() {
 	}
 	const queryClient = new QueryClient()
 
+	const media = useDevice()
+
 	return (
 		<>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={{ ...theme, ...media }}>
 				<QueryClientProvider client={queryClient}>
 					<RecoilRoot>
 						<RouterProvider router={router} />
