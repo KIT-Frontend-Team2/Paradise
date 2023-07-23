@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Container from '../../layout/Container'
 import Pagination from '../../ui/molecules/Pagination/Pagination'
 import ProductList from '../../ui/organisms/ProductList/ProductList'
 
@@ -21,20 +22,18 @@ const ProductListTemplate = ({ page, total, filter, products }) => {
 			throw new Error('옳지 않은 접근입니다.')
 	}
 	return (
-		<S.Wrapper>
-			<S.Container>
-				<S.ListTitle>
-					<S.ListFilter>{title}</S.ListFilter>
-					<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
-				</S.ListTitle>
-				<ProductList products={products} />
-				<Pagination
-					page={parseInt(page)}
-					item_length={item_length}
-					total={total}
-				/>
-			</S.Container>
-		</S.Wrapper>
+		<Container>
+			<S.ListTitle>
+				<S.ListFilter>{title}</S.ListFilter>
+				<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
+			</S.ListTitle>
+			<ProductList size={250} products={products} />
+			<Pagination
+				page={parseInt(page)}
+				item_length={item_length}
+				total={total}
+			/>
+		</Container>
 	)
 }
 
@@ -42,25 +41,20 @@ export default ProductListTemplate
 
 const S = {}
 
-S.Wrapper = styled.div`
-	width: 100%;
-	height: auto;
-`
-S.Container = styled.div`
-	max-width: 1100px;
-	width: ${({ deskTop }) => (deskTop ? 90 : 100)}%;
-	margin: 0 auto;
-`
-
 S.ListTitle = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding-top: 56px;
 `
 
-S.ListFilter = styled.div``
+S.ListFilter = styled.div`
+	color: ${({ theme }) => theme.PALETTE.black};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+	font-size: 24px;
+`
 
 S.ProductCount = styled.div`
 	color: ${({ theme }) => theme.PALETTE.gray[700]};
 	font-size: ${({ theme }) => theme.FONT_SIZE.small};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
 `

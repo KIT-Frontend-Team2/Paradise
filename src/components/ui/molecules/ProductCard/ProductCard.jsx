@@ -28,7 +28,6 @@ const ProductCard = ({
 
 	const onClickWithLike = () => {
 		setLikeState(prev => !prev)
-		console.log(id + ' 찜상태 변경 요청보내기')
 	}
 	return (
 		<S.Card size={size}>

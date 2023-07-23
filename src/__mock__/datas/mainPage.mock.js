@@ -1,10 +1,10 @@
 const mainPageMock = {
-	freeProductList: {
-		status: 200,
-		message: 'success',
-		data: [
+	status: 200,
+	message: 'success',
+	data: {
+		freeProductList: [
 			{
-				productId: '20',
+				productId: '1',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -21,7 +21,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '2',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -38,7 +38,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '3',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -55,7 +55,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '4',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -72,7 +72,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '5',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -89,7 +89,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '6',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -106,7 +106,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '7',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -123,7 +123,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '8',
 				productTitle: '아메리카노',
 				productPrice: 0,
 				product_img:
@@ -140,14 +140,9 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 		],
-	},
-
-	sellProductList: {
-		status: 200,
-		message: 'success',
-		data: [
+		sellProductList: [
 			{
-				productId: '20',
+				productId: '9',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -164,7 +159,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '10',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -181,7 +176,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '11',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -198,7 +193,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '12',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -215,7 +210,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '13',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -232,7 +227,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '14',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -249,7 +244,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '15',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
@@ -266,7 +261,7 @@ const mainPageMock = {
 				isLike: false, // 좋아요를 눌렀는지 확인
 			},
 			{
-				productId: '20',
+				productId: '16',
 				productTitle: '아메리카노',
 				productPrice: 20000,
 				product_img:
