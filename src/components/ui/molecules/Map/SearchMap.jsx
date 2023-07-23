@@ -28,7 +28,7 @@ const SearchMap = () => {
 				/>
 				<S.Button type="submit">주소찾기</S.Button>
 			</S.Form>
-			<ProductMap searchaddress={address} />
+			<ProductMap formAddress={address} />
 		</S.Warrper>
 	)
 }
