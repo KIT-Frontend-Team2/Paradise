@@ -1,10 +1,10 @@
+import ProductMap from 'components/ui/molecules/Map/ProductMap'
 import PropTypes from 'prop-types'
 import React from 'react'
+import styled from 'styled-components'
 
 // import MSkeleton from '../../atoms/Skeleton/MSkeleton'
 import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
-import ProductMap from 'components/ui/molecules/Map/ProductMap'
-import styled from 'styled-components'
 
 /**
  * @Todo 카카오 맵을 넣어야합니다.
