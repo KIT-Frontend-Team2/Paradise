@@ -4,46 +4,55 @@ import { useQuery } from 'react-query'
 
 import { queryConfig } from './@config'
 
-const useLoadApi = {
-	MainPage: () => {
+const LoadApi = () => {
+	const {
+		getSearchKeyWordList,
+		getProductList,
+		getMainProductList,
+		getDetailProduct,
+	} = service()
+
+	const getMainPage = () => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.LIST],
-			() => service.getMainPage(),
+			() => getMainProductList(),
 			{ ...queryConfig },
 		)
 
 		return { data, isLoading, isError }
-	},
+	}
 
-	ListPage: (optionKey, page) => {
+	const getListPage = (optionKey, page) => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.LIST, optionKey, page],
-			() => service.getListPage(optionKey, page),
+			() => getProductList(optionKey, page),
 			{ ...queryConfig },
 		)
 
 		return { data, isLoading, isError }
-	},
+	}
 
-	DetailPage: productId => {
+	const getDetailPage = productId => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.PRODUCT, productId],
-			() => service.getDetailPage(productId),
+			() => getDetailProduct(productId),
 			{ ...queryConfig },
 		)
 
 		return { data, isLoading, isError }
-	},
+	}
 
-	SearchPage: (keyword, page) => {
+	const getSearchPage = (keyword, page) => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.SEARCH, keyword, page],
-			() => service.getSearchKeyWord(keyword, page),
+			() => getSearchKeyWordList(keyword, page),
 			{ ...queryConfig },
 		)
 
 		return { data, isLoading, isError }
-	},
+	}
+
+	return { getDetailPage, getSearchPage, getMainPage, getListPage }
 }
 
-export default useLoadApi
+export default LoadApi

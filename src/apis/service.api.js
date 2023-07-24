@@ -2,24 +2,24 @@ import axios from 'axios'
 
 import API_KEY from '../consts/ApiKey'
 
-export const service = {
-	async getDetailPage(productId) {
+export const service = () => {
+	const getDetailProduct = async productId => {
 		try {
 			return await axios.get(API_KEY.DETAIL + '/' + productId)
 		} catch (err) {
 			throw new Error(err)
 		}
-	},
+	}
 
-	async getMainPage() {
+	const getMainProductList = async () => {
 		try {
 			return await axios.get(API_KEY.LIST)
 		} catch (err) {
 			throw new Error(err)
 		}
-	},
+	}
 
-	async getListPage(optionKey, page) {
+	const getProductList = async (optionKey, page) => {
 		try {
 			return await axios.get(API_KEY.LIST + '/' + optionKey, {
 				params: {
@@ -29,9 +29,9 @@ export const service = {
 		} catch (err) {
 			throw new Error(err)
 		}
-	},
+	}
 
-	async getSearchKeyWord(keyword, page) {
+	const getSearchKeyWordList = async (keyword, page) => {
 		try {
 			return await axios.get(API_KEY.SEARCH, {
 				params: {
@@ -42,33 +42,47 @@ export const service = {
 		} catch (err) {
 			throw new Error(err)
 		}
-	},
+	}
 
-	registerProduct() {
+	const registerProduct = () => {
 		console.log('상품을 등록합니다.')
-	},
+	}
 
-	wishAdd(id) {
+	const wishAdd = id => {
 		console.log(id + ' 상품을 좋아요 또는 취소 요청을 보냅니다.')
-	},
+	}
 
-	deleteProduct(productId) {
+	const deleteProduct = productId => {
 		console.log(productId + ' 상품을 삭제합니다')
-	},
+	}
 
-	completeProduct(productId) {
+	const completeProduct = productId => {
 		console.log(productId + ' 상품의 상태를 판매완료로 변경합니다.')
-	},
+	}
 
-	getRecentProduct() {
+	const getRecentProduct = () => {
 		console.log('최근에 본 상품을 조회합니다.')
-	},
+	}
 
-	addRecentProduct(productId) {
+	const addRecentProduct = productId => {
 		console.log(productId + ' 상품을 최근에 본 상품을 추가합니다.')
-	},
+	}
 
-	deleteRecentProduct(productId) {
+	const deleteRecentProduct = productId => {
 		console.log(productId + ' 상품을 최근에 본 상품에서 제거합니다.')
-	},
+	}
+
+	return {
+		getDetailProduct,
+		getMainProductList,
+		getRecentProduct,
+		getSearchKeyWordList,
+		registerProduct,
+		wishAdd,
+		deleteProduct,
+		completeProduct,
+		addRecentProduct,
+		deleteRecentProduct,
+		getProductList,
+	}
 }
