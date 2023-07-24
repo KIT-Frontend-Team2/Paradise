@@ -1,7 +1,7 @@
+import { service } from 'apis/service.api'
+import API_KEY from 'consts/ApiKey'
 import { useQuery } from 'react-query'
 
-import { service } from '../../apis/service.api'
-import API_KEY from '../../consts/ApiKey'
 import { queryConfig } from './@config'
 
 const useLoadApi = {
@@ -35,10 +35,10 @@ const useLoadApi = {
 		return { data, isLoading, isError }
 	},
 
-	SearchPage: (keyWord, page) => {
+	SearchPage: (keyword, page) => {
 		const { data, isLoading, isError } = useQuery(
-			[API_KEY.SEARCH, keyWord, page],
-			() => service.getSearchKeyWord(keyWord, page),
+			[API_KEY.SEARCH, keyword, page],
+			() => service.getSearchKeyWord(keyword, page),
 			{ ...queryConfig },
 		)
 
