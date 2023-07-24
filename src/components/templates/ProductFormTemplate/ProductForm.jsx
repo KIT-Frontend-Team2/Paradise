@@ -357,6 +357,7 @@ export default ProductForm
 
 export const S = {}
 
+
 S.Wrapper = styled.div`
 	margin-top: 80px;
 `
@@ -398,6 +399,16 @@ S.FormGroup = styled.dl`
 	&:last-child {
 		border-bottom-color: ${({ theme }) => theme.PALETTE.gray[800]};
 	}
+
+	${({ theme }) =>
+		!theme.isDesktop &&
+		!theme.isTabletAndLaptop &&
+		`
+		flex-direction: column;
+		align-items: flex-start;
+		gap:20px;
+		border-bottom:0;
+	`}
 `
 
 S.FormLabel = styled.dd`
@@ -428,6 +439,8 @@ S.FormRegister = styled.dt`
 	flex-direction: column;
 	flex: 1;
 	gap: 12px;
+	${({ theme }) =>
+		!theme.isDesktop && !theme.isTabletAndLaptop && `width:100%;`}
 
 	.infoMessage {
 		padding-left: 15px;
@@ -517,7 +530,8 @@ S.Map = styled.div`
 `
 
 S.ButtonWrap = styled.div`
-	width: 50%;
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? `50%` : `100%`};
 	margin: 45px auto 0;
 	display: flex;
 	justify-content: space-between;
