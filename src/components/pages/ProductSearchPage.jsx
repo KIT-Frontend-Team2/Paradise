@@ -2,14 +2,13 @@ import React from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import useLoadApi from '../../hooks/pageQuery/useLoadPage'
-import ProductListTemplate from '../templates/ProductListTemplate/ProductListTemplate'
+import ProductSearchTemplate from '../templates/ProductSearchTemplate/ProductSearchTemplate'
 
 const ProductSearchPage = () => {
-	const { keyWord } = useParams()
+	const { keyword } = useParams()
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
-	const { data, isError, isLoading } = useLoadApi.SearchPage(keyWord, page)
-
+	const { data, isError, isLoading } = useLoadApi.SearchPage(keyword, page)
 	if (isError) {
 		return <>에러</>
 	}
@@ -19,10 +18,10 @@ const ProductSearchPage = () => {
 	}
 
 	return (
-		<ProductListTemplate
+		<ProductSearchTemplate
 			page={page}
 			total={data.data.total}
-			filter={filter}
+			keyword={keyword}
 			products={data.data.data}
 		/>
 	)

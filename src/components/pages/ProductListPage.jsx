@@ -5,7 +5,7 @@ import ProductListTemplate from '../templates/ProductListTemplate/ProductListTem
 
 const ProductListPage = () => {
 	const { filter } = useParams()
-	const [searchParam, setSearchParam] = useSearchParams()
+	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { data, isError, isLoading } = useLoadApi.ListPage(filter, page)
 
