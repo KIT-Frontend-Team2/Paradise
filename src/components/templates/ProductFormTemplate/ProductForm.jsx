@@ -1,4 +1,5 @@
 import wonIcon from 'assets/images/ico-won.png'
+import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
@@ -158,8 +159,8 @@ const ProductForm = ({ detail }) => {
 	}
 
 	return (
-		<>
-			<S.Container>
+		<Container>
+			<S.Wrapper>
 				<S.TitleArea>
 					<S.Title2>{detail ? '물품 수정' : '물품 등록'}</S.Title2>
 					<S.RightArea>
@@ -347,8 +348,8 @@ const ProductForm = ({ detail }) => {
 						/>
 					</S.ButtonWrap>
 				</form>
-			</S.Container>
-		</>
+			</S.Wrapper>
+		</Container>
 	)
 }
 
@@ -356,11 +357,9 @@ export default ProductForm
 
 export const S = {}
 
-S.Container = styled.div`
-	max-width: 1100px;
-	margin: 120px auto 95px;
-	${({ theme }) =>
-		!theme.isDesktop && !theme.isTabletAndLaptop && `padding: 0 20px`}
+
+S.Wrapper = styled.div`
+	margin-top: 80px;
 `
 
 S.TitleArea = styled.div`
