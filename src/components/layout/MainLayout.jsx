@@ -5,7 +5,7 @@ import MainFooter from '../ui/organisms/MainFooter/MainFooter'
 import MainHeader from '../ui/organisms/MainHeader/MainHeader'
 import SideBar from '../ui/organisms/SideBar/SideBar'
 
-const MainLayout = props => (
+const MainLayout = () => (
 	<>
 		<MainHeader />
 		<Outlet />

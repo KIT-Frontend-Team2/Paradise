@@ -1,13 +1,24 @@
+import { ThemeProvider } from 'styled-components'
+
+import theme from '../../../../styles/theme'
 import DeProductChartSection from './DeProductChartSection'
 
 export default {
 	title: 'Organisms/DeProductChartSection',
 	tags: ['autodocs'],
 	component: DeProductChartSection,
+	decorators: [
+		Story => (
+			<ThemeProvider theme={theme}>
+				<Story />
+			</ThemeProvider>
+		),
+	],
 }
 
 const Template = args => (
 	<DeProductChartSection
+		containerWidth={args.containerWidth}
 		chartData={args.chartData}
 		size={args.size}
 		margin={args.margin}
@@ -18,11 +29,8 @@ const Template = args => (
 export const Controls = Template.bind({})
 
 Controls.args = {
+	containerWidth: 600,
 	category: '의류 / 신발',
-	size: {
-		width: 540,
-		height: 300,
-	},
 	chartData: {
 		data: [
 			{

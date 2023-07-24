@@ -3,17 +3,11 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import useMove from '../../../../hooks/useMovePage'
 import MTooltip from '../../atoms/Tooltip/MTooltip'
 
-// import {useNavigate} from "react-router-dom";
-
 const DeImageList = ({ width, height, cols, rowHeight, itemData }) => {
-	// const navigate = useNavigate();
-
-	const onLinkWithId = id => {
-		// navigate(`/product/detail` + id)
-		console.log(id + ' 번째 게시물로 이동 되었습니다.')
-	}
+	const { linkDetailPage } = useMove()
 
 	return (
 		<ImageList
@@ -21,12 +15,12 @@ const DeImageList = ({ width, height, cols, rowHeight, itemData }) => {
 			cols={cols}
 			rowHeight={rowHeight}
 		>
-			{itemData.map((item, i) => (
+			{itemData.map(item => (
 				<ImageListItem
-					key={i}
+					key={item.id}
 					sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 				>
-					<S.ImgBox size={rowHeight} onClick={() => onLinkWithId(item.id)}>
+					<S.ImgBox size={rowHeight} onClick={() => linkDetailPage(item.id)}>
 						<MTooltip
 							placement={'top'}
 							title={`${item.name}` + ' 페이지로 이동'}

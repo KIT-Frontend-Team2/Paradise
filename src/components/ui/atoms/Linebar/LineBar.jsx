@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-const LineBar = ({ width }) => <S.LineBar width={width} />
+const LineBar = ({ width, ...args }) => <S.LineBar width={width} {...args} />
 
 export default LineBar
 
