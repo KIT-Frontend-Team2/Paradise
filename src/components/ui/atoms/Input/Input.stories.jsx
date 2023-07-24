@@ -1,19 +1,10 @@
-import { ThemeProvider } from 'styled-components'
-import theme from 'styles/theme'
-
 import Input from './Input'
 
 export default {
 	title: 'Atom/Input',
 	tags: ['autodocs'],
 	component: Input,
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
+	decorators: [Story => <Story />],
 }
 
 export const 기본_인풋박스 = {

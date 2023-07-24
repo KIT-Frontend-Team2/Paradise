@@ -89,7 +89,8 @@ const S = {}
 
 S.PreviewGroup = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? `row` : `column`};
 	gap: 8px;
 
 	input[type='file'] {
@@ -98,10 +99,11 @@ S.PreviewGroup = styled.div`
 
 	label {
 		font-size: 0;
-	}
 
-	img {
-		width: 148px;
+		img {
+			width: ${({ theme }) =>
+				theme.isDesktop || theme.isTabletAndLaptop ? `148px` : `30%`};
+		}
 	}
 
 	.registerIcon {
@@ -110,12 +112,13 @@ S.PreviewGroup = styled.div`
 
 	.previewBoxWrap {
 		display: flex;
-		/* gap: 8px; */
+		flex-wrap: ${({ theme }) =>
+			theme.isDesktop || theme.isTabletAndLaptop ? `no-wrap` : `wrap`};
 
 		& > div {
 			position: relative;
-			width: 148px;
-			height: 148px;
+			min-width: 148px;
+			aspect-ratio: 1 / 1;
 			margin-right: 8px;
 			border-radius: 10px;
 			box-sizing: border-box;
