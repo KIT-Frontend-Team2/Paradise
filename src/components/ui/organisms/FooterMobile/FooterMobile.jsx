@@ -3,6 +3,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import SearchIcon from '@mui/icons-material/Search'
+import { IconButton } from '@mui/material'
 import { useState } from 'react'
 import styled from 'styled-components'
 
@@ -43,7 +44,7 @@ const FooterMobile = () => {
 					onClick={() => handleClick(index)}
 					isSelected={index === selected}
 				>
-					{item.icon}
+					<IconButton>{item.icon}</IconButton>
 					<span>{item.label}</span>
 				</S.CustomBox>
 			))}
@@ -56,10 +57,13 @@ export default FooterMobile
 export const S = {}
 
 S.FooterContainer = styled.div`
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	height: 50px;
+	height: 60px;
 	background-color: #ffffff;
 	border-top: 1px solid #e2e2e2;
 
@@ -72,12 +76,14 @@ S.CustomBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	cursor: pointer;
+	padding-bottom: 10px;
 	svg {
 		font-size: 1.5rem;
 		color: ${({ isSelected }) => (isSelected ? '#009d91' : 'inherit')};
 	}
 	span {
-		margin-top: 4px;
+		font-size: 12px;
 	}
 `

@@ -14,6 +14,7 @@ const HeaderSearch = () => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const { linkSearchProduct } = useMove()
+
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value
@@ -81,7 +82,7 @@ S.SearchBox = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
-	margin: 0 48px;
+	margin: 0 40px;
 `
 
 S.SearchBar = styled.input`
@@ -106,7 +107,6 @@ S.HeaderLogo = styled.img`
 `
 
 S.UserInfoContainer = styled.div`
-	margin-left: 48px;
 	display: flex;
 	align-items: center;
 `

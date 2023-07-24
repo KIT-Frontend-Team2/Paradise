@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { Box } from '@mui/material'
 import { headerMock } from '__mock__/datas/header.mock'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +15,7 @@ const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
 	const { linkMainPage, linkShareList, linkMyPage } = useMove()
 	const navigate = useNavigate()
-
+	const { isTablet } = useDevice()
 	const inputRef = useRef(null)
 
 	const searchKeyword = e => {
@@ -46,7 +47,8 @@ const HeaderScroll = () => {
 				top: 0,
 				left: '50%',
 				transform: 'translateX(-50%)',
-				width: '1100px',
+				maxWidth: '1100px',
+				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
 				padding: '16px',
@@ -60,13 +62,14 @@ const HeaderScroll = () => {
 		>
 			<S.Container>
 				<Box
+					isTablet={isTablet}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: 'center',
-						gap: '36px',
-						fontSize: '18px',
-						flex: 1,
+						justifyContent: isTablet ? 'flex-start' : 'center',
+						gap: isTablet ? '10px' : '36px',
+						fontSize: isTablet ? '14px' : '18px',
+						width: '100%',
 					}}
 				>
 					<HeaderCategory />
@@ -124,7 +127,7 @@ S.Container = styled.div`
 S.UserSearchContainer = styled.form`
 	display: flex;
 	align-items: center;
-	margin: 0 60px;
+	margin: 0 32px;
 `
 
 S.SearchBox = styled.div`
@@ -150,7 +153,7 @@ S.SearchBar = styled.input`
 	}
 `
 S.UserInfoContainer = styled.div`
-	margin-left: 48px;
+	margin-left: 24px;
 	display: flex;
 	align-items: center;
 `

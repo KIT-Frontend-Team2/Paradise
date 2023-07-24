@@ -120,6 +120,7 @@ S.InnerBox = styled.div`
 S.IconWrapper = styled.div`
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	gap: 10px;
 	&:hover {
 		color: #009d91;
