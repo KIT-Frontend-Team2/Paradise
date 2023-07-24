@@ -2,7 +2,11 @@ import { Chip } from '@mui/material'
 import PropTypes from 'prop-types'
 
 export const MChip = ({ ...args }) => {
-	return <Chip {...args} label={`# ${args.label}`} />
+	return (
+		<>
+			<Chip {...args} label={`# ${args.label}`} />
+		</>
+	)
 }
 
 MChip.propTypes = {
