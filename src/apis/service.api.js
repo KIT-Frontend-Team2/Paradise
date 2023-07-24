@@ -31,15 +31,44 @@ export const service = {
 		}
 	},
 
-	async getSearchKeyWord(keyWord, page) {
+	async getSearchKeyWord(keyword, page) {
 		try {
-			return await axios.get(API_KEY.SEARCH + '/' + keyWord, {
+			return await axios.get(API_KEY.SEARCH, {
 				params: {
+					keyword,
 					page,
 				},
 			})
 		} catch (err) {
 			throw new Error(err)
 		}
+	},
+
+	registerProduct() {
+		console.log('상품을 등록합니다.')
+	},
+
+	wishAdd(id) {
+		console.log(id + ' 상품을 좋아요 또는 취소 요청을 보냅니다.')
+	},
+
+	deleteProduct(productId) {
+		console.log(productId + ' 상품을 삭제합니다')
+	},
+
+	completeProduct(productId) {
+		console.log(productId + ' 상품의 상태를 판매완료로 변경합니다.')
+	},
+
+	getRecentProduct() {
+		console.log('최근에 본 상품을 조회합니다.')
+	},
+
+	addRecentProduct(productId) {
+		console.log(productId + ' 상품을 최근에 본 상품을 추가합니다.')
+	},
+
+	deleteRecentProduct(productId) {
+		console.log(productId + ' 상품을 최근에 본 상품에서 제거합니다.')
 	},
 }
