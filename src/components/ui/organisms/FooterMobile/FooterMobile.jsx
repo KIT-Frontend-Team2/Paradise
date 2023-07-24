@@ -3,28 +3,50 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import SearchIcon from '@mui/icons-material/Search'
-import { Box } from '@mui/material'
+import { useState } from 'react'
 import styled from 'styled-components'
 
 const FooterMobile = () => {
+	const footer = [
+		{
+			icon: <HomeIcon />,
+			label: '홈',
+		},
+		{
+			icon: <SearchIcon />,
+			label: '검색',
+		},
+		{
+			icon: <AddCircleIcon />,
+			label: '등록',
+		},
+		{
+			icon: <ChatBubbleOutlineIcon />,
+			label: '채팅',
+		},
+		{
+			icon: <PersonIcon />,
+			label: 'MY',
+		},
+	]
+
+	const [selected, setSelected] = useState(0)
+
+	const handleClick = index => {
+		setSelected(index)
+	}
 	return (
 		<S.FooterContainer>
-			<Box>
-				<HomeIcon />
-				<span>홈</span>
-			</Box>
-			<Box>
-				<SearchIcon />
-			</Box>
-			<Box>
-				<AddCircleIcon />
-			</Box>
-			<Box>
-				<ChatBubbleOutlineIcon />
-			</Box>
-			<Box>
-				<PersonIcon />
-			</Box>
+			{footer.map((item, index) => (
+				<S.CustomBox
+					key={index}
+					onClick={() => handleClick(index)}
+					isSelected={index === selected}
+				>
+					{item.icon}
+					<span>{item.label}</span>
+				</S.CustomBox>
+			))}
 		</S.FooterContainer>
 	)
 }
@@ -41,12 +63,21 @@ S.FooterContainer = styled.div`
 	background-color: #ffffff;
 	border-top: 1px solid #e2e2e2;
 
+	@media (min-width: 479px) {
+		display: none;
+	}
+`
+
+S.CustomBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
 	svg {
 		font-size: 1.5rem;
-		/* color: #009d91; */
+		color: ${({ isSelected }) => (isSelected ? '#009d91' : 'inherit')};
 	}
-
-	/* @media (min-width: 768px) {
-		display: none;
-	} */
+	span {
+		margin-top: 4px;
+	}
 `

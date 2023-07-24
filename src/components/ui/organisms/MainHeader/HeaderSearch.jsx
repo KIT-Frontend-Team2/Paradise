@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton } from '@mui/material'
 import { headerMock } from '__mock__/datas/header.mock'
+import useMove from 'hooks/useMovePage'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -12,10 +13,11 @@ import UserInfo from './UserInfo'
 const HeaderSearch = () => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
+	const { linkSearchProduct } = useMove()
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value
-		navigate('/search/' + keyword)
+		linkSearchProduct(keyword)
 		inputRef.current.value = ''
 	}
 	return (

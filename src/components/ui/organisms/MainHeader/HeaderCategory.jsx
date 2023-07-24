@@ -131,7 +131,7 @@ S.DropdownMenu = styled.ul`
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	padding: 8px;
 	border-radius: 5px;
-	z-index: 1;
+	z-index: 10;
 	list-style: none;
 	display: none;
 	top: 10px;

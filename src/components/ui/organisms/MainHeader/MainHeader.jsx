@@ -1,9 +1,6 @@
 import { Box } from '@mui/material'
-import { selectApiTypeAtom } from 'atom/header/atom'
-import { API_KEYWORD } from 'consts/header/apiKeyword'
+import useMove from 'hooks/useMovePage'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -13,13 +10,7 @@ import HeaderScroll from './HeaderScroll'
 import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
-	const setSelectType = useSetRecoilState(selectApiTypeAtom)
-	const navigate = useNavigate()
-
-	const TypeHandling = API_KEY => {
-		setSelectType(API_KEY)
-		navigate(API_KEY)
-	}
+	const { linkMainPage, linkShareList, linkMyPage } = useMove()
 
 	return (
 		<>
@@ -58,7 +49,7 @@ const MainHeader = props => {
 						<HeaderCategory />
 					</Box>
 					<Box
-						onClick={() => TypeHandling(API_KEYWORD.SECONDHAND_DEALS)}
+						onClick={linkMainPage}
 						sx={{
 							width: '100%',
 							display: 'flex',
@@ -71,10 +62,10 @@ const MainHeader = props => {
 							},
 						}}
 					>
-						<span>중고거래</span>
+						<span>메인페이지</span>
 					</Box>
 					<Box
-						onClick={() => TypeHandling(API_KEYWORD.FREE_SHARING)}
+						onClick={linkShareList}
 						sx={{
 							width: '100%',
 							display: 'flex',
@@ -90,7 +81,7 @@ const MainHeader = props => {
 						<span>무료나눔</span>
 					</Box>
 					<Box
-						onClick={() => TypeHandling(API_KEYWORD.POPULAR_PRODUCTS)}
+						onClick={linkMyPage}
 						sx={{
 							width: '100%',
 							display: 'flex',
@@ -103,7 +94,7 @@ const MainHeader = props => {
 							},
 						}}
 					>
-						<span>인기상품</span>
+						<span>마이페이지</span>
 					</Box>
 
 					<S.ParadiseSection>
