@@ -1,0 +1,112 @@
+const chatListMock = {
+	status: 200,
+	message: 'success',
+	data: [
+		{
+			user_status: 'buyer',
+			product_id: '123e4567-e89b-12d3-a456-426614174001',
+			product_name: 'Sample Product',
+			product_price: 15000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: true,
+			last_chat: '안녕하세요, 구매하고 싶습니다!',
+			product_status: '판매 중',
+			last_chat_time: '2023-01-01T12:45:35Z',
+			last_chat_ago: '방금 전',
+		},
+		{
+			user_status: 'buyer',
+			product_id: '123e4567-e89b-12d3-a456-426614174000',
+			product_name: 'Sample Product',
+			product_price: 15000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: true,
+			last_chat: '안녕하세요, 구매하고 싶습니다!',
+			product_status: '판매 중',
+			last_chat_time: '2023-01-01T12:45:35Z',
+			last_chat_ago: '방금 전',
+		},
+		{
+			user_status: 'buyer',
+			product_id: '123e4567-e89b-12d3-a456-426614174002',
+			product_name: 'Sample Product',
+			product_price: 15000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: true,
+			last_chat: '안녕하세요, 구매하고 싶습니다!',
+			product_status: '판매 중',
+			last_chat_time: '2023-01-01T12:45:35Z',
+			last_chat_ago: '방금 전',
+		},
+		{
+			user_status: 'buyer',
+			product_id: '123e4567-e89b-12d3-a456-426614174003',
+			product_name: 'Sample Product',
+			product_price: 15000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: true,
+			last_chat: '안녕하세요, 구매하고 싶습니다!',
+			product_status: '판매 중',
+			last_chat_time: '2023-01-01T12:45:35Z',
+			last_chat_ago: '방금 전',
+		},
+		{
+			user_status: 'seller',
+			product_id: '123e4567-e89b-12d3-a456-426614174011',
+			product_name: 'Another Product',
+			product_price: 21000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: false,
+			last_chat: '네 가능합니다.',
+			product_status: '판매 완료',
+			last_chat_time: '2023-01-01T12:45:02Z',
+			last_chat_ago: '5분 전',
+		},
+		{
+			user_status: 'seller',
+			product_id: '123e4567-e89b-12d3-a456-426614174011',
+			product_name: 'Another Product',
+			product_price: 21000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: false,
+			last_chat: '네 가능합니다.',
+			product_status: '판매 완료',
+			last_chat_time: '2023-01-01T12:45:02Z',
+			last_chat_ago: '5분 전',
+		},
+		{
+			user_status: 'seller',
+			product_id: '123e4567-e89b-12d3-a456-426614174111',
+			product_name: 'Another Product',
+			product_price: 21000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: false,
+			last_chat: '네 가능합니다.',
+			product_status: '판매 완료',
+			last_chat_time: '2023-01-01T12:45:02Z',
+			last_chat_ago: '5분 전',
+		},
+		{
+			user_status: 'seller',
+			product_id: '123e4567-e89b-12d3-a456-426614174211',
+			product_name: 'Another Product',
+			product_price: 21000,
+			product_main_img_url:
+				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+			is_new_chat: false,
+			last_chat: '네 가능합니다.',
+			product_status: '판매 완료',
+			last_chat_time: '2023-01-01T12:45:02Z',
+			last_chat_ago: '5분 전',
+		},
+	],
+}
+
+export default chatListMock
