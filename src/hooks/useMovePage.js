@@ -14,9 +14,9 @@ const useMove = () => {
 
 	const linkMainPage = () => topMove('/')
 
-	const linkSellList = () => topMove(API_KEY.LIST + API_KEY.SELL + '?page=1')
+	const linkSellList = () => topMove(API_KEY.LIST + API_KEY.SELL)
 
-	const linkShareList = () => topMove(API_KEY.LIST + API_KEY.FREE + '?page=1')
+	const linkShareList = () => topMove(API_KEY.LIST + API_KEY.FREE)
 
 	const linkMyPage = () => topMove(API_KEY.MYPAGE)
 
@@ -27,7 +27,7 @@ const useMove = () => {
 		topMove(API_KEY.PRODUCT + API_KEY.DETAIL + `/${productId}`)
 
 	const linkSearchProduct = keyWord =>
-		topMove(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord}}`)
+		topMove(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord.split('/')[0]}`)
 
 	const linkModifyProduct = productId =>
 		topMove(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
@@ -36,7 +36,13 @@ const useMove = () => {
 
 	const linkRegister = () => topMove(API_KEY.PRODUCT + API_KEY.REGISTER)
 
+	const prevPage = () => move(-1)
+  
+	const linkLanding = () => topMove(API_KEY.LANDING)
+
 	return {
+		move,
+		topMove,
 		linkMainPage,
 		linkSellList,
 		linkShareList,
@@ -47,6 +53,8 @@ const useMove = () => {
 		linkModifyProduct,
 		linkAuthPage,
 		linkRegister,
+		prevPage,
+		linkLanding,
 	}
 }
 

@@ -1,10 +1,11 @@
 import React from 'react'
 
-import useLoadApi from '../../hooks/pageQuery/useLoadPage'
+import LoadApi from '../../hooks/pageQuery/useLoadPage'
 import MainPageTemplate from '../templates/MainPageTemplate/MainPageTemplate'
 
 const MainPage = () => {
-	const { data, isError, isLoading } = useLoadApi.MainPage()
+	const { getMainPage } = LoadApi()
+	const { data, isError, isLoading } = getMainPage()
 
 	if (isError) {
 		return <>에러</>

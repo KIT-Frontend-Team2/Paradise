@@ -33,6 +33,7 @@ export default {
 
 const Template = args => (
 	<DeProductSection
+		id={args.id}
 		title={args.title}
 		chatCount={args.chatCount}
 		like={args.like}
@@ -48,6 +49,7 @@ const Template = args => (
 export const Controls = Template.bind({})
 
 Controls.args = {
+	id: '32',
 	title: '바오바오 (링숄더백)',
 	isBuyer: false,
 	chatCount: 2,

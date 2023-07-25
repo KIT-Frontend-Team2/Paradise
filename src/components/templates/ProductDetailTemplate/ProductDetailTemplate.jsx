@@ -35,7 +35,6 @@ const ProductDetailTemplate = ({ productInfo }) => {
 			return `${y / 10000}만원`
 		},
 	}
-
 	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
 
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop
@@ -56,6 +55,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					style={{ boxSizing: 'border-box', padding: '10px' }}
 				>
 					<DeProductSection
+						id={productInfo.product_id}
 						isBuyer={productInfo.isBuyer}
 						chatCount={productInfo.product_chat_count}
 						isLike={productInfo.isLike}
