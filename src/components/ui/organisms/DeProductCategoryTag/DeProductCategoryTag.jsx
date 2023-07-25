@@ -2,20 +2,22 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import useMove from '../../../../hooks/useMovePage'
 import { MChip } from '../../atoms/Chip/MChip'
 import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
 
 const DeProductCategoryTag = ({ category }) => {
-	const onClick = keyWord => {
-		console.log(keyWord, ' 로 검색합니다.')
-	}
-
+	const { linkSearchProduct } = useMove()
 	return (
 		<>
 			<DeSectionTitle title={'태그'} />
 			<S.CategoryBox>
 				{category.map(item => (
-					<MChip key={item} onClick={item => onClick(item)} label={item} />
+					<MChip
+						key={item}
+						onClick={() => linkSearchProduct(item)}
+						label={item}
+					/>
 				))}
 			</S.CategoryBox>
 		</>
@@ -27,9 +29,8 @@ export default DeProductCategoryTag
 const S = {}
 
 S.CategoryBox = styled.div`
-	width: ${({ width }) => width + 'px'};
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	gap: 10px;
 
 	div {

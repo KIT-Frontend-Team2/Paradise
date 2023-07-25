@@ -1,19 +1,10 @@
-import { ThemeProvider } from 'styled-components'
-
-import theme from '../../../../styles/theme'
 import ProductCard from './ProductCard'
 
 export default {
 	title: 'Molecules/ProductCard',
 	tags: ['autodocs'],
 	component: ProductCard,
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
+	decorators: [Story => <Story />],
 	argTypes: {
 		size: { control: { type: 'number' } },
 		id: { control: 'text' },
@@ -26,6 +17,12 @@ export default {
 		price: { control: { type: 'number' } },
 		like: { control: { type: 'number' } },
 		chat_count: { control: { type: 'number' } },
+		state: {
+			control: {
+				type: 'select',
+			},
+			options: ['판매중', '판매완료'],
+		},
 	},
 }
 
@@ -42,6 +39,7 @@ const Template = args => (
 		id={args.id}
 		chat_count={args.chat_count}
 		place={args.place}
+		state={args.state}
 	/>
 )
 
@@ -50,6 +48,7 @@ export const Controls = Template.bind({})
 Controls.args = {
 	size: 200,
 	id: '3asd4',
+	state: '판매중',
 	name: '스타벅스 기프티콘',
 	content: '한 번만 쓴 기프티콘 판매합니다 스타벅스 아메리카노',
 	place: '천호동',
