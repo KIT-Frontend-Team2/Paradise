@@ -1,6 +1,4 @@
 import ChatIcon from '@mui/icons-material/Chat'
-import { ThemeProvider } from 'styled-components'
-import theme from 'styles/theme'
 
 import Button from './Button'
 
@@ -8,13 +6,7 @@ export default {
 	title: 'Atom/Button',
 	tags: ['autodocs'],
 	component: Button,
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
+	decorators: [Story => <Story />],
 	argTypes: {
 		button: { control: { type: 'text' } },
 		size: {

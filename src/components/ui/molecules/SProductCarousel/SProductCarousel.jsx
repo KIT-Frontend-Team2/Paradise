@@ -45,19 +45,19 @@ const SProductCarousel = ({ products }) => {
 				navigation={false}
 				modules={[Navigation]}
 				breakpoints={{
-					640: {
+					460: {
 						slidesPerView: 2,
 						spaceBetween: 20,
 					},
-					768: {
+					650: {
 						slidesPerView: 3,
 						spaceBetween: 20,
 					},
-					900: {
+					959: {
 						slidesPerView: 4,
 						spaceBetween: 20,
 					},
-					1100: {
+					1200: {
 						slidesPerView: 5,
 						spaceBetween: 20,
 					},
@@ -65,7 +65,7 @@ const SProductCarousel = ({ products }) => {
 				className="mySwiper"
 				ref={swiperRef}
 			>
-				{products.map((product) => (
+				{products.map(product => (
 					<SwiperSlide key={product.product_id}>
 						<ProductCard
 							size={200}

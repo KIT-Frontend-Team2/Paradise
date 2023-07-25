@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import cssToken from '../../../../styles/cssToken'
-import timeHelper from '../../../../utils/time-helper'
 import Button from '../../atoms/Button/Button'
 import UpdateButton from '../../atoms/Button/UpdateButton'
 import WishButton from '../../atoms/Button/WishButton'
 import LineBar from '../../atoms/Linebar/LineBar'
 import MTooltip from '../../atoms/Tooltip/MTooltip'
+import DeProductTitle from '../../molecules/DeProductTitle/DeProductTitle'
 
 const DeProductSection = ({
 	isLike,
@@ -18,52 +17,58 @@ const DeProductSection = ({
 	like,
 	chatCount,
 	price,
+	state,
 	isBuyer,
 	productInfo,
+	containerWidth,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(false | isLike)
 	const onClick = () => {
 		setIsLikeState(prev => !prev)
 	}
+
 	return (
 		<>
-			<S.ProductTitle>{title}</S.ProductTitle>
-			<S.ProductTitleBox>
-				<S.ProductCreateAt>{timeHelper(time)}</S.ProductCreateAt>
-				<S.ProductCountInfo>
-					{'관심 ' + like + ' 채팅 ' + chatCount}
-				</S.ProductCountInfo>
-			</S.ProductTitleBox>
-			<S.ProductFlexBox>
+			<DeProductTitle
+				title={title}
+				time={time}
+				like={like}
+				chatCount={chatCount}
+			/>
+			<S.ProductFlexBox size={containerWidth}>
 				<S.ProductPrice>
 					<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
 					{'원'}
 				</S.ProductPrice>
-				<S.ProductButtons>
-					{!isBuyer ? (
-						<WishButton
-							onClick={onClick}
-							variant={isLikeState ? 'wish' : 'wish-on'}
-						/>
-					) : (
-						<MTooltip title={'상품의 수정 페이지로 이동'} placement={'top'}>
-							<UpdateButton
-								onClick={() => console.log('업데이트 페이지로이동')}
+				{state === '판매중' ? (
+					<S.ProductButtons>
+						{!isBuyer ? (
+							<WishButton
+								onClick={onClick}
+								variant={isLikeState ? 'wish' : 'wish-on'}
+							/>
+						) : (
+							<MTooltip title={'상품의 수정 페이지로 이동'} placement={'top'}>
+								<UpdateButton
+									onClick={() => console.log('업데이트 페이지로이동')}
+								/>
+							</MTooltip>
+						)}
+						<MTooltip
+							title={!isBuyer ? '판매자와 채팅하기' : '채팅목록 확인하기'}
+							placement={'top'}
+						>
+							<Button
+								size={'medium'}
+								variant={'primary'}
+								starticon={<ChatIcon fontSize="small" />}
+								label={!isBuyer ? '채팅하기' : '채팅목록'}
 							/>
 						</MTooltip>
-					)}
-					<MTooltip
-						title={!isBuyer ? '판매자와 채팅하기' : '채팅목록 확인하기'}
-						placement={'top'}
-					>
-						<Button
-							size={'medium'}
-							variant={'primary'}
-							starticon={<ChatIcon fontSize="small" />}
-							label={!isBuyer ? '채팅하기' : '채팅목록'}
-						/>
-					</MTooltip>
-				</S.ProductButtons>
+					</S.ProductButtons>
+				) : (
+					<Button disabled label="거래완료" />
+				)}
 			</S.ProductFlexBox>
 			<LineBar />
 			<S.ProductInfo>{productInfo}</S.ProductInfo>
@@ -75,28 +80,8 @@ export default DeProductSection
 
 const S = {}
 
-S.ProductTitle = styled.div`
-	color: ${({ theme }) => theme.PALETTE.black};
-	font-size: ${cssToken.TEXT_SIZE['text-24']};
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-	margin-bottom: 4px;
-`
-
-S.ProductTitleBox = styled.div`
-	display: flex;
-	justify-content: space-between;
-	font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
-	color: ${({ theme }) => theme.PALETTE.gray[700]};
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.regular};
-	margin-bottom: 10px;
-`
-
-S.ProductCreateAt = styled.span``
-
-S.ProductCountInfo = styled.span``
-
 S.ProductFlexBox = styled.div`
-	display: flex;
+	display: ${({ size }) => (size > 400 ? 'flex' : 'block')};
 	justify-content: space-between;
 	margin-bottom: 10px;
 `
@@ -138,6 +123,10 @@ DeProductSection.propTypes = {
 	 * 해당 상품을 좋아요 했는지 안했는지 알려주세요
 	 */
 	isLike: PropTypes.bool.isRequired,
+	/**
+	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
+	 */
+	state: PropTypes.string.isRequired,
 	/**
 	 * 해당 상품 채팅 채널의 열린 채팅방 수를 알려주세요
 	 */

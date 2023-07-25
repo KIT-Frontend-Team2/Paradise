@@ -1,19 +1,10 @@
-import { ThemeProvider } from 'styled-components'
-import theme from 'styles/theme'
-
 import WishButton from './WishButton'
 
 export default {
 	title: 'Atom/WishButton',
 	tags: ['autodocs'],
 	component: WishButton,
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
+	decorators: [Story => <Story />],
 	argTypes: {
 		onClick: { action: '클릭' },
 	},

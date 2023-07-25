@@ -6,30 +6,35 @@ const detailPageMock = {
 		isLike: false, // 상품을 좋아요 했는지 안했는지
 		is_free_product: false, // 상품이 나눔 여부인지
 		product_id: 715, // 상품의 아이디
-		product_name: '바오바오 (링숄더백)', // 상품의 이름
+		product_title: '바오바오 (링숄더백)', // 상품의 이름
 		product_price: 115000, // 상품의 가격
 		product_place: '서울시 강남구 역삼동', // 상품이 올라온 장소
-		product_coordinate: [37.50011480738251, 127.03674852807775], // 상품의 위도 경도
+		product_state: '판매중', // 상품의 상태
 		product_imgs: [
 			{
 				id: '1',
-				img: 'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
 			},
 			{
 				id: '2',
-				img: 'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
 			},
 			{
 				id: '3',
-				img: 'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
 			},
 			{
 				id: '4',
-				img: 'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
 			},
 			{
 				id: '5',
-				img: 'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
+				img_url:
+					'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
 			},
 		],
 		product_content:
@@ -38,7 +43,15 @@ const detailPageMock = {
 		product_update_at: '2023-04-14T13:59:49.690Z', // 상품을 업데이트한 시간
 		product_like: 2, // 상품의 좋아요 갯수
 		product_chat_count: 5, // 상품의 채팅 갯수
-		product_tag: ['의류 / 신발', '바오바오', '중고', '한번만씀'],
+		product_tag: [
+			'의류 / 신발',
+			'바오바오',
+			'중고',
+			'한번만씀',
+			'바오바오',
+			'중고',
+			'한번만씀',
+		],
 		seller_info: {
 			user_id: 'nature', // 상품을 게시한 사람의 아이디
 			user_nick_name: '네이쳐', // 판매자의 닉네임

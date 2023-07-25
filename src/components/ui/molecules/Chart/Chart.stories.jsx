@@ -13,10 +13,7 @@ const Template = args => (
 export const Controls = Template.bind({})
 
 Controls.args = {
-	size: {
-		width: 400,
-		height: 300,
-	},
+	size: 600,
 	chartData: {
 		data: [
 			{

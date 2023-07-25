@@ -1,20 +1,19 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
 
-const DeUserProductButton = ({ productCount, userId }) => {
+const DeUserProductButton = ({ width, productCount, userId }) => {
 	if (productCount <= 6) return null
 	productCount -= 6
 
-	const onClick = () => {
-		console.log(userId + '의 상품목록을 조회합니다.')
-	}
+	const { linkUserProduct } = useMove()
 
 	return (
-		<S.ButtonBox>
+		<S.ButtonBox width={width}>
 			<Button
-				onClick={onClick}
+				onClick={() => linkUserProduct(userId)}
 				label={`${productCount}개 더보기`}
 				size={'full'}
 			/>
@@ -38,7 +37,7 @@ DeUserProductButton.propTypes = {
 const S = {}
 
 S.ButtonBox = styled.div`
-	width: 540px;
+	width: ${({ width }) => width}px;
 	> button {
 		border: 1px solid #36bac6;
 		background-color: #36bac6;
