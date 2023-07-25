@@ -1,28 +1,40 @@
-import ProductMap from 'components/ui/molecules/Map/ProductMap'
-import SearchMap from 'components/ui/molecules/Map/SearchMap'
-import React from 'react'
-import styled from 'styled-components'
 
-const MyPage = props => {
+import { myMenuAtom } from 'atom/mypage/atom'
+import Container from 'components/layout/Container'
+import MyContent from 'components/templates/MyPageTemplate/MyContent'
+import MyHeader from 'components/ui/organisms/MyHeader/MyHeader'
+import MyMenu from 'components/ui/organisms/MyMenu/MyMenu'
+import React from 'react'
+import { useRecoilState } from 'recoil'
+import { styled } from 'styled-components'
+
+const MyPage = () => {
+	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
+
 	return (
-		<Wrrapper>
-			<ConTainer>
-				<ProductMap formAddress="서울시 강남구 역삼동 " />
-			</ConTainer>
-			<SearchMap />
-		</Wrrapper>
+		<>
+			<MyHeader />
+			<Container>
+				<S.Wrapper>
+					<MyMenu />
+					<S.ContentWrap>
+						<MyContent />
+					</S.ContentWrap>
+				</S.Wrapper>
+			</Container>
+		</>
 	)
 }
 export default MyPage
 
-const Wrrapper = styled.div`
-	height: 1500px;
+const S = {}
+
+S.Wrapper = styled.div`
+	display: flex;
+	gap: 50px;
+	min-height: 100vh;
 `
 
-const ConTainer = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	width: 800px;
-	height: 300px;
-	margin-bottom: 20px;
+S.ContentWrap = styled.div`
+	flex: 1;
 `

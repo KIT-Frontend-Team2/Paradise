@@ -1,4 +1,5 @@
 import { isLoggedInAtom } from 'atom/header/atom'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -6,6 +7,7 @@ import { flexCenter } from 'styles/common'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
+	const { isTablet } = useDevice()
 	const navigate = useNavigate()
 	const handleLogin = e => {
 		e.preventDefault()
@@ -27,7 +29,7 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
-					<S.UserLoginContent>
+					<S.UserLoginContent isTablet={isTablet}>
 						<Link
 							to="/mypage"
 							onClick={e => {
@@ -81,11 +83,14 @@ S.UserLoginContent = styled.div`
 	a {
 		color: #000;
 		text-decoration: none;
+		max-width: 100px;
+		white-space: nowrap;
+		font-size: 14px;
 	}
 
 	span {
 		color: #999;
-		margin: 0 20px;
+		margin: ${({ isTablet }) => (isTablet ? '0 4px' : '0 20px')};
 		font-size: 20px;
 	}
 `
@@ -96,8 +101,8 @@ S.UserImageBox = styled.div`
 `
 
 S.UserImage = styled.img`
-	width: 36px;
-	height: 36px;
+	width: 32px;
+	height: 32px;
 	border-radius: 50%;
 	margin-bottom: 8px;
 	cursor: pointer;
