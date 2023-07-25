@@ -1,11 +1,10 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { Box } from '@mui/material'
 import { headerMock } from '__mock__/datas/header.mock'
-import { selectApiTypeAtom } from 'atom/header/atom'
-import { API_KEYWORD } from 'consts/header/apiKeyword'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
+import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -14,13 +13,11 @@ import UserInfo from './UserInfo'
 
 const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
-	const setSelectType = useSetRecoilState(selectApiTypeAtom)
+	const { linkMainPage, linkShareList, linkMyPage } = useMove()
 	const navigate = useNavigate()
+	const { isTablet } = useDevice()
 	const inputRef = useRef(null)
-	const TypeHandling = API_KEY => {
-		setSelectType(API_KEY)
-		navigate(API_KEY)
-	}
+
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value
@@ -50,7 +47,8 @@ const HeaderScroll = () => {
 				top: 0,
 				left: '50%',
 				transform: 'translateX(-50%)',
-				width: '1100px',
+				maxWidth: '1100px',
+				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
 				padding: '16px',
@@ -59,30 +57,26 @@ const HeaderScroll = () => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				zIndex: 30,
+				// boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 			}}
 		>
 			<S.Container>
 				<Box
+					isTablet={isTablet}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: 'center',
-						gap: '40px',
-						fontSize: '18px',
-						flex: 1,
+						justifyContent: isTablet ? 'flex-start' : 'center',
+						gap: isTablet ? '10px' : '36px',
+						fontSize: isTablet ? '14px' : '18px',
+						width: '100%',
 					}}
 				>
 					<HeaderCategory />
 
-					<span onClick={() => TypeHandling(API_KEYWORD.SECONDHAND_DEALS)}>
-						중고거래
-					</span>
-					<span onClick={() => TypeHandling(API_KEYWORD.FREE_SHARING)}>
-						무료나눔
-					</span>
-					<span onClick={() => TypeHandling(API_KEYWORD.POPULAR_PRODUCTS)}>
-						인기상품
-					</span>
+					<span onClick={linkMainPage}>메인페이지</span>
+					<span onClick={linkShareList}>무료나눔</span>
+					<span onClick={linkMyPage}>마이페이지</span>
 				</Box>
 				<S.UserSearchContainer onSubmit={searchKeyword}>
 					<S.SearchBox>
@@ -133,7 +127,7 @@ S.Container = styled.div`
 S.UserSearchContainer = styled.form`
 	display: flex;
 	align-items: center;
-	margin: 0 60px;
+	margin: 0 32px;
 `
 
 S.SearchBox = styled.div`
@@ -159,7 +153,7 @@ S.SearchBar = styled.input`
 	}
 `
 S.UserInfoContainer = styled.div`
-	margin-left: 48px;
+	margin-left: 24px;
 	display: flex;
 	align-items: center;
 `
