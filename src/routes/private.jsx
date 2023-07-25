@@ -1,10 +1,11 @@
 import useMove from 'hooks/useMovePage'
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
+import TokenRepository from 'repositories/TokenRepository'
 
 const PrivateRoute = () => {
 	// localStorage.setItem('accessToken', 'test')
-	const accessToken = localStorage.getItem('accessToken')
+	const accessToken = TokenRepository.getToken()
 	const { linkLanding } = useMove()
 
 	useEffect(() => {
