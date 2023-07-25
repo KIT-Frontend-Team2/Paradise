@@ -12,6 +12,7 @@ export const PALETTE = {
 	background: {
 		white: '#ffffff',
 		black: '#333333',
+		babyMint: '#f8ffff',
 	},
 	error: '#F00',
 	gray: {

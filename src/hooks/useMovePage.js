@@ -36,6 +36,8 @@ const useMove = () => {
 
 	const linkRegister = () => topMove(API_KEY.PRODUCT + API_KEY.REGISTER)
 
+	const linkLanding = () => topMove(API_KEY.LANDING)
+
 	return {
 		linkMainPage,
 		linkSellList,
@@ -47,6 +49,7 @@ const useMove = () => {
 		linkModifyProduct,
 		linkAuthPage,
 		linkRegister,
+		linkLanding,
 	}
 }
 
