@@ -1,7 +1,7 @@
-import { service } from 'apis/service.api'
 import API_KEY from 'consts/ApiKey'
 import { useQuery } from 'react-query'
 
+import { getPageApi } from '../../apis/service/page.api'
 import { queryConfig } from './@config'
 
 const LoadApi = () => {
@@ -10,7 +10,7 @@ const LoadApi = () => {
 		getProductList,
 		getMainProductList,
 		getDetailProduct,
-	} = service()
+	} = getPageApi()
 
 	const getMainPage = () => {
 		const { data, isLoading, isError } = useQuery(
