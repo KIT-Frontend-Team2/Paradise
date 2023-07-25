@@ -44,7 +44,7 @@ const detailPageMock = {
 		product_like: 2, // 상품의 좋아요 갯수
 		product_chat_count: 5, // 상품의 채팅 갯수
 		product_tag: [
-			'의류 / 신발',
+			'의류/신발',
 			'바오바오',
 			'중고',
 			'한번만씀',
