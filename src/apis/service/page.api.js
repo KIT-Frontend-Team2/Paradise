@@ -1,6 +1,6 @@
 import axios from 'axios'
-import API_KEY from '../../consts/ApiKey'
 
+import API_KEY from '../../consts/ApiKey'
 
 export const getPageApi = () => {
 	const getDetailProduct = async productId => {
