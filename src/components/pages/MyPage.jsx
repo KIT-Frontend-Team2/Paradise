@@ -3,7 +3,6 @@ import SearchMap from 'components/ui/molecules/Map/SearchMap'
 import React from 'react'
 import styled from 'styled-components'
 
-
 const MyPage = props => {
 	return (
 		<Wrrapper>
