@@ -20,75 +20,58 @@ const useViewListApi = {
 	},
 
 	usePostViewList: productId => {
-		const { mutate, isError, isLoading } = useMutation({
-			mutationFn: viewListAxios.postRecentProduct(productId),
-			mutationKey: [API_KEY.VIEWLIST, productId],
-			useErrorBoundary: false,
-			retry: 2,
-			meta: false,
-			onMutate: async newProduct => {
-				await queryClient.cancelQueries({ queryKey: [API_KEY.VIEWLIST] })
-				console.log(productId, '추가요청 보냄')
-				const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
-				queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
-					if (
-						prev.data.products.filter(product => product.id === newProduct.id)
-							.length > 0
-					) {
-						return prev
-					} else {
-						const prevProduct = { ...prev }
-						prevProduct.data.products = [
-							newProduct,
-							...prevProduct.data.products,
-						]
-						if (prevProduct.data.products.length > 5) {
-							prevProduct.data.products.length = 5
+		const { mutate } = useMutation(
+			() => viewListAxios.postRecentProduct(productId),
+			{
+				onMutate: async newProduct => {
+					await queryClient.cancelQueries({ queryKey: [API_KEY.VIEWLIST] })
+					const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
+					queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
+						if (
+							prev.data.products.filter(product => product.id === newProduct.id)
+								.length > 0
+						) {
+							return prev
+						} else {
+							const prevProduct = { ...prev }
+							prevProduct.data.products = [
+								newProduct,
+								...prevProduct.data.products,
+							]
+							if (prevProduct.data.products.length > 5) {
+								prevProduct.data.products.length = 5
+							}
+							return prevProduct
 						}
-						return prevProduct
-					}
-				})
-
-				return { previousProduct }
+					})
+					return { previousProduct }
+				},
 			},
-			onError: (err, newProduct, context) => {
-				queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
-			},
-			onSettled: () => {
-				// queryClient.invalidateQueries({queryKey: [API_KEY.VIEWLIST]})
-			},
-		})
-		return { mutate, isError, isLoading }
+		)
+		return { mutate }
 	},
 
 	useDeleteViewList: productId => {
-		const { mutate, isLoading, isError } = useMutation({
-			mutationFn: viewListAxios.deleteRecentProduct(productId),
-			mutationKey: [API_KEY.VIEWLIST, productId],
-			useErrorBoundary: false,
-			retry: 2,
-			meta: false,
-			onMutate: async deleteId => {
-				await queryClient.cancelQueries({ queryKey: [API_KEY.VIEWLIST] })
-				console.log(productId, '삭제 보냄')
-				const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
-				queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
-					const newProduct = { ...prev }
-					newProduct.data.products = newProduct.data.products.filter(
-						product => product.id !== deleteId,
-					)
-					return newProduct
-				})
-				return { previousProduct }
+		const { mutate } = useMutation(
+			() => viewListAxios.deleteRecentProduct(productId),
+			{
+				onMutate: async deleteId => {
+					await queryClient.cancelQueries({ queryKey: [API_KEY.VIEWLIST] })
+					console.log(productId, '삭제 보냄')
+					const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
+					queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
+						const newProduct = { ...prev }
+						newProduct.data.products = newProduct.data.products.filter(
+							product => product.id !== deleteId,
+						)
+						return newProduct
+					})
+					return { previousProduct }
+				},
 			},
-			onError: (err, deleteId, context) => {
-				queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
-			},
-			onSettled: () => {
-				// queryClient.invalidateQueries({queryKey: [API_KEY.VIEWLIST]})
-			},
-		})
-		return { mutate, isError, isLoading }
+		)
+
+		return { mutate }
 	},
 }
 

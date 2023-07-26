@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
@@ -43,7 +43,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		img: productInfo.product_imgs[0].img_url,
 	}
 
-	const { mutate } = useViewListApi.usePostViewList(productInfo.product_id)
+	const { mutate } = useViewListApi.usePostViewList(viewList.id)
 
 	useEffect(() => {
 		mutate(viewList)
