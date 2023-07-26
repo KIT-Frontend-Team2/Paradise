@@ -20,7 +20,7 @@ const ProductCard = ({
 	time,
 	like,
 	chat_count,
-	state,
+	state = '판매중',
 	price,
 }) => {
 	const [likeState, setLikeState] = useState(isLike | false)
