@@ -86,8 +86,8 @@ const HeaderCategory = () => {
 					카테고리
 				</S.IconWrapper>
 				<S.DropdownMenu>
-					{categories.map(category => (
-						<li>
+					{categories.map((category, index) => (
+						<li key={index}>
 							<Link
 								to={`/?category=${category.path}`}
 								style={{ textDecoration: 'none', color: 'inherit' }}

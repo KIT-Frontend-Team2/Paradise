@@ -34,7 +34,10 @@ const ChatProductCard = () => {
 					<S.ProductPrice>{chat.product_price.toLocaleString()}</S.ProductPrice>
 					{'원'}
 				</div>
-				<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
+				<div>
+					<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
+					<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
+				</div>
 			</S.ProductInfo>
 		</S.Container>
 	)
@@ -48,7 +51,7 @@ S.Container = styled.div`
 	position: fixed;
 	display: flex;
 	align-items: center;
-	width: 450px;
+	width: 550px;
 	height: 100px;
 	border: 1px solid #dddddd;
 	border-radius: 6px;

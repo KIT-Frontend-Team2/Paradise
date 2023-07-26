@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import ChatHeader from './ChatHeader'
+import ChatInput from './ChatInput'
 import ChatProductCard from './ChatProductCard'
 
 const Chat = () => {
@@ -13,9 +14,9 @@ const Chat = () => {
 				{/* Chat Product Card 
         구매자일 경우 - 상품 보러가기(클릭시 해당 상품 상세 페이지로 이동), 판매자일 경우 - 예약하기(클릭시 예약중으로 변경), 판매완료(클릭시 해당 상품 판매완료 상태 등록) 
         상품 사진, '판매상태'상품명, 가격 */}
-				<S.ChatProductCardContainer>
+				<S.ChatProductCardContent>
 					<ChatProductCard />
-				</S.ChatProductCardContainer>
+				</S.ChatProductCardContent>
 			</div>
 			<div>
 				{/* Chat Message 
@@ -27,10 +28,11 @@ const Chat = () => {
         판매자에게만 보이는 화면, 해당 채팅 클릭시 selected 효과, 
         구매자 프로필, 구매자 닉네임, 마지막 채팅, 마지막 채팅 시간, 읽지 않은 채팅일 경우 점 뜨게끔*/}
 			</div>
-			<div>
+			<S.ChatInputContent>
 				{/* Chat Input 
         채팅 인풋 박스*/}
-			</div>
+				<ChatInput />
+			</S.ChatInputContent>
 			<S.ChatListContent>
 				{/* Chat List 
         구매자에게만 보임? 
@@ -49,13 +51,15 @@ S.ChatContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: fixed;
-	right: 0;
+	right: 16px;
 	bottom: 0;
-	width: 500px;
-	height: 600px;
+	width: 600px;
+	height: 700px;
+
 	background-color: white;
 	border: 1px solid #eaeaea;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	z-index: 999;
 `
 
 S.ChatListContent = styled.div`
@@ -65,8 +69,14 @@ S.ChatListContent = styled.div`
 	overflow-y: auto; // 스크롤 기능 추가
 `
 
-S.ChatProductCardContainer = styled.div`
+S.ChatProductCardContent = styled.div`
 	display: flex;
 	justify-content: center;
 	margin-top: 10px;
+`
+
+S.ChatInputContent = styled.div`
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 `

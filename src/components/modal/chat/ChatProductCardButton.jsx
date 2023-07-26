@@ -17,6 +17,7 @@ S.Button = styled.button`
 	padding: 8px 16px;
 	font-size: 16px;
 	border-radius: 4px;
+	margin-right: 10px;
 	cursor: pointer;
 	transition: background-color 0.3s, color 0.3s;
 
