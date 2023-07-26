@@ -47,7 +47,6 @@ const HeaderScroll = () => {
 				top: 0,
 				left: '50%',
 				transform: 'translateX(-50%)',
-				maxWidth: '1100px',
 				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
