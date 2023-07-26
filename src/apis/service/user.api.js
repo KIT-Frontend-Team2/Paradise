@@ -1,3 +1,6 @@
+import axios from 'axios'
+import API_KEY from 'consts/ApiKey'
+
 const userService = () => {
 	const signUp = userInfo => {
 		console.log(userInfo, '다음 정보로 회원가입을 진행합니다.')
@@ -27,8 +30,12 @@ const userService = () => {
 		console.log('로그인한 유저의 정보를 조회합니다.')
 	}
 
-	const getMyPage = () => {
-		console.log('로그인한 유저의 마이페이지를 조회합니다.')
+	const getMyPage = async () => {
+		try {
+			return await axios.get(API_KEY.MYPAGE)
+		} catch (err) {
+			throw new Error(err)
+		}
 	}
 
 	const changeUserInfo = UserInfo => {

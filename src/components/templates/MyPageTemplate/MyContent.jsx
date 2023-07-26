@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil'
 
 import MyAccountTemplate from './MyAccountTemplate'
 import MyCashTemplate from './MyCashTemplate'
+import MyProfileTemplate from './MyProfileTemplate'
 import MyRecentTemplate from './MyRecentTemplate'
 import MySellTemplate from './MySellTemplate'
 import MyWishTemplate from './MyWishTemplate'
@@ -21,6 +22,8 @@ const MyContent = () => {
 			return <MyCashTemplate />
 		case 'account':
 			return <MyAccountTemplate />
+		case 'profile':
+			return <MyProfileTemplate />
 		default:
 			return <div>:)</div>
 	}

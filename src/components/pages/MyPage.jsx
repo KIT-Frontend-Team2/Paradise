@@ -1,16 +1,11 @@
-
-import { myMenuAtom } from 'atom/mypage/atom'
 import Container from 'components/layout/Container'
 import MyContent from 'components/templates/MyPageTemplate/MyContent'
 import MyHeader from 'components/ui/organisms/MyHeader/MyHeader'
 import MyMenu from 'components/ui/organisms/MyMenu/MyMenu'
 import React from 'react'
-import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyPage = () => {
-	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
-
 	return (
 		<>
 			<MyHeader />
