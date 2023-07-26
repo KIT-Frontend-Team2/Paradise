@@ -37,7 +37,7 @@ const useMove = () => {
 	const linkRegister = () => topMove(API_KEY.PRODUCT + API_KEY.REGISTER)
 
 	const prevPage = () => move(-1)
-  
+
 	const linkLanding = () => topMove(API_KEY.LANDING)
 
 	return {
