@@ -1,31 +1,23 @@
 import axios from 'axios'
 
-const viewListService = () => {
-	const getRecentProduct = async () => {
-		try {
-			return await axios.get('/product/viewed-list')
-		} catch (err) {
-			throw new Error(err)
-		}
-	}
+import API_KEY from '../../consts/ApiKey'
 
-	const postRecentProduct = async productId => {
-		try {
-			return await axios.post(`/product/viewed-list/${productId}`)
-		} catch (err) {
-			throw new Error(err)
-		}
-	}
+const viewListAxios = {
+	getRecentProduct: async () => {
+		return await axios.get(API_KEY.PRODUCT + API_KEY.VIEWLIST)
+	},
 
-	const deleteRecentProduct = async productId => {
-		try {
-			return await axios.delete(`/product/viewed-list/${productId}`)
-		} catch (err) {
-			throw new Error(err)
-		}
-	}
+	postRecentProduct: async productId => {
+		return await axios.post(
+			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
+		)
+	},
 
-	return { getRecentProduct, postRecentProduct, deleteRecentProduct }
+	deleteRecentProduct: async productId => {
+		return await axios.delete(
+			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
+		)
+	},
 }
 
-export default viewListService
+export default viewListAxios
