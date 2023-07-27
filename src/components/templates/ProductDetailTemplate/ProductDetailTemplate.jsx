@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
-import useViewListApi from '../../../hooks/service/useViewList'
+import useViewListApi from '../../../hooks/service/useViewList.service'
 import ErrorBoundary from '../../error/ErrorBoundary'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
@@ -38,15 +39,15 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
-	const viewList = {
-		id: productInfo.product_id,
-		img: productInfo.product_imgs[0].img_url,
-	}
-
-	const { mutate } = useViewListApi.usePostViewList(viewList.id)
+	const { mutate: postMutate } = useViewListApi.usePostViewList(
+		productInfo.product_id,
+	)
 
 	useEffect(() => {
-		mutate(viewList)
+		postMutate({
+			id: productInfo.product_id,
+			img: productInfo.product_imgs[0].img_url,
+		})
 	}, [])
 
 	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
@@ -55,7 +56,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 	const [containerWidth, widthRef] = useResizeEventGetWidth()
 	return (
 		<Container>
-			<S.FlexBox deskTop={isDesk}>
+			<S.FlexBox desktop={isDesk.toString()}>
 				{isDesk ? (
 					<DeImgSection
 						containerWidth={containerWidth}
@@ -114,6 +115,10 @@ const ProductDetailTemplate = ({ productInfo }) => {
 	)
 }
 
+ProductDetailTemplate.proptype = {
+	productInfo: PropTypes.object.isRequired,
+}
+
 export const S = {}
 
 S.Flex = styled.div`
@@ -122,10 +127,10 @@ S.Flex = styled.div`
 
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;
-	display: ${({ deskTop }) => (deskTop ? 'flex' : 'block')};
+	display: ${({ desktop }) => (desktop === 'true' ? 'flex' : 'block')};
 
 	> div {
-		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
+		width: ${({ desktop }) => (desktop === 'true' ? 50 : 100)}%;
 	}
 `
 
