@@ -1,5 +1,3 @@
-
-
 import Container from 'components/layout/Container'
 import MyContent from 'components/templates/MyPageTemplate/MyContent'
 import MyHeader from 'components/ui/organisms/MyHeader/MyHeader'

@@ -7,7 +7,7 @@ import React from 'react'
 const AuthPage = props => (
 	<div>
 		<SignUp />
-		<Login/> 
+		<Login />
 	</div>
 )
 
