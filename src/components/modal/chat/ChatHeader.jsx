@@ -1,7 +1,8 @@
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import CloseIcon from '@mui/icons-material/Close'
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
 
-const ChatHeader = () => {
+const ChatHeader = ({ layout, setLayout }) => {
 	return (
 		<AppBar
 			sx={{
@@ -14,6 +15,15 @@ const ChatHeader = () => {
 			}}
 		>
 			<Toolbar>
+				{!layout && (
+					<IconButton
+						edge="start"
+						aria-label="back"
+						onClick={() => setLayout(true)}
+					>
+						<ArrowBackIosIcon sx={{ color: '#fff', fontSize: '12px' }} />
+					</IconButton>
+				)}
 				<Typography
 					sx={{
 						fontSize: '1.3rem',

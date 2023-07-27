@@ -1,17 +1,17 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import timeHelper from 'utils/time-helper'
 
-import chatListMock from '../../../__mock__/datas/chatList.mock'
+import { getProductStatusColor } from './ChatProductCard'
 
-const ChatList = () => {
-	const chatLists = chatListMock.data
+const ChatList = ({ messages, handleChatClick }) => {
 	return (
 		<>
-			{chatLists.chatingList
-				.filter(user => user.user_status === 'seller')
+			{messages
+				// .filter(message => message.user_status === 'seller')
 				.map(item => (
 					<S.ChatListContainer
 						key={item.product_id}
-						onClick={() => setSelectedItem(item)}
+						onClick={() => handleChatClick(item)}
 					>
 						<S.ImageWrapper>
 							<S.Image
@@ -22,23 +22,15 @@ const ChatList = () => {
 						<S.InfoWrapper>
 							<S.TitleWrapper>
 								<S.ProductStatus
-									color={
-										item.product_status === '판매 중' ||
-										item.product_status === '예약 중' ||
-										item.product_status === '나눔 중'
-											? '#009D91'
-											: item.product_status === '판매 완료' ||
-											  item.product_status === '나눔 완료'
-											? '#F2714F'
-											: ''
-									}
+									color={getProductStatusColor(item.product_status)}
 								>
 									{item.product_status}
 								</S.ProductStatus>
 								<S.ProductName>{item.product_name}</S.ProductName>
-								<S.LastChatAgo>{item.last_chat_ago}</S.LastChatAgo>
+								<S.LastChatAgo>{timeHelper(item.createdAt)}</S.LastChatAgo>
 							</S.TitleWrapper>
-							<S.LastChat>{item.last_chat}</S.LastChat>
+							{item.text && item.image && <S.LastChat>[이미지]</S.LastChat>}
+							{item.text && <S.LastChat>{item.text}</S.LastChat>}
 							<S.ProductPrice>
 								{item.product_price.toLocaleString()}원
 							</S.ProductPrice>
@@ -78,7 +70,11 @@ S.Image = styled.img`
 `
 
 S.ProductStatus = styled.span`
-	color: ${props => props.color};
+	${props =>
+		props.color &&
+		css`
+			color: ${props.color};
+		`}
 
 	margin-right: 8px;
 `
@@ -96,7 +92,6 @@ S.TitleWrapper = styled.div`
 
 S.ProductName = styled.span`
 	font-size: 1rem;
-	margin-bottom: 4px;
 `
 
 S.LastChat = styled.p`

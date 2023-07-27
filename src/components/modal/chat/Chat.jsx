@@ -1,44 +1,60 @@
+import chatListMock from '__mock__/datas/chatList.mock'
+import { useState } from 'react'
 import styled from 'styled-components'
 
 import ChatHeader from './ChatHeader'
-import ChatInput from './ChatInput'
-import ChatProductCard from './ChatProductCard'
+import ChatList from './ChatList'
+import Chating from './Chating'
 
 const Chat = () => {
+	const { users, products, conversations, messages } = chatListMock.data
+
+	const [layout, setLayout] = useState(true)
+
+	const [selectedChat, setSelectedChat] = useState(null)
+
+	const handleChatClick = chatData => {
+		setSelectedChat(chatData)
+		setLayout(false)
+	}
+
+	const messagesWithProductData = messages
+		.map(message => {
+			const product = products.find(
+				product => product.userId === message.senderId,
+			)
+			const user = users.find(user => user.id === message.senderId)
+
+			if (!product || !user) {
+				return null
+			}
+
+			return {
+				...message,
+				user_status: user.user_status,
+				product_id: product.id,
+				product_name: product.title,
+				product_price: product.price,
+				product_main_img_url: product.imageSrc,
+				product_status: product.product_status,
+			}
+		})
+		.filter(message => message) // null 값을 걸러냅니다.
+
 	return (
 		<S.ChatContainer>
-			<div>
-				<ChatHeader />
-			</div>
-			<div>
-				{/* Chat Product Card 
-        구매자일 경우 - 상품 보러가기(클릭시 해당 상품 상세 페이지로 이동), 판매자일 경우 - 예약하기(클릭시 예약중으로 변경), 판매완료(클릭시 해당 상품 판매완료 상태 등록) 
-        상품 사진, '판매상태'상품명, 가격 */}
-				<S.ChatProductCardContent>
-					<ChatProductCard />
-				</S.ChatProductCardContent>
-			</div>
-			<div>
-				{/* Chat Message 
-        채팅 내용
-        구매자 or 판매자 프로필 사진, 텍스트 박스(내용), 채팅 시간, 해당 날짜*/}
-			</div>
-			<div>
-				{/* Chat User List 
-        판매자에게만 보이는 화면, 해당 채팅 클릭시 selected 효과, 
-        구매자 프로필, 구매자 닉네임, 마지막 채팅, 마지막 채팅 시간, 읽지 않은 채팅일 경우 점 뜨게끔*/}
-			</div>
-			<S.ChatInputContent>
-				{/* Chat Input 
-        채팅 인풋 박스*/}
-				<ChatInput />
-			</S.ChatInputContent>
-			<S.ChatListContent>
-				{/* Chat List 
-        구매자에게만 보임? 
-        상품 사진, '판매상태'상품명, 마지막 채팅, 가격, 마지막 채팅 시간, 읽지 않은 채팅일 경우 점 뜨게끔 */}
-				{/* <ChatList /> */}
-			</S.ChatListContent>
+			<ChatHeader layout={layout} setLayout={setLayout} />
+			{!layout ? (
+				<Chating chatData={selectedChat} />
+			) : (
+				<S.ChatListContent>
+					<ChatList
+						messages={messagesWithProductData}
+						setLayout={setLayout}
+						handleChatClick={handleChatClick}
+					/>
+				</S.ChatListContent>
+			)}
 		</S.ChatContainer>
 	)
 }
@@ -67,16 +83,4 @@ S.ChatListContent = styled.div`
 	flex-direction: column;
 	flex-grow: 1;
 	overflow-y: auto; // 스크롤 기능 추가
-`
-
-S.ChatProductCardContent = styled.div`
-	display: flex;
-	justify-content: center;
-	margin-top: 10px;
-`
-
-S.ChatInputContent = styled.div`
-	position: absolute;
-	bottom: 0;
-	width: 100%;
 `

@@ -1,37 +1,42 @@
-import chatListMock from '__mock__/datas/chatList.mock'
 import styled, { css } from 'styled-components'
 
 import ChatProductCardButton from './ChatProductCardButton'
 
-const ChatProductCard = () => {
-	const chat = chatListMock.data
-	const getProductStatusColor = status => {
-		switch (status) {
-			case '판매 중':
-			case '예약중':
-			case '나눔 중':
-				return '#009D91'
-			case '판매완료':
-			case '나눔 완료':
-				return '#F2714F'
-			default:
-				return ''
-		}
+export const getProductStatusColor = status => {
+	switch (status) {
+		case '판매 중':
+		case '예약중':
+		case '나눔 중':
+			return '#009D91'
+		case '판매완료':
+		case '나눔 완료':
+			return '#F2714F'
+		default:
+			return ''
 	}
+}
+const ChatProductCard = ({ chatData }) => {
+	const {
+		product_id,
+		product_name,
+		product_main_img_url,
+		product_status,
+		product_price,
+	} = chatData
 	return (
 		<S.Container>
 			<S.ImageWrapper>
-				<S.Image src={chat.channel_product_main_img_url} />
+				<S.Image src={product_main_img_url} />
 			</S.ImageWrapper>
 			<S.ProductInfo>
 				<S.Title>
-					<S.ProductState color={getProductStatusColor(chat.product_status)}>
-						{chat.product_status}
+					<S.ProductState color={getProductStatusColor(product_status)}>
+						{product_status}
 					</S.ProductState>
-					<S.ProductName>{chat.product_name}</S.ProductName>
+					<S.ProductName>{product_name}</S.ProductName>
 				</S.Title>
 				<div>
-					<S.ProductPrice>{chat.product_price.toLocaleString()}</S.ProductPrice>
+					<S.ProductPrice>{product_price.toLocaleString()}</S.ProductPrice>
 					{'원'}
 				</div>
 				<div>
