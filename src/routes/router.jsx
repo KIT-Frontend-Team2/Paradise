@@ -39,7 +39,7 @@ const router = createBrowserRouter([
 					{ path: '/mypage', element: <MyPage /> },
 				],
 			},
-			{ path: '/auth', element: <AuthPage /> },
+			{ path: '/auth', element: <AuthPage /> }, 
 			{ path: '/landing', element: <LandingPage /> },
 		],
 	},

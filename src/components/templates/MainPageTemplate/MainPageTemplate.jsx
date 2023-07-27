@@ -10,6 +10,7 @@ import MaSection from '../../ui/organisms/MaSection/MaSection'
 
 const MainPageTemplate = ({ productInfo }) => {
 	const { linkRegister } = useMove()
+
 	const images = [
 		{
 			img_url: MainLogo,

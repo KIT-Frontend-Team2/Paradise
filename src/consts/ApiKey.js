@@ -20,6 +20,7 @@ const API_KEY = {
 	UPDATE: '/update',
 	REGISTER: '/register',
 	LANDING: '/landing',
+	VIEWLIST: 'view-list',
 }
 
 export default API_KEY
