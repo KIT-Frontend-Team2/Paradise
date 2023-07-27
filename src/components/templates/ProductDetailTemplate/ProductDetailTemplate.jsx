@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
+import useViewListApi from '../../../hooks/service/useViewList'
+import ErrorBoundary from '../../error/ErrorBoundary'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
@@ -36,6 +38,17 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
+	const viewList = {
+		id: productInfo.product_id,
+		img: productInfo.product_imgs[0].img_url,
+	}
+
+	const { mutate } = useViewListApi.usePostViewList(productInfo.product_id)
+
+	useEffect(() => {
+		mutate(viewList)
+	}, [])
+
 	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
 
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop
@@ -56,6 +69,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					style={{ boxSizing: 'border-box', padding: '10px' }}
 				>
 					<DeProductSection
+						id={productInfo.product_id}
 						isBuyer={productInfo.isBuyer}
 						chatCount={productInfo.product_chat_count}
 						isLike={productInfo.isLike}
@@ -68,7 +82,9 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						containerWidth={containerWidth - 30}
 					/>
 					<DeProductCategoryTag category={productInfo.product_tag} />
-					<DeProductMapSection rightTitle={productInfo.product_place} />
+					<ErrorBoundary>
+						<DeProductMapSection rightTitle={productInfo.product_place} />
+					</ErrorBoundary>
 					<DeUserProductSection
 						imgProfile={user_profile_url}
 						userTemplate={user_temperature}
@@ -107,6 +123,7 @@ S.Flex = styled.div`
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;
 	display: ${({ deskTop }) => (deskTop ? 'flex' : 'block')};
+
 	> div {
 		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
 	}

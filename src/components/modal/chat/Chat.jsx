@@ -1,5 +1,7 @@
 import chatListMock from '__mock__/datas/chatList.mock'
+import { showChatState } from 'atom/chat/atom'
 import { useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
 
 import ChatHeader from './ChatHeader'
@@ -7,6 +9,7 @@ import ChatList from './ChatList'
 import Chating from './Chating'
 
 const Chat = () => {
+	const showChat = useRecoilValue(showChatState)
 	const { users, products, conversations, messages } = chatListMock.data
 
 	const [layout, setLayout] = useState(true)
@@ -42,20 +45,24 @@ const Chat = () => {
 		.filter(message => message) // null 값을 걸러냅니다.
 
 	return (
-		<S.ChatContainer>
-			<ChatHeader layout={layout} setLayout={setLayout} />
-			{!layout ? (
-				<Chating chatData={selectedChat} />
-			) : (
-				<S.ChatListContent>
-					<ChatList
-						messages={messagesWithProductData}
-						setLayout={setLayout}
-						handleChatClick={handleChatClick}
-					/>
-				</S.ChatListContent>
+		<>
+			{showChat && (
+				<S.ChatContainer>
+					<ChatHeader layout={layout} setLayout={setLayout} />
+					{!layout ? (
+						<Chating chatData={selectedChat} />
+					) : (
+						<S.ChatListContent>
+							<ChatList
+								messages={messagesWithProductData}
+								setLayout={setLayout}
+								handleChatClick={handleChatClick}
+							/>
+						</S.ChatListContent>
+					)}
+				</S.ChatContainer>
 			)}
-		</S.ChatContainer>
+		</>
 	)
 }
 

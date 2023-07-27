@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
 import UpdateButton from '../../atoms/Button/UpdateButton'
 import WishButton from '../../atoms/Button/WishButton'
@@ -11,6 +12,7 @@ import MTooltip from '../../atoms/Tooltip/MTooltip'
 import DeProductTitle from '../../molecules/DeProductTitle/DeProductTitle'
 
 const DeProductSection = ({
+	id,
 	isLike,
 	title,
 	time,
@@ -23,6 +25,7 @@ const DeProductSection = ({
 	containerWidth,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(false | isLike)
+	const { linkModifyProduct } = useMove()
 	const onClick = () => {
 		setIsLikeState(prev => !prev)
 	}
@@ -49,9 +52,7 @@ const DeProductSection = ({
 							/>
 						) : (
 							<MTooltip title={'상품의 수정 페이지로 이동'} placement={'top'}>
-								<UpdateButton
-									onClick={() => console.log('업데이트 페이지로이동')}
-								/>
+								<UpdateButton onClick={() => linkModifyProduct(id)} />
 							</MTooltip>
 						)}
 						<MTooltip
@@ -107,6 +108,10 @@ S.ProductInfo = styled.div`
 `
 
 DeProductSection.propTypes = {
+	/**
+	 * 상품의 아이디를 알려주세요
+	 */
+	id: PropTypes.string.isRequired,
 	/**
 	 * 상품의 제목을 입력해주세요.
 	 */

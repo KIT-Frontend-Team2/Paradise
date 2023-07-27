@@ -1,8 +1,15 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import CloseIcon from '@mui/icons-material/Close'
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
+import { showChatState } from 'atom/chat/atom'
+import { useSetRecoilState } from 'recoil'
 
 const ChatHeader = ({ layout, setLayout }) => {
+	const setShowChat = useSetRecoilState(showChatState)
+	const handleClose = () => {
+		setLayout(true)
+		setShowChat(false)
+	}
 	return (
 		<AppBar
 			sx={{
@@ -41,7 +48,7 @@ const ChatHeader = ({ layout, setLayout }) => {
 						justifyContent: 'flex-end',
 					}}
 				>
-					<IconButton edge="end" aria-label="close">
+					<IconButton edge="end" aria-label="close" onClick={handleClose}>
 						<CloseIcon sx={{ color: '#fff' }} />
 					</IconButton>
 				</Box>
