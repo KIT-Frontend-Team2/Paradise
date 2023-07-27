@@ -34,7 +34,6 @@ const SignUp = () => {
 
 	const handleClose = () => {
 		setIsPopUp(false)
-		setIsForcePopUp(false)
 	}
 
 	const handleAddress = fullAddress => {
