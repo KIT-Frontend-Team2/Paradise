@@ -6,7 +6,7 @@ import { useSetRecoilState } from 'recoil'
 
 const ChatHeader = ({ layout, setLayout }) => {
 	const setShowChat = useSetRecoilState(showChatState)
-	const handleClose = () => {
+	const handleClosed = () => {
 		setLayout(true)
 		setShowChat(false)
 	}
@@ -48,7 +48,7 @@ const ChatHeader = ({ layout, setLayout }) => {
 						justifyContent: 'flex-end',
 					}}
 				>
-					<IconButton edge="end" aria-label="close" onClick={handleClose}>
+					<IconButton edge="end" aria-label="close" onClick={handleClosed}>
 						<CloseIcon sx={{ color: '#fff' }} />
 					</IconButton>
 				</Box>
