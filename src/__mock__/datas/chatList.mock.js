@@ -244,18 +244,17 @@ const chatListMock = {
 				userId: 'user1',
 				price: 150000,
 				product_status: '판매 중',
-				/**
-				 * user_status: 'buyer',
-				user_id: 1,
-				product_id: '123e4567-e89b-12d3-a456-426614174001',
-				product_name: 'Sample Product',
-				product_price: 15000,
-				product_main_img_url:
-					'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
-				is_new_chat: true,
-				last_chat: '안녕하세요, 구매하고 싶습니다!',
-				last_chat_time: '2023-01-01T12:45:35Z',
-				last_chat_ago: '방금 전', */
+			},
+			{
+				id: 'product2',
+				title: '제품 2',
+				description: '제품 2의 설명',
+				imageSrc:
+					'https://flexible.img.hani.co.kr/flexible/normal/400/500/imgdb/original/2023/0503/20230503501277.jpg',
+				category: '가전제품',
+				userId: 'user1',
+				price: 100000,
+				product_status: '판매 중',
 			},
 		],
 		conversations: [
@@ -275,6 +274,7 @@ const chatListMock = {
 				is_new_chat: true,
 				image: '',
 				createdAt: '2023-01-01T12:45:35Z',
+				productId: 'product1',
 			},
 			{
 				id: 'msg2',
@@ -285,6 +285,18 @@ const chatListMock = {
 				is_new_chat: false,
 				image: '',
 				createdAt: '2023-01-01T12:45:35Z',
+				productId: 'product1',
+			},
+			{
+				id: 'msg3',
+				text: '안녕하세요',
+				senderId: 'user1',
+				receiverId: 'admin1',
+				conversationId: 'conv1',
+				is_new_chat: false,
+				image: '',
+				createdAt: '2023-01-01T12:45:35Z',
+				productId: 'product2',
 			},
 		],
 	},

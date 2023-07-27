@@ -41,7 +41,6 @@ const ChatProductCard = ({ chatData }) => {
 				</div>
 				<div>
 					<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
-					<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
 				</div>
 			</S.ProductInfo>
 		</S.Container>
