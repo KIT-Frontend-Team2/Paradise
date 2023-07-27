@@ -7,13 +7,7 @@ import footerlogo from '../../../../assets/images/github_logo.png'
 import FooterMobile from '../FooterMobile/FooterMobile'
 
 const MainFooter = props => {
-	const {
-		isMobile,
-		isDesktop,
-		isMobileAndTablet,
-		isTablet,
-		isTabletAndLaptop,
-	} = useDevice()
+	const { isMobile } = useDevice()
 	return (
 		<>
 			{isMobile ? (

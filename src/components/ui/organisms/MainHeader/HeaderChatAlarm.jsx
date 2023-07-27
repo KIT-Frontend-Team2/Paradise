@@ -33,8 +33,8 @@ S.ChatModal = styled.div`
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	width: ${({ istablet }) => (istablet ? '180px' : '200px')};
-	height: ${({ istablet }) => (istablet ? '80px' : '100px')};
+	width: ${({ istablet }) => (istablet === true ? '180px' : '200px')};
+	height: ${({ istablet }) => (istablet === true ? '80px' : '100px')};
 	background-color: #f5f5f5;
 	border-radius: 6px;
 	display: flex;
