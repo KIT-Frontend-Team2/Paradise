@@ -38,11 +38,11 @@ const SideBarSection = ({ products }) => {
 						<S.PrevButton onClick={handlePrev}>
 							<ExpandLessIcon />
 						</S.PrevButton>
-						<S.SlideBox>
+						<S.SlideBox height={(products.length === 1).toString()}>
 							<Swiper
 								allowTouchMove={false}
 								loop={true}
-								slidesPerView={2}
+								slidesPerView={products.length === 1 ? 1 : 2}
 								spaceBetween={10}
 								direction={'vertical'}
 								className="mySwiper"
@@ -89,7 +89,7 @@ S.Container = styled.div`
 	height: 100px;
 `
 S.SlideBox = styled.div`
-	height: 160px;
+	height: ${({ height }) => (height === 'true' ? 80 : 160)}px;
 `
 
 S.PrevButton = styled.div`
