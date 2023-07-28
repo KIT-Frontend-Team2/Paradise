@@ -1,5 +1,4 @@
 import { InsertPhoto, Send } from '@mui/icons-material'
-import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useRef } from 'react'
 import { useState } from 'react'
@@ -16,30 +15,31 @@ const ChatInput = () => {
 	}
 
 	const chooseImage = () => {
-		imageRef.current.click()
+		// imageRef.current.click()
+		alert('서비스 준비 중입니다.')
 	}
 
-	const previewImage = e => {
-		if (e.target.files.length === 0) {
-			return
-		}
-		const file = e.target.files[0]
-		setImage(file)
-		const reader = new FileReader()
-		reader.readAsDataURL(file)
-		reader.onload = () => {
-			setImagePrev(reader.result)
-		}
-	}
+	// const previewImage = e => {
+	// 	if (e.target.files.length === 0) {
+	// 		return
+	// 	}
+	// 	const file = e.target.files[0]
+	// 	setImage(file)
+	// 	const reader = new FileReader()
+	// 	reader.readAsDataURL(file)
+	// 	reader.onload = () => {
+	// 		setImagePrev(reader.result)
+	// 	}
+	// }
 
-	const removeImage = () => {
-		setImagePrev(null)
-		setImage(null)
-	}
+	// const removeImage = () => {
+	// 	setImagePrev(null)
+	// 	setImage(null)
+	// }
 	return (
 		<S.Form onSubmit={handleSubmit}>
 			<S.Input type="text" placeholder="메시지를 입력해주세요." />
-			{imagePrev && (
+			{/* {imagePrev && (
 				<S.ImageContainer>
 					<S.Img src={imagePrev} alt="image" />
 					<S.CloseIconContainer onClick={removeImage}>
@@ -53,7 +53,7 @@ const ChatInput = () => {
 				multiple={false}
 				accept="image/*"
 				onChange={e => previewImage(e, setImagePrev, setImage)}
-			/>
+			/> */}
 			<S.IconContainer>
 				<IconButton onClick={chooseImage}>
 					<InsertPhoto />

@@ -11,7 +11,7 @@ const Chating = ({ chatData }) => {
 				<ChatProductCard chatData={chatData} />
 			</S.ChatProductCardContent>
 			<div>
-				<ChatMessage />
+				<ChatMessage chatData={chatData} />
 			</div>
 			<S.ChatInputContent>
 				<ChatInput />
