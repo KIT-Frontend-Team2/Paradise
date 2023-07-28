@@ -9,7 +9,7 @@ const LoadUserApi = () => {
 
 	const getMyPageHeader = () => {
 		const { data, isLoading, isError } = useQuery(
-			[API_KEY.LIST],
+			[API_KEY.MYPAGE],
 			() => getMyPage(),
 			{ ...queryConfig },
 		)
