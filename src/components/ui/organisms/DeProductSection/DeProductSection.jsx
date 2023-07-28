@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
 import UpdateButton from '../../atoms/Button/UpdateButton'
@@ -24,10 +25,13 @@ const DeProductSection = ({
 	productInfo,
 	containerWidth,
 }) => {
-	const [isLikeState, setIsLikeState] = useState(false | isLike)
+	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
+
+	const { mutate: wishMutate } = useProductService.usePostWishAdd(id)
+
 	const onClick = () => {
-		setIsLikeState(prev => !prev)
+		wishMutate([isLikeState, setIsLikeState])
 	}
 
 	return (
@@ -48,7 +52,7 @@ const DeProductSection = ({
 						{!isBuyer ? (
 							<WishButton
 								onClick={onClick}
-								variant={isLikeState ? 'wish' : 'wish-on'}
+								variant={!isLikeState ? 'wish' : 'wish-on'}
 							/>
 						) : (
 							<MTooltip title={'상품의 수정 페이지로 이동'} placement={'top'}>
@@ -111,7 +115,7 @@ DeProductSection.propTypes = {
 	/**
 	 * 상품의 아이디를 알려주세요
 	 */
-	id: PropTypes.string.isRequired,
+	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 	/**
 	 * 상품의 제목을 입력해주세요.
 	 */

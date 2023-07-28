@@ -2,7 +2,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 import React from 'react'
 import styled from 'styled-components'
 
-import useViewListApi from '../../../../hooks/service/useViewList'
+import useViewListApi from '../../../../hooks/service/useViewList.service'
 import useMove from '../../../../hooks/useMovePage'
 
 const SiDeleteButton = ({ product }) => {

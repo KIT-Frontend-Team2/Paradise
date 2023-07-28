@@ -12,7 +12,7 @@ const useMove = () => {
 		move(link)
 	}
 
-	const linkMainPage = () => topMove('/')
+	const linkMainPage = () => topMove(API_KEY.HOME)
 
 	const linkSellList = () => topMove(API_KEY.LIST + API_KEY.SELL)
 
@@ -40,8 +40,11 @@ const useMove = () => {
 
 	const linkLanding = () => topMove(API_KEY.LANDING)
 
+	const linkError = () => topMove(API_KEY.ERROR)
+
 	return {
 		move,
+		linkError,
 		topMove,
 		linkMainPage,
 		linkSellList,
