@@ -8,7 +8,6 @@ import SiDeleteButton from '../../molecules/SiDeleteButton/SiDeleteButton'
 
 const SideBarSection = ({ products }) => {
 	const { linkRegister } = useMove()
-
 	const MoveTop = () => {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
@@ -17,7 +16,9 @@ const SideBarSection = ({ products }) => {
 		<S.Container>
 			<S.SideBarBox>
 				<S.SideBarTitle>최근 본 상품</S.SideBarTitle>
-				<S.SideBarCount>{products.length === 5 && '5+'}</S.SideBarCount>
+				<S.SideBarCount>
+					{products.length === 5 ? '5+' : products.length}
+				</S.SideBarCount>
 				{products.length !== 0 ? (
 					products.map(product => (
 						<SiDeleteButton key={product.id} product={product} />

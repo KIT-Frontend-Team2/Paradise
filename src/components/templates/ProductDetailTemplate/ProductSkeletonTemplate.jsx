@@ -11,8 +11,8 @@ const ProductSkeletonTemplate = () => {
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop
 	return (
 		<S.Wrapper>
-			<S.Container isDesk={isDesk}>
-				<S.FlexBox isDesk={isDesk}>
+			<S.Container isdesk={isDesk.toString()}>
+				<S.FlexBox isdesk={isDesk.toString()}>
 					{isDesk ? (
 						<S.LeftSection>
 							<S.ImgBox>
@@ -154,7 +154,7 @@ S.Wrapper = styled.div`
 `
 S.Container = styled.div`
 	max-width: 1100px;
-	width: ${({ deskTop }) => (deskTop ? 90 : 100)}%;
+	width: ${({ isdesk }) => (isdesk === 'true' ? 90 : 100)}%;
 	margin: 0 auto;
 `
 
@@ -165,10 +165,10 @@ S.PhoneBox = styled.div``
 
 S.FlexBox = styled.div`
 	padding-bottom: 30px;
-	display: ${({ deskTop }) => (!deskTop ? 'flex' : 'block')};
+	display: ${({ isdesk }) => (isdesk === 'true' ? 'flex' : 'block')};
 
 	> div {
-		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
+		width: ${({ isdesk }) => (isdesk === 'true' ? 50 : 100)}%;
 	}
 `
 

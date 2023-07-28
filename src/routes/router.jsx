@@ -23,6 +23,7 @@ const router = createBrowserRouter([
 				element: <PrivateRoute />,
 				children: [
 					{ path: '/', element: <MainPage /> },
+					{ path: '/home', element: <MainPage /> },
 					{ path: '/*', element: <ErrorPage /> },
 					{ path: '/list/:filter', element: <ProductListPage /> },
 					{ path: '/product/register', element: <ProductRegisterPage /> },
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
 			{ path: '/auth', element: <AuthPage /> },
 			{ path: '/landing', element: <LandingPage /> },
 		],
+		errorElement: <ErrorPage />,
 	},
 ])
 

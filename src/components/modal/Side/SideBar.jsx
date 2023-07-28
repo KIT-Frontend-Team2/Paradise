@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import useViewListApi from '../../../hooks/service/useViewList'
+import useViewListApi from '../../../hooks/service/useViewList.service'
 import SideBarSection from '../../ui/organisms/SideBarSection/SideBarSection'
 import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
 
@@ -8,7 +8,6 @@ const SideBar = () => {
 	const { data, isLoading, isError } = useViewListApi.useGetViewList()
 	return (
 		<>
-			<button onClick={() => console.log('버튼 눌러짐')}>버튼</button>
 			<S.SideBarBanner>
 				<SideBarSection
 					products={!isLoading || isError ? data.data.products : []}
@@ -26,10 +25,10 @@ export default SideBar
 const S = {}
 
 S.SideBarBanner = styled.div`
-	display: ${({ theme }) => (theme.Sidebar ? 'none' : 'block')};
 	top: 15%;
 	position: fixed;
 	right: calc(50% - 700px);
+	opacity: ${({ show }) => (show === 'true' ? 0 : 1)};
 `
 S.SideBarChat = styled.div`
 	z-index: 100;

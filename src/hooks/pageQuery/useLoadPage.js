@@ -1,21 +1,14 @@
 import API_KEY from 'consts/ApiKey'
 import { useQuery } from 'react-query'
 
-import { getPageApi } from '../../apis/service/page.api'
+import getPageAxios from '../../apis/service/page.api'
 import { queryConfig } from './@config'
 
 const LoadApi = () => {
-	const {
-		getSearchKeyWordList,
-		getProductList,
-		getMainProductList,
-		getDetailProduct,
-	} = getPageApi()
-
 	const getMainPage = () => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.LIST],
-			() => getMainProductList(),
+			() => getPageAxios.getMainProductList(),
 			{ ...queryConfig },
 		)
 
@@ -25,7 +18,7 @@ const LoadApi = () => {
 	const getListPage = (optionKey, page) => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.LIST, optionKey, page],
-			() => getProductList(optionKey, page),
+			() => getPageAxios.getProductList(optionKey, page),
 			{ ...queryConfig },
 		)
 
@@ -35,7 +28,7 @@ const LoadApi = () => {
 	const getDetailPage = productId => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.PRODUCT, productId],
-			() => getDetailProduct(productId),
+			() => getPageAxios.getDetailProduct(productId),
 			{ ...queryConfig },
 		)
 
@@ -45,14 +38,29 @@ const LoadApi = () => {
 	const getSearchPage = (keyword, page) => {
 		const { data, isLoading, isError } = useQuery(
 			[API_KEY.SEARCH, keyword, page],
-			() => getSearchKeyWordList(keyword, page),
+			() => getPageAxios.getSearchKeyWordList(keyword, page),
 			{ ...queryConfig },
 		)
 
 		return { data, isLoading, isError }
 	}
 
-	return { getDetailPage, getSearchPage, getMainPage, getListPage }
+	const getSearchUserPage = (userName, page) => {
+		const { data, isLoading, isError } = useQuery(
+			[API_KEY.SEARCH, API_KEY.USER, userName, page],
+			() => getPageAxios.getSearchUserNameList(userName, page),
+			{ ...queryConfig },
+		)
+
+		return { data, isLoading, isError }
+	}
+	return {
+		getDetailPage,
+		getSearchPage,
+		getMainPage,
+		getListPage,
+		getSearchUserPage,
+	}
 }
 
 export default LoadApi
