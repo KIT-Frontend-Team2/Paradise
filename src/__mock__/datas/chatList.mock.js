@@ -287,17 +287,6 @@ const chatListMock = {
 				createdAt: '2023-01-01T12:45:35Z',
 				productId: 'product1',
 			},
-			{
-				id: 'msg3',
-				text: '안녕하세요',
-				senderId: 'user1',
-				receiverId: 'admin1',
-				conversationId: 'conv1',
-				is_new_chat: false,
-				image: '',
-				createdAt: '2023-01-01T12:45:35Z',
-				productId: 'product2',
-			},
 		],
 	},
 }

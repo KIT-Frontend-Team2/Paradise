@@ -13,7 +13,6 @@ const SideBar = () => {
 
 	return (
 		<>
-			<button onClick={() => console.log('버튼클릭됨')}>버튼</button>
 			<S.SideBarBanner>
 				<SideBarSection
 					products={!isLoading || isError ? data.data.products : []}

@@ -60,23 +60,13 @@ const HeaderScroll = () => {
 			}}
 		>
 			<S.Container>
-				<Box
-					isTablet={isTablet}
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: isTablet ? 'flex-start' : 'center',
-						gap: isTablet ? '10px' : '36px',
-						fontSize: isTablet ? '14px' : '18px',
-						width: '100%',
-					}}
-				>
+				<S.Box istablet={isTablet ? 'true' : 'false'}>
 					<HeaderCategory />
 
 					<span onClick={linkMainPage}>메인페이지</span>
 					<span onClick={linkShareList}>무료나눔</span>
 					<span onClick={linkMyPage}>마이페이지</span>
-				</Box>
+				</S.Box>
 				<S.UserSearchContainer onSubmit={searchKeyword}>
 					<S.SearchBox>
 						<SearchIcon
@@ -155,4 +145,14 @@ S.UserInfoContainer = styled.div`
 	margin-left: 24px;
 	display: flex;
 	align-items: center;
+`
+
+S.Box = styled(Box)`
+	display: flex;
+	align-items: center;
+	justify-content: ${({ istablet }) =>
+		istablet === 'true' ? 'flex-start' : 'center'};
+	gap: ${({ istablet }) => (istablet === 'true' ? '10px' : '36px')};
+	font-size: ${({ istablet }) => (istablet === 'true' ? '14px' : '18px')};
+	width: 100%;
 `
