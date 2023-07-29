@@ -4,13 +4,20 @@ import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
 import { Validation2 } from './validation'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
+import { useState } from 'react'
+import SignUp from './SignUpTemplate'
 
 const Login = () => {
+
+	const {isMobile } = useDevice()
+	const [issignUP, setSignUp] = useState(false);
+
+
 	const {
 		register,
 		handleSubmit,
@@ -26,8 +33,9 @@ const Login = () => {
 	}
 
 	return (
-		<Container>
-			<S.Wrapper>
+		<S.Wrap  isMobile={isMobile}>
+			{issignUP ? <SignUp/> : <Container>
+			<S.Wrapper >
 				<S.Title>로그인</S.Title>
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
 					<S.Content>
@@ -66,9 +74,10 @@ const Login = () => {
 						variant={'outlined'}
 					/>
 				</S.Form>
-				<StyledLink to="/">회원가입</StyledLink>
+				<S.SignUp onClick={() => setSignUp(true)}>회원가입</S.SignUp>
 			</S.Wrapper>
-		</Container>
+		</Container>}
+		</S.Wrap>
 	)
 }
 
@@ -76,10 +85,17 @@ export default Login
 
 const S = {}
 
+S.Wrap = styled.div`
+  margin-left: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+  margin-right: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+`
+
 S.Wrapper = styled.div`
-	width: 480px;
-	margin: 90px auto 250px;
+	width: 100%;
+	max-width: 480px;
+	margin: 90px auto 200px;
 	text-align: center;
+
 `
 S.Title = styled.h2`
 	font-size: 32px;
@@ -142,7 +158,8 @@ S.Button = styled(Button)`
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `
 
-const StyledLink = styled(Link)`
+S.SignUp = styled.div`
 	text-decoration: none;
 	color: ${({ theme }) => theme.PALETTE.black};
+	cursor: pointer;
 `

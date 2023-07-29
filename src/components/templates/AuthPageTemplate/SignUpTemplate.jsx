@@ -9,8 +9,14 @@ import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import { Validation } from './validation'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
+
 
 const SignUp = () => {
+
+	const {isMobile } = useDevice()
+	console.log(isMobile)
+
 	const {
 		register,
 		handleSubmit,
@@ -41,7 +47,8 @@ const SignUp = () => {
 	}
 
 	return (
-		<Container>
+		<S.Wrap isMobile={isMobile}>
+			<Container >
 			<S.Wrapper>
 				<S.Title>회원가입</S.Title>
 				<S.Notice>
@@ -159,6 +166,7 @@ const SignUp = () => {
 				</S.Form>
 			</S.Wrapper>
 		</Container>
+		</S.Wrap>
 	)
 }
 
@@ -166,9 +174,15 @@ export default SignUp
 
 const S = {}
 
+S.Wrap = styled.div`
+  margin-left: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+  margin-right: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+`
+
 S.Wrapper = styled.div`
-	width: 480px;
-	margin: 90px auto 250px;
+	width: 100%;
+	max-width: 480px;
+	margin: 90px auto 200px;
 	position: relative;
 `
 S.Title = styled.h2`
