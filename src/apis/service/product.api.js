@@ -1,31 +1,39 @@
-const productApi = () => {
-	const addRegisterProduct = () => {
-		console.log('상품을 등록합니다.')
-	}
+import axios from 'axios'
 
-	const postWishAdd = id => {
-		console.log(id + ' 상품을 좋아요 또는 취소 요청을 보냅니다.')
-	}
+import API_KEY from '../../consts/ApiKey'
 
-	const patchProductInfo = productInfo => {
-		console.log(productInfo, ' 상품의 정보를 수정합니다.')
-	}
+const productAxios = {
+	addRegisterProduct: async productInfo => {
+		return await axios.post(API_KEY.PRODUCT + API_KEY.UPDATE, {
+			params: {
+				...productInfo,
+			},
+		})
+	},
 
-	const deleteProduct = productId => {
-		console.log(productId + ' 상품을 삭제합니다')
-	}
+	postWishAdd: async productId => {
+		return await axios.post(API_KEY.PRODUCT + API_KEY.LIKE + `/${productId}`)
+	},
 
-	const postCompleteProduct = productId => {
-		console.log(productId + ' 상품의 상태를 판매완료로 변경합니다.')
-	}
+	patchProductInfo: async productInfo => {
+		return await axios.patch(
+			API_KEY.PRODUCT + API_KEY.UPDATE + `/${productInfo.id}`,
+			_,
+			{
+				params: { ...productInfo },
+			},
+		)
+	},
 
-	return {
-		addRegisterProduct,
-		postWishAdd,
-		patchProductInfo,
-		deleteProduct,
-		postCompleteProduct,
-	}
+	deleteProduct: async productId => {
+		return await axios.delete(
+			API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`,
+		)
+	},
+
+	postCompleteProduct: async productId => {
+		return await axios.post(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
+	},
 }
 
-export default productApi
+export default productAxios

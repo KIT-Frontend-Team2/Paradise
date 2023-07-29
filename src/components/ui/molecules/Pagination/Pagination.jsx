@@ -1,7 +1,7 @@
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -9,15 +9,20 @@ import styled from 'styled-components'
  * 리액트 라우터와 동일하게 움직이기에 스토리북 작성이 어렵습니다 하지만 ListPage 를 본다면 정상적으로 작동하는걸 확인할 수 있습니다.
  */
 const Pagination = ({ total, page, item_length }) => {
+	const [pageState, setPageState] = useState(page)
 	const [_, setSearchParam] = useSearchParams()
 	const Buttons = new Array(Math.ceil(total / item_length))
 		.fill('')
 		.map((_, i) => i + 1)
-	const ShowPageNumber = Math.ceil(page / 10)
+	const ShowPageNumber = Math.ceil(pageState / 10)
 	const ShowButtons = Buttons.filter(
 		i => (ShowPageNumber - 1) * 10 + 1 <= i && ShowPageNumber * 10 + 1 > i,
 	)
 	const TopPage = Buttons.length
+
+	if (pageState > TopPage) {
+		return
+	}
 
 	if (Buttons.length === 1) {
 		return null
@@ -25,32 +30,36 @@ const Pagination = ({ total, page, item_length }) => {
 
 	const ChangePage = newPage => {
 		window.scrollTo({ top: 0 })
+		setPageState(newPage)
 		setSearchParam({ page: newPage })
 	}
 
 	return (
 		<S.PaginationBox>
-			{/*<S.Button disabled={page === 1} onClick={() => setSearchParam(()=>{ page: 1 })}></S.Button>*/}
-			<S.Button disabled={page === 1} onClick={() => ChangePage(page - 1)}>
+			{/*<S.Button disabled={pageState === 1} onClick={() => ChangePage(1)}></S.Button>*/}
+			<S.Button
+				disabled={pageState === 1}
+				onClick={() => ChangePage(pageState - 1)}
+			>
 				<NavigateBeforeOutlinedIcon />
 			</S.Button>
 			{ShowButtons.map(number => (
 				<S.Button
 					key={number}
 					onClick={() => ChangePage(number)}
-					select={(page === number).toString()}
-					disabled={page === number}
+					select={(pageState === number).toString()}
+					disabled={pageState === number}
 				>
 					{number}
 				</S.Button>
 			))}
 			<S.Button
-				disabled={page === TopPage}
-				onClick={() => ChangePage(page + 1)}
+				disabled={pageState === TopPage}
+				onClick={() => ChangePage(pageState + 1)}
 			>
 				<NavigateNextOutlinedIcon />
 			</S.Button>
-			{/*<S.Button disabled={page === TopPage} onClick={() => setSearchParam({ page: TopPage })}></S.Button>*/}
+			{/*<S.Button disabled={pageState === TopPage} onClick={() => ChangePage(TopPage)}></S.Button>*/}
 		</S.PaginationBox>
 	)
 }

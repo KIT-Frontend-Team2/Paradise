@@ -2,7 +2,7 @@ import { showChatState } from 'atom/chat/atom'
 import { useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 
-import useViewListApi from '../../../hooks/service/useViewList'
+import useViewListApi from '../../../hooks/service/useViewList.service'
 import SideBarSection from '../../ui/organisms/SideBarSection/SideBarSection'
 import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
 import Chat from '../chat/Chat'
@@ -31,10 +31,10 @@ export default SideBar
 const S = {}
 
 S.SideBarBanner = styled.div`
-	display: ${({ theme }) => (theme.Sidebar ? 'none' : 'block')};
 	top: 15%;
 	position: fixed;
 	right: calc(50% - 700px);
+	opacity: ${({ show }) => (show === 'true' ? 0 : 1)};
 `
 S.SideBarChat = styled.div`
 	z-index: 100;

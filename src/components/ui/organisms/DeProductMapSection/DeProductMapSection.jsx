@@ -6,9 +6,6 @@ import styled from 'styled-components'
 // import MSkeleton from '../../atoms/Skeleton/MSkeleton'
 import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
 
-/**
- * @Todo 카카오 맵을 넣어야합니다.
- */
 const DeProductMapSection = ({ rightTitle }) => (
 	<>
 		<DeSectionTitle title={'희망 거래 장소'} rightTitle={rightTitle} />
