@@ -4,7 +4,6 @@ import { headerMock } from '__mock__/datas/header.mock'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -13,15 +12,15 @@ import UserInfo from './UserInfo'
 
 const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
-	const { linkMainPage, linkShareList, linkMyPage } = useMove()
-	const navigate = useNavigate()
+	const { linkMainPage, linkShareList, linkMyPage, linkSearchProduct } =
+		useMove()
 	const { isTablet } = useDevice()
 	const inputRef = useRef(null)
 
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value
-		navigate('/search/' + keyword)
+		linkSearchProduct(keyword)
 		inputRef.current.value = ''
 	}
 	const handleScroll = () => {

@@ -60,6 +60,8 @@ S.Container = styled.div`
 	border: 1px solid #dddddd;
 	border-radius: 6px;
 	padding: 1rem;
+	background-color: #fff;
+	margin-top: 10px;
 `
 
 S.ImageWrapper = styled.div`

@@ -10,7 +10,7 @@ import Chating from './Chating'
 
 const Chat = () => {
 	const showChat = useRecoilValue(showChatState)
-	const { users, products, conversations, messages } = chatListMock.data
+	const { users, products, conversations } = chatListMock.data
 
 	const [layout, setLayout] = useState(true)
 
@@ -21,28 +21,36 @@ const Chat = () => {
 		setLayout(false)
 	}
 
-	const messagesWithProductData = messages
-		.map(message => {
-			const product = products.find(
-				product => product.userId === message.senderId,
-			)
-			const user = users.find(user => user.id === message.senderId)
+	const messagesWithProductData = conversations.map(conversation => {
+		const updatedMessages = conversation.messages
+			.map(message => {
+				const product = products.find(
+					product => product.userId === message.senderId,
+				)
+				const user = users.find(user => user.id === message.senderId)
 
-			if (!product || !user) {
-				return null
-			}
+				if (!product || !user) {
+					return null
+				}
 
-			return {
-				...message,
-				user_status: user.user_status,
-				product_id: product.id,
-				product_name: product.title,
-				product_price: product.price,
-				product_main_img_url: product.imageSrc,
-				product_status: product.product_status,
-			}
-		})
-		.filter(message => message) // null 값을 걸러냅니다.
+				return {
+					...message,
+					user_status: user.user_status,
+					product_id: product.id,
+					product_name: product.title,
+					product_price: product.price,
+					product_main_img_url: product.imageSrc,
+					product_status: product.product_status,
+					senderImage: user.image,
+					user,
+				}
+			})
+			.filter(message => message) // null 값을 걸러냅니다.
+		return {
+			...conversation,
+			messages: updatedMessages,
+		}
+	})
 
 	return (
 		<>
@@ -50,14 +58,17 @@ const Chat = () => {
 				<S.ChatContainer>
 					<ChatHeader layout={layout} setLayout={setLayout} />
 					{!layout ? (
-						<Chating chatData={selectedChat} />
+						<Chating chatData={selectedChat} conversations={conversations} />
 					) : (
 						<S.ChatListContent>
-							<ChatList
-								messages={messagesWithProductData}
-								setLayout={setLayout}
-								handleChatClick={handleChatClick}
-							/>
+							{messagesWithProductData.map(conversation => (
+								<ChatList
+									key={conversation.id}
+									messages={conversation.messages}
+									setLayout={setLayout}
+									handleChatClick={handleChatClick}
+								/>
+							))}
 						</S.ChatListContent>
 					)}
 				</S.ChatContainer>

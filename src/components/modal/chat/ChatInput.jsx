@@ -58,9 +58,9 @@ const ChatInput = () => {
 				<IconButton onClick={chooseImage}>
 					<InsertPhoto />
 				</IconButton>
-				<IconButton>
+				<S.SendButton>
 					<Send />
-				</IconButton>
+				</S.SendButton>
 			</S.IconContainer>
 		</S.Form>
 	)
@@ -75,7 +75,7 @@ S.Form = styled.form`
 	width: 100%;
 	height: 100px;
 	padding-top: 8px;
-
+	background-color: #fff;
 	position: relative;
 `
 
@@ -124,4 +124,9 @@ S.CloseIconContainer = styled.span`
 	background-color: #fff;
 	border-radius: 50%;
 	cursor: pointer;
+`
+S.SendButton = styled(IconButton)`
+	&:hover {
+		color: #009d91;
+	}
 `
