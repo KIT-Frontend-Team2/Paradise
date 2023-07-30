@@ -62,5 +62,5 @@ MainPageTemplate.proptype = {
 const S = {}
 
 S.MainBannerBox = styled.div`
-	height: 40vh;
+	height: 510px;
 `
