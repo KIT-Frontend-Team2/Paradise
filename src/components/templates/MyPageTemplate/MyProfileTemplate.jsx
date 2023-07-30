@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
 
 import MyAccount from '../../../__mock__/datas/myAccount.mock'
+import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
 
 const MyProfileTemplate = () => {
 	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
@@ -32,7 +33,8 @@ const MyProfileTemplate = () => {
 		<S.Wrapper>
 			<S.Title>프로필 변경</S.Title>
 			<S.Form onSubmit={handleFormSubmit}>
-				<S.UserImg>
+				<S.UserImg onClick={handleImageClick}>
+					<S.Overay><LinkedCameraIcon/></S.Overay>
 					{image ? (
 						<img src={URL.createObjectURL(image)} alt={user_nick_name} />
 					) : (
@@ -48,12 +50,11 @@ const MyProfileTemplate = () => {
 							onChange={handleImageChange}
 							name="picture"
 						></S.EditButton>
-						<Button
-							onClick={handleImageClick}
-							label={'수정하기'}
-							variant={'outlined'}
+						<Button 
+							type="submit" 
+							label={'수정완료'}
+							variant={'primary-outlined'}
 						/>
-						<Button type="submit" label={'수정완료'} />
 					</S.Button>
 				</S.Right>
 			</S.Form>
@@ -87,11 +88,29 @@ S.UserImg = styled.div`
 	height: 100px;
 	display: flex;
 	margin-right: 30px;
+	cursor: pointer;
 
 	> img {
 		border-radius: 50%;
 		width: 100%;
 		height: 100%;
+	}
+`
+
+S.Overay = styled.div`
+	position: absolute;
+	bottom: 0;
+	right: 6px;
+	background-color: ${({ theme }) => theme.PALETTE.primary[100]};
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+
+	>SVG{
+		color: ${({ theme }) => theme.PALETTE.white};
+		font-size: ${({ theme }) => theme.FONT_SIZE.large};
+		vertical-align: -5px;
 	}
 `
 S.Right = styled.div``
