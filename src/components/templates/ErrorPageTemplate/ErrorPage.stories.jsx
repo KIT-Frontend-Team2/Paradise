@@ -1,9 +1,9 @@
-import ErrorPage from '../pages/ErrorPage'
+import ErrorPageTemplate from './ErrorPageTemplate'
 
 export default {
-	title: 'Page/ErrorPage',
+	title: 'Template/ErrorPageTemplate',
 	tags: ['autodocs'],
-	component: ErrorPage,
+	component: ErrorPageTemplate,
 	argTypes: {
 		error: { control: { type: 'text' } },
 		errorMessage: { control: { type: 'text' } },
@@ -11,7 +11,7 @@ export default {
 	},
 }
 
-const Template = args => <ErrorPage {...args} />
+const Template = args => <ErrorPageTemplate {...args} />
 export const Controls = Template.bind({})
 
 Controls.args = {}
