@@ -6,53 +6,53 @@ import { queryConfig } from './@config'
 
 const LoadApi = () => {
 	const getMainPage = () => {
-		const { data, isLoading, isError } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.LIST],
 			() => getPageAxios.getMainProductList(),
 			{ ...queryConfig },
 		)
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 
 	const getListPage = (optionKey, page) => {
-		const { data, isLoading, isError } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.LIST, optionKey, page],
 			() => getPageAxios.getProductList(optionKey, page),
 			{ ...queryConfig },
 		)
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 
 	const getDetailPage = productId => {
-		const { data, isLoading, isError } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.PRODUCT, productId],
 			() => getPageAxios.getDetailProduct(productId),
-			{ ...queryConfig },
+			{ ...queryConfig, suspense: true },
 		)
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 
 	const getSearchPage = (keyword, page) => {
-		const { data, isLoading, isError } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.SEARCH, keyword, page],
 			() => getPageAxios.getSearchKeyWordList(keyword, page),
 			{ ...queryConfig },
 		)
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 
 	const getSearchUserPage = (userName, page) => {
-		const { data, isLoading, isError } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.SEARCH, API_KEY.USER, userName, page],
 			() => getPageAxios.getSearchUserNameList(userName, page),
 			{ ...queryConfig },
 		)
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 	return {
 		getDetailPage,
