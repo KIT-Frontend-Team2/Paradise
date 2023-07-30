@@ -14,7 +14,6 @@ const ChatMessage = ({ message, chatData }) => {
 	}
 	return (
 		<S.MessageContainer $issender={isSender}>
-			{/* <div>{message.createdAt}</div> */}
 			<S.AvatarContainer $hasimage={!isSender}>
 				{!isSender && <img src={senderImage} />}
 			</S.AvatarContainer>

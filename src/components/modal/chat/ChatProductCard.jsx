@@ -1,3 +1,6 @@
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import { IconButton } from '@mui/material'
 import styled, { css } from 'styled-components'
 
 import ChatProductCardButton from './ChatProductCardButton'
@@ -15,7 +18,7 @@ export const getProductStatusColor = status => {
 			return ''
 	}
 }
-const ChatProductCard = ({ chatData }) => {
+const ChatProductCard = ({ chatData, collapsed, toggleCollapse }) => {
 	const {
 		product_id,
 		product_name,
@@ -23,26 +26,40 @@ const ChatProductCard = ({ chatData }) => {
 		product_status,
 		product_price,
 	} = chatData
+
 	return (
-		<S.Container>
-			<S.ImageWrapper>
+		<S.Container collapsed={collapsed}>
+			<S.ImageWrapper collapsed={collapsed}>
 				<S.Image src={product_main_img_url} />
 			</S.ImageWrapper>
 			<S.ProductInfo>
-				<S.Title>
+				<S.Title collapsed={collapsed}>
 					<S.ProductState color={getProductStatusColor(product_status)}>
 						{product_status}
 					</S.ProductState>
 					<S.ProductName>{product_name}</S.ProductName>
+					{collapsed && (
+						<>
+							<S.ProductPrice collapsed={collapsed}>
+								{product_price.toLocaleString()}원
+							</S.ProductPrice>
+						</>
+					)}
 				</S.Title>
-				<div>
-					<S.ProductPrice>{product_price.toLocaleString()}</S.ProductPrice>
-					{'원'}
-				</div>
-				<div>
-					<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
-				</div>
+				{!collapsed && (
+					<>
+						<S.ProductPrice>{product_price.toLocaleString()}원</S.ProductPrice>
+						<div>
+							<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
+						</div>
+					</>
+				)}
 			</S.ProductInfo>
+			<S.ArrowButton>
+				<IconButton onClick={toggleCollapse}>
+					{!collapsed ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+				</IconButton>
+			</S.ArrowButton>
 		</S.Container>
 	)
 }
@@ -55,17 +72,18 @@ S.Container = styled.div`
 	position: fixed;
 	display: flex;
 	align-items: center;
-	width: 550px;
-	height: 100px;
+	width: ${({ collapsed }) => (collapsed ? '550px' : '550px')};
+	height: ${({ collapsed }) => (collapsed ? '20px' : '100px')};
 	border: 1px solid #dddddd;
 	border-radius: 6px;
 	padding: 1rem;
 	background-color: #fff;
-	margin-top: 10px;
+	margin-top: ${({ collapsed }) => (collapsed ? '0' : '10px')};
 `
 
 S.ImageWrapper = styled.div`
 	position: relative;
+	display: ${({ collapsed }) => (collapsed ? 'none' : 'block')};
 `
 S.Image = styled.img`
 	width: 100px;
@@ -82,7 +100,11 @@ S.ProductInfo = styled.div`
 	height: 100%;
 `
 
-S.Title = styled.div``
+S.Title = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+`
 
 S.ProductState = styled.span`
 	${props =>
@@ -100,4 +122,14 @@ S.ProductName = styled.span`
 S.ProductPrice = styled.span`
 	font-weight: bold;
 	font-size: 18px;
+	${({ collapsed }) =>
+		collapsed &&
+		css`
+			margin-left: 20px;
+		`}
+`
+S.ArrowButton = styled.div`
+	position: absolute;
+	top: 5px;
+	right: 5px;
 `

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from 'styled-components'
 
 import ChatInput from './ChatInput'
@@ -27,12 +28,21 @@ const Chating = ({ chatData, conversations }) => {
 	const chatDataWithDividers =
 		conversation && dateDividers(conversation.messages)
 
+	const [collapsed, setCollapsed] = useState(false)
+	const toggleCollapse = () => {
+		setCollapsed(!collapsed)
+	}
+
 	return (
 		<div>
 			<S.ChatProductCardContent>
-				<ChatProductCard chatData={chatData} />
+				<ChatProductCard
+					chatData={chatData}
+					collapsed={collapsed}
+					toggleCollapse={toggleCollapse}
+				/>
 			</S.ChatProductCardContent>
-			<S.MeesageContent>
+			<S.MeesageContent collapsed={collapsed}>
 				{chatDataWithDividers &&
 					chatDataWithDividers.map(item =>
 						item.type === 'divider' ? (
@@ -72,7 +82,7 @@ S.MeesageContent = styled.div`
 	width: 100%;
 	height: calc(100vh - 150px);
 	overflow-y: auto;
-	padding-top: 160px;
+	padding-top: ${({ collapsed }) => (collapsed ? '100px' : '160px')};
 `
 S.DateDivider = styled.div`
 	display: flex;
