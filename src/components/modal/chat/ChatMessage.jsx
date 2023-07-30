@@ -1,29 +1,30 @@
-// ChatMessage.jsx
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const ChatMessage = ({ message, chatData }) => {
-	console.log(chatData, message)
 	const isSender = message.senderId === chatData.user.id
-
-	const senderImage = isSender ? chatData.user.image : ''
-
-	const receiverName = chatData.user.name
-
+	const senderImage = isSender ? '' : chatData.user.image
+	console.log(message.createdAt)
+	const formDate = dateString => {
+		const date = new Date(dateString)
+		return date.toLocaleTimeString('ko-KR', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hour12: true,
+		})
+	}
 	return (
-		<S.MessageContainer isSender={isSender}>
-			<S.AvatarContainer>
-				<img src={senderImage} />
+		<S.MessageContainer $issender={isSender}>
+			{/* <div>{message.createdAt}</div> */}
+			<S.AvatarContainer $hasimage={!isSender}>
+				{!isSender && <img src={senderImage} />}
 			</S.AvatarContainer>
-			<S.MessageBox>
-				<S.MetaInfo>
-					<S.UserName isSender={isSender}>
-						{isSender ? '' : receiverName}
-					</S.UserName>
-					<S.MessageTime>{message.time}</S.MessageTime>
-				</S.MetaInfo>
+			<S.MessageBox $issender={isSender}>
 				{message.text && (
-					<S.MessageText isSender={isSender}>{message.text}</S.MessageText>
+					<S.MessageText $issender={isSender}>{message.text}</S.MessageText>
 				)}
+				<S.MetaInfo>
+					<S.MessageTime>{formDate(message.createdAt)}</S.MessageTime>
+				</S.MetaInfo>
 			</S.MessageBox>
 		</S.MessageContainer>
 	)
@@ -35,24 +36,34 @@ export const S = {}
 
 S.MessageContainer = styled.div`
 	display: grid;
-	grid-template-columns: 40px 1fr;
+	grid-template-columns: ${({ $issender }) => ($issender ? '1fr' : '40px 1fr')};
 	gap: 3px;
 	width: 100%;
-	direction: ${({ isSender }) => (isSender ? 'rtl' : 'ltr')};
+	direction: ${({ $issender }) => ($issender ? 'rtl' : 'ltr')};
 `
 
 S.AvatarContainer = styled.div`
-	img {
-		width: 30px;
-		height: 30px;
-	}
+	${({ $hasimage }) =>
+		$hasimage
+			? css`
+					img {
+						width: 30px;
+						height: 30px;
+						border-radius: 50%;
+					}
+			  `
+			: css`
+					width: 0;
+					height: 0;
+					padding: 0;
+			  `}
 `
 
 S.MessageBox = styled.div`
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: start;
+
+	align-items: end;
+	padding-right: ${({ issender }) => (issender ? 0 : '10px')};
 `
 
 S.MetaInfo = styled.div`
@@ -60,11 +71,7 @@ S.MetaInfo = styled.div`
 	align-items: center;
 	gap: 5px;
 	font-size: 14px;
-	margin-bottom: 5px;
-`
-
-S.UserName = styled.span`
-	font-weight: ${({ isSender }) => (isSender ? 'bold' : 'normal')};
+	padding: 0 8px;
 `
 
 S.MessageTime = styled.span`
@@ -72,16 +79,10 @@ S.MessageTime = styled.span`
 	color: #999;
 `
 
-S.MessageImage = styled.img`
-	border-radius: 5px;
-	max-width: 80%;
-	margin-right: ${({ isSender }) => (isSender ? '0.6rem' : 'none')};
-`
-
 S.MessageText = styled.div`
 	padding: 0.5rem;
-	background-color: ${({ isSender }) => (isSender ? '#009D91' : '#ddd')};
-	border-radius: ${({ isSender }) =>
-		isSender ? '10px 0 10px 10px' : '0 10px 10px 10px'};
-	color: ${({ isSender }) => (isSender ? '#fff' : '#333')};
+	background-color: ${({ $issender }) => ($issender ? '#009D91' : '#ddd')};
+	border-radius: ${({ $issender }) =>
+		$issender ? '10px 0 10px 10px' : '0 10px 10px 10px'};
+	color: ${({ $issender }) => ($issender ? '#fff' : '#333')};
 `
