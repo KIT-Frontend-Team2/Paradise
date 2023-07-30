@@ -15,13 +15,11 @@ export const useDevice = () => {
 		'(min-width: 1024px) and (max-width: 1279px)',
 	)
 	const isDesktop = useMediaQuery('(min-width: 1280px)')
-	const isSideBar = useMediaQuery('(min-width: 1520px)')
 	return {
 		isMobile,
 		isMobileAndTablet,
 		isTablet,
 		isTabletAndLaptop,
 		isDesktop,
-		isSideBar,
 	}
 }
