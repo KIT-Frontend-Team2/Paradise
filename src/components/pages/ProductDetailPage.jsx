@@ -1,21 +1,13 @@
 import { useParams } from 'react-router-dom'
 
-import useLoadApi from '../../hooks/pageQuery/useLoadPage'
+import LoadApi from '../../hooks/pageQuery/useLoadPage'
 import ProductDetailTemplate from '../templates/ProductDetailTemplate/ProductDetailTemplate'
-import ProductSkeletonTemplate from '../templates/ProductDetailTemplate/ProductSkeletonTemplate'
 
 const ProductDetailPage = () => {
+	const { getDetailPage } = LoadApi()
 	const productId = useParams().productId
 
-	const { data, isError, isLoading } = useLoadApi.DetailPage(productId)
-
-	if (isError) {
-		return <>Error Loading</>
-	}
-
-	if (isLoading) {
-		return <ProductSkeletonTemplate />
-	}
+	const { data } = getDetailPage(productId)
 
 	return <ProductDetailTemplate productInfo={data.data.data} />
 }

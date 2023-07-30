@@ -68,6 +68,7 @@ const SProductCarousel = ({ products }) => {
 				{products.map(product => (
 					<SwiperSlide key={product.product_id}>
 						<ProductCard
+							state={product.state}
 							size={200}
 							isLike={product.isLike}
 							like={product.product_like}

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
 
@@ -20,15 +21,17 @@ const ProductCard = ({
 	time,
 	like,
 	chat_count,
-	state,
+	state = '판매중',
 	price,
 }) => {
 	const [likeState, setLikeState] = useState(isLike | false)
 	const { linkDetailPage } = useMove()
 
+	const { mutate } = useProductService.usePostWishAdd(id)
 	const onClickWithLike = () => {
-		setLikeState(prev => !prev)
+		mutate([likeState, setLikeState])
 	}
+
 	return (
 		<S.Card size={size}>
 			<S.ImgBox>
@@ -94,7 +97,7 @@ ProductCard.propTypes = {
 	/**
 	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
 	 */
-	state: PropTypes.string.isRequired,
+	state: PropTypes.string,
 	/**
 	 * 상품 게시물의 이름을 입력합니다.
 	 */

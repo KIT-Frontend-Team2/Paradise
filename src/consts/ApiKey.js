@@ -19,6 +19,10 @@ const API_KEY = {
 	COUNT: '/count',
 	UPDATE: '/update',
 	REGISTER: '/register',
+	LANDING: '/landing',
+	VIEWLIST: '/view-list',
+	ERROR: '/ErrorPage',
+	HOME: '/home',
 }
 
 export default API_KEY

@@ -1,4 +1,4 @@
-import MainLogo from 'assets/images/main-logo.png'
+import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -8,29 +8,15 @@ import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import MaLineBanner from '../../ui/organisms/MaLineBanner/MaLineBanner'
 import MaSection from '../../ui/organisms/MaSection/MaSection'
 
-const MainPageTemplate = ({ productInfo }) => {
+const MainPageTemplate = ({ mainLogo, productInfo }) => {
 	const { linkRegister } = useMove()
-	const images = [
-		{
-			img_url: MainLogo,
-			id: 1,
-		},
-		{
-			img_url: MainLogo,
-			id: 2,
-		},
-		{
-			img_url: MainLogo,
-			id: 3,
-		},
-	]
-
 	const { linkSellList, linkShareList } = useMove()
+
 	return (
 		<>
 			<S.MainBannerBox>
 				<SSlideBanner
-					Images={images}
+					Images={mainLogo}
 					loop={true}
 					isAuto={true}
 					autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -62,8 +48,19 @@ const MainPageTemplate = ({ productInfo }) => {
 
 export default MainPageTemplate
 
+MainPageTemplate.proptype = {
+	/**
+	 * 메인 배너에 들어갈 이미지들을 넣어주세요
+	 */
+	mainLogo: PropTypes.object.isRequired,
+	/**
+	 * 메인 화면에 보여줄 상품들의 정보를 넣어주세요
+	 */
+	productInfo: PropTypes.object.isRequired,
+}
+
 const S = {}
 
 S.MainBannerBox = styled.div`
-	height: 40vh;
+	height: 510px;
 `

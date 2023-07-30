@@ -1,8 +1,11 @@
-import React from 'react'
+import PropTypes from 'prop-types'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
+import useViewListApi from '../../../hooks/service/useViewList.service'
+import ErrorBoundary from '../../error/ErrorBoundary'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
@@ -36,13 +39,24 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
+	const { mutate: postMutate } = useViewListApi.usePostViewList(
+		productInfo.product_id,
+	)
+
+	useEffect(() => {
+		postMutate({
+			id: productInfo.product_id,
+			img: productInfo.product_imgs[0].img_url,
+		})
+	}, [])
+
 	const { isDesktop, isTablet, isTabletAndLaptop } = useDevice()
 
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop
 	const [containerWidth, widthRef] = useResizeEventGetWidth()
 	return (
 		<Container>
-			<S.FlexBox deskTop={isDesk}>
+			<S.FlexBox desktop={isDesk.toString()}>
 				{isDesk ? (
 					<DeImgSection
 						containerWidth={containerWidth}
@@ -56,6 +70,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					style={{ boxSizing: 'border-box', padding: '10px' }}
 				>
 					<DeProductSection
+						id={productInfo.product_id}
 						isBuyer={productInfo.isBuyer}
 						chatCount={productInfo.product_chat_count}
 						isLike={productInfo.isLike}
@@ -68,7 +83,9 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						containerWidth={containerWidth - 30}
 					/>
 					<DeProductCategoryTag category={productInfo.product_tag} />
-					<DeProductMapSection rightTitle={productInfo.product_place} />
+					<ErrorBoundary>
+						<DeProductMapSection rightTitle={productInfo.product_place} />
+					</ErrorBoundary>
 					<DeUserProductSection
 						imgProfile={user_profile_url}
 						userTemplate={user_temperature}
@@ -98,6 +115,10 @@ const ProductDetailTemplate = ({ productInfo }) => {
 	)
 }
 
+ProductDetailTemplate.proptype = {
+	productInfo: PropTypes.object.isRequired,
+}
+
 export const S = {}
 
 S.Flex = styled.div`
@@ -106,9 +127,10 @@ S.Flex = styled.div`
 
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;
-	display: ${({ deskTop }) => (deskTop ? 'flex' : 'block')};
+	display: ${({ desktop }) => (desktop === 'true' ? 'flex' : 'block')};
+
 	> div {
-		width: ${({ deskTop }) => (deskTop ? 50 : 100)}%;
+		width: ${({ desktop }) => (desktop === 'true' ? 50 : 100)}%;
 	}
 `
 
