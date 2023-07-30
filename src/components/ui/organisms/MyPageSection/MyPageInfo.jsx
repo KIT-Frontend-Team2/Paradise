@@ -156,6 +156,7 @@ const MyPageInfo = () => {
 						</S.CheckContent>
 						<S.SignUpButton>
 							<Button
+								type="button"
 								label={'탈퇴하기'}
 								size={'large'}
 								variant={'primary-outlined'}

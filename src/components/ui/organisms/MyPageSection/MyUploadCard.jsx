@@ -32,6 +32,7 @@ const MyUploadCard = ({
 
 	return (
 		<S.Card>
+			<S.ImageBox>
 			{MyContentValue === 'wish' ? (
 				<S.LikeBox>
 					<Checkbox
@@ -44,7 +45,6 @@ const MyUploadCard = ({
 			) : (
 				''
 			)}
-			<S.ImageBox>
 				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
 				{MyContentValue === 'mySell' ? (
 					<S.Toggle>
