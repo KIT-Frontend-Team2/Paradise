@@ -1,10 +1,11 @@
 import wonIcon from 'assets/images/ico-won.png'
+import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import DeformImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
+import DeFormImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
@@ -13,6 +14,9 @@ const ProductForm = ({ detail }) => {
 	const [imagePreviews, setImagePreviews] = useState([])
 	const [isFreeProduct, setIsFreeProduct] = useState(false)
 	const [tagList, setTagList] = useState([])
+
+	const imageRef = useRef()
+	const tagRef = useRef()
 
 	const {
 		product_imgs,
@@ -29,11 +33,13 @@ const ProductForm = ({ detail }) => {
 
 	const {
 		register,
+		unregister,
 		getValues,
 		setValue,
 		trigger,
 		handleSubmit,
 		setError,
+		clearErrors,
 		reset,
 		formState: { isValid, errors },
 	} = useForm({
@@ -76,6 +82,7 @@ const ProductForm = ({ detail }) => {
 			reader.readAsDataURL(files[i])
 		}
 		e.target.value = ''
+		clearErrors('image')
 	}
 
 	// 판매, 나눔 변경
@@ -98,23 +105,32 @@ const ProductForm = ({ detail }) => {
 
 	// 태그 추가
 	const onAddTag = () => {
-		const newTag = getValues('tag')
+		const newTag = tagRef.current.value
 		if (!newTag) return
 
 		setTagList([...tagList, newTag])
-		setValue('tag', '')
+		clearErrors('tag')
+		tagRef.current.value = ''
 	}
 	// 태그 삭제
 	const onDeleteTag = deleteIndex => {
 		const _tagList = tagList.filter((_tag, index) => index !== deleteIndex)
-		console.log(_tagList)
 		setTagList(_tagList)
+
+		unregister(`tag.${deleteIndex}`)
 	}
 
 	const onProductRegisterForm = data => {
+		if (imagePreviews.length === 0) {
+			imageRef.current.scrollIntoView()
+			setError('image', {
+				message: '이미지를 하나 이상 추가해주세요.',
+			})
+			return
+		}
 		if (tagList.length === 0) {
+			tagRef.current.focus()
 			setError('tag', {
-				type: 'manual',
 				message: '태그를 하나 이상 추가해주세요.',
 			})
 			return
@@ -124,9 +140,16 @@ const ProductForm = ({ detail }) => {
 	}
 
 	const onProductUpdateForm = data => {
+		if (imagePreviews.length === 0) {
+			imageRef.current.scrollIntoView()
+			setError('image', {
+				message: '이미지를 하나 이상 추가해주세요.',
+			})
+			return
+		}
 		if (tagList.length === 0) {
+			tagRef.current.focus()
 			setError('tag', {
-				type: 'manual',
 				message: '태그를 하나 이상 추가해주세요.',
 			})
 			return
@@ -136,8 +159,8 @@ const ProductForm = ({ detail }) => {
 	}
 
 	return (
-		<>
-			<S.Container>
+		<Container>
+			<S.Wrapper>
 				<S.TitleArea>
 					<S.Title2>{detail ? '물품 수정' : '물품 등록'}</S.Title2>
 					<S.RightArea>
@@ -161,7 +184,8 @@ const ProductForm = ({ detail }) => {
 						</S.FormLabel>
 						<S.FormRegister>
 							<div>
-								<DeformImagePreviewGroup
+								<DeFormImagePreviewGroup
+									ref={imageRef}
 									register={register}
 									handleImageChange={handleImageChange}
 									imagePreviews={imagePreviews}
@@ -172,6 +196,11 @@ const ProductForm = ({ detail }) => {
 								<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
 								<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
 							</ul>
+							{errors.image && (
+								<S.ErrorMessage className="error">
+									{errors.image.message}
+								</S.ErrorMessage>
+							)}
 						</S.FormRegister>
 					</S.FormGroup>
 					{/* 제목 */}
@@ -241,7 +270,7 @@ const ProductForm = ({ detail }) => {
 										className="tag"
 										placeholder={'태그를 입력해주세요'}
 										width={'348'}
-										{...register('tag')}
+										ref={tagRef}
 										error={errors.tag && errors.tag.message}
 									/>
 								</S.CustomInput>
@@ -252,8 +281,11 @@ const ProductForm = ({ detail }) => {
 									onClick={onAddTag}
 								/>
 							</InputGroup>
-							{/* <ProductTagList tagList={product_tag} /> */}
-							<DeFormTagGroup tagList={tagList} onDeleteTag={onDeleteTag} />
+							<DeFormTagGroup
+								register={register}
+								tagList={tagList}
+								onDeleteTag={onDeleteTag}
+							/>
 						</S.FormRegister>
 					</S.FormGroup>
 					{/* 내용 */}
@@ -316,8 +348,8 @@ const ProductForm = ({ detail }) => {
 						/>
 					</S.ButtonWrap>
 				</form>
-			</S.Container>
-		</>
+			</S.Wrapper>
+		</Container>
 	)
 }
 
@@ -325,9 +357,8 @@ export default ProductForm
 
 export const S = {}
 
-S.Container = styled.div`
-	max-width: 1100px;
-	margin: 120px auto 95px;
+S.Wrapper = styled.div`
+	margin-top: 80px;
 `
 
 S.TitleArea = styled.div`
@@ -367,6 +398,16 @@ S.FormGroup = styled.dl`
 	&:last-child {
 		border-bottom-color: ${({ theme }) => theme.PALETTE.gray[800]};
 	}
+
+	${({ theme }) =>
+		!theme.isDesktop &&
+		!theme.isTabletAndLaptop &&
+		`
+		flex-direction: column;
+		align-items: flex-start;
+		gap:20px;
+		border-bottom:0;
+	`}
 `
 
 S.FormLabel = styled.dd`
@@ -397,6 +438,8 @@ S.FormRegister = styled.dt`
 	flex-direction: column;
 	flex: 1;
 	gap: 12px;
+	${({ theme }) =>
+		!theme.isDesktop && !theme.isTabletAndLaptop && `width:100%;`}
 
 	.infoMessage {
 		padding-left: 15px;
@@ -486,7 +529,8 @@ S.Map = styled.div`
 `
 
 S.ButtonWrap = styled.div`
-	width: 50%;
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? `50%` : `100%`};
 	margin: 45px auto 0;
 	display: flex;
 	justify-content: space-between;

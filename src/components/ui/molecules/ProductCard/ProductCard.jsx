@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useProductService from '../../../../hooks/service/useProduct.service'
+import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
 
 const ProductCard = ({
@@ -19,14 +21,17 @@ const ProductCard = ({
 	time,
 	like,
 	chat_count,
-	...rest
+	state = '판매중',
+	price,
 }) => {
 	const [likeState, setLikeState] = useState(isLike | false)
+	const { linkDetailPage } = useMove()
 
+	const { mutate } = useProductService.usePostWishAdd(id)
 	const onClickWithLike = () => {
-		setLikeState(prev => !prev)
-		console.log(id + ' 찜상태 변경 요청보내기')
+		mutate([likeState, setLikeState])
 	}
+
 	return (
 		<S.Card size={size}>
 			<S.ImgBox>
@@ -39,30 +44,40 @@ const ProductCard = ({
 					/>
 				</S.LikeBox>
 				<img
+					style={{ cursor: 'pointer' }}
 					src={img_url}
 					alt={name}
-					onClick={() => console.log(id + '의 게시물 로 이동합니다.')}
+					onClick={() => linkDetailPage(id)}
 				/>
+				{state === '판매완료' && (
+					<S.CloseBox>
+						<span>판매완료</span>
+					</S.CloseBox>
+				)}
 			</S.ImgBox>
 			<S.PlaceWithTimeBox>
 				<span>{place}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{content}</S.TitleBox>
-			{rest.price ? (
-				<S.PriceBox>{rest.price.toLocaleString() + '원'}</S.PriceBox>
+			{price !== 0 ? (
+				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<S.PriceBox></S.PriceBox>
+				<S.PriceBox />
 			)}
 			<S.FlexBox>
-				<S.IconWithText>
-					<FavoriteBorderIcon />
-					<span>{like}</span>
-				</S.IconWithText>
-				<S.IconWithText>
-					<ChatBubbleOutlineOutlinedIcon />
-					<span>{chat_count}</span>
-				</S.IconWithText>
+				{like > 0 && (
+					<S.IconWithText>
+						<FavoriteBorderIcon />
+						<span>{like}</span>
+					</S.IconWithText>
+				)}
+				{chat_count > 0 && (
+					<S.IconWithText>
+						<ChatBubbleOutlineOutlinedIcon />
+						<span>{chat_count}</span>
+					</S.IconWithText>
+				)}
 			</S.FlexBox>
 		</S.Card>
 	)
@@ -79,6 +94,10 @@ ProductCard.propTypes = {
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
 	id: PropTypes.string.isRequired,
+	/**
+	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
+	 */
+	state: PropTypes.string,
 	/**
 	 * 상품 게시물의 이름을 입력합니다.
 	 */
@@ -111,6 +130,10 @@ ProductCard.propTypes = {
 	 * 상품의 채팅 갯수를 입력합니다.
 	 */
 	chat_count: PropTypes.number.isRequired,
+	/**
+	 * 상품의 가격을 결정합니다.
+	 */
+	price: PropTypes.number,
 }
 
 const S = {}
@@ -141,6 +164,24 @@ S.ImgBox = styled.div`
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+`
+
+S.CloseBox = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(00, 00, 00, 50%);
+	z-index: 100;
+	top: 0;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+
+	span {
+		font-weight: bold;
+		font-size: 24px;
+		color: ${({ theme }) => theme.PALETTE.white};
 	}
 `
 
@@ -210,3 +251,6 @@ S.IconWithText = styled.div`
 		font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
 	}
 `
+ProductCard.defaultProps = {
+	price: 0,
+}

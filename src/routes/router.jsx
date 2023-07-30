@@ -3,35 +3,47 @@ import { createBrowserRouter } from 'react-router-dom'
 import MainLayout from '../components/layout/MainLayout'
 import AuthPage from '../components/pages/AuthPage'
 import ErrorPage from '../components/pages/ErrorPage'
+import LandingPage from '../components/pages/LandingPage'
+import MainPage from '../components/pages/MainPage'
 import MyPage from '../components/pages/MyPage'
 import ProductDetailPage from '../components/pages/ProductDetailPage'
 import ProductListPage from '../components/pages/ProductListPage'
 import ProductRegisterPage from '../components/pages/ProductRegisterPage'
 import ProductSearchPage from '../components/pages/ProductSearchPage'
 import ProductUpdatePage from '../components/pages/ProductUpdatePage'
-import RendingPage from '../components/pages/RendingPage'
+import ProductUserListPage from '../components/pages/ProductUserListPage'
+import PrivateRoute from './private'
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <MainLayout />,
 		children: [
-			{ path: '/*', element: <ErrorPage /> },
-			{ path: '/auth', element: <AuthPage /> },
-			{ path: '/product/list', element: <ProductListPage /> },
-			{ path: '/product/register', element: <ProductRegisterPage /> },
-			{ path: '/product/update/:productId', element: <ProductUpdatePage /> },
 			{
-				path: '/product/detail/:productId',
-				element: <ProductDetailPage />,
+				element: <PrivateRoute />,
+				children: [
+					{ path: '/', element: <MainPage /> },
+					{ path: '/home', element: <MainPage /> },
+					{ path: '/*', element: <ErrorPage /> },
+					{ path: '/list/:filter', element: <ProductListPage /> },
+					{ path: '/product/register', element: <ProductRegisterPage /> },
+					{
+						path: '/product/update/:productId',
+						element: <ProductUpdatePage />,
+					},
+					{ path: '/product/user/:userId', element: <ProductUserListPage /> },
+					{
+						path: '/product/detail/:productId',
+						element: <ProductDetailPage />,
+					},
+					{ path: '/product/search/:keyword', element: <ProductSearchPage /> },
+					{ path: '/mypage', element: <MyPage /> },
+				],
 			},
-			{ path: '/product/search/:keyword', element: <ProductSearchPage /> },
-			{ path: '/mypage', element: <MyPage /> },
+			{ path: '/auth', element: <AuthPage /> },
+			{ path: '/landing', element: <LandingPage /> },
 		],
-	},
-	{
-		path: '/rending',
-		element: <RendingPage />,
+		errorElement: <ErrorPage />,
 	},
 ])
 

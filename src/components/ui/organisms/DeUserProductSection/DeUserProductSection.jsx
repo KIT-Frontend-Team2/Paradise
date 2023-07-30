@@ -14,25 +14,32 @@ const DeUserProductSection = ({
 	userName,
 	userId,
 	itemData,
-}) => (
-	<S.ProductBox>
-		<DeSectionTitle title={'판매자 정보'} />
-		<DeUserCard
-			imgProfile={imgProfile}
-			productCount={productCount}
-			userTemplate={userTemplate}
-			userName={userName}
-		/>
-		<DeImageList
-			width={540}
-			height={355}
-			cols={3}
-			rowHeight={169}
-			itemData={itemData}
-		/>
-		<DeUserProductButton productCount={productCount} userId={userId} />
-	</S.ProductBox>
-)
+	containerWidth,
+}) => {
+	return (
+		<S.ProductBox>
+			<DeSectionTitle title={'판매자 정보'} />
+			<DeUserCard
+				imgProfile={imgProfile}
+				productCount={productCount}
+				userTemplate={userTemplate}
+				userName={userName}
+			/>
+			<DeImageList
+				width={containerWidth}
+				height={containerWidth * 0.65}
+				cols={3}
+				rowHeight={containerWidth * 0.31}
+				itemData={itemData}
+			/>
+			<DeUserProductButton
+				width={containerWidth}
+				productCount={productCount}
+				userId={userId}
+			/>
+		</S.ProductBox>
+	)
+}
 
 export default DeUserProductSection
 

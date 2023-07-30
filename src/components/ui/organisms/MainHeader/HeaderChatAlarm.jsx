@@ -1,17 +1,18 @@
 import { headerMock } from '__mock__/datas/header.mock'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { useState } from 'react'
 import styled from 'styled-components'
 
 const HeaderChatAlarm = () => {
 	const [showChatModal, setShowChatModal] = useState(true)
-
+	const { isTablet } = useDevice()
 	const handleChatModalClose = () => {
 		setShowChatModal(false)
 	}
 	return (
 		<>
 			{showChatModal && (
-				<S.ChatModal>
+				<S.ChatModal isTablet={isTablet}>
 					<S.ChatBox>
 						<S.ChatText>새로운 채팅 도착!</S.ChatText>
 						<S.ChatTime>{headerMock.data.last_chat_ago}</S.ChatTime>
@@ -32,8 +33,8 @@ S.ChatModal = styled.div`
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	width: 200px;
-	height: 100px;
+	width: ${({ isTablet }) => (isTablet ? '180px' : '200px')};
+	height: ${({ isTablet }) => (isTablet ? '80px' : '100px')};
 	background-color: #f5f5f5;
 	border-radius: 6px;
 	display: flex;
@@ -41,7 +42,7 @@ S.ChatModal = styled.div`
 	align-items: center;
 	justify-content: center;
 	padding: 0 10px;
-	right: 20px;
+	right: 0px;
 `
 
 S.ChatBox = styled.div`
