@@ -25,10 +25,13 @@ export default SideBar
 const S = {}
 
 S.SideBarBanner = styled.div`
-	top: 15%;
-	position: fixed;
-	right: calc(50% - 700px);
-	opacity: ${({ show }) => (show === 'true' ? 0 : 1)};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
+	position: absolute;
+	top: 550px;
+	right: 20px;
+	bottom: 0;
+	z-index: 1;
+	margin-top: 216px;
 `
 S.SideBarChat = styled.div`
 	z-index: 100;
