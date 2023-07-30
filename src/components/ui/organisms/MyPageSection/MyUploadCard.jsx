@@ -1,16 +1,16 @@
-
-import React, { useState } from 'react'
-import {styled} from 'styled-components'
-import SellMenuBar from './SellMenuBar'
-import timeHelper from 'utils/time-helper'
+import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import Checkbox from '@mui/material/Checkbox'
+import React, { useState } from 'react'
+import { styled } from 'styled-components'
+import timeHelper from 'utils/time-helper'
+
 import useProductService from '../../../../hooks/service/useProduct.service'
+import SellMenuBar from './SellMenuBar'
 
 const MyUploadCard = ({
-  MyContentValue,
+	MyContentValue,
 	key,
 	price,
 	isLike,
@@ -23,69 +23,68 @@ const MyUploadCard = ({
 	time,
 	state,
 	content,
-
 }) => {
-  const [likeState, setLikeState] = useState(isLike | false)
+	const [likeState, setLikeState] = useState(isLike | false)
 	const { mutate } = useProductService.usePostWishAdd(id)
-  const onClickWithLike = () => {
+	const onClickWithLike = () => {
 		mutate([likeState, setLikeState])
 	}
 
-  return (
-					<S.Card>
-            {MyContentValue === 'wish' ? 
-            <S.LikeBox>
-              <Checkbox
-              onClick={onClickWithLike}
-              checked={Boolean(likeState)}
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite sx={{ color: 'red' }} />}
-              />
-            </S.LikeBox>: ''}
-						<S.ImageBox>
-							<img 
-							src={img_url}
-							style={{ cursor: 'pointer' }}
-							alt={name}
-							/>
-						{ MyContentValue === 'mySell'?
-            <S.Toggle>
-								<SellMenuBar/>
-						</S.Toggle> :'' }
-              { MyContentValue === 'mySell' && state === '판매완료' && (
-                <S.CloseBox>
-                  <span>판매완료</span>
-                </S.CloseBox>
-              )}
-						</S.ImageBox>
-						<S.PlaceWithTimeBox>
-							<span>{place}</span>
-							<span>{timeHelper(time)}</span>
-						</S.PlaceWithTimeBox>
-						<S.TitleBox>{content}</S.TitleBox>
-            {price !== 0 ? (
-              <S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
-              ) : (
-              <S.PriceBox />
-              )}
-						<S.FlexBox>
-            {like > 0 && (
-              <S.IconWithText>
-                  <FavoriteBorderIcon />
-                  <span>{like}</span>
-              </S.IconWithText>
-            )}
-            {chat_count > 0 && (
-              <S.IconWithText>
-                  <ChatBubbleOutlineOutlinedIcon />
-                  <span>{chat_count}</span>
-              </S.IconWithText>
-            )}
-        </S.FlexBox>
-
-					</S.Card>
-)
-
+	return (
+		<S.Card>
+			{MyContentValue === 'wish' ? (
+				<S.LikeBox>
+					<Checkbox
+						onClick={onClickWithLike}
+						checked={Boolean(likeState)}
+						icon={<FavoriteBorder />}
+						checkedIcon={<Favorite sx={{ color: 'red' }} />}
+					/>
+				</S.LikeBox>
+			) : (
+				''
+			)}
+			<S.ImageBox>
+				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
+				{MyContentValue === 'mySell' ? (
+					<S.Toggle>
+						<SellMenuBar />
+					</S.Toggle>
+				) : (
+					''
+				)}
+				{MyContentValue === 'mySell' && state === '판매완료' && (
+					<S.CloseBox>
+						<span>판매완료</span>
+					</S.CloseBox>
+				)}
+			</S.ImageBox>
+			<S.PlaceWithTimeBox>
+				<span>{place}</span>
+				<span>{timeHelper(time)}</span>
+			</S.PlaceWithTimeBox>
+			<S.TitleBox>{content}</S.TitleBox>
+			{price !== 0 ? (
+				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
+			) : (
+				<S.PriceBox />
+			)}
+			<S.FlexBox>
+				{like > 0 && (
+					<S.IconWithText>
+						<FavoriteBorderIcon />
+						<span>{like}</span>
+					</S.IconWithText>
+				)}
+				{chat_count > 0 && (
+					<S.IconWithText>
+						<ChatBubbleOutlineOutlinedIcon />
+						<span>{chat_count}</span>
+					</S.IconWithText>
+				)}
+			</S.FlexBox>
+		</S.Card>
+	)
 }
 
 export default MyUploadCard
@@ -112,11 +111,10 @@ S.ImageBox = styled.div`
 	width: 200px;
 	position: relative;
 
-	>img{
+	> img {
 		width: 100%;
 		height: 100%;
-    object-fit: cover;
-
+		object-fit: cover;
 	}
 `
 S.Toggle = styled.div`
@@ -133,31 +131,29 @@ S.TitleBox = styled.div`
 	white-space: nowrap;
 	overflow: hidden;
 	color: ${({ theme }) => theme.PALETTE.black};
-  text-overflow: ellipsis;
-  font-size: ${({ theme }) => theme.FONT_SIZE.normal};
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  margin-bottom: 5px;
-
+	text-overflow: ellipsis;
+	font-size: ${({ theme }) => theme.FONT_SIZE.normal};
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin-bottom: 5px;
 `
 
 S.FlexBox = styled.div`
-  color: ${({ theme }) => theme.PALETTE.gray[700]};
-  height: 20px;
-  line-height: 20px;
-  display: flex;
-  gap: 10px;
+	color: ${({ theme }) => theme.PALETTE.gray[700]};
+	height: 20px;
+	line-height: 20px;
+	display: flex;
+	gap: 10px;
 `
 
 S.IconWithText = styled.div`
-  display: flex;
-  gap: 3px;
+	display: flex;
+	gap: 3px;
 
-  span {
-      font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
-  }
-
+	span {
+		font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
+	}
 `
 
 S.CloseBox = styled.div`

@@ -41,7 +41,6 @@ export const Validation2 = yup.object({
 		),
 })
 
-
 export const Validation3 = yup.object({
 	nickname: yup.string().required('필수 입력 사항입니다.'),
 	password: yup

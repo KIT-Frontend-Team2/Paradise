@@ -1,11 +1,8 @@
 import MyPageInfo from 'components/ui/organisms/MyPageSection/MyPageInfo'
 import React from 'react'
-import { styled } from "styled-components"
-
-
+import { styled } from 'styled-components'
 
 const MyAccountTemplate = () => {
-
 	return (
 		<S.Wrapper>
 			<S.TopArea>
@@ -13,15 +10,13 @@ const MyAccountTemplate = () => {
 				<S.Text>내 정보 관리</S.Text>
 			</S.TopArea>
 			<S.Content>
-				<MyPageInfo/>
+				<MyPageInfo />
 			</S.Content>
 		</S.Wrapper>
 	)
 }
 
 export default MyAccountTemplate
-
-
 
 const S = {}
 
@@ -36,15 +31,13 @@ S.TopArea = styled.div`
 	align-items: center;
 `
 
-
 S.Title = styled.h2`
-font-size: 24px;
-font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
-text-align: left; 
+	font-size: 24px;
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+	text-align: left;
 `
 
-S.Text = styled.p`
-`
+S.Text = styled.p``
 S.Content = styled.div`
 	border-top: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
 `

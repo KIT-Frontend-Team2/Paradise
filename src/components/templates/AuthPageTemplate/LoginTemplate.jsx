@@ -89,8 +89,8 @@ export default Login
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
-	margin-right: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
+	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
 `
 
 S.Wrapper = styled.div`

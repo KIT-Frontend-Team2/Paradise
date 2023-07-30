@@ -14,7 +14,6 @@ import { Validation } from './validation'
 const SignUp = () => {
 	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
-	
 
 	const {
 		register,
@@ -174,8 +173,8 @@ export default SignUp
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
-	margin-right: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
+	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
 `
 
 S.Wrapper = styled.div`
@@ -227,5 +226,5 @@ S.SignUpButton = styled.div`
 `
 
 S.CommonButton = styled(Button)`
-  text-overflow: ellipsis;
-	`
+	text-overflow: ellipsis;
+`
