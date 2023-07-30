@@ -1,4 +1,4 @@
-import ErrorPageTemplate from "./ErrorPageTemplate";
+import ErrorPageTemplate from './ErrorPageTemplate'
 
 export default {
 	title: 'Template/ErrorPageTemplate',
