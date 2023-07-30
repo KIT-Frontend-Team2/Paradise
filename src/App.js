@@ -1,5 +1,6 @@
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'styled-components'
@@ -26,6 +27,7 @@ function App() {
 					<RecoilRoot>
 						<RouterProvider router={router} />
 					</RecoilRoot>
+					<ReactQueryDevtools initialIsOpen={false} />
 				</QueryClientProvider>
 			</ThemeProvider>
 		</>
