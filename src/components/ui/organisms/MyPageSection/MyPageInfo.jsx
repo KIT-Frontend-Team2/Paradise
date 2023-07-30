@@ -1,19 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import Container from 'components/layout/Container'
 import PopUp from 'components/modal/MapModal/AddressModal'
+import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
-import { Validation } from './validation'
-
-const SignUp = () => {
+const MyPageInfo = () => {
 	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
 	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
+
+	const [isPopUp, setIsPopUp] = useState(false)
 
 	const {
 		register,
@@ -23,9 +25,8 @@ const SignUp = () => {
 		setValue,
 	} = useForm({
 		mode: 'onchange',
-		resolver: yupResolver(Validation),
+		resolver: yupResolver(Validation3),
 	})
-	const [isPopUp, setIsPopUp] = useState(false)
 
 	const onSubmit = data => {
 		console.log(data)
@@ -48,7 +49,7 @@ const SignUp = () => {
 		<S.Wrap isdesk={isDesk.toString()}>
 			<Container>
 				<S.Wrapper>
-					<S.Title>회원가입</S.Title>
+					<S.Title>회원 정보 수정</S.Title>
 					<S.Notice>
 						<span>
 							<span className="secondary">*필수항목</span>은 꼭 입력해주세요
@@ -61,45 +62,14 @@ const SignUp = () => {
 							</S.FromLabel>
 							<InputGroup>
 								<Input
+									disabled
 									name="email"
 									placeholder={'이메일을 입력해주세요'}
-									width={'322'}
 									{...register('email')}
 									error={errors.email?.message}
 								/>
-								<S.CommonButton
-									type="button"
-									label={'중복확인'}
-									variant={'primary-outlined'}
-								/>
 							</InputGroup>
 						</S.CheckContent>
-						<S.Content>
-							<S.FromLabel>
-								비밀번호<span className="secondary"> * </span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="password"
-									placeholder={'비밀번호를 입력해주세요'}
-									{...register('password')}
-									error={errors.password?.message}
-								/>
-							</InputGroup>
-						</S.Content>
-						<S.Content>
-							<S.FromLabel>
-								비밀번호 확인<span className="secondary">* </span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="passwordconfirm"
-									placeholder={'비밀번호 확인을 입력해주세요'}
-									{...register('passwordconfirm')}
-									error={errors.passwordconfirm?.message}
-								/>
-							</InputGroup>
-						</S.Content>
 						<S.CheckContent>
 							<S.FromLabel>
 								닉네임<span className="secondary">*</span>
@@ -119,6 +89,32 @@ const SignUp = () => {
 								/>
 							</InputGroup>
 						</S.CheckContent>
+						<S.Content>
+							<S.FromLabel>
+								새 비밀번호<span className="secondary"> * </span>
+							</S.FromLabel>
+							<InputGroup>
+								<Input
+									name="password"
+									placeholder={'비밀번호를 입력해주세요'}
+									{...register('password')}
+									error={errors.password?.message}
+								/>
+							</InputGroup>
+						</S.Content>
+						<S.Content>
+							<S.FromLabel>
+								새 비밀번호 확인<span className="secondary">* </span>
+							</S.FromLabel>
+							<InputGroup>
+								<Input
+									name="passwordconfirm"
+									placeholder={'비밀번호 확인을 입력해주세요'}
+									{...register('passwordconfirm')}
+									error={errors.passwordconfirm?.message}
+								/>
+							</InputGroup>
+						</S.Content>
 						<S.CheckContent>
 							<S.FromLabel>
 								휴대폰 번호<span className="secondary">* </span>
@@ -159,7 +155,17 @@ const SignUp = () => {
 							</InputGroup>
 						</S.CheckContent>
 						<S.SignUpButton>
-							<Button type="submit" label={'회원가입'} size={'full'} />
+							<Button
+								label={'탈퇴하기'}
+								size={'large'}
+								variant={'primary-outlined'}
+							/>
+							<Button
+								type="submit"
+								label={'회원정보 수정'}
+								size={'large'}
+								variant={'primary'}
+							/>
 						</S.SignUpButton>
 					</S.Form>
 				</S.Wrapper>
@@ -168,7 +174,7 @@ const SignUp = () => {
 	)
 }
 
-export default SignUp
+export default MyPageInfo
 
 const S = {}
 
@@ -223,6 +229,9 @@ S.FromLabel = styled.div`
 
 S.SignUpButton = styled.div`
 	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
 `
 
 S.CommonButton = styled(Button)`

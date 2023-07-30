@@ -3,14 +3,20 @@ import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
+import SignUp from './SignUpTemplate'
 import { Validation2 } from './validation'
 
 const Login = () => {
+	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
+	const [issignUP, setSignUp] = useState(false)
+
 	const {
 		register,
 		handleSubmit,
@@ -26,49 +32,55 @@ const Login = () => {
 	}
 
 	return (
-		<Container>
-			<S.Wrapper>
-				<S.Title>로그인</S.Title>
-				<S.Form onSubmit={handleSubmit(onSubmit)}>
-					<S.Content>
-						<S.FromLabel>이메일</S.FromLabel>
-						<InputGroup>
-							<Input
-								placeholder={'이메일을 입력해주세요'}
-								{...register('email')}
-								name="email"
-								error={errors.email?.message}
+		<S.Wrap isdesk={isDesk.toString()}>
+			{issignUP ? (
+				<SignUp />
+			) : (
+				<Container>
+					<S.Wrapper>
+						<S.Title>로그인</S.Title>
+						<S.Form onSubmit={handleSubmit(onSubmit)}>
+							<S.Content>
+								<S.FromLabel>이메일</S.FromLabel>
+								<InputGroup>
+									<Input
+										placeholder={'이메일을 입력해주세요'}
+										{...register('email')}
+										name="email"
+										error={errors.email?.message}
+									/>
+								</InputGroup>
+							</S.Content>
+							<S.Content>
+								<S.FromLabel>비밀번호</S.FromLabel>
+								<InputGroup>
+									<Input
+										name="password"
+										placeholder={'비밀번호를 입력해주세요'}
+										{...register('password')}
+										error={errors.password?.message}
+									/>
+								</InputGroup>
+							</S.Content>
+							<S.Checkradio>
+								<input type="checkbox" />
+								<S.FromLabel>
+									<label className="checklabel">아이디 기억하기</label>
+								</S.FromLabel>
+							</S.Checkradio>
+							<S.Button type="submit" label={'로그인'} size={'full'} />
+							<S.Button
+								type="submit"
+								label={'구글로 회원가입'}
+								size={'full'}
+								variant={'outlined'}
 							/>
-						</InputGroup>
-					</S.Content>
-					<S.Content>
-						<S.FromLabel>비밀번호</S.FromLabel>
-						<InputGroup>
-							<Input
-								name="password"
-								placeholder={'비밀번호를 입력해주세요'}
-								{...register('password')}
-								error={errors.password?.message}
-							/>
-						</InputGroup>
-					</S.Content>
-					<S.Checkradio>
-						<input type="checkbox" />
-						<S.FromLabel>
-							<label className="checklabel">아이디 기억하기</label>
-						</S.FromLabel>
-					</S.Checkradio>
-					<S.Button type="submit" label={'로그인'} size={'full'} />
-					<S.Button
-						type="submit"
-						label={'구글로 회원가입'}
-						size={'full'}
-						variant={'outlined'}
-					/>
-				</S.Form>
-				<StyledLink to="/">회원가입</StyledLink>
-			</S.Wrapper>
-		</Container>
+						</S.Form>
+						<S.SignUp onClick={() => setSignUp(true)}>회원가입</S.SignUp>
+					</S.Wrapper>
+				</Container>
+			)}
+		</S.Wrap>
 	)
 }
 
@@ -76,9 +88,15 @@ export default Login
 
 const S = {}
 
+S.Wrap = styled.div`
+	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+`
+
 S.Wrapper = styled.div`
-	width: 480px;
-	margin: 90px auto 250px;
+	width: 100%;
+	max-width: 480px;
+	margin: 90px auto 200px;
 	text-align: center;
 `
 S.Title = styled.h2`
@@ -142,7 +160,8 @@ S.Button = styled(Button)`
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `
 
-const StyledLink = styled(Link)`
+S.SignUp = styled.div`
 	text-decoration: none;
 	color: ${({ theme }) => theme.PALETTE.black};
+	cursor: pointer;
 `
