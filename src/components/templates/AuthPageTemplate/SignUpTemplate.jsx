@@ -12,8 +12,9 @@ import { styled } from 'styled-components'
 import { Validation } from './validation'
 
 const SignUp = () => {
-	const { isMobile } = useDevice()
-	console.log(isMobile)
+	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
+	
 
 	const {
 		register,
@@ -45,7 +46,7 @@ const SignUp = () => {
 	}
 
 	return (
-		<S.Wrap isMobile={isMobile}>
+		<S.Wrap isdesk={isDesk.toString()}>
 			<Container>
 				<S.Wrapper>
 					<S.Title>회원가입</S.Title>
@@ -67,7 +68,7 @@ const SignUp = () => {
 									{...register('email')}
 									error={errors.email?.message}
 								/>
-								<Button
+								<S.CommonButton
 									type="button"
 									label={'중복확인'}
 									variant={'primary-outlined'}
@@ -112,7 +113,7 @@ const SignUp = () => {
 									{...register('nickname')}
 									error={errors.nickname?.message}
 								/>
-								<Button
+								<S.CommonButton
 									type="button"
 									label={'중복확인'}
 									variant={'primary-outlined'}
@@ -144,7 +145,7 @@ const SignUp = () => {
 									{...register('address')}
 									error={errors.address?.message}
 								/>
-								<Button
+								<S.CommonButton
 									type="button"
 									label={'검색'}
 									variant={'primary-outlined'}
@@ -173,8 +174,8 @@ export default SignUp
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
-	margin-right: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+	margin-left: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
+	margin-right: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
 `
 
 S.Wrapper = styled.div`
@@ -224,3 +225,7 @@ S.FromLabel = styled.div`
 S.SignUpButton = styled.div`
 	margin-top: 30px;
 `
+
+S.CommonButton = styled(Button)`
+  text-overflow: ellipsis;
+	`

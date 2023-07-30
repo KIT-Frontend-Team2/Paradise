@@ -13,7 +13,8 @@ import SignUp from './SignUpTemplate'
 import { Validation2 } from './validation'
 
 const Login = () => {
-	const { isMobile } = useDevice()
+	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
 	const [issignUP, setSignUp] = useState(false)
 
 	const {
@@ -31,7 +32,7 @@ const Login = () => {
 	}
 
 	return (
-		<S.Wrap isMobile={isMobile}>
+		<S.Wrap isdesk={isDesk.toString()}>
 			{issignUP ? (
 				<SignUp />
 			) : (
@@ -88,8 +89,8 @@ export default Login
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
-	margin-right: ${({ isMobile }) => (isMobile ? '20px' : 'auto')};
+	margin-left: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
+	margin-right: ${({ isdesk }) => (isdesk === "true" ? '20px' : 'auto')};
 `
 
 S.Wrapper = styled.div`
