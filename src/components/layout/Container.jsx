@@ -9,5 +9,6 @@ const S = {}
 S.Container = styled.div`
 	position: relative;
 	max-width: 1100px;
-	margin: 0 auto 495px;
+	padding: ${({ theme }) => (theme.isMobile ? '0 16px' : '')};
+	margin: 0 auto ${({ theme }) => (theme.isMobile ? '150px' : '200px')};
 `
