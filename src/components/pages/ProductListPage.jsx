@@ -8,15 +8,7 @@ const ProductListPage = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { getListPage } = LoadApi()
-	const { data, isError, isLoading } = getListPage(filter, page)
-
-	if (isError) {
-		return <>에러</>
-	}
-
-	if (isLoading) {
-		return <>로딩중</>
-	}
+	const { data } = getListPage(filter, page)
 
 	return (
 		<ProductListTemplate

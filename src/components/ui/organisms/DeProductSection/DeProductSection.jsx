@@ -86,7 +86,7 @@ export default DeProductSection
 const S = {}
 
 S.ProductFlexBox = styled.div`
-	display: ${({ size }) => (size > 400 ? 'flex' : 'block')};
+	display: ${({ size }) => (size < 400 ? 'block' : 'flex')};
 	justify-content: space-between;
 	margin-bottom: 10px;
 `

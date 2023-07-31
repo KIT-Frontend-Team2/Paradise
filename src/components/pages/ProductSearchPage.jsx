@@ -9,14 +9,7 @@ const ProductSearchPage = () => {
 	const { keyword } = useParams()
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
-	const { data, isError, isLoading } = getSearchPage(keyword, page)
-	if (isError) {
-		return <>에러</>
-	}
-
-	if (isLoading) {
-		return <>로딩중</>
-	}
+	const { data } = getSearchPage(keyword, page)
 
 	return (
 		<ProductSearchTemplate
