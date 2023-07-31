@@ -59,11 +59,11 @@ const ProductCard = ({
 				<span>{place}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
-			<S.TitleBox>{content}</S.TitleBox>
+			<S.TitleBox>{name}</S.TitleBox>
 			{price !== 0 ? (
 				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<S.PriceBox />
+				<></>
 			)}
 			<S.FlexBox>
 				{like > 0 && (
