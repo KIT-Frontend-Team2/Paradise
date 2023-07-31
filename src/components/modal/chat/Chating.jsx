@@ -107,7 +107,10 @@ S.ChatInputContent = styled.div`
 
 S.MeesageContent = styled.div`
 	width: 100%;
-	height: calc(700px - 320px);
+	height: calc(
+		700px - ${({ collapsed }) => (collapsed === 'true' ? '280px' : '320px')}
+	);
+
 	overflow-y: auto;
 	padding-top: ${({ collapsed }) => (collapsed === 'true' ? '100px' : '160px')};
 `
