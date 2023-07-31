@@ -1,14 +1,11 @@
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import DaumPostcode from 'react-daum-postcode'
 import { styled } from 'styled-components'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
-
 
 const PopUp = ({ handleClose, handleAddress }) => {
-	
-
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const handlePostCode = data => {
 		let fullAddress = ''
@@ -30,7 +27,7 @@ const PopUp = ({ handleClose, handleAddress }) => {
 	}
 
 	return (
-		<S.Wrraper >
+		<S.Wrraper>
 			<S.Center isdesk={isDesk.toString()}>
 				<S.Close>
 					<S.Text>우편번호 서비스</S.Text>
@@ -46,8 +43,7 @@ export default PopUp
 
 const S = {}
 
-S.Wrraper = styled.div`
-`
+S.Wrraper = styled.div``
 S.Center = styled.div`
 	display: block;
 	position: absolute;

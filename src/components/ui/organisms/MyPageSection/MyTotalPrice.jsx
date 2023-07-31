@@ -1,12 +1,12 @@
 import { Box } from '@mui/material'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import styled from 'styled-components'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 
 const TotalPrice = ({ user_total_product }) => {
-
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 	const price = 10000 // 예시로 가격을 10000으로 설정하겠습니다.
 
 	return (
@@ -50,7 +50,8 @@ S.Left = styled.div`
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
-	justify-content: ${({ isdesk }) => (isdesk === 'true' ? 'flex-start' : 'space-between')};
+	justify-content: ${({ isdesk }) =>
+		isdesk === 'true' ? 'flex-start' : 'space-between'};
 	align-items: center;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `

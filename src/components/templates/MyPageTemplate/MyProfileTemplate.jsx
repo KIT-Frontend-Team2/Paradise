@@ -1,14 +1,15 @@
 import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
+
 import MyAccount from '../../../__mock__/datas/myAccount.mock'
 
 const MyProfileTemplate = () => {
-
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
 	const inputRef = useRef(null)
@@ -86,7 +87,8 @@ S.Title = styled.h2`
 `
 S.Form = styled.form`
 	display: flex;
-	justify-content:  ${({ isdesk }) => (isdesk === 'true' ? 'center' : 'flex-start')};
+	justify-content: ${({ isdesk }) =>
+		isdesk === 'true' ? 'center' : 'flex-start'};
 	align-items: center;
 `
 S.UserImg = styled.div`

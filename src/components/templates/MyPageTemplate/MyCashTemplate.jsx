@@ -1,14 +1,14 @@
 import mycashPageMock from '__mock__/datas/mycashTemplate.mock'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import { styled } from 'styled-components'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 
 const MyCashTemplate = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const { user_info, user_product_list } = mycashPageMock.data
 	const { user_nick_name, user_total_product } = user_info

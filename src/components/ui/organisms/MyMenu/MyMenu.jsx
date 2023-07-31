@@ -4,10 +4,9 @@ import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyMenu = () => {
-
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 	const myCategories = [
@@ -38,7 +37,7 @@ const MyMenu = () => {
 	return (
 		<S.MyMenu isdesk={isDesk.toString()}>
 			<S.MyTitle isdesk={isDesk.toString()}>나의 활동</S.MyTitle>
-			<ul >
+			<ul>
 				{myCategories.map(category => (
 					<li
 						key={category.label}
@@ -75,13 +74,13 @@ S.MyMenu = styled.div`
 		list-style: none;
 		height: ${({ isdesk }) => (isdesk === 'true' ? '50px' : '50px')};
 		line-height: 50px;
-		padding: 0 ${({ isdesk }) => (isdesk === 'true' ? '7px' : '20px')};;
+		padding: 0 ${({ isdesk }) => (isdesk === 'true' ? '7px' : '20px')};
 		border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
 		text-align: ${({ isdesk }) => (isdesk === 'true' ? 'center' : 'left')};
 		flex: 1;
 		white-space: normal;
 		overflow: hidden;
-		font-size: ${({ isdesk }) => (isdesk === 'true' ? '12px' : '16px')};;
+		font-size: ${({ isdesk }) => (isdesk === 'true' ? '12px' : '16px')};
 		&:first-child {
 			border-top: 0;
 		}

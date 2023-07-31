@@ -7,11 +7,10 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 const MyPage = () => {
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
-
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-	
 	return (
 		<>
 			<MyHeader />

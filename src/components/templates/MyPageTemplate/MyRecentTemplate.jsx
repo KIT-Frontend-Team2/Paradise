@@ -1,19 +1,18 @@
 import MySellTempalte from '__mock__/datas/mysellTemplate.mock'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import { styled } from 'styled-components'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 
 const MyRecentTemplate = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
-
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const { all, free, sale } = MySellTempalte.data.user_product_list
 	return (
-		<S.Wrapper  isdesk={isDesk.toString()}>
-			<S.Title  isdesk={isDesk.toString()} >최근 조회 상품</S.Title>
+		<S.Wrapper isdesk={isDesk.toString()}>
+			<S.Title isdesk={isDesk.toString()}>최근 조회 상품</S.Title>
 			<S.Content>
 				<MyPageContent all={all} free={free} sale={sale} />
 			</S.Content>

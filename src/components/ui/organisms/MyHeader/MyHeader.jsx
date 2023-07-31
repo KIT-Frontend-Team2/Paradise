@@ -6,10 +6,10 @@ import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyHeader = () => {
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
+		useDevice()
+	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-	
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 
 	const { getMyPageHeader } = LoadUserApi()
@@ -38,7 +38,7 @@ const MyHeader = () => {
 	}
 
 	return (
-		<S.Header >
+		<S.Header>
 			<S.Container isdesk={isDesk.toString()}>
 				<S.ProfileBox isdesk={isDesk.toString()}>
 					<S.UserImg onClick={() => onClickMenu('profile')}>
@@ -56,33 +56,33 @@ const MyHeader = () => {
 					</div>
 				</S.ProfileBox>
 				<S.BoxContainer isdesk={isDesk.toString()}>
-				<S.Box>
-					<S.Title>등록상품</S.Title>
-					<S.Link
-						className={myMenu === 'mySell' ? 'on' : ''}
-						onClick={() => onClickMenu('mySell')}
-					>
-						{user_total_product}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>관심상품</S.Title>
-					<S.Link
-						className={myMenu === 'wish' ? 'on' : ''}
-						onClick={() => onClickMenu('wish')}
-					>
-						{user_like_list_count}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>채팅</S.Title>
-					<S.Link
-						className={myMenu === 'chat' ? 'on' : ''}
-						onClick={() => window.alert('채팅 오픈')}
-					>
-						{user_chat_count}
-					</S.Link>
-				</S.Box>
+					<S.Box>
+						<S.Title>등록상품</S.Title>
+						<S.Link
+							className={myMenu === 'mySell' ? 'on' : ''}
+							onClick={() => onClickMenu('mySell')}
+						>
+							{user_total_product}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>관심상품</S.Title>
+						<S.Link
+							className={myMenu === 'wish' ? 'on' : ''}
+							onClick={() => onClickMenu('wish')}
+						>
+							{user_like_list_count}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>채팅</S.Title>
+						<S.Link
+							className={myMenu === 'chat' ? 'on' : ''}
+							onClick={() => window.alert('채팅 오픈')}
+						>
+							{user_chat_count}
+						</S.Link>
+					</S.Box>
 				</S.BoxContainer>
 			</S.Container>
 		</S.Header>
@@ -126,7 +126,6 @@ S.ProfileBox = styled.div`
 	gap: 15px;
 	flex: 1;
 	background-color: ${({ theme }) => theme.PALETTE.background.white};
-	
 `
 
 S.UserImg = styled.div`

@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box'
 import { myMenuAtom } from 'atom/mypage/atom'
+import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
@@ -8,8 +10,6 @@ import { styled } from 'styled-components'
 import Customchecbox from '../../../../assets/images/checkbox.png'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
-import Container from 'components/layout/Container'
 
 // import Pagination from 'components/ui/molecules/Pagination/Pagination';
 
@@ -28,7 +28,6 @@ const MyPageContent = ({
 	const [selectFilter, setSelectFilter] = useState('all')
 	const MyContentValue = useRecoilValue(myMenuAtom)
 	console.log(MyContentValue)
-
 
 	const {
 		isDesktop,
@@ -90,72 +89,72 @@ const MyPageContent = ({
 	return (
 		<S.Wrapper>
 			<Container>
-			<S.Filter>
-				<S.Left>
-					<Button
-						type="button"
-						label={'판매'}
-						variant={'primary-outlined'}
-						size={'small'}
-						onClick={() => handleFilter('sale')}
-					/>
-					<Button
-						type="button"
-						label={'나눔'}
-						size={'small'}
-						variant={'outlined'}
-						onClick={() => handleFilter('free')}
-					/>
-				</S.Left>
-				{MyContentValue === 'mySell' ? (
-					<S.Right>
-						<input type="checkbox" />
-						<label className="checklabel">판매완료</label>
-					</S.Right>
+				<S.Filter>
+					<S.Left>
+						<Button
+							type="button"
+							label={'판매'}
+							variant={'primary-outlined'}
+							size={'small'}
+							onClick={() => handleFilter('sale')}
+						/>
+						<Button
+							type="button"
+							label={'나눔'}
+							size={'small'}
+							variant={'outlined'}
+							onClick={() => handleFilter('free')}
+						/>
+					</S.Left>
+					{MyContentValue === 'mySell' ? (
+						<S.Right>
+							<input type="checkbox" />
+							<label className="checklabel">판매완료</label>
+						</S.Right>
+					) : (
+						''
+					)}
+				</S.Filter>
+				{MyContentValue === 'cash' ? (
+					<S.BottomFilter>
+						<S.BLeftFilter isdesk={isDesk.toString()}>
+							<li onClick={() => handleFilter('allState')}>총 내역</li>
+							<li onClick={() => handleFilter('Salesdetails')}>판매 내역</li>
+							<li onClick={() => handleFilter('Purchasedetails')}>구매 내역</li>
+						</S.BLeftFilter>
+						<S.BRightFilter isdesk={isDesk.toString()}>
+							<Box sx={{ minWidth: 60 }}>
+								<Myselect handleFilter={handleFilter} />
+							</Box>
+						</S.BRightFilter>
+					</S.BottomFilter>
 				) : (
 					''
 				)}
-			</S.Filter>
-			{MyContentValue === 'cash' ? (
-				<S.BottomFilter>
-					<S.BLeftFilter  isdesk={isDesk.toString()}>
-						<li onClick={() => handleFilter('allState')}>총 내역</li>
-						<li onClick={() => handleFilter('Salesdetails')}>판매 내역</li>
-						<li onClick={() => handleFilter('Purchasedetails')}>구매 내역</li>
-					</S.BLeftFilter>
-					<S.BRightFilter  isdesk={isDesk.toString()}>
-						<Box sx={{ minWidth: 60 }}>
-							<Myselect handleFilter={handleFilter} />
-						</Box>
-					</S.BRightFilter>
-				</S.BottomFilter>
-			) : (
-				''
-			)}
-			<S.Content repeat={repeat}>
-				{selectedData ? (
-					selectedData.map(item => (
-						<MyUploadCard
-							MyContentValue={MyContentValue}
-							key={item.productId}
-							price={item.productPrice}
-							isLike={item.isLike}
-							chat_count={item.product_chat_count}
-							img_url={item.product_img}
-							like={item.product_like}
-							name={item.productTitle}
-							id={item.productId}
-							place={item.product_place}
-							time={item.product_create_at}
-							state={item.product_state}
-							content={item.product_content}
-						/>
-					))
-				) : (
-					<div>Loading...</div>
-				)}
-			</S.Content>
-			{/* <Pagination
+				<S.Content repeat={repeat}>
+					{selectedData ? (
+						selectedData.map(item => (
+							<MyUploadCard
+								MyContentValue={MyContentValue}
+								key={item.productId}
+								price={item.productPrice}
+								isLike={item.isLike}
+								chat_count={item.product_chat_count}
+								img_url={item.product_img}
+								like={item.product_like}
+								name={item.productTitle}
+								id={item.productId}
+								place={item.product_place}
+								time={item.product_create_at}
+								state={item.product_state}
+								content={item.product_content}
+							/>
+						))
+					) : (
+						<div>Loading...</div>
+					)}
+				</S.Content>
+				{/* <Pagination
       page={1} // 현재 페이지 번호
       item_length={10} // 한 페이지에서 보여지는 아이템들의 개수
       total={100} // 아이템들의 총 길이
@@ -169,8 +168,7 @@ export default MyPageContent
 
 const S = {}
 
-S.Wrapper = styled.div`
-`
+S.Wrapper = styled.div``
 S.Filter = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -219,7 +217,7 @@ S.BLeftFilter = styled.div`
 	list-style: none;
 	cursor: pointer;
 
-	>li{
+	> li {
 		font-size: ${({ isdesk }) => (isdesk === 'true' ? '13px' : '16px')};
 	}
 
@@ -233,8 +231,7 @@ S.BLeftFilter = styled.div`
 		content: '';
 	}
 `
-S.BRightFilter = styled.div`
-`
+S.BRightFilter = styled.div``
 
 S.Content = styled.div`
 	display: grid;
