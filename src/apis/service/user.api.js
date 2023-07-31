@@ -1,6 +1,8 @@
 import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
+import { axiosInstance } from '../axiosInstance'
+
 const userService = () => {
 	const signUp = userInfo => {
 		console.log(userInfo, '다음 정보로 회원가입을 진행합니다.')
@@ -11,7 +13,7 @@ const userService = () => {
 	}
 
 	const logOut = () => {
-		console.log('로그아웃을 진행합니다.')
+		return axiosInstance.get('/logout')
 	}
 
 	const checkNickName = nickName => {
@@ -23,7 +25,7 @@ const userService = () => {
 	}
 
 	const getRefreshToken = () => {
-		console.log('리프레시 토큰을 재발급 받습니다.')
+		return axiosInstance.post('user/jwt')
 	}
 
 	const getUserInfo = () => {

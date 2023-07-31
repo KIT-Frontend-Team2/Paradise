@@ -13,7 +13,6 @@ import ProductRegisterPage from '../components/pages/ProductRegisterPage'
 import ProductSearchPage from '../components/pages/ProductSearchPage'
 import ProductUpdatePage from '../components/pages/ProductUpdatePage'
 import ProductUserListPage from '../components/pages/ProductUserListPage'
-import ErrorPageTemplate from '../components/templates/ErrorPageTemplate/ErrorPageTemplate'
 import MainPageTemplateSkeleton from '../components/templates/MainPageTemplate/MainPageTemplateSkeleton'
 import ProductSkeletonTemplate from '../components/templates/ProductDetailTemplate/ProductSkeletonTemplate'
 import ProductListSkeletonTemplate from '../components/templates/ProductListTemplate/ProductListSkeletonTemplate'
@@ -43,7 +42,6 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
-					{ path: '/*', element: <ErrorPageTemplate /> },
 					{
 						path: '/list/:filter',
 						element: (
@@ -90,6 +88,7 @@ const router = createBrowserRouter([
 		],
 		errorElement: <NotFoundPage />,
 	},
+	{ path: '/*', element: <NotFoundPage /> },
 ])
 
 export default router

@@ -23,7 +23,7 @@ const API_KEY = {
 	VIEWLIST: '/view-list',
 	ERROR: '/ErrorPage',
 	HOME: '/home',
-	RELOAD : 0
+	RELOAD: 0,
 }
 
 export default API_KEY

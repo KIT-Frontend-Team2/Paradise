@@ -1,3 +1,3 @@
-export const formatNumberToMoney = (number) => {
-    return number === 0 ? 0 : number.toLocaleString();
-};
+export const formatNumberToMoney = number => {
+	return number === 0 ? 0 : number.toLocaleString()
+}

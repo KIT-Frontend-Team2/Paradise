@@ -1,30 +1,66 @@
-import axios from 'axios';
+import axios from 'axios'
 
-import {BASE_URL, HTTP_STATUS_CODE} from "../consts/api";
-import {HTTPError} from "./HTTPError";
+import { BASE_URL, HTTP_STATUS_CODE } from '../consts/api'
+import TokenRepository from '../repositories/TokenRepository'
+import { HTTPError } from './HTTPError'
+import userApi from './service/user.api'
 
 export const axiosInstance = axios.create({
-    baseURL: BASE_URL,
-    timeout: 10000,
-});
+	baseURL: BASE_URL,
+	timeout: 10000,
+})
 
+export const handleApiWithAuth = config => {
+	const access_token = TokenRepository.getToken()
 
-export const handleAPIError = (error) => {
-    if (!error.response) throw Error('에러가 발생했습니다.');
+	if (access_token) {
+		config.headers.Authorization = `Bearer ${access_token}`
+	}
 
-    const { data, status } = error.response;
+	return config
+}
 
-    if (status >= HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR) {
-        throw new HTTPError(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, data.message);
-    }
+export const handleAPIError = async error => {
+	if (!error.response) throw Error('에러가 발생했습니다.')
 
-    if (status === HTTP_STATUS_CODE.NOT_FOUND) {
-        throw new HTTPError(HTTP_STATUS_CODE.NOT_FOUND, data.message);
-    }
+	const { data, status } = error.response
+	if (status >= HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR) {
+		throw new HTTPError(HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR, data.message)
+	}
 
-    if (status >= HTTP_STATUS_CODE.BAD_REQUEST) {
-        throw new HTTPError(HTTP_STATUS_CODE.BAD_REQUEST, data.message);
-    }
-};
+	if (status === HTTP_STATUS_CODE.SESSION_EXPIRED) {
+		await userApi().logOut()
+		TokenRepository.removeToken()
+	}
 
-axiosInstance.interceptors.response.use((response) => response, handleAPIError);
+	if (status === HTTP_STATUS_CODE.NOT_FOUND) {
+		throw new HTTPError(HTTP_STATUS_CODE.NOT_FOUND, data.message)
+	}
+
+	const originalRequest = error.config
+
+	if (
+		status === HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR &&
+		!originalRequest._retry
+	) {
+		originalRequest._retry = true
+
+		const res = await userApi().getRefreshToken()
+		if (res.status === 200) {
+			const token = res.data.data
+
+			TokenRepository.setToken(token)
+
+			axiosInstance.defaults.headers.common['Authorization'] = `Baerer ${token}`
+
+			return axiosInstance(originalRequest)
+		}
+	}
+
+	if (status >= HTTP_STATUS_CODE.BAD_REQUEST) {
+		throw new HTTPError(HTTP_STATUS_CODE.BAD_REQUEST, data.message)
+	}
+}
+
+axiosInstance.interceptors.request.use(handleApiWithAuth)
+axiosInstance.interceptors.response.use(response => response, handleAPIError)

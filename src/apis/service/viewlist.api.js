@@ -1,5 +1,5 @@
 import API_KEY from '../../consts/ApiKey'
-import {axiosInstance} from "../axiosInstance";
+import { axiosInstance } from '../axiosInstance'
 
 const viewListAxios = {
 	getRecentProduct: () => {

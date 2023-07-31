@@ -3,7 +3,7 @@ import { useMutation, useQuery } from 'react-query'
 import { queryClient } from '../../App'
 import viewListAxios from '../../apis/service/viewlist.api'
 import API_KEY from '../../consts/ApiKey'
-import {NETWORK} from "../../consts/api";
+import { NETWORK } from '../../consts/api'
 
 const useViewListApi = {
 	useGetViewList: () => {

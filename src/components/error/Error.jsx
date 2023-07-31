@@ -1,12 +1,15 @@
 import errorCaseError from 'assets/images/error-case-error.png'
+import PropTypes from 'prop-types'
 import React from 'react'
 import { styled } from 'styled-components'
 
+import { HTTP_ERROR_MESSAGE } from '../../consts/api'
+import hasKeyInObject from '../../utils/typeGuard'
 import Button from '../ui/atoms/Button/Button'
-import {HTTP_ERROR_MESSAGE} from "../../consts/api";
-import PropTypes from "prop-types";
 
 const ErrorPage = ({ statusCode, resetError }) => {
+	const isHTTPError = hasKeyInObject(HTTP_ERROR_MESSAGE, statusCode)
+	if (!isHTTPError) return null
 	return (
 		<S.Wrapper>
 			<S.ErrorBox>
@@ -15,7 +18,10 @@ const ErrorPage = ({ statusCode, resetError }) => {
 					<img src={errorCaseError} alt={'에러 이미지'} loading={'lazy'} />
 				</S.ErrorImage>
 				<S.ErrorMessage>{HTTP_ERROR_MESSAGE[statusCode].BODY}</S.ErrorMessage>
-				<Button label={HTTP_ERROR_MESSAGE[statusCode].BUTTON} onClick={resetError} />
+				<Button
+					label={HTTP_ERROR_MESSAGE[statusCode].BUTTON}
+					onClick={resetError}
+				/>
 			</S.ErrorBox>
 		</S.Wrapper>
 	)
@@ -75,5 +81,5 @@ ErrorPage.proptype = {
 }
 
 ErrorPage.defaultProps = {
-	statusCode : 404,
+	statusCode: 404,
 }
