@@ -1,17 +1,35 @@
 import { InsertPhoto, Send } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { useRef } from 'react'
+import axios from 'axios'
+import API_KEY from 'consts/ApiKey'
 import { useState } from 'react'
 import styled from 'styled-components'
 
-const ChatInput = () => {
-	const [image, setImage] = useState(null)
-	const [imagePrev, setImagePrev] = useState(null)
+const ChatInput = ({ onSubmit }) => {
+	const [message, setMessage] = useState('')
+	// const [image, setImage] = useState(null)
+	// const [imagePrev, setImagePrev] = useState(null)
 
-	const imageRef = useRef(null)
-
-	const handleSubmit = e => {
+	// const imageRef = useRef(null)
+	const handleSubmit = async e => {
 		e.preventDefault()
+		if (!message) return
+		try {
+			await axios.post(API_KEY.CHAT, {
+				text: message,
+			})
+			onSubmit({ text: message, createdAt: new Date() })
+			setMessage('')
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const handleKeyDown = e => {
+		if (e.key === 'Enter' && !e.shiftKey) {
+			e.preventDefault()
+			handleSubmit(e)
+		}
 	}
 
 	const chooseImage = () => {
@@ -38,7 +56,13 @@ const ChatInput = () => {
 	// }
 	return (
 		<S.Form onSubmit={handleSubmit}>
-			<S.Input type="text" placeholder="메시지를 입력해주세요." />
+			<S.Input
+				type="text"
+				placeholder="메시지를 입력해주세요."
+				value={message}
+				onChange={e => setMessage(e.target.value)}
+				onKeyDown={handleKeyDown}
+			/>
 			{/* {imagePrev && (
 				<S.ImageContainer>
 					<S.Img src={imagePrev} alt="image" />
@@ -58,7 +82,7 @@ const ChatInput = () => {
 				<IconButton onClick={chooseImage}>
 					<InsertPhoto />
 				</IconButton>
-				<S.SendButton>
+				<S.SendButton type="submit">
 					<Send />
 				</S.SendButton>
 			</S.IconContainer>

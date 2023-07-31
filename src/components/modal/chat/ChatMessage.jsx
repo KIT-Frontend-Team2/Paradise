@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 const ChatMessage = ({ message, chatData }) => {
 	const isSender = message.senderId === chatData.user.id
 	const senderImage = isSender ? '' : chatData.user.image
-	console.log(message.createdAt)
+
 	const formDate = dateString => {
 		const date = new Date(dateString)
 		return date.toLocaleTimeString('ko-KR', {
@@ -60,9 +60,9 @@ S.AvatarContainer = styled.div`
 
 S.MessageBox = styled.div`
 	display: flex;
-
 	align-items: end;
 	padding-right: ${({ issender }) => (issender ? 0 : '10px')};
+	padding-bottom: 10px;
 `
 
 S.MetaInfo = styled.div`

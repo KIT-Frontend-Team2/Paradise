@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import ChatInput from './ChatInput'
@@ -6,9 +7,28 @@ import ChatMessage from './ChatMessage'
 import ChatProductCard from './ChatProductCard'
 
 const Chating = ({ chatData, conversations }) => {
+	const messagesEndRef = useRef(null)
+	// 채팅 스크롤
+	const scrollToBottom = () => {
+		messagesEndRef.current.scrollIntoView({
+			behavior: 'smooth',
+		})
+	}
+	useEffect(() => {
+		scrollToBottom()
+	})
+
+	const [messages, setMessages] = useState([])
+
+	const handleMessageSubmit = message => {
+		setMessages(prevMessage => [...prevMessage, message])
+	}
+
 	const conversation = conversations.find(
 		conv => conv.id === chatData.conversationId,
 	)
+
+	// 채팅창 날짜 구분선
 	const dateDividers = messages => {
 		let prevDate = null
 		const result = []
@@ -26,7 +46,9 @@ const Chating = ({ chatData, conversations }) => {
 	}
 
 	const chatDataWithDividers =
-		conversation && dateDividers(conversation.messages)
+		conversation &&
+		// dateDividers(conversation.messages)
+		dateDividers(messages)
 
 	const [collapsed, setCollapsed] = useState(false)
 	const toggleCollapse = () => {
@@ -42,23 +64,28 @@ const Chating = ({ chatData, conversations }) => {
 					toggleCollapse={toggleCollapse}
 				/>
 			</S.ChatProductCardContent>
-			<S.MeesageContent collapsed={collapsed}>
+			<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
 				{chatDataWithDividers &&
-					chatDataWithDividers.map(item =>
+					chatDataWithDividers.map((item, index) =>
 						item.type === 'divider' ? (
-							<S.DateDivider key={item.date}>
+							<S.DateDivider key={`divider-${index}`}>
 								<S.DateDividerLine />
 								<S.DateDividerText>{item.date}</S.DateDividerText>
 								<S.DateDividerLine />
 							</S.DateDivider>
 						) : (
-							<ChatMessage key={item.id} message={item} chatData={chatData} />
+							<ChatMessage
+								key={`message-${index}`}
+								message={item}
+								chatData={chatData}
+							/>
 						),
 					)}
+				<div ref={messagesEndRef} />
 			</S.MeesageContent>
 
 			<S.ChatInputContent>
-				<ChatInput />
+				<ChatInput onSubmit={handleMessageSubmit} />
 			</S.ChatInputContent>
 		</div>
 	)
@@ -80,9 +107,9 @@ S.ChatInputContent = styled.div`
 
 S.MeesageContent = styled.div`
 	width: 100%;
-	height: calc(100vh - 150px);
+	height: calc(700px - 320px);
 	overflow-y: auto;
-	padding-top: ${({ collapsed }) => (collapsed ? '100px' : '160px')};
+	padding-top: ${({ collapsed }) => (collapsed === 'true' ? '100px' : '160px')};
 `
 S.DateDivider = styled.div`
 	display: flex;

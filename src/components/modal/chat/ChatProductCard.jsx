@@ -28,19 +28,19 @@ const ChatProductCard = ({ chatData, collapsed, toggleCollapse }) => {
 	} = chatData
 
 	return (
-		<S.Container collapsed={collapsed}>
-			<S.ImageWrapper collapsed={collapsed}>
+		<S.Container collapsed={collapsed ? 'true' : 'false'}>
+			<S.ImageWrapper collapsed={collapsed ? 'true' : 'false'}>
 				<S.Image src={product_main_img_url} />
 			</S.ImageWrapper>
 			<S.ProductInfo>
-				<S.Title collapsed={collapsed}>
+				<S.Title collapsed={collapsed ? 'true' : 'false'}>
 					<S.ProductState color={getProductStatusColor(product_status)}>
 						{product_status}
 					</S.ProductState>
 					<S.ProductName>{product_name}</S.ProductName>
 					{collapsed && (
 						<>
-							<S.ProductPrice collapsed={collapsed}>
+							<S.ProductPrice collapsed={collapsed ? 'true' : 'false'}>
 								{product_price.toLocaleString()}원
 							</S.ProductPrice>
 						</>
@@ -72,18 +72,18 @@ S.Container = styled.div`
 	position: fixed;
 	display: flex;
 	align-items: center;
-	width: ${({ collapsed }) => (collapsed ? '550px' : '550px')};
-	height: ${({ collapsed }) => (collapsed ? '20px' : '100px')};
+	width: ${({ collapsed }) => (collapsed === 'true' ? '550px' : '550px')};
+	height: ${({ collapsed }) => (collapsed === 'true' ? '20px' : '100px')};
 	border: 1px solid #dddddd;
 	border-radius: 6px;
 	padding: 1rem;
 	background-color: #fff;
-	margin-top: ${({ collapsed }) => (collapsed ? '0' : '10px')};
+	margin-top: ${({ collapsed }) => (collapsed === 'true' ? '0' : '10px')};
 `
 
 S.ImageWrapper = styled.div`
 	position: relative;
-	display: ${({ collapsed }) => (collapsed ? 'none' : 'block')};
+	display: ${({ collapsed }) => (collapsed === 'true' ? 'none' : 'block')};
 `
 S.Image = styled.img`
 	width: 100px;
