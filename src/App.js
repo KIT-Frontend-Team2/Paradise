@@ -8,7 +8,9 @@ import { worker } from './__mock__/handler'
 import router from './routes/router'
 import theme from './styles/theme'
 
-export const queryClient = new QueryClient()
+export const queryClient = new QueryClient({
+	defaultOptions: { queries: { suspense: true } },
+})
 
 function App() {
 	if (process.env.NODE_ENV === 'development') {

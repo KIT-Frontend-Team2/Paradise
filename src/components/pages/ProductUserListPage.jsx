@@ -9,14 +9,7 @@ const ProductUserListPage = () => {
 	const { userId } = useParams()
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
-	const { data, isError, isLoading } = getSearchUserPage(userId, page)
-	if (isError) {
-		return <>에러</>
-	}
-
-	if (isLoading) {
-		return <>로딩중</>
-	}
+	const { data } = getSearchUserPage(userId, page)
 
 	return (
 		<ProductSearchUserTemplate
