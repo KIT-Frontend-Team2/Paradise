@@ -1,24 +1,25 @@
-import axios from 'axios'
+import Container from 'components/layout/Container'
 import ProductForm from 'components/templates/ProductFormTemplate/ProductForm'
-import React, { useEffect, useState } from 'react'
+import LoadApi from 'hooks/pageQuery/useLoadPage'
 import { useParams } from 'react-router-dom'
 
 const ProductUpdatePage = () => {
-	const [detail, setDetail] = useState(null)
-	const { productId } = useParams()
+	const { getDetailPage } = LoadApi()
+	const productId = useParams().productId
 
-	const getDetail = async () => {
-		const response = await axios.get(`/detail/${productId}`)
-		setDetail(response.data.data)
+	const { data, isError, isLoading } = getDetailPage(productId)
+
+	if (isError) {
+		return <>Error Loading</>
 	}
 
-	useEffect(() => {
-		getDetail()
-	}, [])
+	if (isLoading) {
+		return <Container></Container>
+	}
 
 	return (
 		<>
-			<ProductForm detail={detail} />
+			<ProductForm detail={data.data.data} />
 		</>
 	)
 }

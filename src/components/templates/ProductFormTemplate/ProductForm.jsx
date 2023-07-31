@@ -1,34 +1,58 @@
-import wonIcon from 'assets/images/ico-won.png'
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import ProductFormMap from 'components/ui/molecules/Map/ProductFormMap'
 import DeFormImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
+import { categories } from 'components/ui/organisms/MainHeader/HeaderCategory'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { styled } from 'styled-components'
+
+import * as S from './style'
+import * as V from './validator'
 
 const ProductForm = ({ detail }) => {
-	const MAX_IMAGE_CNT = 5
-	const [imagePreviews, setImagePreviews] = useState([])
-	const [isFreeProduct, setIsFreeProduct] = useState(false)
-	const [tagList, setTagList] = useState([])
-
-	const imageRef = useRef()
-	const tagRef = useRef()
-
 	const {
-		product_imgs,
-		product_name,
+		isBuyer,
+		product_title,
 		is_free_product,
 		product_price,
+		product_imgs,
 		product_tag,
 		product_content,
 		product_place,
 	} = detail || {
+		is_free_product: false,
 		product_imgs: [],
 		product_tag: [],
+		product_place: '서울시 강남구 역삼동', // 작성자 지역
+	}
+	const MAX_IMAGE_CNT = 5
+	const [imageFileList, setImageFileList] = useState([])
+	const [imagePreviews, setImagePreviews] = useState(product_imgs)
+	const [isFreeProduct, setIsFreeProduct] = useState(is_free_product)
+	const [categoryTag, setCategoryTag] = useState('')
+	const [tagList, setTagList] = useState(product_tag)
+	const [address, setAddress] = useState(product_place)
+
+	const imageRef = useRef()
+	const categoryRef = useRef()
+	const tagRef = useRef()
+	const addressRef = useRef()
+
+	// 숫자 -> 천단위 문자로 포매팅 함수
+	const numToStr = number => {
+		if (!number) return
+		return number.toLocaleString()
+	}
+
+	// 문자 -> 숫자
+	const strToNum = str => {
+		let num = str.replace(/\D/g, '')
+		num = Number(num)
+		return num
 	}
 
 	const {
@@ -37,33 +61,41 @@ const ProductForm = ({ detail }) => {
 		getValues,
 		setValue,
 		trigger,
-		handleSubmit,
 		setError,
 		clearErrors,
-		reset,
+		handleSubmit,
 		formState: { isValid, errors },
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
-			title: detail ? product_name : '',
-			price: detail ? product_price : '',
-			content: detail ? product_content : '',
-			place: detail ? product_place : '',
+			product_title: product_title,
+			is_free_product: is_free_product,
+			product_price: numToStr(product_price),
+			product_content: product_content,
+			product_place: product_place,
 		},
 	})
 
+	// React-Hook-Form 등록 및 유효성 검사
+	const titleRegister = register('product_title', V.validateTitle())
+	const isFreeRegister = register('is_free_product')
+	const priceRegister = register(
+		'product_price',
+		V.validatePrice(getValues('is_free_product')),
+	)
+	const contentRegister = register('product_content', V.validateContent())
+	const placeRegister = register('product_place', V.validatePlace())
+
+	/* TODO: 본인이 등록한 상품을 수정하는 것인지 검사하는 로직 */
 	useEffect(() => {
-		setImagePreviews(product_imgs)
-		setTagList(product_tag)
-		setIsFreeProduct(is_free_product)
-		reset({
-			title: detail ? product_name : '',
-			price: detail ? product_price : '',
-			content: detail ? product_content : '',
-			place: detail ? product_place : '',
-		})
+		if (isBuyer) {
+			// 로직
+		} else {
+			// 로직
+		}
 	}, [detail])
 
+	// 이미지 변경
 	const handleImageChange = e => {
 		const files = e.target.files
 		const imagePreviewsArray = [...imagePreviews]
@@ -72,55 +104,107 @@ const ProductForm = ({ detail }) => {
 			const reader = new FileReader()
 
 			reader.onload = event => {
-				imagePreviewsArray.push({ id: i, img: event.target.result })
+				imagePreviewsArray.push({ id: i, img_url: event.target.result })
 				if (imagePreviewsArray.length > 5) {
 					return alert('이미지는 최대 5장까지 등록 가능합니다.')
 				}
 				setImagePreviews([...imagePreviewsArray])
+				setImageFileList([...imageFileList, ...files])
 			}
 
 			reader.readAsDataURL(files[i])
 		}
-		e.target.value = ''
+		// e.target.value = ''
 		clearErrors('image')
 	}
 
 	// 판매, 나눔 변경
 	const onClickIsFree = isFree => {
+		setValue('is_free_product', isFree)
 		setIsFreeProduct(isFree)
 		if (isFree) {
-			setValue('price', 0)
-			trigger('price')
+			setValue('product_price', 0)
+			trigger('product_price')
 		}
 	}
 
-	// 판매 금액 입력 숫자만 제한
-	const onChangePrice = event => {
-		let inputValue = event.target.value.replace(/\D/g, '')
-		inputValue = Number(inputValue).toLocaleString()
-
-		setValue('price', inputValue)
-		trigger('price')
+	// 카테고리 태그 선택
+	const onChangeCategoryTag = event => {
+		const newTag = event.target.value
+		if (tagList.find(tag => tag === newTag)) return
+		setTagList([newTag, ...tagList])
+		setCategoryTag(newTag)
+		clearErrors('product_tag')
+		unregister('tag')
 	}
+
+	// 태그 리스트 변경에 따라 폼 요소 값 변경
+	useEffect(() => {
+		tagList.forEach((tag, index) => {
+			// console.log(`product_tag.${index}: ${tag}`)
+			setValue(`product_tag.${index}`, tag)
+		})
+	}, [tagList])
 
 	// 태그 추가
 	const onAddTag = () => {
 		const newTag = tagRef.current.value
 		if (!newTag) return
+		if (tagList.find(tag => tag === newTag)) return
 
 		setTagList([...tagList, newTag])
-		clearErrors('tag')
+		unregister('tag')
 		tagRef.current.value = ''
 	}
+
+	// 태그 엔터 입력 시
+	const onTagEnter = e => {
+		if (e.key === 'Enter') {
+			e.preventDefault()
+			onAddTag()
+		}
+	}
+
 	// 태그 삭제
 	const onDeleteTag = deleteIndex => {
 		const _tagList = tagList.filter((_tag, index) => index !== deleteIndex)
 		setTagList(_tagList)
-
-		unregister(`tag.${deleteIndex}`)
+		if (deleteIndex === 0) setCategoryTag('')
+		unregister(`product_tag.${tagList.length - 1}`)
 	}
 
-	const onProductRegisterForm = data => {
+	// 태그 유효성 검사 시 포커스 옮김
+	const onFocusHiddenTag = () => {
+		tagRef.current.focus()
+	}
+
+	// 주소 검색
+	const onSearchMap = () => {
+		const addr = addressRef.current.value
+		if (addr) {
+			setAddress(addr)
+		} else {
+			setValue('product_place', undefined)
+			setError('product_place', {
+				message: '거래 희망 장소를 입력해주세요',
+			})
+		}
+	}
+
+	// 주소 유효성 검사 시 포커스 옮김
+	const onFocusHiddenMap = () => {
+		addressRef.current.focus()
+	}
+
+	// 판매 금액 입력 숫자만 제한
+	const onChangePrice = event => {
+		setValue('product_price', numToStr(strToNum(event.target.value)))
+		trigger('product_price')
+	}
+
+	// 등록 버튼을 누를 때
+	const onSubmit = data => {
+		// 이미지 체크
 		if (imagePreviews.length === 0) {
 			imageRef.current.scrollIntoView()
 			setError('image', {
@@ -128,39 +212,21 @@ const ProductForm = ({ detail }) => {
 			})
 			return
 		}
-		if (tagList.length === 0) {
-			tagRef.current.focus()
-			setError('tag', {
-				message: '태그를 하나 이상 추가해주세요.',
-			})
-			return
-		}
-		console.log(data)
-		window.alert('물품 등록이 완료되었습니다.')
-	}
 
-	const onProductUpdateForm = data => {
-		if (imagePreviews.length === 0) {
-			imageRef.current.scrollIntoView()
-			setError('image', {
-				message: '이미지를 하나 이상 추가해주세요.',
-			})
-			return
+		// 판매가격 숫자 변환
+		if (data.product_price) {
+			data.product_price = strToNum(data.product_price)
 		}
-		if (tagList.length === 0) {
-			tagRef.current.focus()
-			setError('tag', {
-				message: '태그를 하나 이상 추가해주세요.',
-			})
-			return
-		}
+		data.product_imgs = imageFileList
 		console.log(data)
-		window.alert('물품 수정이 완료되었습니다.')
+		const mode = detail ? '수정' : '등록'
+		window.alert(`물품 ${mode}이 완료되었습니다.`)
 	}
 
 	return (
 		<Container>
 			<S.Wrapper>
+				{/* 타이틀 시작 */}
 				<S.TitleArea>
 					<S.Title2>{detail ? '물품 수정' : '물품 등록'}</S.Title2>
 					<S.RightArea>
@@ -169,11 +235,8 @@ const ProductForm = ({ detail }) => {
 						</span>
 					</S.RightArea>
 				</S.TitleArea>
-				<form
-					onSubmit={handleSubmit(
-						detail ? onProductUpdateForm : onProductRegisterForm,
-					)}
-				>
+				{/* 타이틀 끝 */}
+				<form onSubmit={handleSubmit(onSubmit)}>
 					{/* 물품 이미지 */}
 					<S.FormGroup>
 						<S.FormLabel required={'required'}>
@@ -190,6 +253,8 @@ const ProductForm = ({ detail }) => {
 									handleImageChange={handleImageChange}
 									imagePreviews={imagePreviews}
 									setImagePreviews={setImagePreviews}
+									imageFileList={imageFileList}
+									setImageFileList={setImageFileList}
 								/>
 							</div>
 							<ul className="infoMessage">
@@ -208,19 +273,22 @@ const ProductForm = ({ detail }) => {
 						<S.FormLabel required={'required'}>제목</S.FormLabel>
 						<S.FormRegister>
 							<Input
-								name="title"
 								placeholder={'제목을 입력해주세요'}
 								width={'500'}
-								{...register('title', {
-									required: '제목을 입력해주세요',
-								})}
-								error={errors.title && errors.title.message}
+								{...titleRegister}
+								error={errors.product_title && errors.product_title.message}
+								onKeyPress={event => {
+									if (event.key === 'Enter') {
+										event.preventDefault()
+									}
+								}}
 							/>
 						</S.FormRegister>
 					</S.FormGroup>
 					{/* 거래방식 (판매/나눔) */}
 					<S.FormGroup>
 						<S.FormLabel required={'required'}>거래방식</S.FormLabel>
+						<Input type="hidden" {...isFreeRegister} />
 						<S.FormRegister>
 							<InputGroup>
 								<Button
@@ -246,15 +314,12 @@ const ProductForm = ({ detail }) => {
 						<S.FormRegister>
 							<S.CustomInput className="price">
 								<Input
-									name="price"
 									placeholder={'가격을 입력해주세요'}
 									width={'348'}
 									disabled={isFreeProduct}
-									{...register('price', {
-										required: '물품 가격을 입력해주세요',
-									})}
+									{...priceRegister}
 									onChange={onChangePrice}
-									error={errors.price && errors.price.message}
+									error={errors.product_price && errors.product_price.message}
 								/>
 							</S.CustomInput>
 						</S.FormRegister>
@@ -264,14 +329,38 @@ const ProductForm = ({ detail }) => {
 						<S.FormLabel required={'required'}>태그</S.FormLabel>
 						<S.FormRegister>
 							<InputGroup display={'inline-flex'}>
+								<FormControl>
+									<InputLabel id="product_tag">카테고리</InputLabel>
+									<Select
+										ref={categoryRef}
+										labelId="product_tag"
+										value={categoryTag}
+										sx={{
+											width: '200px',
+											height: '50px',
+											padding: '0 16px',
+											lineHeight: '50px',
+											fontSize: '18px',
+										}}
+										onChange={onChangeCategoryTag}
+									>
+										{categories.map(category => (
+											<MenuItem
+												key={`cate-${category.path}`}
+												value={category.label}
+											>
+												{category.label}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
 								<S.CustomInput className="tag">
 									<Input
-										name="tag"
+										ref={tagRef}
 										className="tag"
 										placeholder={'태그를 입력해주세요'}
 										width={'348'}
-										ref={tagRef}
-										error={errors.tag && errors.tag.message}
+										onKeyPress={onTagEnter}
 									/>
 								</S.CustomInput>
 								<Button
@@ -281,11 +370,36 @@ const ProductForm = ({ detail }) => {
 									onClick={onAddTag}
 								/>
 							</InputGroup>
-							<DeFormTagGroup
-								register={register}
-								tagList={tagList}
-								onDeleteTag={onDeleteTag}
-							/>
+							{tagList.length > 0 ? (
+								<DeFormTagGroup
+									register={register}
+									tagList={tagList}
+									errors={errors}
+									categoryTag={categoryTag}
+									onDeleteTag={onDeleteTag}
+								/>
+							) : (
+								<>
+									<Input
+										type="text"
+										value={''}
+										{...register('tag', {
+											required: '태그를 하나 이상 등록해주세요.',
+										})}
+										style={{
+											width: '0',
+											height: '0',
+											border: 'none',
+										}}
+										onFocus={onFocusHiddenTag}
+									/>
+									{errors.tag && (
+										<S.ErrorMessage className="error">
+											{errors.tag.message}
+										</S.ErrorMessage>
+									)}
+								</>
+							)}
 						</S.FormRegister>
 					</S.FormGroup>
 					{/* 내용 */}
@@ -293,16 +407,14 @@ const ProductForm = ({ detail }) => {
 						<S.FormLabel required={'required'}>내용</S.FormLabel>
 						<S.FormRegister>
 							<S.Textarea
-								name="content"
-								row={'5'}
 								placeholder={'텍스트를 적어주세요'}
-								{...register('content', {
-									required: '내용을 입력해주세요',
-								})}
+								row={'5'}
+								{...contentRegister}
+								error={errors.product_content && errors.product_content.message}
 							></S.Textarea>
-							{errors.content && (
+							{errors.product_content && (
 								<S.ErrorMessage className="error">
-									{errors.content.message}
+									{errors.product_content.message}
 								</S.ErrorMessage>
 							)}
 						</S.FormRegister>
@@ -311,29 +423,44 @@ const ProductForm = ({ detail }) => {
 					<S.FormGroup>
 						<S.FormLabel required={'required'}>거래 희망 장소</S.FormLabel>
 						<S.FormRegister>
+							<Input
+								type="text"
+								{...placeRegister}
+								style={{
+									marginBottom: '-12px',
+									width: '0px',
+									height: '0',
+									border: 'none',
+								}}
+								onFocus={onFocusHiddenMap}
+							/>
 							<InputGroup display={'flex'}>
 								<Input
-									name="place"
 									placeholder={'ex. 서울시 강남구 역삼동'}
-									{...register('place', {
-										required: '거래 희망 장소을 입력해주세요',
-									})}
-									error={errors.place && errors.place.message}
+									defaultValue={address}
+									onBlur={onSearchMap}
+									ref={addressRef}
+									error={errors.product_place && errors.product_place.message}
 								/>
 								<Button
 									type="button"
 									label={'주소 검색'}
 									variant={'outlined'}
+									onClick={onSearchMap}
 								/>
 							</InputGroup>
-							<S.Map></S.Map>
-							<ul className="infoMessage">
-								<li>지도를 클릭해서 거래 희망 장소를 표시해주세요.</li>
-								<li>지도를 드래그하여 이동할 수 있습니다.</li>
-							</ul>
+							<S.Map>
+								<ProductFormMap
+									formAddress={address}
+									setValue={setValue}
+									setError={setError}
+									clearErrors={clearErrors}
+									setAddress={setAddress}
+								/>
+							</S.Map>
 						</S.FormRegister>
 					</S.FormGroup>
-					{/* 버튼 그룹 */}
+					{/* 버튼 그룹 시작 */}
 					<S.ButtonWrap>
 						<Button
 							type="button"
@@ -347,6 +474,7 @@ const ProductForm = ({ detail }) => {
 							size={'large'}
 						/>
 					</S.ButtonWrap>
+					{/* 버튼 그룹 끝 */}
 				</form>
 			</S.Wrapper>
 		</Container>
@@ -354,185 +482,3 @@ const ProductForm = ({ detail }) => {
 }
 
 export default ProductForm
-
-export const S = {}
-
-S.Wrapper = styled.div`
-	margin-top: 80px;
-`
-
-S.TitleArea = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-bottom: 6px;
-	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[800]};
-`
-
-S.Title2 = styled.h2`
-	margin: 0;
-	font-size: 24px;
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-`
-
-S.RightArea = styled.div`
-	font-size: ${({ theme }) => theme.FONT_SIZE.small};
-
-	.secondary {
-		color: ${({ theme }) => theme.PALETTE.secondary};
-		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-	}
-`
-
-S.FormGroup = styled.dl`
-	margin: 0;
-	padding: 35px 0;
-	display: flex;
-	align-items: center;
-	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
-
-	&:first-child {
-		align-items: flex-start;
-	}
-
-	&:last-child {
-		border-bottom-color: ${({ theme }) => theme.PALETTE.gray[800]};
-	}
-
-	${({ theme }) =>
-		!theme.isDesktop &&
-		!theme.isTabletAndLaptop &&
-		`
-		flex-direction: column;
-		align-items: flex-start;
-		gap:20px;
-		border-bottom:0;
-	`}
-`
-
-S.FormLabel = styled.dd`
-	position: relative;
-	margin: 0;
-	min-width: 168px;
-	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
-	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-	${({ theme, required }) =>
-		required &&
-		`&::after {
-		content: '*';
-		margin-left: 4px;
-		color: ${theme.PALETTE.secondary};
-	}`}
-	#cnt {
-		position: absolute;
-		top: 26px;
-		left: 0;
-		color: ${({ theme }) => theme.PALETTE.gray[700]};
-		font-size: ${({ theme }) => theme.FONT_SIZE.small};
-		font-weight: 300;
-	}
-`
-
-S.FormRegister = styled.dt`
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	gap: 12px;
-	${({ theme }) =>
-		!theme.isDesktop && !theme.isTabletAndLaptop && `width:100%;`}
-
-	.infoMessage {
-		padding-left: 15px;
-		color: ${({ theme }) => theme.PALETTE.gray[700]};
-		font-size: ${({ theme }) => theme.FONT_SIZE.small};
-	}
-`
-
-S.CustomInput = styled.div`
-	position: relative;
-
-	input {
-		padding-left: 40px;
-	}
-
-	&:before {
-		position: absolute;
-		left: 16px;
-		top: 0;
-		line-height: 50px;
-		font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
-		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-	}
-
-	&.price {
-		input {
-			text-align: right;
-			padding-right: 40px;
-			&::placeholder {
-				text-align: left;
-			}
-		}
-		& > div {
-			position: relative;
-		}
-		& > div:before {
-			content: '';
-			position: absolute;
-			left: 16px;
-			top: 18px;
-			width: 14px;
-			height: 14px;
-			background-image: url(${wonIcon});
-			background-size: 13px;
-			background-repeat: no-repeat;
-		}
-		& > div:after {
-			content: '원';
-			position: absolute;
-			right: 16px;
-			top: 0;
-			line-height: 50px;
-		}
-	}
-
-	&.tag {
-		&:before {
-			content: '#';
-		}
-	}
-`
-
-S.Textarea = styled.textarea`
-	width: 100%;
-	height: 168px;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-	border-radius: 6px;
-	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
-	font-family: 'Noto Sans CJK KR';
-	padding: 16px;
-	&::placeholder {
-		color: ${({ theme }) => theme.PALETTE.gray[700]};
-	}
-`
-
-S.ErrorMessage = styled.span`
-	color: ${({ theme }) => theme.PALETTE.secondary};
-	font-size: ${({ theme }) => theme.FONT_SIZE.small};
-`
-
-S.Map = styled.div`
-	width: 100%;
-	aspect-ratio: 5 / 2;
-	border-radius: 6px;
-	background-color: #eee;
-`
-
-S.ButtonWrap = styled.div`
-	width: ${({ theme }) =>
-		theme.isDesktop || theme.isTabletAndLaptop ? `50%` : `100%`};
-	margin: 45px auto 0;
-	display: flex;
-	justify-content: space-between;
-	gap: 12px;
-`

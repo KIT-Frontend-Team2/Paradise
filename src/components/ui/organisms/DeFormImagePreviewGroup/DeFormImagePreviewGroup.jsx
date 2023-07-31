@@ -5,21 +5,40 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { styled } from 'styled-components'
 
 const DeFormImagePreviewGroup = forwardRef(
-	({ register, handleImageChange, imagePreviews, setImagePreviews }, ref) => {
+	(
+		{
+			register,
+			handleImageChange,
+			imagePreviews,
+			setImagePreviews,
+			imageFileList,
+			setImageFileList,
+		},
+		ref,
+	) => {
 		const onDragEnd = ({ source, destination }) => {
 			if (!destination) return
 			const _imagePreviews = [...imagePreviews]
 			const [targetPreview] = _imagePreviews.splice(source.index, 1)
 			_imagePreviews.splice(destination.index, 0, targetPreview)
 			setImagePreviews(_imagePreviews)
+
+			const _imageFileList = [...imageFileList]
+			const [targetFile] = _imageFileList.splice(source.index, 1)
+			_imageFileList.splice(destination.index, 0, targetFile)
+			setImageFileList(_imageFileList)
 		}
 
 		const onDeleteImage = deleteIndex => {
 			const _imagePreviews = imagePreviews.filter((_preview, index) => {
 				return index !== deleteIndex
 			})
+			const _imageFileList = imageFileList.filter((_file, index) => {
+				return index != deleteIndex
+			})
 
 			setImagePreviews(_imagePreviews)
+			setImageFileList(_imageFileList)
 		}
 
 		return (
@@ -56,16 +75,9 @@ const DeFormImagePreviewGroup = forwardRef(
 												{...provided.draggableProps}
 												{...provided.dragHandleProps}
 											>
-												<img src={preview.img} alt={`Preview ${index + 1}`} />
-												<input
-													type="hidden"
-													value={index}
-													{...register(`product_img.${index}.id`)}
-												/>
-												<input
-													type="hidden"
-													value={preview.img}
-													{...register(`product_img.${index}.img`)}
+												<img
+													src={preview.img_url}
+													alt={`Preview ${index + 1}`}
 												/>
 												<S.DeleteButton onClick={() => onDeleteImage(index)}>
 													<img src={deleteIcon} />
