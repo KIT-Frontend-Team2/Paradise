@@ -2,15 +2,21 @@ import Container from 'components/layout/Container'
 import MyContent from 'components/templates/MyPageTemplate/MyContent'
 import MyHeader from 'components/ui/organisms/MyHeader/MyHeader'
 import MyMenu from 'components/ui/organisms/MyMenu/MyMenu'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import { styled } from 'styled-components'
 
 const MyPage = () => {
+
+
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+	
 	return (
 		<>
 			<MyHeader />
 			<Container>
-				<S.Wrapper>
+				<S.Wrapper isdesk={isDesk.toString()}>
 					<MyMenu />
 					<S.ContentWrap>
 						<MyContent />
@@ -26,6 +32,7 @@ const S = {}
 
 S.Wrapper = styled.div`
 	display: flex;
+	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
 	gap: 50px;
 	min-height: 100vh;
 `

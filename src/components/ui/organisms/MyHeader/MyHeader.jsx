@@ -1,10 +1,15 @@
 import EditIcon from '@mui/icons-material/Edit'
 import { myMenuAtom } from 'atom/mypage/atom'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import LoadUserApi from 'hooks/pageQuery/useLoadUser'
 import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyHeader = () => {
+
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+	
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 
 	const { getMyPageHeader } = LoadUserApi()
@@ -33,9 +38,9 @@ const MyHeader = () => {
 	}
 
 	return (
-		<S.Header>
-			<S.Container>
-				<S.ProfileBox>
+		<S.Header >
+			<S.Container isdesk={isDesk.toString()}>
+				<S.ProfileBox isdesk={isDesk.toString()}>
 					<S.UserImg onClick={() => onClickMenu('profile')}>
 						<S.EditButton>
 							<EditIcon sx={{ color: '#333' }} />
@@ -50,6 +55,7 @@ const MyHeader = () => {
 						<S.UserAddress>{user_address}</S.UserAddress>
 					</div>
 				</S.ProfileBox>
+				<S.BoxContainer isdesk={isDesk.toString()}>
 				<S.Box>
 					<S.Title>등록상품</S.Title>
 					<S.Link
@@ -77,6 +83,7 @@ const MyHeader = () => {
 						{user_chat_count}
 					</S.Link>
 				</S.Box>
+				</S.BoxContainer>
 			</S.Container>
 		</S.Header>
 	)
@@ -100,9 +107,10 @@ S.LoadingHeader = styled.div`
 S.Container = styled.div`
 	display: flex;
 	gap: 8px;
-	width: 1100px;
+	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '1100px')};
 	margin: 0 auto;
 	padding: 30px 0;
+	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
 `
 
 S.FlexWrap = styled.div`
@@ -113,10 +121,12 @@ S.FlexWrap = styled.div`
 S.ProfileBox = styled.div`
 	display: flex;
 	align-items: center;
+	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
 	padding: 30px;
 	gap: 15px;
 	flex: 1;
 	background-color: ${({ theme }) => theme.PALETTE.background.white};
+	
 `
 
 S.UserImg = styled.div`
@@ -172,12 +182,16 @@ S.UserAddress = styled.div`
 	color: ${({ theme }) => theme.PALETTE.gray[800]};
 	font-size: ${({ theme }) => theme.FONT_SIZE.xxsmall};
 `
-
+S.BoxContainer = styled.div`
+	flex-direction: row;
+	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'flex')};
+`
 S.Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	flex: 1;
 	width: 160px;
 	height: 120px;
 	background-color: ${({ theme }) => theme.PALETTE.background.white};

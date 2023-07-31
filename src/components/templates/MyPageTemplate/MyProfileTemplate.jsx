@@ -1,11 +1,15 @@
+import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
-
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import MyAccount from '../../../__mock__/datas/myAccount.mock'
-import LinkedCameraIcon from '@mui/icons-material/LinkedCamera';
 
 const MyProfileTemplate = () => {
+
+	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } = useDevice()
+	const isDesk =  isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+
 	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
 	const inputRef = useRef(null)
 	const [image, setImage] = useState('')
@@ -30,11 +34,13 @@ const MyProfileTemplate = () => {
 		console.log(formData.get('picture'))
 	}
 	return (
-		<S.Wrapper>
-			<S.Title>프로필 변경</S.Title>
-			<S.Form onSubmit={handleFormSubmit}>
+		<S.Wrapper isdesk={isDesk.toString()}>
+			<S.Title isdesk={isDesk.toString()}>프로필 변경</S.Title>
+			<S.Form onSubmit={handleFormSubmit} isdesk={isDesk.toString()}>
 				<S.UserImg onClick={handleImageClick}>
-					<S.Overay><LinkedCameraIcon/></S.Overay>
+					<S.Overay>
+						<LinkedCameraIcon />
+					</S.Overay>
 					{image ? (
 						<img src={URL.createObjectURL(image)} alt={user_nick_name} />
 					) : (
@@ -50,8 +56,8 @@ const MyProfileTemplate = () => {
 							onChange={handleImageChange}
 							name="picture"
 						></S.EditButton>
-						<Button 
-							type="submit" 
+						<Button
+							type="submit"
 							label={'수정완료'}
 							variant={'primary-outlined'}
 						/>
@@ -67,7 +73,7 @@ export default MyProfileTemplate
 const S = {}
 
 S.Wrapper = styled.div`
-	width: 873px;
+	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '873px')};
 	min-height: 100vh;
 `
 S.Title = styled.h2`
@@ -76,10 +82,11 @@ S.Title = styled.h2`
 	text-align: left;
 	padding-bottom: 36px;
 	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.black};
+	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'block')};
 `
 S.Form = styled.form`
 	display: flex;
-	justify-content: flex-start;
+	justify-content:  ${({ isdesk }) => (isdesk === 'true' ? 'center' : 'flex-start')};
 	align-items: center;
 `
 S.UserImg = styled.div`
@@ -107,7 +114,7 @@ S.Overay = styled.div`
 	height: 30px;
 	text-align: center;
 
-	>SVG{
+	> SVG {
 		color: ${({ theme }) => theme.PALETTE.white};
 		font-size: ${({ theme }) => theme.FONT_SIZE.large};
 		vertical-align: -5px;

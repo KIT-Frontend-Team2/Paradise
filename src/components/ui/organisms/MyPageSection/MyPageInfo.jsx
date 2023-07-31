@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import Container from 'components/layout/Container'
 import PopUp from 'components/modal/MapModal/AddressModal'
 import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
@@ -47,7 +46,6 @@ const MyPageInfo = () => {
 
 	return (
 		<S.Wrap isdesk={isDesk.toString()}>
-			<Container>
 				<S.Wrapper>
 					<S.Title>회원 정보 수정</S.Title>
 					<S.Notice>
@@ -56,20 +54,6 @@ const MyPageInfo = () => {
 						</span>
 					</S.Notice>
 					<S.Form onSubmit={handleSubmit(onSubmit)}>
-						<S.CheckContent>
-							<S.FromLabel>
-								이메일<span className="secondary">*</span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									disabled
-									name="email"
-									placeholder={'이메일을 입력해주세요'}
-									{...register('email')}
-									error={errors.email?.message}
-								/>
-							</InputGroup>
-						</S.CheckContent>
 						<S.CheckContent>
 							<S.FromLabel>
 								닉네임<span className="secondary">*</span>
@@ -170,7 +154,6 @@ const MyPageInfo = () => {
 						</S.SignUpButton>
 					</S.Form>
 				</S.Wrapper>
-			</Container>
 		</S.Wrap>
 	)
 }
@@ -187,7 +170,7 @@ S.Wrap = styled.div`
 S.Wrapper = styled.div`
 	width: 100%;
 	max-width: 480px;
-	margin: 90px auto 200px;
+	margin: 90px auto 100px;
 	position: relative;
 `
 S.Title = styled.h2`
