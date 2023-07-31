@@ -15,7 +15,6 @@ const ProductCard = ({
 	id,
 	name,
 	place,
-	content,
 	isLike,
 	img_url,
 	time,
