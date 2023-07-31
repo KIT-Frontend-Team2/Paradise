@@ -66,6 +66,7 @@ S.FooterContainer = styled.div`
 	height: 60px;
 	background-color: #ffffff;
 	border-top: 1px solid #e2e2e2;
+	z-index: 10;
 
 	@media (min-width: 479px) {
 		display: none;
