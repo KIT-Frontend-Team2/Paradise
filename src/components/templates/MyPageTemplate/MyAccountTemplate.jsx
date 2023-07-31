@@ -31,7 +31,7 @@ S.Wrapper = styled.div`
 `
 
 S.TopArea = styled.div`
-	display: flex;
+	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'flex')};
 	justify-content: space-between;
 	align-items: center;
 `
