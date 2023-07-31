@@ -3,10 +3,10 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import MainLayout from '../components/layout/MainLayout'
 import AuthPage from '../components/pages/AuthPage'
-import ErrorPage from '../components/pages/ErrorPage'
 import LandingPage from '../components/pages/LandingPage'
 import MainPage from '../components/pages/MainPage'
 import MyPage from '../components/pages/MyPage'
+import NotFoundPage from '../components/pages/NotFoundPage'
 import ProductDetailPage from '../components/pages/ProductDetailPage'
 import ProductListPage from '../components/pages/ProductListPage'
 import ProductRegisterPage from '../components/pages/ProductRegisterPage'
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
 			{ path: '/auth', element: <AuthPage /> },
 			{ path: '/landing', element: <LandingPage /> },
 		],
-		errorElement: <ErrorPage />,
+		errorElement: <NotFoundPage />,
 	},
 ])
 

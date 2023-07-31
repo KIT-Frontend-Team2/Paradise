@@ -1,30 +1,41 @@
-import { Component } from 'react'
+import {Component} from 'react'
+import {HTTPError} from "../../apis/HTTPError";
+
+const initialState = {
+    hasError: false,
+    error: null,
+};
 
 class ErrorBoundary extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			hasError: false,
-		}
-	}
+    state = initialState;
 
-	static getDerivedStateFromError(error) {
-		return { hasError: true }
-	}
+    resetErrorBoundary = () => {
+        this.props.onReset?.(this.state.error)
+        this.setState({
+            hasError: false,
+            error: null,
+        })
+    };
 
-	componentDidCatch(error, info) {
-		console.log('Error:', error)
-		console.log('Info:', info)
-	}
+    static getDerivedStateFromError(error) {
+        return {hasError: true, error}
+    }
 
-	render() {
-		if (this.state.hasError) {
-			// 에러가 있을시 보여줄 컴포넌트를 지정을 해줄수 있습니다.
-			return <></>
-		}
+    render() {
+        const {Fallback} = this.props
+        const {error} = this.state
 
-		return this.props.children
-	}
+        if (error) {
+            return (
+                <Fallback
+                    statusCode={error instanceof HTTPError ? error.statusCode : undefined}
+                    resetError={this.resetErrorBoundary}
+                />
+            )
+        }
+
+        return this.props.children
+    }
 }
 
 export default ErrorBoundary

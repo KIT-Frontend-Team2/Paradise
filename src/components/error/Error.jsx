@@ -2,21 +2,20 @@ import errorCaseError from 'assets/images/error-case-error.png'
 import React from 'react'
 import { styled } from 'styled-components'
 
-import useMove from '../../hooks/useMovePage'
 import Button from '../ui/atoms/Button/Button'
+import {HTTP_ERROR_MESSAGE} from "../../consts/api";
+import PropTypes from "prop-types";
 
-const ErrorPage = ({ error, errorMessage, errorImg }) => {
-	const { linkMainPage } = useMove()
-
+const ErrorPage = ({ statusCode, resetError }) => {
 	return (
 		<S.Wrapper>
 			<S.ErrorBox>
-				<S.ErrorTitle>{error}</S.ErrorTitle>
+				<S.ErrorTitle>{HTTP_ERROR_MESSAGE[statusCode].HEADING}</S.ErrorTitle>
 				<S.ErrorImage>
-					<img src={errorImg} alt={'에러 이미지'} loading={'lazy'} />
+					<img src={errorCaseError} alt={'에러 이미지'} loading={'lazy'} />
 				</S.ErrorImage>
-				<S.ErrorMessage>{errorMessage}</S.ErrorMessage>
-				<Button label={'홈으로'} onClick={() => linkMainPage()} />
+				<S.ErrorMessage>{HTTP_ERROR_MESSAGE[statusCode].BODY}</S.ErrorMessage>
+				<Button label={HTTP_ERROR_MESSAGE[statusCode].BUTTON} onClick={resetError} />
 			</S.ErrorBox>
 		</S.Wrapper>
 	)
@@ -31,6 +30,7 @@ S.Wrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
 	div {
 		display: flex;
 		align-items: center;
@@ -69,9 +69,11 @@ S.ErrorMessage = styled.div`
 	font-size: ${({ theme }) => theme.FONT_SIZE['large']};
 `
 
+ErrorPage.proptype = {
+	statusCode: PropTypes.number,
+	linkAction: PropTypes.func.isRequired,
+}
+
 ErrorPage.defaultProps = {
-	error: '알수없는 오류로 인해 페이지가 안내되지 않았습니다.',
-	errorMessage:
-		'알수없는 오류로 인해 요청하신 페이지를 찾을 수 없습니다. 다시한번 페이지 주소와 요청을 확인해주세요',
-	errorImg: errorCaseError,
+	statusCode : 404,
 }

@@ -1,20 +1,19 @@
-import axios from 'axios'
-
 import API_KEY from '../../consts/ApiKey'
+import {axiosInstance} from "../axiosInstance";
 
 const viewListAxios = {
-	getRecentProduct: async () => {
-		return await axios.get(API_KEY.PRODUCT + API_KEY.VIEWLIST)
+	getRecentProduct: () => {
+		return axiosInstance.get(API_KEY.PRODUCT + API_KEY.VIEWLIST)
 	},
 
-	postRecentProduct: async productId => {
-		return await axios.post(
+	postRecentProduct: productId => {
+		return axiosInstance.post(
 			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
 		)
 	},
 
-	deleteRecentProduct: async productId => {
-		return await axios.delete(
+	deleteRecentProduct: productId => {
+		return axiosInstance.delete(
 			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
 		)
 	},

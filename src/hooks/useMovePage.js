@@ -42,6 +42,8 @@ const useMove = () => {
 
 	const linkError = () => topMove(API_KEY.ERROR)
 
+	const RELOAD = () => move(0);
+
 	return {
 		move,
 		linkError,
@@ -58,6 +60,7 @@ const useMove = () => {
 		linkRegister,
 		prevPage,
 		linkLanding,
+		RELOAD
 	}
 }
 
