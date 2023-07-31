@@ -1,3 +1,4 @@
+import Container from 'components/layout/Container'
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -52,10 +53,21 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
-					{ path: '/product/register', element: <ProductRegisterPage /> },
+					{
+						path: '/product/register',
+						element: (
+							<Suspense fallback={<Container />}>
+								<ProductRegisterPage />
+							</Suspense>
+						),
+					},
 					{
 						path: '/product/update/:productId',
-						element: <ProductUpdatePage />,
+						element: (
+							<Suspense fallback={<Container />}>
+								<ProductUpdatePage />
+							</Suspense>
+						),
 					},
 					{
 						path: '/product/user/:userId',
