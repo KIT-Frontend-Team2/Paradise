@@ -82,7 +82,14 @@ const router = createBrowserRouter([
 						),
 					},
 
-					{ path: '/mypage', element: <MyPage /> },
+					{
+						path: '/mypage',
+						element: (
+							<Suspense>
+								<MyPage />
+							</Suspense>
+						),
+					},
 				],
 			},
 			{ path: '/auth', element: <AuthPage /> },
