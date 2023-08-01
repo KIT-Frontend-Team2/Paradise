@@ -4,7 +4,6 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 const MyWishTemplate = () => {
-
 	const { all, free, sale } = MySellTempalte.data.user_product_list
 
 	return (

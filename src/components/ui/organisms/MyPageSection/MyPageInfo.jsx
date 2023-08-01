@@ -10,7 +10,6 @@ import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 const MyPageInfo = () => {
-
 	const [isPopUp, setIsPopUp] = useState(false)
 
 	const {

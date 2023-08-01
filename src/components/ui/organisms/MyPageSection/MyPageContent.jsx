@@ -2,6 +2,7 @@ import Box from '@mui/material/Box'
 import { myMenuAtom } from 'atom/mypage/atom'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
@@ -9,7 +10,6 @@ import { styled } from 'styled-components'
 import Customchecbox from '../../../../assets/images/checkbox.png'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 
 // import Pagination from 'components/ui/molecules/Pagination/Pagination';
 
@@ -52,7 +52,6 @@ const MyPageContent = ({
 	if (isMobile) {
 		repeat = 1
 	}
-
 
 	const handleFilter = filter => {
 		setSelectFilter(filter)
@@ -123,7 +122,7 @@ const MyPageContent = ({
 							<li onClick={() => handleFilter('Salesdetails')}>판매 내역</li>
 							<li onClick={() => handleFilter('Purchasedetails')}>구매 내역</li>
 						</S.BLeftFilter>
-						<S.BRightFilter >
+						<S.BRightFilter>
 							<Box sx={{ minWidth: 60 }}>
 								<Myselect handleFilter={handleFilter} />
 							</Box>

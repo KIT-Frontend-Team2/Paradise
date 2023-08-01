@@ -5,7 +5,6 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 const MyCashTemplate = () => {
-
 	const { user_info, user_product_list } = mycashPageMock.data
 	const { user_nick_name, user_total_product } = user_info
 	const { threeMonths, SixMonths, Ninemonths, year } =

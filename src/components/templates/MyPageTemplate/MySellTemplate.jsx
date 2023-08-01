@@ -4,7 +4,6 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 const MySellTemplate = () => {
-
 	const { all, free, sale } = MySellTempalte.data.user_product_list
 	console.log(`전체`, all)
 	console.log(`나눔`, free)

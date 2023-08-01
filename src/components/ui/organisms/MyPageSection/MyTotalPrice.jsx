@@ -3,16 +3,15 @@ import React from 'react'
 import styled from 'styled-components'
 
 const TotalPrice = ({ user_total_product }) => {
-
 	const price = 10000 // 예시로 가격을 10000으로 설정하겠습니다.
 
 	return (
-		<S.Wrapper >
-			<S.Left >
+		<S.Wrapper>
+			<S.Left>
 				<S.Title>이번달 판매 금액</S.Title>
 				<S.Price>{user_total_product}</S.Price>
 			</S.Left>
-			<S.Right >
+			<S.Right>
 				<S.TotalSalePrice>
 					판매총액 <span>{price}</span>
 				</S.TotalSalePrice>
@@ -47,7 +46,8 @@ S.Left = styled.div`
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
-	justify-content: ${({ theme }) => (theme.isDesktop ? 'space-between' : 'fflex-start')};
+	justify-content: ${({ theme }) =>
+		theme.isDesktop ? 'space-between' : 'fflex-start'};
 	align-items: center;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `

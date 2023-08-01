@@ -6,7 +6,6 @@ import { styled } from 'styled-components'
 import MyAccount from '../../../__mock__/datas/myAccount.mock'
 
 const MyProfileTemplate = () => {
-
 	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
 	const inputRef = useRef(null)
 	const [image, setImage] = useState('')
@@ -31,9 +30,9 @@ const MyProfileTemplate = () => {
 		console.log(formData.get('picture'))
 	}
 	return (
-		<S.Wrapper >
-			<S.Title >프로필 변경</S.Title>
-			<S.Form onSubmit={handleFormSubmit} >
+		<S.Wrapper>
+			<S.Title>프로필 변경</S.Title>
+			<S.Form onSubmit={handleFormSubmit}>
 				<S.UserImg onClick={handleImageClick}>
 					<S.Overay>
 						<LinkedCameraIcon />
@@ -83,7 +82,8 @@ S.Title = styled.h2`
 `
 S.Form = styled.form`
 	display: flex;
-	justify-content: ${({ theme }) => (theme.isDesktop ? 'flex-start' : 'center')};
+	justify-content: ${({ theme }) =>
+		theme.isDesktop ? 'flex-start' : 'center'};
 	align-items: center;
 `
 S.UserImg = styled.div`

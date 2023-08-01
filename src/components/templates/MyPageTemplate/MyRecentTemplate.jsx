@@ -4,7 +4,6 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 const MyRecentTemplate = () => {
-
 	const { all, free, sale } = MySellTempalte.data.user_product_list
 	return (
 		<S.Wrapper>
