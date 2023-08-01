@@ -1,15 +1,10 @@
 import EditIcon from '@mui/icons-material/Edit'
 import { myMenuAtom } from 'atom/mypage/atom'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import LoadUserApi from 'hooks/pageQuery/useLoadUser'
 import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyHeader = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
-		useDevice()
-	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 
 	const { getMyPageHeader } = LoadUserApi()
@@ -39,8 +34,8 @@ const MyHeader = () => {
 
 	return (
 		<S.Header>
-			<S.Container isdesk={isDesk.toString()}>
-				<S.ProfileBox isdesk={isDesk.toString()}>
+			<S.Container>
+				<S.ProfileBox>
 					<S.UserImg onClick={() => onClickMenu('profile')}>
 						<S.EditButton>
 							<EditIcon sx={{ color: '#333' }} />
@@ -55,7 +50,7 @@ const MyHeader = () => {
 						<S.UserAddress>{user_address}</S.UserAddress>
 					</div>
 				</S.ProfileBox>
-				<S.BoxContainer isdesk={isDesk.toString()}>
+				<S.BoxContainer>
 					<S.Box>
 						<S.Title>등록상품</S.Title>
 						<S.Link
@@ -107,10 +102,10 @@ S.LoadingHeader = styled.div`
 S.Container = styled.div`
 	display: flex;
 	gap: 8px;
-	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '1100px')};
+	width: ${({ theme }) => (theme.isDesktop ? '1100px' : '100%')};
 	margin: 0 auto;
 	padding: 30px 0;
-	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 `
 
 S.FlexWrap = styled.div`
@@ -121,7 +116,7 @@ S.FlexWrap = styled.div`
 S.ProfileBox = styled.div`
 	display: flex;
 	align-items: center;
-	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	padding: 30px;
 	gap: 15px;
 	flex: 1;
@@ -183,7 +178,7 @@ S.UserAddress = styled.div`
 `
 S.BoxContainer = styled.div`
 	flex-direction: row;
-	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'flex')};
+	display: ${({ theme }) => (theme.isDesktop ? 'flex' : 'none')};
 `
 S.Box = styled.div`
 	display: flex;

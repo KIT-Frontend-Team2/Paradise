@@ -1,15 +1,11 @@
 import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
 
 import MyAccount from '../../../__mock__/datas/myAccount.mock'
 
 const MyProfileTemplate = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
-		useDevice()
-	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
 	const inputRef = useRef(null)
@@ -35,9 +31,9 @@ const MyProfileTemplate = () => {
 		console.log(formData.get('picture'))
 	}
 	return (
-		<S.Wrapper isdesk={isDesk.toString()}>
-			<S.Title isdesk={isDesk.toString()}>프로필 변경</S.Title>
-			<S.Form onSubmit={handleFormSubmit} isdesk={isDesk.toString()}>
+		<S.Wrapper >
+			<S.Title >프로필 변경</S.Title>
+			<S.Form onSubmit={handleFormSubmit} >
 				<S.UserImg onClick={handleImageClick}>
 					<S.Overay>
 						<LinkedCameraIcon />
@@ -74,7 +70,7 @@ export default MyProfileTemplate
 const S = {}
 
 S.Wrapper = styled.div`
-	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '873px')};
+	width: ${({ theme }) => (theme.isDesktop ? '873px' : '100%')};
 	min-height: 100vh;
 `
 S.Title = styled.h2`
@@ -83,12 +79,11 @@ S.Title = styled.h2`
 	text-align: left;
 	padding-bottom: 36px;
 	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.black};
-	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'block')};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `
 S.Form = styled.form`
 	display: flex;
-	justify-content: ${({ isdesk }) =>
-		isdesk === 'true' ? 'center' : 'flex-start'};
+	justify-content: ${({ theme }) => (theme.isDesktop ? 'flex-start' : 'center')};
 	align-items: center;
 `
 S.UserImg = styled.div`

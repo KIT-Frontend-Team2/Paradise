@@ -1,21 +1,18 @@
 import { Box } from '@mui/material'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import styled from 'styled-components'
 
 const TotalPrice = ({ user_total_product }) => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
-		useDevice()
-	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
+
 	const price = 10000 // 예시로 가격을 10000으로 설정하겠습니다.
 
 	return (
-		<S.Wrapper isdesk={isDesk.toString()}>
-			<S.Left isdesk={isDesk.toString()}>
+		<S.Wrapper >
+			<S.Left >
 				<S.Title>이번달 판매 금액</S.Title>
 				<S.Price>{user_total_product}</S.Price>
 			</S.Left>
-			<S.Right isdesk={isDesk.toString()}>
+			<S.Right >
 				<S.TotalSalePrice>
 					판매총액 <span>{price}</span>
 				</S.TotalSalePrice>
@@ -38,20 +35,19 @@ S.Wrapper = styled(Box)`
 	background-color: ${({ theme }) => theme.PALETTE.primary[100]};
 	padding: 40px;
 	display: flex;
-	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	justify-content: space-between;
 `
 
 S.Left = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
-	display: ${({ isdesk }) => (isdesk === 'true' ? 'flex' : 'block')};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'flex')};
 	align-items: center;
 `
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
-	justify-content: ${({ isdesk }) =>
-		isdesk === 'true' ? 'flex-start' : 'space-between'};
+	justify-content: ${({ theme }) => (theme.isDesktop ? 'space-between' : 'fflex-start')};
 	align-items: center;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `

@@ -1,14 +1,10 @@
 import mycashPageMock from '__mock__/datas/mycashTemplate.mock'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import { styled } from 'styled-components'
 
 const MyCashTemplate = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
-		useDevice()
-	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
 
 	const { user_info, user_product_list } = mycashPageMock.data
 	const { user_nick_name, user_total_product } = user_info
@@ -21,8 +17,8 @@ const MyCashTemplate = () => {
 	} = user_product_list[2].contents
 
 	return (
-		<S.Wrapper isdesk={isDesk.toString()}>
-			<S.Title isdesk={isDesk.toString()}>
+		<S.Wrapper>
+			<S.Title>
 				{user_nick_name}님의 {}월 <br />
 				가계부 입니다.
 			</S.Title>
@@ -54,7 +50,7 @@ export default MyCashTemplate
 const S = {}
 
 S.Wrapper = styled.div`
-	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '873px')};
+	width: ${({ theme }) => (theme.isDesktop ? '873px' : '100%')};
 	min-height: 100vh;
 `
 

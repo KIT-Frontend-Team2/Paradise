@@ -4,15 +4,12 @@ import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 const MyPageInfo = () => {
-	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
 
 	const [isPopUp, setIsPopUp] = useState(false)
 
@@ -45,7 +42,7 @@ const MyPageInfo = () => {
 	}
 
 	return (
-		<S.Wrap isdesk={isDesk.toString()}>
+		<S.Wrap>
 			<S.Wrapper>
 				<S.Title>회원 정보 수정</S.Title>
 				<S.Notice>
@@ -175,8 +172,8 @@ export default MyPageInfo
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
-	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-left: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
+	margin-right: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
 `
 
 S.Wrapper = styled.div`

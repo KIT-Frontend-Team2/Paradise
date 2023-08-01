@@ -1,13 +1,8 @@
 import { myMenuAtom } from 'atom/mypage/atom'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 const MyMenu = () => {
-	const { isTablet, isMobileAndTablet, isTabletAndLaptop, isMobile } =
-		useDevice()
-	const isDesk = isTablet || isTabletAndLaptop || isMobile || isMobileAndTablet
-
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 	const myCategories = [
 		{
@@ -35,8 +30,8 @@ const MyMenu = () => {
 		setMyMenu(path)
 	}
 	return (
-		<S.MyMenu isdesk={isDesk.toString()}>
-			<S.MyTitle isdesk={isDesk.toString()}>나의 활동</S.MyTitle>
+		<S.MyMenu>
+			<S.MyTitle>나의 활동</S.MyTitle>
 			<ul>
 				{myCategories.map(category => (
 					<li
@@ -57,7 +52,7 @@ export default MyMenu
 const S = {}
 
 S.MyMenu = styled.div`
-	width: ${({ isdesk }) => (isdesk === 'true' ? '100%' : '174px')};
+	width: ${({ theme }) => (theme.isDesktop ? '174px' : '100%')};
 
 	ul {
 		margin: 0;
@@ -72,15 +67,15 @@ S.MyMenu = styled.div`
 	li {
 		position: relative;
 		list-style: none;
-		height: ${({ isdesk }) => (isdesk === 'true' ? '50px' : '50px')};
+		height: 50px;
 		line-height: 50px;
-		padding: 0 ${({ isdesk }) => (isdesk === 'true' ? '7px' : '20px')};
+		padding: 0 ${({ theme }) => (theme.isDesktop ? '20px' : '7px')};
 		border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
-		text-align: ${({ isdesk }) => (isdesk === 'true' ? 'center' : 'left')};
+		text-align: ${({ theme }) => (theme.isDesktop ? 'left' : 'center')};
 		flex: 1;
 		white-space: normal;
 		overflow: hidden;
-		font-size: ${({ isdesk }) => (isdesk === 'true' ? '12px' : '16px')};
+		font-size: ${({ theme }) => (theme.isDesktop ? '16px' : '12px')};
 		&:first-child {
 			border-top: 0;
 		}
@@ -104,5 +99,5 @@ S.MyTitle = styled.div`
 	margin-bottom: 30px;
 	font-size: 28px;
 	font-weight: ${({ theme }) => theme.FONT_SIZE.medium};
-	display: ${({ isdesk }) => (isdesk === 'true' ? 'none' : 'block')};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `

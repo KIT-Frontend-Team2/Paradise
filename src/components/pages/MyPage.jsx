@@ -31,7 +31,7 @@ const S = {}
 
 S.Wrapper = styled.div`
 	display: flex;
-	flex-direction: ${({ isdesk }) => (isdesk === 'true' ? 'column' : 'row')};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	gap: 50px;
 	min-height: 100vh;
 `
