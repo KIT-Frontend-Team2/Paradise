@@ -40,7 +40,7 @@ export const handleAPIError = async error => {
 	const originalRequest = error.config
 
 	if (
-		status === HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR &&
+		status === HTTP_STATUS_CODE.TOKEN_EXPIRED &&
 		!originalRequest._retry
 	) {
 		originalRequest._retry = true
