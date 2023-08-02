@@ -1,3 +1,4 @@
+import MainLogo from 'assets/images/main-logo.png'
 import styled from 'styled-components'
 
 import SSlideBanner from './SSlideBanner'
@@ -36,12 +37,16 @@ Controls.args = {
 	loop: true,
 	Images: [
 		{
-			url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-paint.png',
-			description: '사이트 소개',
+			img_url: MainLogo,
+			id: 1,
 		},
 		{
-			url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-online_thumb.png',
-			description: '사이트 소개',
+			img_url: MainLogo,
+			id: 2,
+		},
+		{
+			img_url: MainLogo,
+			id: 3,
 		},
 	],
 	autoplay: { delay: 2500 },
@@ -53,12 +58,16 @@ export const 자동슬라이드 = {
 		loop: true,
 		Images: [
 			{
-				url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-paint.png',
-				description: '사이트 소개',
+				img_url: MainLogo,
+				id: 1,
 			},
 			{
-				url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-online_thumb.png',
-				description: '사이트 소개',
+				img_url: MainLogo,
+				id: 2,
+			},
+			{
+				img_url: MainLogo,
+				id: 3,
 			},
 		],
 		autoplay: { delay: 2500 },
@@ -71,12 +80,16 @@ export const 수동슬라이드 = {
 		loop: true,
 		Images: [
 			{
-				url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-paint.png',
-				description: '사이트 소개',
+				img_url: MainLogo,
+				id: 1,
 			},
 			{
-				url: 'https://files.itworld.co.kr/2020/08_02/how-to-convert-webp-images-to-jpeg-or-png-online_thumb.png',
-				description: '사이트 소개',
+				img_url: MainLogo,
+				id: 2,
+			},
+			{
+				img_url: MainLogo,
+				id: 3,
 			},
 		],
 		autoplay: { delay: 2500 },
