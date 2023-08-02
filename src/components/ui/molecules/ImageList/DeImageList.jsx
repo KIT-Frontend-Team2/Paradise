@@ -74,5 +74,5 @@ DeImageList.propTypes = {
 	/**
 	 * 아이템을 넣어주세요
 	 */
-	itemData: PropTypes.array.isRequired,
+	itemData: PropTypes.array,
 }

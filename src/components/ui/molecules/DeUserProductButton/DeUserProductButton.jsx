@@ -27,11 +27,11 @@ DeUserProductButton.propTypes = {
 	/**
 	 * 숫자가 5 이하일 경우 해당 버튼은 보이지가 않습니다.
 	 */
-	productCount: PropTypes.number.isRequired,
+	productCount: PropTypes.number,
 	/**
 	 * 해당 판매자의 아이디로 조회하기 위해 아이디를 받아옵니다.
 	 */
-	userId: PropTypes.string.isRequired,
+	userId: PropTypes.number.isRequired,
 }
 
 const S = {}

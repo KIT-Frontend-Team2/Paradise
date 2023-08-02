@@ -12,6 +12,8 @@ const MainPageTemplate = ({ mainLogo, productInfo }) => {
 	const { linkRegister } = useMove()
 	const { linkSellList, linkShareList } = useMove()
 
+	const { usedProduct, freeProduct } = productInfo
+
 	return (
 		<>
 			<S.MainBannerBox>
@@ -24,9 +26,9 @@ const MainPageTemplate = ({ mainLogo, productInfo }) => {
 			</S.MainBannerBox>
 			<Container>
 				<MaSection
-					leftTitle={'우리 동네 중고 상품'}
+					leftTitle={'우리동네 중고 상품'}
 					link={linkSellList}
-					products={productInfo.sellProductList}
+					products={usedProduct}
 				/>
 				<MaLineBanner
 					link={linkRegister}
@@ -37,9 +39,9 @@ const MainPageTemplate = ({ mainLogo, productInfo }) => {
 					height={140}
 				/>
 				<MaSection
-					leftTitle={'우리 동네 나눔 상품'}
+					leftTitle={'우리동네 나눔 상품'}
 					link={linkShareList}
-					products={productInfo.freeProductList}
+					products={freeProduct}
 				/>
 			</Container>
 		</>

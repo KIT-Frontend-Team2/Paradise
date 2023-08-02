@@ -26,25 +26,28 @@ const ProductList = ({ products, size }) => {
 	if (isMobile) {
 		repeat = 1
 	}
+
 	return (
 		<S.Container repeat={repeat}>
-			{products.map(product => (
-				<ProductCard
-					key={product.productId}
-					price={product.productPrice}
-					size={size}
-					isLike={product.isLike}
-					chat_count={product.product_chat_count}
-					img_url={product.product_img}
-					like={product.product_like}
-					name={product.productTitle}
-					id={product.productId}
-					place={product.product_place}
-					time={product.product_create_at}
-					state={product.product_state}
-					content={product.product_content}
-				/>
-			))}
+			{products.map(product => {
+				return (
+					<ProductCard
+						size={size}
+						key={product.idx}
+						price={product.price}
+						isLike={!!product.liked}
+						chat_count={product.product_chat_count}
+						img_url={product.img_url}
+						like={product.product_like_count}
+						name={product.title}
+						id={product.idx}
+						place={product.product_place} // 없음
+						time={product.createdAt}
+						state={product.status}
+						content={product.product_content}
+					/>
+				)
+			})}
 		</S.Container>
 	)
 }

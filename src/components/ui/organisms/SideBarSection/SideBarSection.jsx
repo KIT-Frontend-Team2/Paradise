@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import useMove from '../../../../hooks/useMovePage'
 import SiDeleteButton from '../../molecules/SiDeleteButton/SiDeleteButton'
 import './sideBar.css'
 
@@ -25,6 +26,8 @@ const SideBarSection = ({ products }) => {
 	const MoveTop = () => {
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
+
+	const { linkRegister } = useMove()
 
 	return (
 		<S.Container>
@@ -48,11 +51,14 @@ const SideBarSection = ({ products }) => {
 								className="mySwiper"
 								ref={swiperRef}
 							>
-								{products.map(product => (
-									<SwiperSlide key={product.id}>
-										<SiDeleteButton product={product} />
-									</SwiperSlide>
-								))}
+								{products.map(product => {
+									const { idx, img_url } = product.Product
+									return (
+										<SwiperSlide key={idx}>
+											<SiDeleteButton idx={idx} img_url={img_url} />
+										</SwiperSlide>
+									)
+								})}
 							</Swiper>
 						</S.SlideBox>
 						<S.NextButton onClick={handleNext}>
@@ -66,6 +72,7 @@ const SideBarSection = ({ products }) => {
 					</S.EmptyBox>
 				)}
 			</S.SideBarBox>
+			<S.SalesButton onClick={linkRegister}>물품 판매</S.SalesButton>
 			<S.TopButton onClick={MoveTop}>
 				<span>TOP</span> <NorthIcon sx={{ fontSize: '13px' }} />
 			</S.TopButton>
@@ -175,4 +182,9 @@ S.SalesLink = styled.div`
 	font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
 	margin-bottom: 5px;
+`
+
+S.SalesButton = styled(S.TopButton)`
+	color: ${({ theme }) => theme.PALETTE.secondary};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
 `
