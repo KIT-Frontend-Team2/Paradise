@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
 import useViewListApi from '../../../hooks/service/useViewList.service'
-import ErrorBoundary from '../../error/ErrorBoundary'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
@@ -83,9 +82,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						containerWidth={containerWidth - 30}
 					/>
 					<DeProductCategoryTag category={productInfo.product_tag} />
-					<ErrorBoundary>
-						<DeProductMapSection rightTitle={productInfo.product_place} />
-					</ErrorBoundary>
+					<DeProductMapSection rightTitle={productInfo.product_place} />
 					<DeUserProductSection
 						imgProfile={user_profile_url}
 						userTemplate={user_temperature}
