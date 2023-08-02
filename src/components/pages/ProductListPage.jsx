@@ -8,14 +8,15 @@ const ProductListPage = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { getListPage } = LoadApi()
-	const { data } = getListPage(filter, page)
-
+	const category = filter === 'sell' ? 0 : 1
+	const { data } = getListPage(category, page, '판매중')
+	console.log(data)
 	return (
 		<ProductListTemplate
 			page={page}
-			total={data.data.total}
+			total={data.data.pagination.count}
 			filter={filter}
-			products={data.data.data}
+			products={data.data.product}
 		/>
 	)
 }

@@ -15,7 +15,6 @@ const SSlideBanner = ({ Images, isAuto, loop, ...rest }) => {
 	if (isAuto) {
 		modules.push(Autoplay)
 	}
-
 	return (
 		<>
 			<Swiper
@@ -29,12 +28,7 @@ const SSlideBanner = ({ Images, isAuto, loop, ...rest }) => {
 			>
 				{Images.map(image => (
 					<SwiperSlide key={image.id}>
-						<img
-							src={image.img_url}
-							alt={image.id}
-							{...image}
-							loading={'lazy'}
-						/>
+						<img src={image.img_url} alt={image.img_url} loading={'lazy'} />
 					</SwiperSlide>
 				))}
 			</Swiper>
