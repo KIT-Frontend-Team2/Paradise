@@ -29,7 +29,7 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
-					<S.UserLoginContent isTablet={isTablet}>
+					<S.UserLoginContent istablet={isTablet.toString()}>
 						<Link
 							to="/mypage"
 							onClick={e => {
@@ -90,7 +90,7 @@ S.UserLoginContent = styled.div`
 
 	span {
 		color: #999;
-		margin: ${({ isTablet }) => (isTablet ? '0 4px' : '0 20px')};
+		margin: ${({ istablet }) => (istablet ? '0 4px' : '0 20px')};
 		font-size: 20px;
 	}
 `

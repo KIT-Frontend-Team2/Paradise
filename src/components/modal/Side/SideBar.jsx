@@ -1,19 +1,25 @@
+import { showChatState } from 'atom/chat/atom'
+import { useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 
 import useViewListApi from '../../../hooks/service/useViewList.service'
 import SideBarSection from '../../ui/organisms/SideBarSection/SideBarSection'
 import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
+import Chat from '../chat/Chat'
 
 const SideBar = () => {
+	const setShowChat = useSetRecoilState(showChatState)
 	const { data } = useViewListApi.useGetViewList()
+  
 	return (
 		<>
 			<S.SideBarBanner>
 				<SideBarSection products={data.data.productList} />
 			</S.SideBarBanner>
-			<S.SideBarChat>
+			<S.SideBarChat onClick={() => setShowChat(true)}>
 				<SideChatButton isNew={false} />
 			</S.SideBarChat>
+			<Chat />
 		</>
 	)
 }
