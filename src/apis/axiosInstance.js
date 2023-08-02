@@ -11,7 +11,8 @@ export const axiosInstance = axios.create({
 })
 
 export const handleApiWithAuth = config => {
-	const access_token = TokenRepository.getToken()
+	const access_token = '본인 토큰값 집어넣어서 실행'
+	// const access_token = TokenRepository.getToken()
 
 	if (access_token) {
 		config.headers.Authorization = `Bearer ${access_token}`
