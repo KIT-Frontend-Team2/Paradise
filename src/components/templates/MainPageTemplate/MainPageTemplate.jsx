@@ -13,6 +13,7 @@ const MainPageTemplate = ({ mainLogo, productInfo }) => {
 	const { linkSellList, linkShareList } = useMove()
 
 	const { usedProduct, freeProduct } = productInfo
+
 	return (
 		<>
 			<S.MainBannerBox>
