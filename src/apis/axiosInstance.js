@@ -11,7 +11,8 @@ export const axiosInstance = axios.create({
 })
 
 export const handleApiWithAuth = config => {
-	const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiand0IiwiaWR4Ijo5MiwiaWF0IjoxNjkwOTc4NjA2LCJleHAiOjE2OTExNzg2MDZ9.z_drGoZGrBNssbFHbgEIsAZoAPF1akL-mFbF43L-9y0"
+	const access_token =
+		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiand0IiwiaWR4Ijo5MiwiaWF0IjoxNjkwOTc4NjA2LCJleHAiOjE2OTExNzg2MDZ9.z_drGoZGrBNssbFHbgEIsAZoAPF1akL-mFbF43L-9y0'
 	if (access_token) {
 		config.headers.Authorization = `Bearer ${access_token}`
 	}

@@ -1,10 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import axios from 'axios'
 import Container from 'components/layout/Container'
 import PopUp from 'components/modal/MapModal/AddressModal'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import axios from 'axios';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
@@ -12,7 +12,6 @@ import { styled } from 'styled-components'
 import { Validation } from './validation'
 
 const SignUp = () => {
-
 	const {
 		register,
 		handleSubmit,
@@ -25,14 +24,14 @@ const SignUp = () => {
 	})
 	const [isPopUp, setIsPopUp] = useState(false)
 
-	const onSubmit = async (data) => {
+	const onSubmit = async data => {
 		console.log(data)
 		try {
-      const response = await axios.post('/auth',data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+			const response = await axios.post('/auth', data)
+			console.log(response.data)
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	const handleOpen = e => {

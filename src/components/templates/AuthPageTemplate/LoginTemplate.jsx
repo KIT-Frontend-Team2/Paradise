@@ -1,23 +1,24 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import axios from 'axios'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+// import { useNavigate } from 'react-router-dom'
+import postLoginApi from 'hooks/pageQuery/usePostLonin'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
-import axios from 'axios';
+
 import Checkbox from '../../../assets/images/checkbox.png'
 import SignUp from './SignUpTemplate'
 import { Validation2 } from './validation'
-// import { useNavigate } from 'react-router-dom'
-import postLoginApi from 'hooks/pageQuery/usePostLonin'
 
 const Login = () => {
 	// const navigation = useNavigate()
 
 	const [issignUP, setSignUp] = useState(false)
-	const { postLogin }  =  postLoginApi()
+	const { postLogin } = postLoginApi()
 
 	const {
 		register,
@@ -29,16 +30,14 @@ const Login = () => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const onSubmit = async (data) => {
-
-		
+	const onSubmit = async data => {
 		console.log(data)
 		try {
-      const response = await axios.post('/auth',data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+			const response = await axios.post('/auth', data)
+			console.log(response.data)
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	return (
