@@ -25,12 +25,12 @@ export const Validation = yup.object({
 })
 
 export const Validation2 = yup.object({
-	email: yup
+	user_email: yup
 		.string()
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),
-	password: yup
+	user_password: yup
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')

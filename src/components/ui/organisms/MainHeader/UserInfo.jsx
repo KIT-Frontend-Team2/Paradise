@@ -1,21 +1,32 @@
 import { isLoggedInAtom } from 'atom/header/atom'
+import { isAtuhUi} from 'atom/header/uiatom';
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { Link, useNavigate } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
+	const  setIsLginUi  = useSetRecoilState(isAtuhUi)
 	const { isTablet } = useDevice()
 	const navigate = useNavigate()
+
+
 	const handleLogin = e => {
 		e.preventDefault()
 		setIsLoggedIn(true)
+		setIsLginUi(true)
 	}
 	const handleLogout = e => {
 		e.preventDefault()
 		setIsLoggedIn(false)
+	}
+
+
+	const hadnleSignup = e => {
+		e.preventDefault()
+		setIsLginUi(flase)
 	}
 	return (
 		<S.UserInfoContainer>
@@ -47,13 +58,13 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 				</S.UserInfoContent>
 			) : (
 				<S.UserLoginContent>
-					<Link to="/login" alt="로그인" onClick={handleLogin}>
+					<div onClick={handleLogin}>
 						로그인
-					</Link>
+					</div>
 					<span>I</span>
-					<Link to="/signup" alt="회원가입">
+					<div alt="회원가입" onClick={hadnleSignup}>
 						회원가입
-					</Link>
+					</div>
 				</S.UserLoginContent>
 			)}
 		</S.UserInfoContainer>

@@ -3,19 +3,21 @@ import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
-
+import axios from 'axios';
 import Checkbox from '../../../assets/images/checkbox.png'
 import SignUp from './SignUpTemplate'
 import { Validation2 } from './validation'
+// import { useNavigate } from 'react-router-dom'
+import postLoginApi from 'hooks/pageQuery/usePostLonin'
 
 const Login = () => {
-	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
+	// const navigation = useNavigate()
+
 	const [issignUP, setSignUp] = useState(false)
+	const { postLogin }  =  postLoginApi()
 
 	const {
 		register,
@@ -27,12 +29,20 @@ const Login = () => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const onSubmit = data => {
+	const onSubmit = async (data) => {
+
+		
 		console.log(data)
+		try {
+      const response = await axios.post('/auth',data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
 	}
 
 	return (
-		<S.Wrap isdesk={isDesk.toString()}>
+		<S.Wrap>
 			{issignUP ? (
 				<SignUp />
 			) : (
@@ -45,8 +55,8 @@ const Login = () => {
 								<InputGroup>
 									<Input
 										placeholder={'이메일을 입력해주세요'}
-										{...register('email')}
-										name="email"
+										{...register('user_email')}
+										name="user_email"
 										error={errors.email?.message}
 									/>
 								</InputGroup>
@@ -55,9 +65,9 @@ const Login = () => {
 								<S.FromLabel>비밀번호</S.FromLabel>
 								<InputGroup>
 									<Input
-										name="password"
+										name="user_password"
 										placeholder={'비밀번호를 입력해주세요'}
-										{...register('password')}
+										{...register('user_password')}
 										error={errors.password?.message}
 									/>
 								</InputGroup>
@@ -89,8 +99,8 @@ export default Login
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
-	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-left: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
+	margin-right: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
 `
 
 S.Wrapper = styled.div`

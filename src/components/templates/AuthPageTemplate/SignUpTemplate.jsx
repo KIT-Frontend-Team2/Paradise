@@ -4,7 +4,7 @@ import PopUp from 'components/modal/MapModal/AddressModal'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import { useDevice } from 'hooks/mediaQuery/useDevice'
+import axios from 'axios';
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
@@ -12,8 +12,6 @@ import { styled } from 'styled-components'
 import { Validation } from './validation'
 
 const SignUp = () => {
-	const { isDesktop, isTablet, isTabletAndLaptop, isMobile } = useDevice()
-	const isDesk = isDesktop || isTablet || isTabletAndLaptop || isMobile
 
 	const {
 		register,
@@ -27,8 +25,14 @@ const SignUp = () => {
 	})
 	const [isPopUp, setIsPopUp] = useState(false)
 
-	const onSubmit = data => {
+	const onSubmit = async (data) => {
 		console.log(data)
+		try {
+      const response = await axios.post('/auth',data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
 	}
 
 	const handleOpen = e => {
@@ -45,7 +49,7 @@ const SignUp = () => {
 	}
 
 	return (
-		<S.Wrap isdesk={isDesk.toString()}>
+		<S.Wrap>
 			<Container>
 				<S.Wrapper>
 					<S.Title>회원가입</S.Title>
@@ -173,8 +177,8 @@ export default SignUp
 const S = {}
 
 S.Wrap = styled.div`
-	margin-left: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
-	margin-right: ${({ isdesk }) => (isdesk === 'true' ? '20px' : 'auto')};
+	margin-left: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
+	margin-right: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
 `
 
 S.Wrapper = styled.div`

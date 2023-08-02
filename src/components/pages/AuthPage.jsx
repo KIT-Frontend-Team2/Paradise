@@ -1,10 +1,18 @@
+import { isAtuhUi } from 'atom/header/uiatom';
 import Login from 'components/templates/AuthPageTemplate/LoginTemplate'
+import SignUp from 'components/templates/AuthPageTemplate/SignUpTemplate';
 import React from 'react'
 
-const AuthPage = props => {
+import { useRecoilValue } from 'recoil';
+
+const AuthPage = () => {
+
+
+  const setIsLginUi = useRecoilValue(isAtuhUi); 
+	
 	return (
 		<div>
-			<Login />
+			{isLoggedIn ? <Login/> : <SignUp />}
 		</div>
 	)
 }
