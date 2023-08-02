@@ -2,25 +2,30 @@ import API_KEY from '../../consts/ApiKey'
 import { axiosInstance } from '../axiosInstance'
 
 export const getPageAxios = {
-	getDetailProduct: productId => {
-		return axiosInstance.get(API_KEY.DETAIL + '/' + productId)
-	},
-
 	getMainProductList: () => {
-		return axiosInstance.get(API_KEY.LIST)
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT)
 	},
 
-	getProductList: (optionKey, page) => {
-		return axiosInstance.get(API_KEY.LIST + '/' + optionKey, {
+	getDetailProduct: prod_idx => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.DETAIL, {
+			params: { prod_idx },
+		})
+	},
+
+	getProductList: (category, page, status) => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH, {
 			params: {
+				category,
 				page,
+				status,
 			},
 		})
 	},
 
 	getSearchKeyWordList: (keyword, page) => {
-		return axiosInstance.get(API_KEY.SEARCH + '/' + keyword, {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH, {
 			params: {
+				keyword,
 				page,
 			},
 		})
