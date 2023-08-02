@@ -32,19 +32,19 @@ const MyUploadCard = ({
 
 	return (
 		<S.Card>
-			{MyContentValue === 'wish' ? (
-				<S.LikeBox>
-					<Checkbox
-						onClick={onClickWithLike}
-						checked={Boolean(likeState)}
-						icon={<FavoriteBorder />}
-						checkedIcon={<Favorite sx={{ color: 'red' }} />}
-					/>
-				</S.LikeBox>
-			) : (
-				''
-			)}
 			<S.ImageBox>
+				{MyContentValue === 'wish' ? (
+					<S.LikeBox>
+						<Checkbox
+							onClick={onClickWithLike}
+							checked={Boolean(likeState)}
+							icon={<FavoriteBorder />}
+							checkedIcon={<Favorite sx={{ color: 'red' }} />}
+						/>
+					</S.LikeBox>
+				) : (
+					''
+				)}
 				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
 				{MyContentValue === 'mySell' ? (
 					<S.Toggle>

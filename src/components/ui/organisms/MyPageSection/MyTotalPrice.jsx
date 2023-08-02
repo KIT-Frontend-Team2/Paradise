@@ -34,22 +34,27 @@ S.Wrapper = styled(Box)`
 	background-color: ${({ theme }) => theme.PALETTE.primary[100]};
 	padding: 40px;
 	display: flex;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	justify-content: space-between;
 `
 
 S.Left = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'flex')};
+	align-items: center;
 `
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
-	justify-content: space-between;
+	justify-content: ${({ theme }) =>
+		theme.isDesktop ? 'space-between' : 'fflex-start'};
 	align-items: center;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `
 S.Title = styled.div`
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
+	margin-right: 20px;
 `
 S.Price = styled.div`
 	font-size: 48px;
