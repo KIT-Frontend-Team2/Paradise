@@ -11,8 +11,6 @@ const userService = {
 	},
 
 	login: (email, pw) => {
-		console.log(email, 'email')
-		console.log(pw, 'pw')
 		return axiosInstance.post(
 			BASE_URL + API_KEY.API + API_KEY.USER + '/login',
 			{
