@@ -5,13 +5,11 @@ import SideBarSection from '../../ui/organisms/SideBarSection/SideBarSection'
 import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
 
 const SideBar = () => {
-	const { data, isLoading, isError } = useViewListApi.useGetViewList()
+	const { data } = useViewListApi.useGetViewList()
 	return (
 		<>
 			<S.SideBarBanner>
-				<SideBarSection
-					products={!isLoading || isError ? data.data.products : []}
-				/>
+				<SideBarSection products={data.data.productList} />
 			</S.SideBarBanner>
 			<S.SideBarChat>
 				<SideChatButton isNew={false} />

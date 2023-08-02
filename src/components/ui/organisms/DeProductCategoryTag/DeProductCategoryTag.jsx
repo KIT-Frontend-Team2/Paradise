@@ -14,9 +14,9 @@ const DeProductCategoryTag = ({ category }) => {
 			<S.CategoryBox>
 				{category.map(item => (
 					<MChip
-						key={item}
-						onClick={() => linkSearchProduct(item)}
-						label={item}
+						key={item.Tag.tag}
+						onClick={() => linkSearchProduct(item.Tag.tag)}
+						label={item.Tag.tag}
 					/>
 				))}
 			</S.CategoryBox>

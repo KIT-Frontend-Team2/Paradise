@@ -23,9 +23,8 @@ const ProductCard = ({
 	state = '판매중',
 	price,
 }) => {
-	const [likeState, setLikeState] = useState(isLike | false)
+	const [likeState, setLikeState] = useState(isLike)
 	const { linkDetailPage } = useMove()
-
 	const { mutate } = useProductService.usePostWishAdd(id)
 	const onClickWithLike = () => {
 		mutate([likeState, setLikeState])
@@ -92,7 +91,7 @@ ProductCard.propTypes = {
 	/**
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
-	id: PropTypes.string.isRequired,
+	id: PropTypes.number.isRequired,
 	/**
 	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
 	 */
@@ -104,11 +103,11 @@ ProductCard.propTypes = {
 	/**
 	 * 상품을 올린 사용자의 장소를 입력합니다.
 	 */
-	place: PropTypes.string.isRequired,
+	place: PropTypes.string,
 	/**
 	 * 상품의 설명을 입력합니다.
 	 */
-	content: PropTypes.string.isRequired,
+	content: PropTypes.string,
 	/**
 	 * 상품이 찜하기 상품인지 확인합니다.
 	 */
@@ -124,11 +123,11 @@ ProductCard.propTypes = {
 	/**
 	 * 상품의 찜하기 갯수를 입력합니다.
 	 */
-	like: PropTypes.number.isRequired,
+	like: PropTypes.number,
 	/**
 	 * 상품의 채팅 갯수를 입력합니다.
 	 */
-	chat_count: PropTypes.number.isRequired,
+	chat_count: PropTypes.number,
 	/**
 	 * 상품의 가격을 결정합니다.
 	 */
@@ -151,6 +150,7 @@ S.LikeBox = styled.div`
 
 S.Card = styled.div`
 	width: ${({ size }) => size + 'px'};
+	text-align: left;
 `
 S.ImgBox = styled.div`
 	position: relative;

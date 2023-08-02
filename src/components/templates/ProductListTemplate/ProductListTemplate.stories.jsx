@@ -1,4 +1,4 @@
-import searchPageMock from '../../../__mock__/datas/searchPage.mock'
+import listPageMock from '../../../__mock__/datas/listPage.mock'
 import ProductListTemplate from './ProductListTemplate'
 
 export default {
@@ -12,8 +12,8 @@ const Template = args => <ProductListTemplate {...args} />
 export const Controls = Template.bind({})
 
 Controls.args = {
-	page: 2,
-	total: 130,
-	filter: 'sell',
-	products: searchPageMock.data,
+	page: 1,
+	total: 9,
+	filter: 'free',
+	products: listPageMock.sellProductList.data,
 }
