@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 const S = {}
 
 S.InputBox = styled.div`
-	display: flex;
+	display: ${({ type }) => (type === 'hidden' ? 'none' : 'flex')};
 	flex-direction: column;
 	gap: 8px;
 	${({ width }) => (width ? `` : `flex-grow: 1;`)}
