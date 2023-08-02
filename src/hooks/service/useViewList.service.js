@@ -23,29 +23,6 @@ const useViewListApi = {
 		const { mutate } = useMutation(
 			() => viewListAxios.postRecentProduct(productId),
 			{
-				onMutate: async product => {
-					await queryClient.cancelQueries([API_KEY.VIEWLIST])
-					const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
-					queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
-						if (
-							prev.data.productList.filter(
-								prev => prev.Product.idx === product.idx,
-							) === 0
-						) {
-							const newProduct = { ...prev }
-							newProduct.data.productList = [
-								product,
-								...newProduct.data.productList,
-							]
-							if (newProduct.data.productList.length > 5) {
-								newProduct.data.productList.length = 5
-							}
-							return newProduct
-						}
-						return previousProduct
-					})
-					return { previousProduct }
-				},
 				onError: (err, newProduct, context) => {
 					alert(ERROR_MESSAGE)
 					queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
@@ -60,18 +37,6 @@ const useViewListApi = {
 		const { mutate } = useMutation(
 			() => viewListAxios.deleteRecentProduct(productId),
 			{
-				onMutate: async deleteId => {
-					await queryClient.cancelQueries([API_KEY.VIEWLIST])
-					const previousProduct = queryClient.getQueryData([API_KEY.VIEWLIST])
-					queryClient.setQueryData([API_KEY.VIEWLIST], prev => {
-						const newProduct = { ...prev }
-						newProduct.data.productList = newProduct.data.productList.filter(
-							product => product.idx !== deleteId,
-						)
-						return newProduct
-					})
-					return { previousProduct }
-				},
 				onError: (err, newProduct, context) => {
 					alert(ERROR_MESSAGE)
 					queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
