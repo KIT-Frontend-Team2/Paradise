@@ -10,7 +10,7 @@ import Chat from '../chat/Chat'
 const SideBar = () => {
 	const setShowChat = useSetRecoilState(showChatState)
 	const { data } = useViewListApi.useGetViewList()
-  
+
 	return (
 		<>
 			<S.SideBarBanner>
