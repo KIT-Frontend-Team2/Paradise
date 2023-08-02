@@ -11,7 +11,7 @@ export const axiosInstance = axios.create({
 })
 
 export const handleApiWithAuth = config => {
-	const access_token = '본인 토큰값 집어넣어서 실행'
+	const access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiand0IiwiaWR4Ijo3MSwiaWF0IjoxNjkwODk4MDg0LCJleHAiOjE2OTEwOTgwODR9.DYN14yeJAofXWKwVAT6iqgrPcvKY7H9PcggVotigePk'
 	// const access_token = TokenRepository.getToken()
 
 	if (access_token) {
@@ -30,7 +30,7 @@ export const handleAPIError = async error => {
 	}
 
 	if (status === HTTP_STATUS_CODE.SESSION_EXPIRED) {
-		await userApi().logOut()
+		await userApi.logOut()
 		TokenRepository.removeToken()
 	}
 
@@ -43,7 +43,7 @@ export const handleAPIError = async error => {
 	if (status === HTTP_STATUS_CODE.TOKEN_EXPIRED && !originalRequest._retry) {
 		originalRequest._retry = true
 
-		const res = await userApi().getRefreshToken()
+		const res = await userApi.getRefreshToken()
 		if (res.status === 200) {
 			const token = res.data.data
 
