@@ -4,17 +4,16 @@ import { createBrowserRouter } from 'react-router-dom'
 
 import MainLayout from '../components/layout/MainLayout'
 import AuthPage from '../components/pages/AuthPage'
-import ErrorPage from '../components/pages/ErrorPage'
 import LandingPage from '../components/pages/LandingPage'
 import MainPage from '../components/pages/MainPage'
 import MyPage from '../components/pages/MyPage'
+import NotFoundPage from '../components/pages/NotFoundPage'
 import ProductDetailPage from '../components/pages/ProductDetailPage'
 import ProductListPage from '../components/pages/ProductListPage'
 import ProductRegisterPage from '../components/pages/ProductRegisterPage'
 import ProductSearchPage from '../components/pages/ProductSearchPage'
 import ProductUpdatePage from '../components/pages/ProductUpdatePage'
 import ProductUserListPage from '../components/pages/ProductUserListPage'
-import ErrorPageTemplate from '../components/templates/ErrorPageTemplate/ErrorPageTemplate'
 import MainPageTemplateSkeleton from '../components/templates/MainPageTemplate/MainPageTemplateSkeleton'
 import ProductSkeletonTemplate from '../components/templates/ProductDetailTemplate/ProductSkeletonTemplate'
 import ProductListSkeletonTemplate from '../components/templates/ProductListTemplate/ProductListSkeletonTemplate'
@@ -44,7 +43,6 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
-					{ path: '/*', element: <ErrorPageTemplate /> },
 					{
 						path: '/list/:filter',
 						element: (
@@ -107,8 +105,9 @@ const router = createBrowserRouter([
 			{ path: '/auth', element: <AuthPage /> },
 			{ path: '/landing', element: <LandingPage /> },
 		],
-		errorElement: <ErrorPage />,
+		errorElement: <NotFoundPage />,
 	},
+	{ path: '/*', element: <NotFoundPage /> },
 ])
 
 export default router

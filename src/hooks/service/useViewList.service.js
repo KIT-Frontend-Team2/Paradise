@@ -3,6 +3,7 @@ import { useMutation, useQuery } from 'react-query'
 import { queryClient } from '../../App'
 import viewListAxios from '../../apis/service/viewlist.api'
 import API_KEY from '../../consts/ApiKey'
+import { NETWORK } from '../../consts/api'
 
 const useViewListApi = {
 	useGetViewList: () => {
@@ -10,7 +11,7 @@ const useViewListApi = {
 			[API_KEY.VIEWLIST],
 			() => viewListAxios.getRecentProduct(),
 			{
-				retry: 2,
+				retry: NETWORK.RETRY_COUNT,
 				refetchOnWindowFocus: false,
 			},
 		)
