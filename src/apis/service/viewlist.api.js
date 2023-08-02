@@ -3,18 +3,26 @@ import { axiosInstance } from '../axiosInstance'
 
 const viewListAxios = {
 	getRecentProduct: () => {
-		return axiosInstance.get(API_KEY.PRODUCT + API_KEY.VIEWLIST)
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.VIEWLIST)
 	},
 
-	postRecentProduct: productId => {
+	postRecentProduct: prod_idx => {
 		return axiosInstance.post(
-			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
+			API_KEY.API + API_KEY.PRODUCT + API_KEY.VIEWLIST,
+			{
+				prod_idx,
+			},
 		)
 	},
 
-	deleteRecentProduct: productId => {
+	deleteRecentProduct: prod_idx => {
 		return axiosInstance.delete(
-			API_KEY.PRODUCT + API_KEY.VIEWLIST + `/${productId}`,
+			API_KEY.API + API_KEY.PRODUCT + API_KEY.VIEWLIST,
+			{
+				params: {
+					prod_idx,
+				},
+			},
 		)
 	},
 }

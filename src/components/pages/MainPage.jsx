@@ -22,8 +22,7 @@ const MainPage = () => {
 			id: 3,
 		},
 	]
-
-	return <MainPageTemplate mainLogo={mainLogo} productInfo={data.data.data} />
+	return <MainPageTemplate mainLogo={mainLogo} productInfo={data.data} />
 }
 
 export default MainPage

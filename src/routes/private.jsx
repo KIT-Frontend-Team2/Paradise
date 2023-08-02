@@ -1,21 +1,19 @@
 import useMove from 'hooks/useMovePage'
 import { useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import TokenRepository from 'repositories/TokenRepository'
 
 const PrivateRoute = () => {
-	// localStorage.setItem('accessToken', 'test')
 	const accessToken = TokenRepository.getToken()
 	const { linkLanding } = useMove()
 
 	useEffect(() => {
 		if (!accessToken) {
-			// linkLanding()
+			linkLanding()
 		}
 	}, [accessToken])
 
-	// return accessToken ? <Outlet /> : <Navigate to={linkLanding} />
-	return <Outlet />
+	return accessToken ? <Outlet /> : <Navigate to={linkLanding} />
 }
 
 export default PrivateRoute
