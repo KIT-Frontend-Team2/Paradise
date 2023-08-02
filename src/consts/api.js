@@ -1,7 +1,7 @@
 export const DEV = process.env.NODE_ENV === 'development'
 
 // export const BASE_URL = process.env.REACT_APP_BASE_URL
-export const BASE_URL = 'https://topdragon.co.kr'
+export const BASE_URL = 'http://localhost:3000/'
 
 export const NETWORK = {
 	RETRY_COUNT: 3,
