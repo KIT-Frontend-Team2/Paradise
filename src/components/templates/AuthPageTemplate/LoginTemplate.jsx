@@ -3,7 +3,7 @@ import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
@@ -14,6 +14,7 @@ import { Validation2 } from './validation'
 
 const Login = ({ setState }) => {
 	const { linkMainPage } = useMove()
+	const [request, setRequest] = useState(false)
 	const {
 		register,
 		handleSubmit,
@@ -24,19 +25,21 @@ const Login = ({ setState }) => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const { mutate, isSuccess } = useUserAPi.login(
-		watch('email'),
-		watch('password'),
-	)
+	const { mutateAsync } = useUserAPi.login()
 
-	const onSubmit = () => {
-		mutate()
-	}
-	useEffect(() => {
-		if (isSuccess === true) {
+	const onSubmit = async () => {
+		try {
+			if (request) return
+			setRequest(true)
+			await mutateAsync({
+				email: watch('email'),
+				pw: watch('password'),
+			})
 			linkMainPage()
+		} catch (err) {
+			setRequest(false)
 		}
-	}, [isSuccess])
+	}
 
 	return (
 		<Container>

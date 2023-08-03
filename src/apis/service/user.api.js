@@ -1,3 +1,4 @@
+import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
 import { BASE_URL } from '../../consts/api'
@@ -12,13 +13,10 @@ const userService = {
 	},
 
 	login: (email, pw) => {
-		return axiosInstance.post(
-			BASE_URL + API_KEY.API + API_KEY.USER + '/login',
-			{
-				email,
-				pw,
-			},
-		)
+		return axios.post(BASE_URL + API_KEY.API + API_KEY.USER + '/login', {
+			email,
+			pw,
+		})
 	},
 
 	logOut: () => {

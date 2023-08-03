@@ -13,18 +13,24 @@ const useUserAPi = {
 		return { mutateAsync }
 	},
 
-	login: (email, pw) => {
-		const { mutate, isSuccess } = useMutation(() => userApi.login(email, pw), {
-			retry: 1,
-			onError: () => {
-				alert(ERROR_MESSAGE)
+	login: () => {
+		const { mutateAsync } = useMutation(
+			loginInfo => userApi.login(loginInfo.email, loginInfo.pw),
+			{
+				retry: 1,
+				onError: () => {
+					alert(
+						'이메일 또는 비밀번호를 잘못 입력했습니다.\n' +
+							'입력하신 내용을 다시 확인해주세요.',
+					)
+				},
+				onSuccess: data => {
+					UserRepository.setUser(data.data.user)
+					TokenRepository.setToken(data.data.tokenForHeader)
+				},
 			},
-			onSuccess: data => {
-				UserRepository.setUser(data.data.user)
-				TokenRepository.setToken(data.data.tokenForHeader)
-			},
-		})
-		return { mutate, isSuccess }
+		)
+		return { mutateAsync }
 	},
 
 	logout: () => {
