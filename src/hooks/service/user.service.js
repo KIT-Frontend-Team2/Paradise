@@ -34,8 +34,8 @@ const useUserAPi = {
 				alert(ERROR_MESSAGE)
 			},
 			onSuccess: () => {
-				TokenRepository.removeToken()
 				UserRepository.removeUser()
+				TokenRepository.removeToken()
 			},
 		})
 		return { mutate, isSuccess }

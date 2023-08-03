@@ -1,6 +1,6 @@
 import API_KEY from '../consts/ApiKey'
 
-const TokenRepository = {
+const UserRepository = {
 	setUser(userInfo) {
 		localStorage.setItem(API_KEY.USER, userInfo)
 	},
@@ -12,4 +12,4 @@ const TokenRepository = {
 	},
 }
 
-export default TokenRepository
+export default UserRepository
