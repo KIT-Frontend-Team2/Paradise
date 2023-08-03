@@ -8,25 +8,14 @@ const MyHeader = () => {
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 
 	const { getMyPageHeader } = LoadUserApi()
-	const { data, isLoading, isError } = getMyPageHeader()
+	const { data } = getMyPageHeader()
 
-	if (isError) {
-		return <>Error</>
-	}
+	console.log(data.data)
 
-	if (isLoading) {
-		return <S.LoadingHeader></S.LoadingHeader>
-	}
+	const { User, ondo, productsCount, likeCount, chatCount } = data.data
+	const { nickName, profileUrl } = User
 
-	const {
-		user_nick_name,
-		user_profile_url,
-		user_temperature,
-		user_address,
-		user_total_product,
-		user_like_list_count,
-		user_chat_count,
-	} = data.data.data.user_info
+	const user_address = '서울시 강남구 역삼동'
 
 	const onClickMenu = path => {
 		setMyMenu(path)
@@ -40,12 +29,12 @@ const MyHeader = () => {
 						<S.EditButton>
 							<EditIcon sx={{ color: '#333' }} />
 						</S.EditButton>
-						<img src={user_profile_url} alt={user_nick_name} loading={'lazy'} />
+						<img src={profileUrl || ''} alt={nickName} loading={'lazy'} />
 					</S.UserImg>
 					<div>
 						<S.FlexWrap>
-							<S.UserNick>{user_nick_name}</S.UserNick>
-							<S.UserOndo>{user_temperature}℃</S.UserOndo>
+							<S.UserNick>{nickName}</S.UserNick>
+							<S.UserOndo>{ondo}℃</S.UserOndo>
 						</S.FlexWrap>
 						<S.UserAddress>{user_address}</S.UserAddress>
 					</div>
@@ -57,7 +46,7 @@ const MyHeader = () => {
 							className={myMenu === 'mySell' ? 'on' : ''}
 							onClick={() => onClickMenu('mySell')}
 						>
-							{user_total_product}
+							{productsCount}
 						</S.Link>
 					</S.Box>
 					<S.Box>
@@ -66,7 +55,7 @@ const MyHeader = () => {
 							className={myMenu === 'wish' ? 'on' : ''}
 							onClick={() => onClickMenu('wish')}
 						>
-							{user_like_list_count}
+							{likeCount}
 						</S.Link>
 					</S.Box>
 					<S.Box>
@@ -75,7 +64,7 @@ const MyHeader = () => {
 							className={myMenu === 'chat' ? 'on' : ''}
 							onClick={() => window.alert('채팅 오픈')}
 						>
-							{user_chat_count}
+							{chatCount}
 						</S.Link>
 					</S.Box>
 				</S.BoxContainer>
@@ -90,12 +79,6 @@ const S = {}
 
 S.Header = styled.div`
 	background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-	margin-bottom: 30px;
-`
-
-S.LoadingHeader = styled.div`
-	background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-	height: 180px;
 	margin-bottom: 30px;
 `
 

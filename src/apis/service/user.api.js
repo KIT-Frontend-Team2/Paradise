@@ -54,7 +54,7 @@ const userService = {
 	},
 
 	getMypage: () => {
-		return axiosInstance.get(API_KEY.MYPAGE)
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + API_KEY.MYPAGE)
 	},
 
 	changeUserInfo: UserInfo => {
