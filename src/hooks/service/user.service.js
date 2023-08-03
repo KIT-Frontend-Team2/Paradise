@@ -20,6 +20,7 @@ const useUserAPi = {
 				alert(ERROR_MESSAGE)
 			},
 			onSuccess: data => {
+				UserRepository.setUser(data.data.user)
 				TokenRepository.setToken(data.data.tokenForHeader)
 			},
 		})
@@ -42,9 +43,6 @@ const useUserAPi = {
 
 	checkEmail: email => {
 		const { mutateAsync } = useMutation(() => userApi.checkEmail(email), {
-			onError: () => {
-				alert('중복된 이메일입니다.')
-			},
 			onSuccess: () => {
 				alert('사용 가능한 이메일입니다.')
 			},
@@ -54,9 +52,6 @@ const useUserAPi = {
 
 	checkNickName: nickName => {
 		const { mutateAsync } = useMutation(() => userApi.checkNickName(nickName), {
-			onError: () => {
-				alert('중복된 닉네임입니다.')
-			},
 			onSuccess: () => {
 				alert('사용 가능한 닉네임입니다.')
 			},

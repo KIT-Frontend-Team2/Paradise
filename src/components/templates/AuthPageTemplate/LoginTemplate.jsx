@@ -12,10 +12,6 @@ import useUserAPi from '../../../hooks/service/user.service'
 import useMove from '../../../hooks/useMovePage'
 import { Validation2 } from './validation'
 
-/**
- * @TODO
- * 아이디 기억하기를 넣으신건 쿠키를 사용하시기 위함인가요?
- */
 const Login = ({ setState }) => {
 	const { linkMainPage } = useMove()
 	const {
@@ -71,10 +67,10 @@ const Login = ({ setState }) => {
 						</InputGroup>
 					</S.Content>
 					<S.Checkradio>
-						<input type="checkbox" />
-						<S.FromLabel>
-							<label className="checklabel">아이디 기억하기</label>
-						</S.FromLabel>
+						{/*<input type="checkbox" />*/}
+						{/*<S.FromLabel>*/}
+						{/*	<label className="checklabel">아이디 기억하기</label>*/}
+						{/*</S.FromLabel>*/}
 					</S.Checkradio>
 					<S.Button type="submit" label={'로그인'} size={'full'} />
 					<S.SignUp

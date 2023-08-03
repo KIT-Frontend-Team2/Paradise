@@ -12,10 +12,6 @@ import { ERROR_MESSAGE } from '../../../consts/api'
 import useUserAPi from '../../../hooks/service/user.service'
 import { Validation } from './validation'
 
-/**
- * @TODO
- * 이메일, 닉네임 중복검사 이후 그리고 지역선택 input 태그의 경우 눌러지지않게 바꿔주세요
- */
 const SignUp = ({ setState }) => {
 	const {
 		register,
@@ -39,7 +35,6 @@ const SignUp = ({ setState }) => {
 	const onSubmit = async e => {
 		try {
 			if (checkState.filter(prev => prev === true).length === 2) {
-				console.log(e)
 				const userInfo = {
 					region: e.address,
 					email: e.email,
@@ -72,6 +67,7 @@ const SignUp = ({ setState }) => {
 
 	const handleEmail = async () => {
 		try {
+			if(watch('email').trim().length === 0) return alert("값을 입력해주세요")
 			if (errors.email) return alert('이메일 양식을 지켜주세요')
 			await checkEmail(watch('email'))
 			if (confirm('해당 이메일로 확정하시겠습니까?')) {
@@ -88,6 +84,7 @@ const SignUp = ({ setState }) => {
 
 	const handleNickName = async () => {
 		try {
+			if(watch('nickname').trim().length === 0) return alert("값을 입력해주세요")
 			if (errors.nickname) return alert('닉네임 양식을 지켜주세요')
 			await checkNickName(watch('nickname'))
 			if (confirm('해당 닉네임으로 확정하시겠습니까?')) {
@@ -168,13 +165,7 @@ const SignUp = ({ setState }) => {
 						</S.FromLabel>
 						<InputGroup>
 							<Input
-								onChange={() =>
-									setCheckState(prev => {
-										let newState = [...prev]
-										newState[1] = false
-										return newState
-									})
-								}
+								readOnly={checkState[1]}
 								name="nickname"
 								placeholder={'닉네임을 입력헤주세요'}
 								width={'322'}

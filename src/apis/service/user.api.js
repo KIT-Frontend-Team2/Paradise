@@ -5,6 +5,7 @@ import { axiosInstance } from '../axiosInstance'
 
 const userService = {
 	signUp: userInfo => {
+		console.log(userInfo)
 		return axiosInstance.post(API_KEY.API + API_KEY.USER, {
 			...userInfo,
 		})

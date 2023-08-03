@@ -107,7 +107,7 @@ const router = createBrowserRouter([
 		errorElement: <NotFoundPage />,
 	},
 	{ path: API_KEY.ACCOUNT, element: <AuthPage /> },
-	{ path: API_KEY.LANDING, element: <LandingPage /> },
+	{ path: API_KEY.LANDING, element: <Suspense fallback={<></>}><LandingPage /></Suspense> },
 	{ path: '/*', element: <NotFoundPage /> },
 ])
 
