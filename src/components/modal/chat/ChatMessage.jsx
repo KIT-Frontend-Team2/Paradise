@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-const ChatMessage = ({ message, chatData }) => {
+const ChatMessage = ({ message, chatData, loadProfileImage }) => {
 	const isSender = message.senderId === chatData.user.id
 	const senderImage = isSender ? '' : chatData.user.image
 
