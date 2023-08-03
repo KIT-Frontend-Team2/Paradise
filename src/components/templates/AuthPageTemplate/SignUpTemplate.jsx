@@ -67,7 +67,7 @@ const SignUp = ({ setState }) => {
 
 	const handleEmail = async () => {
 		try {
-			if(watch('email').trim().length === 0) return alert("값을 입력해주세요")
+			if (watch('email').trim().length === 0) return alert('값을 입력해주세요')
 			if (errors.email) return alert('이메일 양식을 지켜주세요')
 			await checkEmail(watch('email'))
 			if (confirm('해당 이메일로 확정하시겠습니까?')) {
@@ -84,7 +84,8 @@ const SignUp = ({ setState }) => {
 
 	const handleNickName = async () => {
 		try {
-			if(watch('nickname').trim().length === 0) return alert("값을 입력해주세요")
+			if (watch('nickname').trim().length === 0)
+				return alert('값을 입력해주세요')
 			if (errors.nickname) return alert('닉네임 양식을 지켜주세요')
 			await checkNickName(watch('nickname'))
 			if (confirm('해당 닉네임으로 확정하시겠습니까?')) {
