@@ -13,7 +13,13 @@ const Chart = ({ size, chartData, margin }) => (
 		<CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
 		<XAxis tickLine={false} dataKey={chartData.x} />
 		<YAxis tickLine={false} tickFormatter={chartData.formatter} />
-		<Tooltip />
+		<Tooltip
+			formatter={(value, name) =>
+				name === '평균가' && value > 10000
+					? `${Math.round(value / 10000, 2)}만원`
+					: `${value}원`
+			}
+		/>
 	</LineChart>
 )
 

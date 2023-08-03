@@ -69,6 +69,13 @@ const useViewListApi = {
 		)
 		return { mutate }
 	},
+
+	useGetChartData: (keyword, start, end) => {
+		const { data } = useQuery([API_KEY.DETAIL + keyword], () =>
+			productAxios.getProductChartData(keyword, start, end),
+		)
+		return { data }
+	},
 }
 
 export default useViewListApi

@@ -2,6 +2,7 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Checkbox from '@mui/material/Checkbox'
+import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
@@ -43,7 +44,7 @@ const ProductCard = ({
 				</S.LikeBox>
 				<img
 					style={{ cursor: 'pointer' }}
-					src={img_url}
+					src={img_url || defaultImg}
 					alt={name}
 					onClick={() => linkDetailPage(id)}
 				/>

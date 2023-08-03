@@ -1,13 +1,17 @@
 import { ImageList, ImageListItem } from '@mui/material'
-import { useState } from 'react'
+import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 const DeImgSection = ({ itemData, containerWidth }) => {
-	const [useTitleImg, setUseTitleImg] = useState(itemData[0])
+	const [useTitleImg, setUseTitleImg] = useState(null)
+	useEffect(() => {
+		setUseTitleImg(itemData[0])
+	}, [itemData])
 	return (
 		<S.LeftSection>
 			<S.ImgBoxSticky>
-				<S.TitleImg size={containerWidth} image={useTitleImg} />
+				<S.TitleImg size={containerWidth} image={useTitleImg || defaultImg} />
 				<ImageList
 					sx={{ width: containerWidth }}
 					cols={itemData.length}
