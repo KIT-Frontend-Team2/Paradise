@@ -1,6 +1,8 @@
 import { setupWorker } from 'msw'
 
+
 import * as authAPi from './apis/authPage.api'
+import * as chatApi from './apis/chat.api'
 import * as detailApi from './apis/detailPage.api'
 import * as listApi from './apis/listPage.api'
 import * as mainApi from './apis/mainPage.api'
@@ -18,5 +20,6 @@ const handler = [
 	...Object.values(myPageApi),
 	...Object.values(productApi),
 	...Object.values(authAPi),
+	...Object.values(chatApi),
 ]
 export const worker = setupWorker(...handler)

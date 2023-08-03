@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 
-export const isAtuhUi = atom({
-	key: 'isLoginUi',
+export const isAuthui = atom({
+	key: 'isAuthui',
 	default: false,
 })

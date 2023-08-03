@@ -1,5 +1,5 @@
 import { isLoggedInAtom } from 'atom/header/atom'
-import { isAtuhUi } from 'atom/header/uiatom'
+import { isAuthui } from 'atom/header/uiatom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState, useSetRecoilState } from 'recoil'
@@ -8,27 +8,36 @@ import { flexCenter } from 'styles/common'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
-	const setIsLginUi = useSetRecoilState(isAtuhUi)
+	const  setIsLginUi  = useSetRecoilState(isAuthui)
 	const { isTablet } = useDevice()
 	const navigate = useNavigate()
 
 	const handleLogin = e => {
 		e.preventDefault()
-		setIsLoggedIn(true)
-		setIsLginUi(true)
+		setIsLginUi(false)
+		navigate('/account')
 	}
 	const handleLogout = e => {
 		e.preventDefault()
-		setIsLoggedIn(false)
+
 	}
 
 	const hadnleSignup = e => {
 		e.preventDefault()
-		setIsLginUi(flase)
+		setIsLginUi(true)
+		navigate('/account')
 	}
 	return (
 		<S.UserInfoContainer>
 			{isLoggenIn ? (
+					<S.UserLoginContent>
+					<div onClick={handleLogin}>로그인</div>
+					<span>I</span>
+					<div  onClick={hadnleSignup}>
+						회원가입
+					</div>
+				</S.UserLoginContent>
+			) : (
 				<S.UserInfoContent>
 					<S.UserImageBox>
 						<S.UserImage
@@ -38,7 +47,7 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
-					<S.UserLoginContent isTablet={isTablet}>
+					<S.UserLoginContent istablet={isTablet.toString()}>
 						<Link
 							to="/mypage"
 							onClick={e => {
@@ -54,14 +63,6 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						</Link>
 					</S.UserLoginContent>
 				</S.UserInfoContent>
-			) : (
-				<S.UserLoginContent>
-					<div onClick={handleLogin}>로그인</div>
-					<span>I</span>
-					<div alt="회원가입" onClick={hadnleSignup}>
-						회원가입
-					</div>
-				</S.UserLoginContent>
 			)}
 		</S.UserInfoContainer>
 	)
@@ -97,7 +98,7 @@ S.UserLoginContent = styled.div`
 
 	span {
 		color: #999;
-		margin: ${({ isTablet }) => (isTablet ? '0 4px' : '0 20px')};
+		margin: ${({ istablet }) => (istablet ? '0 4px' : '0 20px')};
 		font-size: 20px;
 	}
 `

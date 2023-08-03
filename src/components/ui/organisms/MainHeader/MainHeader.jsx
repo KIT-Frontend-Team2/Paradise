@@ -13,7 +13,7 @@ import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
 	const { linkMainPage, linkShareList, linkMyPage } = useMove()
-	const { isMobile, isMobileAndTablet } = useDevice()
+	const { isMobile } = useDevice()
 
 	return (
 		<>
@@ -134,14 +134,10 @@ const ParadiseSection = styled.div`
 	justify-content: center;
 	align-items: center;
 	padding: 10px 0;
-	font-size: ${({ isMobileAndTablet }) =>
-		isMobileAndTablet ? '14px' : '16px'};
+	font-size: 16px;
 	border: 1px solid #999;
 	border-radius: 20px;
 	color: #999;
-	margin-left: ${({ isMobileAndTablet }) => (isMobileAndTablet ? '10px' : '0')};
-	margin-right: ${({ isMobileAndTablet }) =>
-		isMobileAndTablet ? '10px' : '0'};
 
 	cursor: pointer;
 	span {

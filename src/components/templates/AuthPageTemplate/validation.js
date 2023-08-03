@@ -1,13 +1,13 @@
 import * as yup from 'yup'
 
 export const Validation = yup.object({
-	nickname: yup.string().required('필수 입력 사항입니다.'),
+	nickName : yup.string().required('필수 입력 사항입니다.'),
 	email: yup
 		.string()
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),
-	password: yup
+	pw: yup
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')
@@ -19,18 +19,18 @@ export const Validation = yup.object({
 	passwordconfirm: yup
 		.string()
 		.required('동일한 비밀번호를 입력해 주세요')
-		.oneOf([yup.ref('password')], '비밀번호가 다릅니다.'),
+		.oneOf([yup.ref('pw')], '비밀번호가 다릅니다.'),
 	phone: yup.string().required('필수 입력 사항입니다.'),
-	address: yup.string().required('필수 입력 사항입니다.'),
+	region: yup.string().required('필수 입력 사항입니다.'),
 })
 
 export const Validation2 = yup.object({
-	user_email: yup
+	email: yup
 		.string()
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),
-	user_password: yup
+		pw: yup
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')

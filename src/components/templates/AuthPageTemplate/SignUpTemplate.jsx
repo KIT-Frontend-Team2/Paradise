@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
 import Container from 'components/layout/Container'
 import PopUp from 'components/modal/MapModal/AddressModal'
 import Button from 'components/ui/atoms/Button/Button'
@@ -10,6 +9,7 @@ import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import { Validation } from './validation'
+import userApi from 'hooks/pageQuery/useSignUp'
 
 const SignUp = () => {
 	const {
@@ -22,17 +22,25 @@ const SignUp = () => {
 		mode: 'onchange',
 		resolver: yupResolver(Validation),
 	})
-	const [isPopUp, setIsPopUp] = useState(false)
 
-	const onSubmit = async data => {
-		console.log(data)
-		try {
-			const response = await axios.post('/auth', data)
-			console.log(response.data)
-		} catch (error) {
-			console.error(error)
+
+
+	const [isPopUp, setIsPopUp] = useState(false)
+	const {mutate} = userApi.useSignup()
+
+	const onSubmit =  (data) => {
+		console.log(data);
+		const userInfo = {
+			email: watch('email'),
+			pw: watch('pw'),
+			nickName : watch('nickName'),
+			phone: watch('phone'),
+			region: watch('region')
 		}
-	}
+		console.log(userInfo)
+			mutate(userInfo)
+	};
+	
 
 	const handleOpen = e => {
 		e.preventDefault()
@@ -44,7 +52,7 @@ const SignUp = () => {
 	}
 
 	const handleAddress = fullAddress => {
-		setValue('address', fullAddress)
+		setValue('region', fullAddress)
 	}
 
 	return (
@@ -83,10 +91,10 @@ const SignUp = () => {
 							</S.FromLabel>
 							<InputGroup>
 								<Input
-									name="password"
+									name="pw"
 									placeholder={'비밀번호를 입력해주세요'}
-									{...register('password')}
-									error={errors.password?.message}
+									{...register('pw')}
+									error={errors.pw?.message}
 								/>
 							</InputGroup>
 						</S.Content>
@@ -109,11 +117,11 @@ const SignUp = () => {
 							</S.FromLabel>
 							<InputGroup>
 								<Input
-									name="nickname"
+									name="nickName"
 									placeholder={'닉네임을 입력헤주세요'}
 									width={'322'}
-									{...register('nickname')}
-									error={errors.nickname?.message}
+									{...register('nickName')}
+									error={errors.nickName?.message}
 								/>
 								<S.CommonButton
 									type="button"
@@ -141,11 +149,11 @@ const SignUp = () => {
 							</S.FromLabel>
 							<InputGroup>
 								<Input
-									name="address"
+									name="region"
 									placeholder={'검색 버튼을 눌러주세요'}
 									width={'322'}
-									{...register('address')}
-									error={errors.address?.message}
+									{...register('region')}
+									error={errors.region?.message}
 								/>
 								<S.CommonButton
 									type="button"

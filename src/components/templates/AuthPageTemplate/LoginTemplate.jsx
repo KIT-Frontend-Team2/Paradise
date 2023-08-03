@@ -1,25 +1,27 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import axios from 'axios'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-// import { useNavigate } from 'react-router-dom'
-import postLoginApi from 'hooks/pageQuery/usePostLonin'
-import { useState } from 'react'
+
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
-import SignUp from './SignUpTemplate'
 import { Validation2 } from './validation'
+import { useState } from 'react'
+import SignUp from './SignUpTemplate'
+import { userLoginApi } from 'hooks/pageQuery/useSignUp'
+import { useSetRecoilState } from 'recoil'
+import { isLoggedInAtom } from 'atom/header/atom'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const Login = () => {
-	// const navigation = useNavigate()
-
 	const [issignUP, setSignUp] = useState(false)
-	const { postLogin } = postLoginApi()
-
+	const setLoginUi = useSetRecoilState(isLoggedInAtom)
+	const naviate = useNavigate()
 	const {
 		register,
 		handleSubmit,
@@ -30,15 +32,18 @@ const Login = () => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const onSubmit = async data => {
+	const {mutate} = userLoginApi.userLogin(
+		watch('email'),
+		watch('pw')
+	)
+
+	const onSubmit =  async (data) => {
 		console.log(data)
-		try {
-			const response = await axios.post('/auth', data)
-			console.log(response.data)
-		} catch (error) {
-			console.error(error)
-		}
+		await mutate()
+		setLoginUi(false)
+		naviate('/')
 	}
+
 
 	return (
 		<S.Wrap>
@@ -54,8 +59,8 @@ const Login = () => {
 								<InputGroup>
 									<Input
 										placeholder={'이메일을 입력해주세요'}
-										{...register('user_email')}
-										name="user_email"
+										{...register('email')}
+										name="email"
 										error={errors.email?.message}
 									/>
 								</InputGroup>
@@ -64,10 +69,10 @@ const Login = () => {
 								<S.FromLabel>비밀번호</S.FromLabel>
 								<InputGroup>
 									<Input
-										name="user_password"
+										name="pw"
 										placeholder={'비밀번호를 입력해주세요'}
-										{...register('user_password')}
-										error={errors.password?.message}
+										{...register('pw')}
+										error={errors.pw?.message}
 									/>
 								</InputGroup>
 							</S.Content>
@@ -92,6 +97,7 @@ const Login = () => {
 		</S.Wrap>
 	)
 }
+
 
 export default Login
 

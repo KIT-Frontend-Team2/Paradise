@@ -4,7 +4,6 @@ import { headerMock } from '__mock__/datas/header.mock'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -13,15 +12,15 @@ import UserInfo from './UserInfo'
 
 const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
-	const { linkMainPage, linkShareList, linkMyPage } = useMove()
-	const navigate = useNavigate()
+	const { linkMainPage, linkShareList, linkMyPage, linkSearchProduct } =
+		useMove()
 	const { isTablet } = useDevice()
 	const inputRef = useRef(null)
 
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value
-		navigate('/search/' + keyword)
+		linkSearchProduct(keyword)
 		inputRef.current.value = ''
 	}
 	const handleScroll = () => {
@@ -47,7 +46,6 @@ const HeaderScroll = () => {
 				top: 0,
 				left: '50%',
 				transform: 'translateX(-50%)',
-				maxWidth: '1100px',
 				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
@@ -61,23 +59,13 @@ const HeaderScroll = () => {
 			}}
 		>
 			<S.Container>
-				<Box
-					isTablet={isTablet}
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: isTablet ? 'flex-start' : 'center',
-						gap: isTablet ? '10px' : '36px',
-						fontSize: isTablet ? '14px' : '18px',
-						width: '100%',
-					}}
-				>
+				<S.Box istablet={isTablet ? 'true' : 'false'}>
 					<HeaderCategory />
 
 					<span onClick={linkMainPage}>메인페이지</span>
 					<span onClick={linkShareList}>무료나눔</span>
 					<span onClick={linkMyPage}>마이페이지</span>
-				</Box>
+				</S.Box>
 				<S.UserSearchContainer onSubmit={searchKeyword}>
 					<S.SearchBox>
 						<SearchIcon
@@ -156,4 +144,14 @@ S.UserInfoContainer = styled.div`
 	margin-left: 24px;
 	display: flex;
 	align-items: center;
+`
+
+S.Box = styled(Box)`
+	display: flex;
+	align-items: center;
+	justify-content: ${({ istablet }) =>
+		istablet === 'true' ? 'flex-start' : 'center'};
+	gap: ${({ istablet }) => (istablet === 'true' ? '10px' : '36px')};
+	font-size: ${({ istablet }) => (istablet === 'true' ? '14px' : '18px')};
+	width: 100%;
 `
