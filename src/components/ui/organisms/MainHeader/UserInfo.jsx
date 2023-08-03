@@ -8,7 +8,7 @@ import { flexCenter } from 'styles/common'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
-	const  setIsLginUi  = useSetRecoilState(isAuthui)
+	const setIsLginUi = useSetRecoilState(isAuthui)
 	const { isTablet } = useDevice()
 	const navigate = useNavigate()
 
@@ -19,7 +19,6 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	}
 	const handleLogout = e => {
 		e.preventDefault()
-
 	}
 
 	const hadnleSignup = e => {
@@ -30,12 +29,10 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	return (
 		<S.UserInfoContainer>
 			{isLoggenIn ? (
-					<S.UserLoginContent>
+				<S.UserLoginContent>
 					<div onClick={handleLogin}>로그인</div>
 					<span>I</span>
-					<div  onClick={hadnleSignup}>
-						회원가입
-					</div>
+					<div onClick={hadnleSignup}>회원가입</div>
 				</S.UserLoginContent>
 			) : (
 				<S.UserInfoContent>

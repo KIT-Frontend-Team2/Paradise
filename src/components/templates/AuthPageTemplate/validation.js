@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 
 export const Validation = yup.object({
-	nickName : yup.string().required('필수 입력 사항입니다.'),
+	nickName: yup.string().required('필수 입력 사항입니다.'),
 	email: yup
 		.string()
 		.required('필수 입력 사항입니다.')
@@ -30,7 +30,7 @@ export const Validation2 = yup.object({
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),
-		pw: yup
+	pw: yup
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')

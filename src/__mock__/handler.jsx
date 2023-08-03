@@ -1,6 +1,5 @@
 import { setupWorker } from 'msw'
 
-
 import * as authAPi from './apis/authPage.api'
 import * as chatApi from './apis/chat.api'
 import * as detailApi from './apis/detailPage.api'

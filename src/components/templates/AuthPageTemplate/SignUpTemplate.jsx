@@ -4,12 +4,12 @@ import PopUp from 'components/modal/MapModal/AddressModal'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import userApi from 'hooks/pageQuery/useSignUp'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import { Validation } from './validation'
-import userApi from 'hooks/pageQuery/useSignUp'
 
 const SignUp = () => {
 	const {
@@ -23,24 +23,21 @@ const SignUp = () => {
 		resolver: yupResolver(Validation),
 	})
 
-
-
 	const [isPopUp, setIsPopUp] = useState(false)
-	const {mutate} = userApi.useSignup()
+	const { mutate } = userApi.useSignup()
 
-	const onSubmit =  (data) => {
-		console.log(data);
+	const onSubmit = data => {
+		console.log(data)
 		const userInfo = {
 			email: watch('email'),
 			pw: watch('pw'),
-			nickName : watch('nickName'),
+			nickName: watch('nickName'),
 			phone: watch('phone'),
-			region: watch('region')
+			region: watch('region'),
 		}
 		console.log(userInfo)
-			mutate(userInfo)
-	};
-	
+		mutate(userInfo)
+	}
 
 	const handleOpen = e => {
 		e.preventDefault()

@@ -1,22 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { isLoggedInAtom } from 'atom/header/atom'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-
+import { userLoginApi } from 'hooks/pageQuery/useSignUp'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
-import { Validation2 } from './validation'
-import { useState } from 'react'
 import SignUp from './SignUpTemplate'
-import { userLoginApi } from 'hooks/pageQuery/useSignUp'
-import { useSetRecoilState } from 'recoil'
-import { isLoggedInAtom } from 'atom/header/atom'
-import { useNavigate } from 'react-router-dom'
-
-
+import { Validation2 } from './validation'
 
 const Login = () => {
 	const [issignUP, setSignUp] = useState(false)
@@ -32,18 +29,14 @@ const Login = () => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const {mutate} = userLoginApi.userLogin(
-		watch('email'),
-		watch('pw')
-	)
+	const { mutate } = userLoginApi.userLogin(watch('email'), watch('pw'))
 
-	const onSubmit =  async (data) => {
+	const onSubmit = async data => {
 		console.log(data)
 		await mutate()
 		setLoginUi(false)
 		naviate('/')
 	}
-
 
 	return (
 		<S.Wrap>
@@ -97,7 +90,6 @@ const Login = () => {
 		</S.Wrap>
 	)
 }
-
 
 export default Login
 
