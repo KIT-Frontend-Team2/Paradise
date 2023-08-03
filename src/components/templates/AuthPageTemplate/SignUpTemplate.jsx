@@ -25,6 +25,7 @@ const SignUp = ({ setState }) => {
 	})
 	const [isPopUp, setIsPopUp] = useState(false)
 	const [checkState, setCheckState] = useState([false, false])
+	const [request, setRequest] = useState(false)
 
 	const { mutateAsync: checkEmail } = useUserAPi.checkEmail(watch('email'))
 	const { mutateAsync: checkNickName } = useUserAPi.checkNickName(
@@ -34,6 +35,8 @@ const SignUp = ({ setState }) => {
 
 	const onSubmit = async e => {
 		try {
+			if (request) return
+			setRequest(true)
 			if (checkState.filter(prev => prev === true).length === 2) {
 				const userInfo = {
 					region: e.address,
@@ -46,9 +49,13 @@ const SignUp = ({ setState }) => {
 				alert('축하합니다 회원가입이 완료되었습니다.')
 				setState(true)
 			} else {
-				alert('유효성 검사를 진행해주세요')
+				if (checkState[0] === false)
+					return alert('이메일 중복검사를 진행해주세요')
+				if (checkState[1] === false)
+					return alert('닉네임 중복검사를 진행해주세요')
 			}
 		} catch (err) {
+			setRequest(false)
 			alert(ERROR_MESSAGE)
 		}
 	}
@@ -66,6 +73,8 @@ const SignUp = ({ setState }) => {
 	}
 
 	const handleEmail = async () => {
+		if (request) return
+		setRequest(true)
 		try {
 			if (watch('email').trim().length === 0) return alert('값을 입력해주세요')
 			if (errors.email) return alert('이메일 양식을 지켜주세요')
@@ -77,12 +86,16 @@ const SignUp = ({ setState }) => {
 					return newState
 				})
 			}
+			setRequest(false)
 		} catch (err) {
+			setRequest(false)
 			alert(err.message)
 		}
 	}
 
 	const handleNickName = async () => {
+		if (request) return
+		setRequest(true)
 		try {
 			if (watch('nickname').trim().length === 0)
 				return alert('값을 입력해주세요')
@@ -95,7 +108,9 @@ const SignUp = ({ setState }) => {
 					return newState
 				})
 			}
+			setRequest(false)
 		} catch (err) {
+			setRequest(false)
 			alert(err.message)
 		}
 	}
