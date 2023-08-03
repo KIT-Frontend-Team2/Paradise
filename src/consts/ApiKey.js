@@ -8,7 +8,7 @@ const API_KEY = {
 	SHARE: '/share',
 	DETAIL: '/detail',
 	SEARCH: '/search',
-	MYPAGE: '/mypage',
+	MYPAGE: '/my-page',
 	LIKE: '/like',
 	ACCOUNT: '/account',
 	PROFILE: '/profile',
