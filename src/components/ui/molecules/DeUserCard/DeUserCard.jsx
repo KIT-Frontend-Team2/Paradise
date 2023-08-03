@@ -2,6 +2,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import cssToken from 'styles/cssToken'
 
+import altProfile from '../../../../assets/images/기본프로필/default_profile_2.png'
+
 /**
  * 상품을 눌렀을 때 해당 유저의 상품을 볼 수 있게 페이지 이동이 되야함
  */
@@ -15,7 +17,7 @@ const DeUserCard = ({
 	return (
 		<S.UserFlexBox>
 			<S.UserImg size={size}>
-				<img src={imgProfile} alt={userName} loading={'lazy'} />
+				<img src={imgProfile || altProfile} alt={'판매자 이미지'} />
 			</S.UserImg>
 			<S.UserInfoBox>
 				<S.UserName>{userName}</S.UserName>
@@ -98,7 +100,7 @@ DeUserCard.propTypes = {
 	/**
 	 * 판매자가 판매하는 아이템의 갯수를 입력해주세요
 	 */
-	productCount: PropTypes.number.isRequired,
+	productCount: PropTypes.number,
 	/**
 	 * 판매자의 온도를 입력해주세요
 	 */

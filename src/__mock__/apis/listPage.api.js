@@ -4,7 +4,7 @@ import API_KEY from '../../consts/ApiKey'
 import listPageMock from '../datas/listPage.mock'
 
 export const getList = rest.get(
-	API_KEY.LIST + '/:filter',
+	API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH + '/:filter',
 	async (req, res, ctx) => {
 		const { filter } = req.params
 

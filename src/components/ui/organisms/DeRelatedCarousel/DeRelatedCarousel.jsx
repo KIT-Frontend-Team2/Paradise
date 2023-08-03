@@ -4,15 +4,17 @@ import React from 'react'
 import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
 import SProductCarousel from '../../molecules/SProductCarousel/SProductCarousel'
 
-const DeRelatedCarousel = ({ ...args }) => (
-	<>
-		<DeSectionTitle
-			title={'연관된 상품'}
-			rightTitle={args.products.length + '개의 상품'}
-		/>
-		<SProductCarousel products={args.products} />
-	</>
-)
+const DeRelatedCarousel = ({ pagination, product }) => {
+	return (
+		<>
+			<DeSectionTitle
+				title={'연관된 상품'}
+				rightTitle={pagination.count + '개의 상품'}
+			/>
+			<SProductCarousel products={product} />
+		</>
+	)
+}
 
 export default DeRelatedCarousel
 

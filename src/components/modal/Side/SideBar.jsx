@@ -8,15 +8,13 @@ import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
 import Chat from '../chat/Chat'
 
 const SideBar = () => {
-	const { data, isLoading, isError } = useViewListApi.useGetViewList()
 	const setShowChat = useSetRecoilState(showChatState)
-
+	const { data } = useViewListApi.useGetViewList()
+  
 	return (
 		<>
 			<S.SideBarBanner>
-				<SideBarSection
-					products={!isLoading || isError ? data.data.products : []}
-				/>
+				<SideBarSection products={data.data.productList} />
 			</S.SideBarBanner>
 			<S.SideBarChat onClick={() => setShowChat(true)}>
 				<SideChatButton isNew={false} />

@@ -10,13 +10,13 @@ const ProductSearchPage = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { data } = getSearchPage(keyword, page)
-
+	const { product, pagination } = data.data
 	return (
 		<ProductSearchTemplate
 			page={page}
-			total={data.data.total}
+			total={pagination.count}
 			keyword={keyword}
-			products={data.data.data}
+			products={product}
 		/>
 	)
 }

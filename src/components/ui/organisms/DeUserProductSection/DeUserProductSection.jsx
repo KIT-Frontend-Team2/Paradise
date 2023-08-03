@@ -25,18 +25,22 @@ const DeUserProductSection = ({
 				userTemplate={userTemplate}
 				userName={userName}
 			/>
-			<DeImageList
-				width={containerWidth}
-				height={containerWidth * 0.65}
-				cols={3}
-				rowHeight={containerWidth * 0.31}
-				itemData={itemData}
-			/>
-			<DeUserProductButton
-				width={containerWidth}
-				productCount={productCount}
-				userId={userId}
-			/>
+			{itemData && (
+				<DeImageList
+					width={containerWidth}
+					height={containerWidth * 0.65}
+					cols={3}
+					rowHeight={containerWidth * 0.31}
+					itemData={itemData}
+				/>
+			)}
+			{productCount && (
+				<DeUserProductButton
+					width={containerWidth}
+					productCount={productCount}
+					userId={userId}
+				/>
+			)}
 		</S.ProductBox>
 	)
 }
@@ -51,7 +55,7 @@ DeUserProductSection.propTypes = {
 	/**
 	 * 상품의 갯수를 넣어주세요
 	 */
-	productCount: PropTypes.number.isRequired,
+	productCount: PropTypes.number,
 	/**
 	 * 판매자의 온도를 알려주세요
 	 */
@@ -63,11 +67,11 @@ DeUserProductSection.propTypes = {
 	/**
 	 * 판매자가 파는 품목을 알려주세요
 	 */
-	itemData: PropTypes.array.isRequired,
+	itemData: PropTypes.array,
 	/**
 	 * 해당 판매자의 아이디로 조회하기 위해 아이디를 받아옵니다.
 	 */
-	userId: PropTypes.string.isRequired,
+	userId: PropTypes.number.isRequired,
 }
 
 const S = {}

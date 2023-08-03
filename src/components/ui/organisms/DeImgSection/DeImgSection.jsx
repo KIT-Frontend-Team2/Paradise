@@ -3,8 +3,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 const DeImgSection = ({ itemData, containerWidth }) => {
-	const [useTitleImg, setUseTitleImg] = useState(itemData[0].img_url)
-
+	const [useTitleImg, setUseTitleImg] = useState(itemData[0])
 	return (
 		<S.LeftSection>
 			<S.ImgBoxSticky>
@@ -14,19 +13,20 @@ const DeImgSection = ({ itemData, containerWidth }) => {
 					cols={itemData.length}
 					rowHeight={Math.floor(containerWidth / itemData.length - 10)}
 				>
-					{itemData.map(item => (
-						<ImageListItem
-							key={item.id}
-							sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
-						>
-							<S.ImgBox
-								size={containerWidth / itemData.length - 10}
-								onClick={() => setUseTitleImg(item.img_url)}
+					{itemData.length !== 1 &&
+						itemData.map(item => (
+							<ImageListItem
+								key={item}
+								sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 							>
-								<img src={item.img_url} alt={item.title} />
-							</S.ImgBox>
-						</ImageListItem>
-					))}
+								<S.ImgBox
+									size={containerWidth / itemData.length - 10}
+									onClick={() => setUseTitleImg(item)}
+								>
+									<img src={item} alt={item} />
+								</S.ImgBox>
+							</ImageListItem>
+						))}
 				</ImageList>
 			</S.ImgBoxSticky>
 		</S.LeftSection>
@@ -53,6 +53,7 @@ S.TitleImg = styled.div`
 	background-size: cover;
 	aspect-ratio: 1/1;
 	border: 1px solid ${({ theme }) => theme.PALETTE.gray['300']};
+	background-position: center;
 `
 S.ImgBox = styled.div`
 	aspect-ratio: 1/1;
@@ -63,8 +64,8 @@ S.ImgBox = styled.div`
 	border: 1px solid ${({ theme }) => theme.PALETTE.gray['300']};
 
 	img {
+		text-align: center;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 	}
 `

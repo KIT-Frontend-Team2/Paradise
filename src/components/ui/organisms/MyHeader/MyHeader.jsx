@@ -50,33 +50,35 @@ const MyHeader = () => {
 						<S.UserAddress>{user_address}</S.UserAddress>
 					</div>
 				</S.ProfileBox>
-				<S.Box>
-					<S.Title>등록상품</S.Title>
-					<S.Link
-						className={myMenu === 'mySell' ? 'on' : ''}
-						onClick={() => onClickMenu('mySell')}
-					>
-						{user_total_product}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>관심상품</S.Title>
-					<S.Link
-						className={myMenu === 'wish' ? 'on' : ''}
-						onClick={() => onClickMenu('wish')}
-					>
-						{user_like_list_count}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>채팅</S.Title>
-					<S.Link
-						className={myMenu === 'chat' ? 'on' : ''}
-						onClick={() => window.alert('채팅 오픈')}
-					>
-						{user_chat_count}
-					</S.Link>
-				</S.Box>
+				<S.BoxContainer>
+					<S.Box>
+						<S.Title>등록상품</S.Title>
+						<S.Link
+							className={myMenu === 'mySell' ? 'on' : ''}
+							onClick={() => onClickMenu('mySell')}
+						>
+							{user_total_product}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>관심상품</S.Title>
+						<S.Link
+							className={myMenu === 'wish' ? 'on' : ''}
+							onClick={() => onClickMenu('wish')}
+						>
+							{user_like_list_count}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>채팅</S.Title>
+						<S.Link
+							className={myMenu === 'chat' ? 'on' : ''}
+							onClick={() => window.alert('채팅 오픈')}
+						>
+							{user_chat_count}
+						</S.Link>
+					</S.Box>
+				</S.BoxContainer>
 			</S.Container>
 		</S.Header>
 	)
@@ -100,9 +102,10 @@ S.LoadingHeader = styled.div`
 S.Container = styled.div`
 	display: flex;
 	gap: 8px;
-	width: 1100px;
+	width: ${({ theme }) => (theme.isDesktop ? '1100px' : '100%')};
 	margin: 0 auto;
 	padding: 30px 0;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 `
 
 S.FlexWrap = styled.div`
@@ -113,6 +116,7 @@ S.FlexWrap = styled.div`
 S.ProfileBox = styled.div`
 	display: flex;
 	align-items: center;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	padding: 30px;
 	gap: 15px;
 	flex: 1;
@@ -172,12 +176,16 @@ S.UserAddress = styled.div`
 	color: ${({ theme }) => theme.PALETTE.gray[800]};
 	font-size: ${({ theme }) => theme.FONT_SIZE.xxsmall};
 `
-
+S.BoxContainer = styled.div`
+	flex-direction: row;
+	display: ${({ theme }) => (theme.isDesktop ? 'flex' : 'none')};
+`
 S.Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	flex: 1;
 	width: 160px;
 	height: 120px;
 	background-color: ${({ theme }) => theme.PALETTE.background.white};

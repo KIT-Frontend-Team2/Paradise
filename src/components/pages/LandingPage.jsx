@@ -2,7 +2,14 @@ import section1 from 'assets/images/section-bg1-min.jpg'
 import Button from 'components/ui/atoms/Button/Button'
 import { styled } from 'styled-components'
 
+import useMove from '../../hooks/useMovePage'
+
 const LandingPage = () => {
+	const { linkAuthPage } = useMove()
+	const movePage = () => {
+		console.log('페이지이동')
+		linkAuthPage()
+	}
 	return (
 		<>
 			<S.Section className="section1">
@@ -10,7 +17,7 @@ const LandingPage = () => {
 					<S.Title2>집에 혼자있는 중고제품 팔면 돈이 된다?</S.Title2>
 					<S.Title1>
 						수수료 없는 무료 중고거래, 나눔 사이트{' '}
-						<span class="primary">Paradise</span>
+						<span className="primary">Paradise</span>
 					</S.Title1>
 				</S.Container>
 			</S.Section>
@@ -39,7 +46,7 @@ const LandingPage = () => {
 			<S.Section className="text-center">
 				<S.Container>
 					<S.Title1>파라다이스와 함께 팔아보세요</S.Title1>
-					<S.ButtonWrapper>
+					<S.ButtonWrapper onClick={movePage}>
 						<Button
 							size={'full'}
 							label={'내 물건 팔러 가기'}
@@ -80,7 +87,6 @@ S.Section = styled.section`
 		background-image: url(${section1});
 		background-size: cover;
 		background-position: center 70%;
-		width: 100vw;
 		height: 100vh;
 	}
 
