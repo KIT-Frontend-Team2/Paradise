@@ -1,40 +1,37 @@
-import notFoundImg from 'assets/images/search-notfound.png'
 import React from 'react'
 import styled from 'styled-components'
 
+import { EMPTY_MESSAGE } from '../../../consts/message'
 import Container from '../../layout/Container'
 import Pagination from '../../ui/molecules/Pagination/Pagination'
+import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
 import ProductList from '../../ui/organisms/ProductList/ProductList'
 
 const ProductSearchTemplate = ({ page, total, products, keyword }) => {
 	const item_length = 30
 	return (
 		<Container>
-			<S.ListTitle>
-				<S.ListFilter>
-					<S.OrangeColor>{keyword}</S.OrangeColor>
-					{'의 검색결과 입니다.'}
-				</S.ListFilter>
-				<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
-			</S.ListTitle>
-			{products.length !== 0 ? (
-				<ProductList size={250} products={products} />
-			) : (
-				<S.NotFound>
-					<img
-						src={notFoundImg}
-						alt={'결과가 없습니다.'}
-						width={280}
-						height={130}
-					/>
-					<div>해당하는 상품이 없습니다.</div>
-				</S.NotFound>
-			)}
-			<Pagination
-				page={parseInt(page)}
-				item_length={item_length}
-				total={total}
-			/>
+			<>
+				{products.length !== 0 ? (
+					<>
+						<S.ListTitle>
+							<S.ListFilter>
+								<S.OrangeColor>{keyword}</S.OrangeColor>
+								{'의 검색결과 입니다.'}
+							</S.ListFilter>
+							<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
+						</S.ListTitle>
+						<ProductList size={250} products={products} />
+						<Pagination
+							page={parseInt(page)}
+							item_length={item_length}
+							total={total}
+						/>
+					</>
+				) : (
+					<EmptySection titleMessage={EMPTY_MESSAGE.EMPTY_LIST} />
+				)}
+			</>
 		</Container>
 	)
 }
