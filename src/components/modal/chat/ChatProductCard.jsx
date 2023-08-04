@@ -1,6 +1,9 @@
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import { IconButton } from '@mui/material'
+import { showChatState } from 'atom/chat/atom'
+import useMove from 'hooks/useMovePage'
+import { useSetRecoilState } from 'recoil'
 import styled, { css } from 'styled-components'
 
 import ChatProductCardButton from './ChatProductCardButton'
@@ -18,38 +21,47 @@ export const getProductStatusColor = status => {
 			return ''
 	}
 }
-const ChatProductCard = ({ chatData, collapsed, toggleCollapse }) => {
-	const {
-		product_id,
-		product_name,
-		product_main_img_url,
-		product_status,
-		product_price,
-	} = chatData
-
+const ChatProductCard = ({
+	id,
+	productTitle,
+	productImage,
+	productPrice,
+	collapsed,
+	toggleCollapse,
+	setLayout,
+}) => {
+	const { linkDetailPage } = useMove()
+	const setShowChat = useSetRecoilState(showChatState)
+	const moveProduct = () => {
+		linkDetailPage(id)
+		setShowChat(false)
+		setLayout(true)
+	}
 	return (
 		<S.Container collapsed={collapsed ? 'true' : 'false'}>
 			<S.ImageWrapper collapsed={collapsed ? 'true' : 'false'}>
-				<S.Image src={product_main_img_url} />
+				<S.Image src={productImage} />
 			</S.ImageWrapper>
 			<S.ProductInfo>
 				<S.Title collapsed={collapsed ? 'true' : 'false'}>
-					<S.ProductState color={getProductStatusColor(product_status)}>
+					{/* <S.ProductState color={getProductStatusColor(product_status)}>
 						{product_status}
-					</S.ProductState>
-					<S.ProductName>{product_name}</S.ProductName>
+					</S.ProductState> */}
+					<S.ProductName>{productTitle}</S.ProductName>
 					{collapsed && (
 						<>
 							<S.ProductPrice collapsed={collapsed ? 'true' : 'false'}>
-								{product_price.toLocaleString()}원
+								{(productPrice || 0).toLocaleString()}원
 							</S.ProductPrice>
 						</>
 					)}
 				</S.Title>
 				{!collapsed && (
 					<>
-						<S.ProductPrice>{product_price.toLocaleString()}원</S.ProductPrice>
-						<div>
+						<S.ProductPrice>
+							{(productPrice || 0).toLocaleString()}원
+						</S.ProductPrice>
+						<div onClick={moveProduct}>
 							<ChatProductCardButton>상품 보러가기</ChatProductCardButton>
 						</div>
 					</>
