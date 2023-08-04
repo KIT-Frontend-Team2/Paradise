@@ -8,8 +8,7 @@ import ChatMessage from './ChatMessage'
 import ChatProductCard from './ChatProductCard'
 
 const Chating = ({ setLayout, productInfo }) => {
-	const { data } = useChatApi.useGetChatLog(230)
-	console.log(data.data)
+	// const { data } = useChatApi.useGetChatLog(230)
 
 	const { mutate } = useChatApi.useSendChat(id)
 	const messagesEndRef = useRef(null)
