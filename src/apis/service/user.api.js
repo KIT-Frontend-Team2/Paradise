@@ -1,29 +1,24 @@
+import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
 import { BASE_URL } from '../../consts/api'
-import TokenRepository from '../../repositories/TokenRepository'
 import { axiosInstance } from '../axiosInstance'
 
 const userService = {
 	signUp: userInfo => {
 		return axiosInstance.post(API_KEY.API + API_KEY.USER, {
-			email: userInfo.email,
-			pw: userInfo.pw,
-			nickName: userInfo.nickName,
-			phone: userInfo.phone,
-			region: userInfo.region,
+			...userInfo,
 		})
 	},
 
 	login: (email, pw) => {
-		return axiosInstance.post(API_KEY.API + API_KEY.USER + '/login', {
+		return axios.post(BASE_URL + API_KEY.API + API_KEY.USER + '/login', {
 			email,
 			pw,
 		})
 	},
 
 	logOut: () => {
-		TokenRepository.removeToken()
 		return axiosInstance.get(API_KEY.API + API_KEY.USER + '/logout')
 	},
 
@@ -56,7 +51,7 @@ const userService = {
 	},
 
 	getMypage: () => {
-		return axiosInstance.get(API_KEY.MYPAGE)
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + API_KEY.MYPAGE)
 	},
 
 	changeUserInfo: UserInfo => {

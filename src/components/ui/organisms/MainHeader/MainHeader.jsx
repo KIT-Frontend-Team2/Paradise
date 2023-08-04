@@ -13,6 +13,7 @@ import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
 	const { linkSellList, linkShareList, linkMyPage } = useMove()
+
 	const { isMobile } = useDevice()
 
 	return (
@@ -22,7 +23,6 @@ const MainHeader = props => {
 			) : (
 				<>
 					<HeaderScroll />
-
 					<Box
 						sx={{
 							position: 'relative',
@@ -37,11 +37,10 @@ const MainHeader = props => {
 							justifyContent: 'center',
 							alignItems: 'center',
 							margin: 'auto',
-							zIndex: 30,
+							zIndex: 100,
 						}}
 					>
 						<HeaderSearch />
-
 						<S.Container>
 							<Box
 								sx={{
@@ -103,7 +102,6 @@ const MainHeader = props => {
 							>
 								<span>마이페이지</span>
 							</Box>
-
 							<S.ParadiseSection>
 								<span>파라다이스</span> 서비스 소개
 							</S.ParadiseSection>
@@ -118,17 +116,19 @@ const MainHeader = props => {
 
 export default MainHeader
 
-const Container = styled.div`
+const S = {}
+
+S.Container = styled.div`
 	width: 100%;
 	position: relative;
-	${flexCenter}
+	${flexCenter};
 	margin-top: 20px;
 	span {
 		cursor: pointer;
 	}
 `
 
-const ParadiseSection = styled.div`
+S.ParadiseSection = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
@@ -146,8 +146,3 @@ const ParadiseSection = styled.div`
 		margin-right: 5px;
 	}
 `
-
-const S = {
-	Container,
-	ParadiseSection,
-}

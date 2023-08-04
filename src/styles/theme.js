@@ -50,11 +50,17 @@ const FONT_LINE = {
 	large: '36px,',
 }
 
+const Z_INDEX = {
+	header: 100,
+	altImage: 30,
+}
+
 const theme = {
 	PALETTE,
 	FONT_SIZE,
 	FONT_WEIGHT,
 	FONT_LINE,
+	Z_INDEX,
 }
 
 export default theme

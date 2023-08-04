@@ -7,7 +7,6 @@ import useMove from '../../hooks/useMovePage'
 const LandingPage = () => {
 	const { linkAuthPage } = useMove()
 	const movePage = () => {
-		console.log('페이지이동')
 		linkAuthPage()
 	}
 	return (

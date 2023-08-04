@@ -1,22 +1,36 @@
 import { isLoggedInAtom } from 'atom/header/atom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
+import useUserAPi from '../../../../hooks/service/user.service'
+import useMove from '../../../../hooks/useMovePage'
+
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
 	const { isTablet } = useDevice()
-	const navigate = useNavigate()
+
 	const handleLogin = e => {
 		e.preventDefault()
 		setIsLoggedIn(true)
 	}
+	const { linkMainPage, linkMyPage } = useMove()
+	const { mutate, isSuccess } = useUserAPi.logout()
+
 	const handleLogout = e => {
 		e.preventDefault()
-		setIsLoggedIn(false)
+		mutate()
 	}
+
+	useEffect(() => {
+		if (isSuccess === true) {
+			linkMainPage()
+		}
+	}, [isSuccess])
+
 	return (
 		<S.UserInfoContainer>
 			{isLoggenIn ? (
@@ -25,18 +39,12 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						<S.UserImage
 							src={user_profile_url}
 							alt={user_nick_name}
-							onClick={() => navigate('/mypage')}
+							onClick={linkMyPage}
 						/>
 						<S.NotificationDot />
 					</S.UserImageBox>
 					<S.UserLoginContent istablet={isTablet.toString()}>
-						<Link
-							to="/mypage"
-							onClick={e => {
-								e.preventDefault()
-								navigate('/mypage')
-							}}
-						>
+						<Link to="#" onClick={linkMyPage}>
 							{user_nick_name} 님
 						</Link>
 						<span>I</span>
@@ -71,7 +79,7 @@ S.UserInfoContainer = styled.div`
 `
 
 S.UserInfoContent = styled.div`
-	${flexCenter}
+	${flexCenter};
 	gap: 10px;
 	position: relative;
 `
@@ -96,7 +104,7 @@ S.UserLoginContent = styled.div`
 `
 
 S.UserImageBox = styled.div`
-	${flexCenter}
+	${flexCenter};
 	position: relative;
 `
 

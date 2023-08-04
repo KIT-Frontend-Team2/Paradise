@@ -1,4 +1,5 @@
 import Container from 'components/layout/Container'
+import MyPageTemplateSkeleton from 'components/templates/MyPageTemplate/MyPageTemplateSkeleton'
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -92,11 +93,10 @@ const router = createBrowserRouter([
 							</Suspense>
 						),
 					},
-
 					{
 						path: API_KEY.MYPAGE,
 						element: (
-							<Suspense>
+							<Suspense fallback={<MyPageTemplateSkeleton />}>
 								<MyPage />
 							</Suspense>
 						),
@@ -107,7 +107,14 @@ const router = createBrowserRouter([
 		errorElement: <NotFoundPage />,
 	},
 	{ path: API_KEY.ACCOUNT, element: <AuthPage /> },
-	{ path: API_KEY.LANDING, element: <LandingPage /> },
+	{
+		path: API_KEY.LANDING,
+		element: (
+			<Suspense fallback={<></>}>
+				<LandingPage />
+			</Suspense>
+		),
+	},
 	{ path: '/*', element: <NotFoundPage /> },
 ])
 

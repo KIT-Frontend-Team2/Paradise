@@ -12,14 +12,13 @@ const Chat = () => {
 	const showChat = useRecoilValue(showChatState)
 
 	const { data } = useChatApi.useGetChatList()
-	console.log(data.data)
 
 	const [selectedChat, setSelectedChat] = useState(null)
 
 	const [layout, setLayout] = useState(true)
 
-	const handleChatClick = chatData => {
-		setSelectedChat(chatData)
+	const handleChatClick = data => {
+		setSelectedChat(data)
 		setLayout(false)
 	}
 
@@ -29,7 +28,7 @@ const Chat = () => {
 				<S.ChatContainer>
 					<ChatHeader layout={layout} setLayout={setLayout} />
 					{!layout ? (
-						<Chating chatData={selectedChat} />
+						<Chating productInfo={selectedChat} setLayout={setLayout} />
 					) : (
 						<S.ChatListContent>
 							{data.data.chats &&
@@ -44,7 +43,7 @@ const Chat = () => {
 										createdAt={data.lastMessageCreatedAt}
 										lastMessage={data.lastMessage}
 										isRead={data.isRead}
-										setLayout={setLayout}
+										// setLayout={setLayout}
 										handleChatClick={handleChatClick}
 									/>
 								))}

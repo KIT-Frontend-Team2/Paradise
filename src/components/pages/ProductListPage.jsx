@@ -10,7 +10,6 @@ const ProductListPage = () => {
 	const { getListPage } = LoadApi()
 	const category = filter === 'sell' ? 0 : 1
 	const { data } = getListPage(category, page, '판매중')
-	console.log(data)
 	return (
 		<ProductListTemplate
 			page={page}

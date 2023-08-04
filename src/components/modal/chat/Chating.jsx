@@ -1,3 +1,4 @@
+import useChatApi from 'hooks/service/useChat.service'
 import { useEffect } from 'react'
 import { useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -6,7 +7,11 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import ChatProductCard from './ChatProductCard'
 
-const Chating = ({ chatData, conversations }) => {
+const Chating = ({ setLayout, productInfo }) => {
+	const { data } = useChatApi.useGetChatLog(230)
+	console.log(data.data)
+
+	const { mutate } = useChatApi.useSendChat(id)
 	const messagesEndRef = useRef(null)
 	// 채팅 스크롤
 	const scrollToBottom = () => {
@@ -16,17 +21,11 @@ const Chating = ({ chatData, conversations }) => {
 	}
 	useEffect(() => {
 		scrollToBottom()
-	})
-
-	const [messages, setMessages] = useState([])
+	}, [data])
 
 	const handleMessageSubmit = message => {
-		setMessages(prevMessage => [...prevMessage, message])
+		mutate(message)
 	}
-
-	const conversation = conversations.find(
-		conv => conv.id === chatData.conversationId,
-	)
 
 	// 채팅창 날짜 구분선
 	const dateDividers = messages => {
@@ -45,10 +44,7 @@ const Chating = ({ chatData, conversations }) => {
 		return result
 	}
 
-	const chatDataWithDividers =
-		conversation &&
-		// dateDividers(conversation.messages)
-		dateDividers(messages)
+	const chatDataWithDividers = dateDividers(data.data)
 
 	const [collapsed, setCollapsed] = useState(false)
 	const toggleCollapse = () => {
@@ -59,25 +55,32 @@ const Chating = ({ chatData, conversations }) => {
 		<div>
 			<S.ChatProductCardContent>
 				<ChatProductCard
-					chatData={chatData}
+					id={productId}
+					productTitle={productTitle}
+					productImage={productImage}
+					productPrice={productPrice}
 					collapsed={collapsed}
 					toggleCollapse={toggleCollapse}
+					setLayout={setLayout}
 				/>
 			</S.ChatProductCardContent>
 			<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
 				{chatDataWithDividers &&
-					chatDataWithDividers.map((item, index) =>
-						item.type === 'divider' ? (
-							<S.DateDivider key={`divider-${index}`}>
+					chatDataWithDividers.map(data =>
+						data.type === 'divider' ? (
+							<S.DateDivider key={data.idx}>
 								<S.DateDividerLine />
-								<S.DateDividerText>{item.date}</S.DateDividerText>
+								<S.DateDividerText>{data.date}</S.DateDividerText>
 								<S.DateDividerLine />
 							</S.DateDivider>
 						) : (
 							<ChatMessage
-								key={`message-${index}`}
-								message={item}
-								chatData={chatData}
+								key={data.idx}
+								id={data.idx}
+								createdAt={data.createdAt}
+								messages={data.message}
+								nickName={data.User.nick_name}
+								profileUrl={data.User.profile_url}
 							/>
 						),
 					)}
