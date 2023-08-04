@@ -18,20 +18,16 @@ const userApi = {
 
 export const userLoginApi = {
 	userLogin: (email, pw) => {
-	
-		const { mutate } = useMutation(
-			() => userService.login(email, pw), 
-			{
-				onSuccess: data => {
-					console.log(data)
-					alert('축하합니다 로그인 되셨습니다.')
-					TokenRepository.setToken(data.data.tokenForHeader)
-				},
-				onError: () => {
-					alert('다시 로그인 해주세요요')
-				},
+		const { mutate } = useMutation(() => userService.login(email, pw), {
+			onSuccess: data => {
+				console.log(data)
+				alert('축하합니다 로그인 되셨습니다.')
+				TokenRepository.setToken(data.data.tokenForHeader)
 			},
-		)
+			onError: () => {
+				alert('다시 로그인 해주세요요')
+			},
+		})
 		return { mutate }
 	},
 }
