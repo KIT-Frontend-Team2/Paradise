@@ -11,8 +11,9 @@ import HeaderChatAlarm from './HeaderChatAlarm'
 import HeaderScroll from './HeaderScroll'
 import HeaderSearch from './HeaderSearch'
 
-const MainHeader = () => {
-	const { linkMainPage, linkShareList, linkMyPage } = useMove()
+const MainHeader = props => {
+	const { linkSellList, linkShareList, linkMyPage } = useMove()
+
 	const { isMobile } = useDevice()
 
 	return (
@@ -54,7 +55,7 @@ const MainHeader = () => {
 								<HeaderCategory />
 							</Box>
 							<Box
-								onClick={linkMainPage}
+								onClick={linkSellList}
 								sx={{
 									width: '100%',
 									display: 'flex',
@@ -67,7 +68,7 @@ const MainHeader = () => {
 									},
 								}}
 							>
-								<span>메인페이지</span>
+								<span>판매상품</span>
 							</Box>
 							<Box
 								onClick={linkShareList}
@@ -83,7 +84,7 @@ const MainHeader = () => {
 									},
 								}}
 							>
-								<span>무료나눔</span>
+								<span>중고상품</span>
 							</Box>
 							<Box
 								onClick={linkMyPage}

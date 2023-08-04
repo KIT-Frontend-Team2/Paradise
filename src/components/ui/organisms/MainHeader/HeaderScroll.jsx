@@ -12,7 +12,7 @@ import UserInfo from './UserInfo'
 
 const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
-	const { linkMainPage, linkShareList, linkMyPage, linkSearchProduct } =
+	const { linkSellList, linkShareList, linkMyPage, linkSearchProduct } =
 		useMove()
 	const { isTablet } = useDevice()
 	const inputRef = useRef(null)
@@ -62,8 +62,8 @@ const HeaderScroll = () => {
 				<S.Box istablet={isTablet ? 'true' : 'false'}>
 					<HeaderCategory />
 
-					<span onClick={linkMainPage}>메인페이지</span>
-					<span onClick={linkShareList}>무료나눔</span>
+					<span onClick={linkSellList}>판매상품</span>
+					<span onClick={linkShareList}>중고상품</span>
 					<span onClick={linkMyPage}>마이페이지</span>
 				</S.Box>
 				<S.UserSearchContainer onSubmit={searchKeyword}>

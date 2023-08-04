@@ -1,4 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu'
+import useMove from 'hooks/useMovePage'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -78,6 +79,12 @@ export const categories = [
 	},
 ]
 const HeaderCategory = () => {
+	const { linkSearchProduct } = useMove()
+
+	const handleCategoryClick = (e, categoryPath) => {
+		e.preventDefault()
+		linkSearchProduct(categoryPath)
+	}
 	return (
 		<>
 			<S.InnerBox>
@@ -89,7 +96,8 @@ const HeaderCategory = () => {
 					{categories.map((category, index) => (
 						<li key={index}>
 							<Link
-								to={`/?category=${category.path}`}
+								to="#"
+								onClick={e => handleCategoryClick(e, category.label)}
 								style={{ textDecoration: 'none', color: 'inherit' }}
 							>
 								{category.label}

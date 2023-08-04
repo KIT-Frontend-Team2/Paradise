@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components'
 
-const ChatMessage = ({ message, chatData }) => {
-	const isSender = message.senderId === chatData.user.id
-	const senderImage = isSender ? '' : chatData.user.image
+const ChatMessage = ({ id, createdAt, messages, nickName, profileUrl }) => {
+	const isSender = nickName === nickName
+	const senderImage = isSender ? '' : profileUrl
 
 	const formDate = dateString => {
 		const date = new Date(dateString)
@@ -18,11 +18,11 @@ const ChatMessage = ({ message, chatData }) => {
 				{!isSender && <img src={senderImage} />}
 			</S.AvatarContainer>
 			<S.MessageBox $issender={isSender}>
-				{message.text && (
-					<S.MessageText $issender={isSender}>{message.text}</S.MessageText>
+				{messages && (
+					<S.MessageText $issender={isSender}>{messages}</S.MessageText>
 				)}
 				<S.MetaInfo>
-					<S.MessageTime>{formDate(message.createdAt)}</S.MessageTime>
+					<S.MessageTime>{formDate(createdAt)}</S.MessageTime>
 				</S.MetaInfo>
 			</S.MessageBox>
 		</S.MessageContainer>
