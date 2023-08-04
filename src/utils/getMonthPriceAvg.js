@@ -15,7 +15,7 @@ const getMonthPriceAvg = (dataArray, monthArray) => {
 		return Number(month.split('-')[1]) + '월'
 	})
 
-	return monthNames.map((name, i) => ({ name, "평균가": monthlyAvgPrices[i] }))
+	return monthNames.map((name, i) => ({ name, 평균가: monthlyAvgPrices[i] }))
 }
 
 export default getMonthPriceAvg
