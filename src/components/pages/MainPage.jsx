@@ -7,7 +7,6 @@ import MainPageTemplate from '../templates/MainPageTemplate/MainPageTemplate'
 const MainPage = () => {
 	const { getMainPage } = LoadApi()
 	const { data } = getMainPage()
-
 	const mainLogo = [
 		{
 			img_url: MainLogo,
@@ -22,6 +21,7 @@ const MainPage = () => {
 			id: 3,
 		},
 	]
+
 	return <MainPageTemplate mainLogo={mainLogo} productInfo={data.data} />
 }
 

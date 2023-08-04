@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { EMPTY_MESSAGE } from '../../../consts/message'
 import Container from '../../layout/Container'
 import Pagination from '../../ui/molecules/Pagination/Pagination'
+import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
 import ProductList from '../../ui/organisms/ProductList/ProductList'
 
 const ProductListTemplate = ({ page, total, filter, products }) => {
@@ -23,16 +25,22 @@ const ProductListTemplate = ({ page, total, filter, products }) => {
 	}
 	return (
 		<Container>
-			<S.ListTitle>
-				<S.ListFilter>{title}</S.ListFilter>
-				<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
-			</S.ListTitle>
-			<ProductList size={250} products={products} />
-			<Pagination
-				page={parseInt(page)}
-				item_length={item_length}
-				total={total}
-			/>
+			{total !== 0 ? (
+				<>
+					<S.ListTitle>
+						<S.ListFilter>{title}</S.ListFilter>
+						<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
+					</S.ListTitle>
+					<ProductList size={250} products={products} />
+					<Pagination
+						page={parseInt(page)}
+						item_length={item_length}
+						total={total}
+					/>
+				</>
+			) : (
+				<EmptySection titleMessage={EMPTY_MESSAGE.EMPTY_LIST} />
+			)}
 		</Container>
 	)
 }

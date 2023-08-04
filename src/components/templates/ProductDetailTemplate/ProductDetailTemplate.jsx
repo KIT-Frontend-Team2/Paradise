@@ -20,7 +20,7 @@ import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUser
 
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
-	const { pagination, product } = productInfo.relatedProduct
+	const { product } = productInfo.relatedProduct
 	const {
 		ProductImages,
 		createdAt,
@@ -44,6 +44,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		ChartDate[ChartDate.length - 1],
 	)
 
+	const relatedProduct = product.filter(data => data.idx !== idx)
 	useEffect(() => {
 		if (
 			getMonthPriceAvg(data.data.cumulativeAvgPrice, ChartDate).filter(
@@ -141,7 +142,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					)}
 				</div>
 			</S.FlexBox>
-			<DeRelatedCarousel product={product} pagination={pagination} />
+			<DeRelatedCarousel product={relatedProduct} />
 		</Container>
 	)
 }
