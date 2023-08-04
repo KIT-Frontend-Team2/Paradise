@@ -8,6 +8,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
+import MyChangePw from './MyChangePw'
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
@@ -49,6 +50,7 @@ const MyPageInfo = () => {
 						<span className="secondary">*필수항목</span>은 꼭 입력해주세요
 					</span>
 				</S.Notice>
+				<MyChangePw/>
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
 					<S.CheckContent>
 						<S.FromLabel>이메일</S.FromLabel>
@@ -81,32 +83,6 @@ const MyPageInfo = () => {
 							/>
 						</InputGroup>
 					</S.CheckContent>
-					<S.Content>
-						<S.FromLabel>
-							새 비밀번호<span className="secondary"> * </span>
-						</S.FromLabel>
-						<InputGroup>
-							<Input
-								name="password"
-								placeholder={'비밀번호를 입력해주세요'}
-								{...register('password')}
-								error={errors.password?.message}
-							/>
-						</InputGroup>
-					</S.Content>
-					<S.Content>
-						<S.FromLabel>
-							새 비밀번호 확인<span className="secondary">* </span>
-						</S.FromLabel>
-						<InputGroup>
-							<Input
-								name="passwordconfirm"
-								placeholder={'비밀번호 확인을 입력해주세요'}
-								{...register('passwordconfirm')}
-								error={errors.passwordconfirm?.message}
-							/>
-						</InputGroup>
-					</S.Content>
 					<S.CheckContent>
 						<S.FromLabel>
 							휴대폰 번호<span className="secondary">* </span>
