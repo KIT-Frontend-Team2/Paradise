@@ -63,7 +63,7 @@ const useViewListApi = {
 					context.setState(context.originState)
 				},
 				onSuccess: (data, variables, context) => {
-					context.setState(!context.originState)
+					context.setState(data.data.message)
 				},
 			},
 		)
