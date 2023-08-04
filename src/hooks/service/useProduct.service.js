@@ -63,11 +63,18 @@ const useViewListApi = {
 					context.setState(context.originState)
 				},
 				onSuccess: (data, variables, context) => {
-					context.setState(!context.originState)
+					context.setState(data.data.message)
 				},
 			},
 		)
 		return { mutate }
+	},
+
+	useGetChartData: (keyword, start, end) => {
+		const { data } = useQuery([API_KEY.DETAIL + keyword], () =>
+			productAxios.getProductChartData(keyword, start, end),
+		)
+		return { data }
 	},
 }
 

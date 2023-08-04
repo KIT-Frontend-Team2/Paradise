@@ -37,6 +37,12 @@ const productAxios = {
 			},
 		)
 	},
+
+	getProductChartData: (keyword, start, end) => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + '/quote', {
+			params: { keyword, start, end },
+		})
+	},
 }
 
 export default productAxios

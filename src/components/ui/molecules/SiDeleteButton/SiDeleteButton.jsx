@@ -1,4 +1,5 @@
 import ClearIcon from '@mui/icons-material/Clear'
+import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -15,7 +16,7 @@ const SiDeleteButton = ({ idx, img_url }) => {
 			</S.DeleteButton>
 			<img
 				onClick={() => linkDetailPage(idx)}
-				src={img_url}
+				src={img_url || defaultImg}
 				alt={idx}
 				width={60}
 				height={80}

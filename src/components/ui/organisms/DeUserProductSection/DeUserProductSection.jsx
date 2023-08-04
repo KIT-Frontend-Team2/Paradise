@@ -1,3 +1,4 @@
+import defaultImg from 'assets/images/기본프로필/default_profile_5.png'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -13,7 +14,7 @@ const DeUserProductSection = ({
 	userTemplate,
 	userName,
 	userId,
-	itemData,
+	itemData = [],
 	containerWidth,
 }) => {
 	return (
@@ -25,21 +26,28 @@ const DeUserProductSection = ({
 				userTemplate={userTemplate}
 				userName={userName}
 			/>
-			{itemData && (
-				<DeImageList
-					width={containerWidth}
-					height={containerWidth * 0.65}
-					cols={3}
-					rowHeight={containerWidth * 0.31}
-					itemData={itemData}
-				/>
-			)}
-			{productCount && (
-				<DeUserProductButton
-					width={containerWidth}
-					productCount={productCount}
-					userId={userId}
-				/>
+			{itemData.length > 1 ? (
+				<>
+					<DeImageList
+						width={containerWidth}
+						height={containerWidth * 0.65}
+						cols={3}
+						rowHeight={containerWidth * 0.31}
+						itemData={itemData}
+					/>
+					{productCount && (
+						<DeUserProductButton
+							width={containerWidth}
+							productCount={productCount}
+							userId={userId}
+						/>
+					)}
+				</>
+			) : (
+				<S.DefaultProductList>
+					<img src={defaultImg} alt={'사용자의 데이터가 없습니다.'} />
+					"해당 사용자의 판매 상품이 존재하지 않습니다.
+				</S.DefaultProductList>
 			)}
 		</S.ProductBox>
 	)
@@ -78,4 +86,11 @@ const S = {}
 
 S.ProductBox = styled.div`
 	max-width: 540px;
+`
+
+S.DefaultProductList = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 `

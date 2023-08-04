@@ -11,7 +11,7 @@ import SellMenuBar from './SellMenuBar'
 
 const MyUploadCard = ({
 	MyContentValue,
-	key,
+	// key,
 	price,
 	isLike,
 	chat_count,
@@ -161,7 +161,7 @@ S.CloseBox = styled.div`
 	width: 100%;
 	height: 100%;
 	background: rgba(00, 00, 00, 50%);
-	z-index: 100;
+	z-index: ${({ theme }) => theme.Z_INDEX['altImage']};
 	top: 0;
 	display: flex;
 	justify-content: space-evenly;

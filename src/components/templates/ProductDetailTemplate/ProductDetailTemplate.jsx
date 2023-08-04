@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
+import useProductService from '../../../hooks/service/useProduct.service'
 import useViewListApi from '../../../hooks/service/useViewList.service'
+import getStartAndEndDate from '../../../utils/chartDate-helper'
+import getMonthPriceAvg from '../../../utils/getMonthPriceAvg'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
 import DeImgSection from '../../ui/organisms/DeImgSection/DeImgSection'
 import DeProductCategoryTag from '../../ui/organisms/DeProductCategoryTag/DeProductCategoryTag'
-// import DeProductChartSection from '../../ui/organisms/DeProductChartSection/DeProductChartSection'
+import DeProductChartSection from '../../ui/organisms/DeProductChartSection/DeProductChartSection'
 import DeProductMapSection from '../../ui/organisms/DeProductMapSection/DeProductMapSection'
 import DeProductSection from '../../ui/organisms/DeProductSection/DeProductSection'
 import DeRelatedCarousel from '../../ui/organisms/DeRelatedCarousel/DeRelatedCarousel'
@@ -20,7 +23,6 @@ const ProductDetailTemplate = ({ productInfo }) => {
 	const { pagination, product } = productInfo.relatedProduct
 	const {
 		ProductImages,
-		ProductsTags,
 		createdAt,
 		description,
 		idx,
@@ -30,21 +32,42 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		region,
 		status,
 		title,
+		ProductsTags = [{ Tag: { tag: title } }],
 		user_idx,
 	} = productInfo.searchProduct
 	const img_array = [img_url, ...ProductImages.map(item => item.img_url)]
-	// const chartData = { ...productInfo.chart_data }
-	// const newChartData = {
-	// 	...chartData,
-	// 	x: 'name',
-	// 	y: '평균 거래가',
-	// 	formatter: y => {
-	// 		if (y === 0) {
-	// 			return 0
-	// 		}
-	// 		return `${y / 10000}만원`
-	// 	},
-	// }
+	const ChartDate = getStartAndEndDate()
+	const [isChart, setIsChart] = useState(true)
+	const { data } = useProductService.useGetChartData(
+		ProductsTags[0].Tag.tag,
+		ChartDate[0],
+		ChartDate[ChartDate.length - 1],
+	)
+
+	useEffect(() => {
+		if (
+			getMonthPriceAvg(data.data.cumulativeAvgPrice, ChartDate).filter(
+				data => data['평균가'] !== 0,
+			).length === 0
+		) {
+			setIsChart(false)
+		}
+	}, [productInfo])
+
+	const chartData = {
+		data: getMonthPriceAvg(data.data.cumulativeAvgPrice, ChartDate),
+		x: 'name',
+		y: '평균가',
+		formatter: y => {
+			if (y < 10) {
+				return 0
+			}
+			if (y / 10000 < 1) {
+				return `${y.toLocaleString()}원`
+			}
+			return `${(y / 10000).toLocaleString()}만원`
+		},
+	}
 
 	const { mutate } = useViewListApi.usePostViewList(idx)
 
@@ -102,19 +125,20 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						userId={user_idx}
 						containerWidth={containerWidth - 30}
 					/>
-					{/*{isDesk (*/}
-					{/*    <DeProductChartSection*/}
-					{/*        containerWidth={containerWidth - 30}*/}
-					{/*        chartData={newChartData}*/}
-					{/*        category={productInfo.chart_data.product_tag}*/}
-					{/*        margin={{*/}
-					{/*            top: 5,*/}
-					{/*            right: 5,*/}
-					{/*            bottom: 20,*/}
-					{/*            left: 20,*/}
-					{/*        }}*/}
-					{/*    />*/}
-					{/*)}*/}
+					{isDesk && (
+						<DeProductChartSection
+							isChart={isChart}
+							containerWidth={containerWidth - 30}
+							chartData={chartData}
+							category={ProductsTags[0].Tag.tag}
+							margin={{
+								top: 5,
+								right: 5,
+								bottom: 20,
+								left: 20,
+							}}
+						/>
+					)}
 				</div>
 			</S.FlexBox>
 			<DeRelatedCarousel product={product} pagination={pagination} />
