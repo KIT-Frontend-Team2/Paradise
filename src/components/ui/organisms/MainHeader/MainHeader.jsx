@@ -115,7 +115,6 @@ const MainHeader = () => {
 
 export default MainHeader
 
-
 const S = {}
 
 S.Container = styled.div`
