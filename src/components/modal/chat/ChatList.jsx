@@ -1,44 +1,40 @@
 import styled, { css } from 'styled-components'
 import timeHelper from 'utils/time-helper'
 
-import { getProductStatusColor } from './ChatProductCard'
+// import { getProductStatusColor } from './ChatProductCard'
 
-const ChatList = ({ messages, handleChatClick }) => {
+const ChatList = ({
+	handleChatClick,
+	id,
+	productImage,
+	productTitle,
+	createdAt,
+	lastMessage,
+	data,
+	isRead,
+	productPrice,
+}) => {
 	return (
 		<>
-			{messages
-				// .filter(message => message.user_status === 'seller')
-				.map(item => (
-					<S.ChatListContainer
-						key={item.product_id}
-						onClick={() => handleChatClick(item)}
-					>
-						<S.ImageWrapper>
-							<S.Image
-								src={item.product_main_img_url}
-								alt={item.product_name}
-							/>
-						</S.ImageWrapper>
-						<S.InfoWrapper>
-							<S.TitleWrapper>
-								<S.ProductStatus
-									color={getProductStatusColor(item.product_status)}
-								>
-									{item.product_status}
-								</S.ProductStatus>
-								<S.ProductName>{item.product_name}</S.ProductName>
-								<S.LastChatAgo>{timeHelper(item.createdAt)}</S.LastChatAgo>
-							</S.TitleWrapper>
-							{item.text && item.image && <S.LastChat>[이미지]</S.LastChat>}
-							{item.text && <S.LastChat>{item.text}</S.LastChat>}
-							<S.ProductPrice>
-								{item.product_price.toLocaleString()}원
-							</S.ProductPrice>
+			<S.ChatListContainer key={id} onClick={() => handleChatClick(data)}>
+				<S.ImageWrapper>
+					<S.Image src={productImage} alt={productTitle} />
+				</S.ImageWrapper>
+				<S.InfoWrapper>
+					<S.TitleWrapper>
+						{/* <S.ProductStatus color={getProductStatusColor(data.product_status)}>
+							{item.product_status}
+						</S.ProductStatus> */}
+						<S.ProductName>{productTitle}</S.ProductName>
+						<S.LastChatAgo>{timeHelper(createdAt)}</S.LastChatAgo>
+					</S.TitleWrapper>
+					{/* {data.lastMessage && data.image && <S.LastChat>[이미지]</S.LastChat>} */}
+					{lastMessage && <S.LastChat>{lastMessage}</S.LastChat>}
+					<S.ProductPrice>{productPrice.toLocaleString()}원</S.ProductPrice>
 
-							{item.is_new_chat && <S.NewChatIndicator />}
-						</S.InfoWrapper>
-					</S.ChatListContainer>
-				))}
+					{!isRead && <S.NewChatIndicator />}
+				</S.InfoWrapper>
+			</S.ChatListContainer>
 		</>
 	)
 }

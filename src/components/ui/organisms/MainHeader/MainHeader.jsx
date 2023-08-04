@@ -12,7 +12,7 @@ import HeaderScroll from './HeaderScroll'
 import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
-	const { linkUserProduct, linkSellList, linkMyPage } = useMove()
+	const { linkSellList, linkShareList, linkMyPage } = useMove()
 	const { isMobile } = useDevice()
 
 	return (
@@ -56,7 +56,7 @@ const MainHeader = props => {
 								<HeaderCategory />
 							</Box>
 							<Box
-								onClick={linkUserProduct}
+								onClick={linkSellList}
 								sx={{
 									width: '100%',
 									display: 'flex',
@@ -72,7 +72,7 @@ const MainHeader = props => {
 								<span>판매상품</span>
 							</Box>
 							<Box
-								onClick={linkSellList}
+								onClick={linkShareList}
 								sx={{
 									width: '100%',
 									display: 'flex',

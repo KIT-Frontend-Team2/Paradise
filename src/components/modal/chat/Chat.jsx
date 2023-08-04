@@ -1,5 +1,5 @@
-import chatListMock from '__mock__/datas/chatList.mock'
 import { showChatState } from 'atom/chat/atom'
+import useChatApi from 'hooks/service/useChat.service'
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components'
@@ -10,47 +10,18 @@ import Chating from './Chating'
 
 const Chat = () => {
 	const showChat = useRecoilValue(showChatState)
-	const { users, products, conversations } = chatListMock.data
 
-	const [layout, setLayout] = useState(true)
+	const { data } = useChatApi.useGetChatList()
+	console.log(data.data)
 
 	const [selectedChat, setSelectedChat] = useState(null)
+
+	const [layout, setLayout] = useState(true)
 
 	const handleChatClick = chatData => {
 		setSelectedChat(chatData)
 		setLayout(false)
 	}
-
-	const messagesWithProductData = conversations.map(conversation => {
-		const updatedMessages = conversation.messages
-			.map(message => {
-				const product = products.find(
-					product => product.userId === message.senderId,
-				)
-				const user = users.find(user => user.id === message.senderId)
-
-				if (!product || !user) {
-					return null
-				}
-
-				return {
-					...message,
-					user_status: user.user_status,
-					product_id: product.id,
-					product_name: product.title,
-					product_price: product.price,
-					product_main_img_url: product.imageSrc,
-					product_status: product.product_status,
-					senderImage: user.image,
-					user,
-				}
-			})
-			.filter(message => message) // null 값을 걸러냅니다.
-		return {
-			...conversation,
-			messages: updatedMessages,
-		}
-	})
 
 	return (
 		<>
@@ -58,17 +29,25 @@ const Chat = () => {
 				<S.ChatContainer>
 					<ChatHeader layout={layout} setLayout={setLayout} />
 					{!layout ? (
-						<Chating chatData={selectedChat} conversations={conversations} />
+						<Chating chatData={selectedChat} />
 					) : (
 						<S.ChatListContent>
-							{messagesWithProductData.map(conversation => (
-								<ChatList
-									key={conversation.id}
-									messages={conversation.messages}
-									setLayout={setLayout}
-									handleChatClick={handleChatClick}
-								/>
-							))}
+							{data.data.chats &&
+								data.data.chats.map(data => (
+									<ChatList
+										key={data.idx}
+										data={data}
+										id={data.idx}
+										productImage={data.product.img_url}
+										productTitle={data.product.title}
+										productPrice={data.product.price}
+										createdAt={data.lastMessageCreatedAt}
+										lastMessage={data.lastMessage}
+										isRead={data.isRead}
+										setLayout={setLayout}
+										handleChatClick={handleChatClick}
+									/>
+								))}
 						</S.ChatListContent>
 					)}
 				</S.ChatContainer>
