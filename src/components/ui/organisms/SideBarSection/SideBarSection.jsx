@@ -1,7 +1,6 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import NorthIcon from '@mui/icons-material/North'
-import catImg from 'assets/images/cat-sidebar.png'
 import sideBanner from 'assets/images/sideBanner.png'
 import React, { useRef } from 'react'
 import styled from 'styled-components'
@@ -34,9 +33,9 @@ const SideBarSection = ({ products }) => {
 			<S.TopLogo>
 				<img src={sideBanner} alt={'사이드 로고'} height={120} />
 			</S.TopLogo>
-			<S.SideBarBox>
-				<S.SideBarTitle>최근 본 상품</S.SideBarTitle>
-				{products.length !== 0 ? (
+			{products.length !== 0 && (
+				<S.SideBarBox>
+					<S.SideBarTitle>최근 본 상품</S.SideBarTitle>
 					<S.BannerBox>
 						<S.PrevButton onClick={handlePrev}>
 							<ExpandLessIcon />
@@ -65,13 +64,8 @@ const SideBarSection = ({ products }) => {
 							<ExpandMoreIcon />
 						</S.NextButton>
 					</S.BannerBox>
-				) : (
-					<S.EmptyBox>
-						최근 본 상품이 없습니다.
-						<img src={catImg} width={100} alt={'데이터가 없습니다.'} />
-					</S.EmptyBox>
-				)}
-			</S.SideBarBox>
+				</S.SideBarBox>
+			)}
 			<S.SalesButton onClick={linkRegister}>물품 판매</S.SalesButton>
 			<S.TopButton onClick={MoveTop}>
 				<span>TOP</span> <NorthIcon sx={{ fontSize: '13px' }} />

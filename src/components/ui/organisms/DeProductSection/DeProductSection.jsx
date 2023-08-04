@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useOneRequest from '../../../../hooks/common/useOneRequest'
 import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
@@ -27,12 +28,9 @@ const DeProductSection = ({
 }) => {
 	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
+	const { mutateAsync } = useProductService.usePostWishAdd(id)
 
-	const { mutate: wishMutate } = useProductService.usePostWishAdd(id)
-
-	const onClick = () => {
-		wishMutate([isLikeState, setIsLikeState])
-	}
+	const onClick = useOneRequest(mutateAsync, setIsLikeState)
 
 	return (
 		<>
@@ -103,6 +101,7 @@ S.ProductPriceNumber = styled.div`
 	line-height: 35px;
 	font-size: 35px;
 	display: flex;
+
 	div {
 		max-width: 230px;
 		text-overflow: ellipsis;

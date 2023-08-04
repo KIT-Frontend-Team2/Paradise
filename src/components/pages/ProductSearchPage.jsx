@@ -13,8 +13,7 @@ const ProductSearchPage = () => {
 	const { product, pagination } = data.data
 	return (
 		<ProductSearchTemplate
-			page={page}
-			total={pagination.count}
+			pagination={pagination}
 			keyword={keyword}
 			products={product}
 		/>
