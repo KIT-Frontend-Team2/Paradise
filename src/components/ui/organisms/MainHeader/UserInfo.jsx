@@ -1,40 +1,39 @@
 import { isLoggedInAtom } from 'atom/header/atom'
-import { isAuthui } from 'atom/header/uiatom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
+import useUserAPi from '../../../../hooks/service/user.service'
+import useMove from '../../../../hooks/useMovePage'
+
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
-	const setIsLginUi = useSetRecoilState(isAuthui)
 	const { isTablet } = useDevice()
 	const navigate = useNavigate()
-
 	const handleLogin = e => {
 		e.preventDefault()
-		setIsLginUi(false)
-		navigate('/account')
+		setIsLoggedIn(true)
 	}
+	const { linkMainPage } = useMove()
+	const { mutate, isSuccess } = useUserAPi.logout()
+
 	const handleLogout = e => {
 		e.preventDefault()
+		mutate()
 	}
 
-	const hadnleSignup = e => {
-		e.preventDefault()
-		setIsLginUi(true)
-		navigate('/account')
-	}
+	useEffect(() => {
+		if (isSuccess === true) {
+			linkMainPage()
+		}
+	}, [isSuccess])
+
 	return (
 		<S.UserInfoContainer>
 			{isLoggenIn ? (
-				<S.UserLoginContent>
-					<div onClick={handleLogin}>로그인</div>
-					<span>I</span>
-					<div onClick={hadnleSignup}>회원가입</div>
-				</S.UserLoginContent>
-			) : (
 				<S.UserInfoContent>
 					<S.UserImageBox>
 						<S.UserImage
@@ -60,6 +59,16 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						</Link>
 					</S.UserLoginContent>
 				</S.UserInfoContent>
+			) : (
+				<S.UserLoginContent>
+					<Link to="/login" alt="로그인" onClick={handleLogin}>
+						로그인
+					</Link>
+					<span>I</span>
+					<Link to="/signup" alt="회원가입">
+						회원가입
+					</Link>
+				</S.UserLoginContent>
 			)}
 		</S.UserInfoContainer>
 	)
@@ -76,7 +85,7 @@ S.UserInfoContainer = styled.div`
 `
 
 S.UserInfoContent = styled.div`
-	${flexCenter}
+	${flexCenter};
 	gap: 10px;
 	position: relative;
 `
@@ -101,7 +110,7 @@ S.UserLoginContent = styled.div`
 `
 
 S.UserImageBox = styled.div`
-	${flexCenter}
+	${flexCenter};
 	position: relative;
 `
 

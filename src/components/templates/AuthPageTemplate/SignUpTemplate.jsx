@@ -1,238 +1,180 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import Container from 'components/layout/Container'
-import PopUp from 'components/modal/MapModal/AddressModal'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
-import userApi from 'hooks/pageQuery/useSignUp'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
-import { Validation } from './validation'
+import Checkbox from '../../../assets/images/checkbox.png'
+import useUserAPi from '../../../hooks/service/user.service'
+import useMove from '../../../hooks/useMovePage'
+import { Validation2 } from './validation'
 
-const SignUp = () => {
+const Login = ({ setState }) => {
+	const { linkMainPage } = useMove()
+	const [request, setRequest] = useState(false)
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
-		setValue,
 	} = useForm({
 		mode: 'onchange',
-		resolver: yupResolver(Validation),
+		resolver: yupResolver(Validation2),
 	})
 
-	const [isPopUp, setIsPopUp] = useState(false)
-	const { mutate } = userApi.useSignup()
+	const { mutateAsync } = useUserAPi.login()
 
-	const onSubmit = data => {
-		console.log(data)
-		const userInfo = {
-			email: watch('email'),
-			pw: watch('pw'),
-			nickName: watch('nickName'),
-			phone: watch('phone'),
-			region: watch('region'),
+	const onSubmit = async () => {
+		try {
+			if (request) return
+			setRequest(true)
+			await mutateAsync({
+				email: watch('email'),
+				pw: watch('password'),
+			})
+			linkMainPage()
+		} catch (err) {
+			alert(
+				'이메일 또는 비밀번호를 잘못 입력했습니다.\n' +
+					'입력하신 내용을 다시 확인해주세요.',
+			)
+			setRequest(false)
 		}
-		console.log(userInfo)
-		mutate(userInfo)
-	}
-
-	const handleOpen = e => {
-		e.preventDefault()
-		setIsPopUp(true)
-	}
-
-	const handleClose = () => {
-		setIsPopUp(false)
-	}
-
-	const handleAddress = fullAddress => {
-		setValue('region', fullAddress)
 	}
 
 	return (
-		<S.Wrap>
-			<Container>
-				<S.Wrapper>
-					<S.Title>회원가입</S.Title>
-					<S.Notice>
-						<span>
-							<span className="secondary">*필수항목</span>은 꼭 입력해주세요
-						</span>
-					</S.Notice>
-					<S.Form onSubmit={handleSubmit(onSubmit)}>
-						<S.CheckContent>
-							<S.FromLabel>
-								이메일<span className="secondary">*</span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="email"
-									placeholder={'이메일을 입력해주세요'}
-									width={'322'}
-									{...register('email')}
-									error={errors.email?.message}
-								/>
-								<S.CommonButton
-									type="button"
-									label={'중복확인'}
-									variant={'primary-outlined'}
-								/>
-							</InputGroup>
-						</S.CheckContent>
-						<S.Content>
-							<S.FromLabel>
-								비밀번호<span className="secondary"> * </span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="pw"
-									placeholder={'비밀번호를 입력해주세요'}
-									{...register('pw')}
-									error={errors.pw?.message}
-								/>
-							</InputGroup>
-						</S.Content>
-						<S.Content>
-							<S.FromLabel>
-								비밀번호 확인<span className="secondary">* </span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="passwordconfirm"
-									placeholder={'비밀번호 확인을 입력해주세요'}
-									{...register('passwordconfirm')}
-									error={errors.passwordconfirm?.message}
-								/>
-							</InputGroup>
-						</S.Content>
-						<S.CheckContent>
-							<S.FromLabel>
-								닉네임<span className="secondary">*</span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="nickName"
-									placeholder={'닉네임을 입력헤주세요'}
-									width={'322'}
-									{...register('nickName')}
-									error={errors.nickName?.message}
-								/>
-								<S.CommonButton
-									type="button"
-									label={'중복확인'}
-									variant={'primary-outlined'}
-								/>
-							</InputGroup>
-						</S.CheckContent>
-						<S.CheckContent>
-							<S.FromLabel>
-								휴대폰 번호<span className="secondary">* </span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="phone"
-									placeholder={'휴대폰 번호를 입력해주세요 (ex. 010-0000-0000)'}
-									{...register('phone')}
-									error={errors.phone?.message}
-								/>
-							</InputGroup>
-						</S.CheckContent>
-						<S.CheckContent>
-							<S.FromLabel>
-								지역선택<span className="secondary">*</span>
-							</S.FromLabel>
-							<InputGroup>
-								<Input
-									name="region"
-									placeholder={'검색 버튼을 눌러주세요'}
-									width={'322'}
-									{...register('region')}
-									error={errors.region?.message}
-								/>
-								<S.CommonButton
-									type="button"
-									label={'검색'}
-									variant={'primary-outlined'}
-									onClick={handleOpen}
-								/>
-								{isPopUp && (
-									<PopUp
-										handleClose={handleClose}
-										handleAddress={handleAddress}
-									/>
-								)}
-							</InputGroup>
-						</S.CheckContent>
-						<S.SignUpButton>
-							<Button type="submit" label={'회원가입'} size={'full'} />
-						</S.SignUpButton>
-					</S.Form>
-				</S.Wrapper>
-			</Container>
-		</S.Wrap>
+		<Container>
+			<S.Wrapper>
+				<S.Title>로그인</S.Title>
+				<S.Form onSubmit={handleSubmit(onSubmit)}>
+					<S.Content>
+						<S.FromLabel>이메일</S.FromLabel>
+						<InputGroup>
+							<Input
+								placeholder={'이메일을 입력해주세요'}
+								{...register('email')}
+								name="email"
+								error={errors.email?.message}
+							/>
+						</InputGroup>
+					</S.Content>
+					<S.Content>
+						<S.FromLabel>비밀번호</S.FromLabel>
+						<InputGroup>
+							<Input
+								type={'password'}
+								name="password"
+								placeholder={'비밀번호를 입력해주세요'}
+								{...register('password')}
+								error={errors.password?.message}
+							/>
+						</InputGroup>
+					</S.Content>
+					<S.Checkradio>
+						{/*<input type="checkbox" />*/}
+						{/*<S.FromLabel>*/}
+						{/*	<label className="checklabel">아이디 기억하기</label>*/}
+						{/*</S.FromLabel>*/}
+					</S.Checkradio>
+					<S.Button type="submit" label={'로그인'} size={'full'} />
+					<S.SignUp
+						type="button"
+						label={'회원가입'}
+						size={'full'}
+						onClick={() => setState(false)}
+					>
+						회원가입
+					</S.SignUp>
+				</S.Form>
+			</S.Wrapper>
+		</Container>
 	)
 }
 
-export default SignUp
+export default Login
 
 const S = {}
-
-S.Wrap = styled.div`
-	margin-left: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
-	margin-right: ${({ theme }) => (theme.isDesktop ? 'auto' : '20px')};
-`
 
 S.Wrapper = styled.div`
 	width: 100%;
 	max-width: 480px;
 	margin: 90px auto 200px;
-	position: relative;
+	text-align: center;
 `
 S.Title = styled.h2`
 	font-size: 32px;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
 	text-align: center;
-	margin-bottom: 48px;
+	margin-bottom: 30px;
 `
-S.Notice = styled.div`
-	text-align: right;
-	font-size: ${({ theme }) => theme.FONT_SIZE.small};
-	margin-bottom: 20px;
 
-	.secondary {
-		color: ${({ theme }) => theme.PALETTE.secondary};
-		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-	}
-`
 S.Form = styled.form`
 	margin-bottom: 48px;
-`
-
-S.CheckContent = styled.div`
-	padding: 15px 0;
+	text-align: left;
 `
 S.Content = styled.div`
-	padding: 15px 0;
+	&:first-child {
+		padding: 20px 0;
+	}
+
+	&:last-child {
+		padding-bottom: 0;
+	}
 `
 
+S.Checkradio = styled.div`
+	padding: 15px 0;
+	display: flex;
+	align-items: center;
+
+	> [type='checkbox'] {
+		appearance: none;
+		width: 1.25em;
+		height: 1.25em;
+		border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
+		cursor: pointer;
+		transition: 0.6s;
+		margin-right: 10px;
+	}
+
+	> [type='checkbox']:checked {
+		background-image: url(${Checkbox});
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+`
 S.FromLabel = styled.div`
 	padding-bottom: 10px;
 	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+	text-align: left;
 
-	.secondary {
-		color: ${({ theme }) => theme.PALETTE.secondary};
-		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
+	.checklabel {
+		font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
+		font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
+		vertical-align: -5px;
 	}
 `
 
-S.SignUpButton = styled.div`
-	margin-top: 30px;
+S.Button = styled(Button)`
+	margin-bottom: 15px;
+	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `
 
-S.CommonButton = styled(Button)`
-	text-overflow: ellipsis;
+S.SignUp = styled(Button)`
+	background-color: rgba(255, 255, 255, 100%);
+	border: 1px solid #cccccc;
+	color: ${({ theme }) => theme.PALETTE.black};
+	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 65%);
+		border: 1px solid #cccccc;
+	}
 `

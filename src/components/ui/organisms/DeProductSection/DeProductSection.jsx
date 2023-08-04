@@ -91,6 +91,7 @@ S.ProductFlexBox = styled.div`
 	display: ${({ size }) => (size < 400 ? 'block' : 'flex')};
 	justify-content: space-between;
 	margin-bottom: 10px;
+	align-items: flex-end;
 `
 
 S.ProductPrice = styled.div`
@@ -99,6 +100,7 @@ S.ProductPrice = styled.div`
 `
 
 S.ProductPriceNumber = styled.div`
+	line-height: 35px;
 	font-size: 35px;
 	display: flex;
 	div {
