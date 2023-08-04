@@ -7,8 +7,15 @@ import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
 import ChatProductCard from './ChatProductCard'
 
-const Chating = ({ setLayout, productInfo }) => {
-	// const { data } = useChatApi.useGetChatLog(230)
+const Chating = ({
+	setLayout,
+	id,
+	productId,
+	productTitle,
+	productImage,
+	productPrice,
+}) => {
+	const { data } = useChatApi.useGetChatLog(id)
 
 	const { mutate } = useChatApi.useSendChat(id)
 	const messagesEndRef = useRef(null)

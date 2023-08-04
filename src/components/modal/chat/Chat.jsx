@@ -28,7 +28,14 @@ const Chat = () => {
 				<S.ChatContainer>
 					<ChatHeader layout={layout} setLayout={setLayout} />
 					{!layout ? (
-						<Chating productInfo={selectedChat} setLayout={setLayout} />
+						<Chating
+							id={selectedChat.idx}
+							productId={selectedChat.product.idx}
+							productTitle={selectedChat.product.title}
+							productImage={selectedChat.product.img_url}
+							productPrice={selectedChat.product.price}
+							setLayout={setLayout}
+						/>
 					) : (
 						<S.ChatListContent>
 							{data.data.chats &&

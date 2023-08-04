@@ -20,6 +20,7 @@ const useChatApi = {
 		const { data } = useQuery(['chat', 'getChatLog', room_idx], () =>
 			chatService.getChatLog(room_idx),
 		)
+
 		return { data }
 	},
 	useGetChatList: category => {
