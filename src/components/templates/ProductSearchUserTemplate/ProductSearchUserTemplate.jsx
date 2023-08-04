@@ -1,45 +1,42 @@
-import notFoundImg from 'assets/images/search-notfound.png'
 import React from 'react'
 import styled from 'styled-components'
 
+import { EMPTY_MESSAGE } from '../../../consts/message'
 import Container from '../../layout/Container'
 import Pagination from '../../ui/molecules/Pagination/Pagination'
+import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
 import ProductList from '../../ui/organisms/ProductList/ProductList'
 
-const ProductSearchTemplate = ({ page, total, products, userName }) => {
-	const item_length = 30
+const ProductSearchUserTemplate = ({ pagination, products, userName }) => {
 	return (
 		<Container>
-			<S.ListTitle>
-				<S.ListFilter>
-					<S.OrangeColor>{userName}</S.OrangeColor>
-					{'의 상품 입니다.'}
-				</S.ListFilter>
-				<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
-			</S.ListTitle>
-			{products.length !== 0 ? (
-				<ProductList size={250} products={products} />
-			) : (
-				<S.NotFound>
-					<img
-						src={notFoundImg}
-						alt={'결과가 없습니다.'}
-						width={280}
-						height={130}
-					/>
-					<div>해당하는 상품이 없습니다.</div>
-				</S.NotFound>
-			)}
-			<Pagination
-				page={parseInt(page)}
-				item_length={item_length}
-				total={total}
-			/>
+			<>
+				{products.length !== 0 ? (
+					<>
+						<S.ListTitle>
+							<S.ListFilter>
+								<S.OrangeColor>{userName}</S.OrangeColor>
+								{'님의 상품 입니다.'}
+							</S.ListFilter>
+							<S.ProductCount>{'총 ' + pagination.count + '건'}</S.ProductCount>
+						</S.ListTitle>
+						<ProductList size={250} products={products} />
+						<Pagination
+							page={pagination.curPage}
+							item_length={pagination.page_size}
+							total={pagination.count}
+						/>
+					</>
+				) : (
+					<EmptySection titleMessage={EMPTY_MESSAGE.EMPTY_LIST} />
+				)}
+			</>
 		</Container>
 	)
 }
 
-export default ProductSearchTemplate
+export default ProductSearchUserTemplate
+
 const S = {}
 
 S.OrangeColor = styled.span`
