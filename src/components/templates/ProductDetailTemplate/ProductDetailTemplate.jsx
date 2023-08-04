@@ -61,7 +61,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		y: '평균가',
 		formatter: y => {
 			if (y < 10) {
-				return 0
+				return ''
 			}
 			if (y / 10000 < 1) {
 				return `${y.toLocaleString()}원`

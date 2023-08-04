@@ -10,13 +10,12 @@ const ProductUserListPage = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { data } = getSearchUserPage(userId, page)
-
+	const { product, pagination } = data.data
 	return (
 		<ProductSearchUserTemplate
-			page={page}
-			total={data.data.total}
+			pagination={pagination}
+			products={product}
 			userName={userId}
-			products={data.data.data}
 		/>
 	)
 }

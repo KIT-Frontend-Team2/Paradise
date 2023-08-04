@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useOneRequest from '../../../../hooks/common/useOneRequest'
 import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
@@ -26,17 +27,16 @@ const ProductCard = ({
 }) => {
 	const [likeState, setLikeState] = useState(isLike)
 	const { linkDetailPage } = useMove()
-	const { mutate } = useProductService.usePostWishAdd(id)
-	const onClickWithLike = () => {
-		mutate([likeState, setLikeState])
-	}
+	const { mutateAsync } = useProductService.usePostWishAdd(id)
+
+	const onClick = useOneRequest(mutateAsync, setLikeState)
 
 	return (
 		<S.Card size={size}>
 			<S.ImgBox>
 				<S.LikeBox>
 					<Checkbox
-						onClick={onClickWithLike}
+						onClick={onClick}
 						checked={Boolean(likeState)}
 						icon={<FavoriteBorder />}
 						checkedIcon={<Favorite sx={{ color: 'red' }} />}
@@ -116,7 +116,7 @@ ProductCard.propTypes = {
 	/**
 	 * 상품의 이미지를 입력합니다,
 	 */
-	img_url: PropTypes.string.isRequired,
+	img_url: PropTypes.string,
 	/**
 	 * 상품이 등록된 시간 혹은 업데이트된 시간을 입력합니다.
 	 */

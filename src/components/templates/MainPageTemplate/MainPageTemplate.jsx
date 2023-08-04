@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
+import MainLogo from '../../../assets/images/main-logo.png'
 import useSidebar from '../../../hooks/common/useSidebar'
 import useMove from '../../../hooks/useMovePage'
 import Container from '../../layout/Container'
@@ -10,13 +11,26 @@ import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
 import MaLineBanner from '../../ui/organisms/MaLineBanner/MaLineBanner'
 import MaSection from '../../ui/organisms/MaSection/MaSection'
 
-const MainPageTemplate = ({ mainLogo, productInfo }) => {
+const MainPageTemplate = ({ productInfo }) => {
 	const { linkRegister } = useMove()
 	const { linkSellList, linkShareList } = useMove()
 
 	useSidebar()
 	const { usedProduct, freeProduct } = productInfo
-
+	const mainLogo = [
+		{
+			img_url: MainLogo,
+			id: 1,
+		},
+		{
+			img_url: MainLogo,
+			id: 2,
+		},
+		{
+			img_url: MainLogo,
+			id: 3,
+		},
+	]
 	return (
 		<>
 			<S.MainBannerBox>

@@ -7,8 +7,7 @@ import Pagination from '../../ui/molecules/Pagination/Pagination'
 import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
 import ProductList from '../../ui/organisms/ProductList/ProductList'
 
-const ProductSearchTemplate = ({ page, total, products, keyword }) => {
-	const item_length = 30
+const ProductSearchTemplate = ({ pagination, products, keyword }) => {
 	return (
 		<Container>
 			<>
@@ -19,13 +18,13 @@ const ProductSearchTemplate = ({ page, total, products, keyword }) => {
 								<S.OrangeColor>{keyword}</S.OrangeColor>
 								{'의 검색결과 입니다.'}
 							</S.ListFilter>
-							<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
+							<S.ProductCount>{'총 ' + pagination.count + '건'}</S.ProductCount>
 						</S.ListTitle>
 						<ProductList size={250} products={products} />
 						<Pagination
-							page={parseInt(page)}
-							item_length={item_length}
-							total={total}
+							page={pagination.curPage}
+							item_length={pagination.page_size}
+							total={pagination.count}
 						/>
 					</>
 				) : (
