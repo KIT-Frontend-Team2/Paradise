@@ -1,9 +1,13 @@
 import { isLoggedInAtom } from 'atom/header/atom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
+
+import useUserAPi from '../../../../hooks/service/user.service'
+import useMove from '../../../../hooks/useMovePage'
 
 const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
@@ -13,10 +17,20 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 		e.preventDefault()
 		setIsLoggedIn(true)
 	}
+	const { linkMainPage } = useMove()
+	const { mutate, isSuccess } = useUserAPi.logout()
+
 	const handleLogout = e => {
 		e.preventDefault()
-		setIsLoggedIn(false)
+		mutate()
 	}
+
+	useEffect(() => {
+		if (isSuccess === true) {
+			linkMainPage()
+		}
+	}, [isSuccess])
+
 	return (
 		<S.UserInfoContainer>
 			{isLoggenIn ? (
@@ -71,7 +85,7 @@ S.UserInfoContainer = styled.div`
 `
 
 S.UserInfoContent = styled.div`
-	${flexCenter}
+	${flexCenter};
 	gap: 10px;
 	position: relative;
 `
@@ -96,7 +110,7 @@ S.UserLoginContent = styled.div`
 `
 
 S.UserImageBox = styled.div`
-	${flexCenter}
+	${flexCenter};
 	position: relative;
 `
 
