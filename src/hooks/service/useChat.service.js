@@ -16,12 +16,22 @@ const useChatApi = {
 		)
 		return { mutate }
 	},
-	useGetChatLog: room_idx => {
-		const { data } = useQuery(['chat', 'getChatLog', room_idx], () =>
-			chatService.getChatLog(room_idx),
+	useGetChatLog: params => {
+		const { data, isLoading } = useQuery(
+			['chat', 'getChatLog'],
+			() => chatService.getChatLog(params),
+			{
+				retry: 5,
+				onSuccess: res => {
+					console.log(res)
+				},
+				onError: err => {
+					console.log(err)
+				},
+			},
 		)
 
-		return { data }
+		return { data, isLoading }
 	},
 	useGetChatList: category => {
 		const { data } = useQuery(['chat', 'getChatList', category], () =>
