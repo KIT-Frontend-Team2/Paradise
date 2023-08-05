@@ -1,7 +1,8 @@
 import { showChatState } from 'atom/chat/atom'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 
+import { isMainAtom } from '../../../atom/main/atom'
 import useViewListApi from '../../../hooks/service/useViewList.service'
 import SideBarSection from '../../ui/organisms/SideBarSection/SideBarSection'
 import SideChatButton from '../../ui/organisms/SideChatButton/SideChatButton'
@@ -10,10 +11,10 @@ import Chat from '../chat/Chat'
 const SideBar = () => {
 	const setShowChat = useSetRecoilState(showChatState)
 	const { data } = useViewListApi.useGetViewList()
-
+	const isMain = useRecoilValue(isMainAtom)
 	return (
 		<>
-			<S.SideBarBanner>
+			<S.SideBarBanner ismain={isMain.toString()}>
 				<SideBarSection products={data.data.productList} />
 			</S.SideBarBanner>
 			<S.SideBarChat onClick={() => setShowChat(true)}>
@@ -31,7 +32,7 @@ const S = {}
 S.SideBarBanner = styled.div`
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 	position: absolute;
-	top: 550px;
+	top: ${({ ismain }) => (ismain === 'true' ? 100 : 550)}px;
 	right: 20px;
 	bottom: 0;
 	z-index: 1;

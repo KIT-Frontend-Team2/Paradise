@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-query'
 
 import productAxios from '../../apis/service/product.api'
 import API_KEY from '../../consts/ApiKey'
-import { ERROR_MESSAGE, NETWORK } from '../../consts/api'
+import { NETWORK } from '../../consts/api'
 
 const useViewListApi = {
 	usePostRegisterProduct: productInfo => {
@@ -50,24 +50,10 @@ const useViewListApi = {
 	},
 
 	usePostWishAdd: productId => {
-		const { mutate } = useMutation(
-			[API_KEY.PRODUCT, API_KEY.LIKE],
-			() => productAxios.postWishAdd(productId),
-			{
-				onMutate: ([originState, setState]) => {
-					setState(prev => !prev)
-					return { originState, setState }
-				},
-				onError: (error, variables, context) => {
-					alert(ERROR_MESSAGE)
-					context.setState(context.originState)
-				},
-				onSuccess: (data, variables, context) => {
-					context.setState(data.data.message)
-				},
-			},
+		const { mutateAsync } = useMutation([API_KEY.PRODUCT, API_KEY.LIKE], () =>
+			productAxios.postWishAdd(productId),
 		)
-		return { mutate }
+		return { mutateAsync }
 	},
 
 	useGetChartData: (keyword, start, end) => {
