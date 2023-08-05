@@ -21,13 +21,7 @@ const useChatApi = {
 			['chat', 'getChatLog'],
 			() => chatService.getChatLog(params),
 			{
-				retry: 5,
-				onSuccess: res => {
-					console.log(res)
-				},
-				onError: err => {
-					console.log(err)
-				},
+				placeholderData: { data: [] },
 			},
 		)
 

@@ -1,7 +1,5 @@
 import useChatApi from 'hooks/service/useChat.service'
-import { useCallback } from 'react'
-import { useEffect } from 'react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import ChatInput from './ChatInput'
@@ -21,11 +19,11 @@ const Chating = ({
 	const { mutate } = useChatApi.useSendChat(id)
 	const messagesEndRef = useRef(null)
 	// 채팅 스크롤
-	const scrollToBottom = useCallback(() => {
+	const scrollToBottom = () => {
 		messagesEndRef.current.scrollIntoView({
 			behavior: 'smooth',
 		})
-	})
+	}
 	useEffect(() => {
 		if (!isLoading && data) {
 			scrollToBottom()
@@ -73,30 +71,30 @@ const Chating = ({
 					setLayout={setLayout}
 				/>
 			</S.ChatProductCardContent>
-			{data && (
-				<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
-					{chatDataWithDividers &&
-						chatDataWithDividers?.map(data =>
-							data.type === 'divider' ? (
-								<S.DateDivider key={data.idx}>
-									<S.DateDividerLine />
-									<S.DateDividerText>{data.date}</S.DateDividerText>
-									<S.DateDividerLine />
-								</S.DateDivider>
-							) : (
-								<ChatMessage
-									key={data.idx}
-									id={data.idx}
-									createdAt={data.createdAt}
-									messages={data.message}
-									nickName={data.User.nick_name}
-									profileUrl={data.User.profile_url}
-								/>
-							),
-						)}
-					<div ref={messagesEndRef} />
-				</S.MeesageContent>
-			)}
+			{/* {data && ( */}
+			<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
+				{chatDataWithDividers &&
+					chatDataWithDividers.map((data, index) =>
+						data.type === 'divider' ? (
+							<S.DateDivider key={index}>
+								<S.DateDividerLine />
+								<S.DateDividerText>{data.date}</S.DateDividerText>
+								<S.DateDividerLine />
+							</S.DateDivider>
+						) : (
+							<ChatMessage
+								key={data.idx}
+								id={data.idx}
+								createdAt={data.createdAt}
+								messages={data.message}
+								nickName={data.User.nick_name}
+								profileUrl={data.User.profile_url}
+							/>
+						),
+					)}
+				<div ref={messagesEndRef} />
+			</S.MeesageContent>
+			{/* )} */}
 			<S.ChatInputContent>
 				<ChatInput onSubmit={handleMessageSubmit} />
 			</S.ChatInputContent>
