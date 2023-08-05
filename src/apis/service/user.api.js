@@ -6,7 +6,7 @@ import { axiosInstance } from '../axiosInstance'
 
 const userService = {
 	signUp: userInfo => {
-		return axiosInstance.post(API_KEY.API + API_KEY.USER, {
+		return axios.post(BASE_URL + API_KEY.API + API_KEY.USER, {
 			...userInfo,
 		})
 	},
