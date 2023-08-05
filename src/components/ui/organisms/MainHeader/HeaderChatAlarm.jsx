@@ -12,7 +12,7 @@ const HeaderChatAlarm = () => {
 	return (
 		<>
 			{showChatModal && (
-				<S.ChatModal isTablet={isTablet}>
+				<S.ChatModal istablet={isTablet ? 'true' : 'false'}>
 					<S.ChatBox>
 						<S.ChatText>새로운 채팅 도착!</S.ChatText>
 						<S.ChatTime>{headerMock.data.last_chat_ago}</S.ChatTime>
@@ -33,8 +33,8 @@ S.ChatModal = styled.div`
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	width: ${({ isTablet }) => (isTablet ? '180px' : '200px')};
-	height: ${({ isTablet }) => (isTablet ? '80px' : '100px')};
+	width: ${({ istablet }) => (istablet === 'true' ? '180px' : '200px')};
+	height: ${({ istablet }) => (istablet === 'true' ? '80px' : '100px')};
 	background-color: #f5f5f5;
 	border-radius: 6px;
 	display: flex;

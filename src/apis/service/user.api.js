@@ -1,95 +1,108 @@
 import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
-const userService = () => {
-	const signUp = userInfo => {
-		console.log(userInfo, '다음 정보로 회원가입을 진행합니다.')
-	}
+import { BASE_URL } from '../../consts/api'
+import { axiosInstance } from '../axiosInstance'
 
-	const signIn = loginInfo => {
-		console.log(loginInfo, '다음 정보로 로그인을 진행합니다')
-	}
+const userService = {
+	signUp: userInfo => {
+		return axios.post(BASE_URL + API_KEY.API + API_KEY.USER, {
+			...userInfo,
+		})
+	},
 
-	const logOut = () => {
-		console.log('로그아웃을 진행합니다.')
-	}
+	login: (email, pw) => {
+		return axios.post(BASE_URL + API_KEY.API + API_KEY.USER + '/login', {
+			email,
+			pw,
+		})
+	},
 
-	const checkNickName = nickName => {
-		console.log(nickName, '다음 닉네임이 중복이 있는지 검사합니다.')
-	}
+	logOut: () => {
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + '/logout')
+	},
 
-	const checkEmail = email => {
-		console.log(email, '다음 이메일이 중복이 있는지 검사합니다.')
-	}
+	checkNickName: nickname => {
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + '/check/nickname', {
+			params: { nickname },
+		})
+	},
 
-	const getRefreshToken = () => {
-		console.log('리프레시 토큰을 재발급 받습니다.')
-	}
+	checkEmail: email => {
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + '/check/email', {
+			params: { email },
+		})
+	},
 
-	const getUserInfo = () => {
-		console.log('로그인한 유저의 정보를 조회합니다.')
-	}
-
-	const getMyPage = async () => {
-		try {
-			return await axios.get(API_KEY.MYPAGE)
-		} catch (err) {
-			throw new Error(err)
-		}
-	}
-
-	const changeUserInfo = UserInfo => {
-		console.log(UserInfo, '유저의 정보(프로필, 비밀번호 제외)를 수정합니다.')
-	}
-
-	const changeUserProfile = image => {
-		console.log(image, '유저의 프로필을 수정합니다.')
-	}
-
-	const changeUserPassword = password => {
-		console.log(password, '유저의 비빌먼호를 수정합니다.')
-	}
-
-	const getMyPageProductInfo = (page, category) => {
-		console.log(
-			page,
-			'페이지',
-			category,
-			'카테고리 구분으로 등록 물품을 조회합니다.',
+	getRefreshToken: () => {
+		return axiosInstance.get(
+			BASE_URL + API_KEY.API + API_KEY.USER + '/refreshToken',
+			{
+				params: {
+					email: localStorage.getItem('email'),
+					pw: localStorage.getItem('pw'),
+				},
+			},
 		)
-	}
+	},
 
-	const getMyPageLikeProductInfo = page => {
-		console.log(page, '마이페이지 내의 관심 상품들을 조회합니다.')
-	}
+	getUserInfo: () => {
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + '/info')
+	},
 
-	const getMyPageAccountBook = (page, category, start, end) => {
-		console.log(
-			page,
-			category,
-			start,
-			'에서 ',
-			end,
-			'까지 가계부를 조회합니다.',
+	getMypage: () => {
+		return axiosInstance.get(API_KEY.API + API_KEY.USER + API_KEY.MYPAGE)
+	},
+
+	changeUserInfo: UserInfo => {
+		return axiosInstance.patch(API_KEY.API + API_KEY.USER, { ...UserInfo })
+	},
+
+	changeUserProfile: image => {
+		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/profile', {
+			image,
+		})
+	},
+
+	changeUserPassword: pw => {
+		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/password', { pw })
+	},
+
+	getMyPageProductInfo: filter => {
+		return axiosInstance.get(
+			API_KEY.API + API_KEY.USER + '/my-page/product-list',
+			{
+				params: {
+					...filter,
+				},
+			},
 		)
-	}
+	},
 
-	return {
-		signIn,
-		signUp,
-		logOut,
-		changeUserInfo,
-		changeUserPassword,
-		changeUserProfile,
-		getMyPageProductInfo,
-		getMyPageLikeProductInfo,
-		getMyPageAccountBook,
-		checkNickName,
-		getRefreshToken,
-		checkEmail,
-		getUserInfo,
-		getMyPage,
-	}
+	getMyPageLikeProductInfo: filter => {
+		return axiosInstance.get(
+			API_KEY.API + API_KEY.USER + '/my-page/product-list',
+			{
+				params: {
+					...filter,
+				},
+			},
+		)
+	},
+
+	getMyPageAccountBook: (page, category, start, end) => {
+		return axiosInstance.get(
+			API_KEY.API + API_KEY.USER + '/my-page/like-product-list',
+			{
+				params: {
+					page,
+					category,
+					start,
+					end,
+				},
+			},
+		)
+	},
 }
 
 export default userService

@@ -42,7 +42,7 @@ const FooterMobile = () => {
 				<S.CustomBox
 					key={index}
 					onClick={() => handleClick(index)}
-					isSelected={index === selected}
+					selected={index === selected}
 				>
 					<IconButton>{item.icon}</IconButton>
 					<span>{item.label}</span>
@@ -66,6 +66,7 @@ S.FooterContainer = styled.div`
 	height: 60px;
 	background-color: #ffffff;
 	border-top: 1px solid #e2e2e2;
+	z-index: 10;
 
 	@media (min-width: 479px) {
 		display: none;
@@ -81,7 +82,7 @@ S.CustomBox = styled.div`
 	padding-bottom: 10px;
 	svg {
 		font-size: 1.5rem;
-		color: ${({ isSelected }) => (isSelected ? '#009d91' : 'inherit')};
+		color: ${({ selected }) => (selected ? '#009d91' : 'inherit')};
 	}
 	span {
 		font-size: 12px;

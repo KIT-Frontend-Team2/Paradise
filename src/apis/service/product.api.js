@@ -1,38 +1,47 @@
-import axios from 'axios'
-
 import API_KEY from '../../consts/ApiKey'
+import { axiosInstance } from '../axiosInstance'
 
 const productAxios = {
-	addRegisterProduct: async productInfo => {
-		return await axios.post(API_KEY.PRODUCT + API_KEY.UPDATE, {
+	addRegisterProduct: productInfo => {
+		return axiosInstance.post(API_KEY.API + API_KEY.PRODUCT, {
 			params: {
 				...productInfo,
 			},
 		})
 	},
 
-	postWishAdd: async productId => {
-		return await axios.post(API_KEY.PRODUCT + API_KEY.LIKE + `/${productId}`)
+	postWishAdd: prod_idx => {
+		return axiosInstance.post(API_KEY.API + API_KEY.PRODUCT + API_KEY.LIKE, {
+			prod_idx,
+		})
 	},
 
-	patchProductInfo: async productInfo => {
-		return await axios.patch(
-			API_KEY.PRODUCT + API_KEY.UPDATE + `/${productInfo.id}`,
-			_,
+	patchProductInfo: productInfo => {
+		return axiosInstance.patch(API_KEY.API + API_KEY.PRODUCT, _, {
+			params: { ...productInfo },
+		})
+	},
+
+	deleteProduct: prod_idx => {
+		return axiosInstance.delete(API_KEY.API + API_KEY.PRODUCT, {
+			params: { prod_idx },
+		})
+	},
+
+	postCompleteProduct: (prod_idx, socket) => {
+		return axiosInstance.post(
+			API_KEY.API + API_KEY.PRODUCT + '/sale-complete',
 			{
-				params: { ...productInfo },
+				prod_idx,
+				socket,
 			},
 		)
 	},
 
-	deleteProduct: async productId => {
-		return await axios.delete(
-			API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`,
-		)
-	},
-
-	postCompleteProduct: async productId => {
-		return await axios.post(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
+	getProductChartData: (keyword, start, end) => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + '/quote', {
+			params: { keyword, start, end },
+		})
 	},
 }
 

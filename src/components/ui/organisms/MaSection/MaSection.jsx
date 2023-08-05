@@ -4,15 +4,17 @@ import styled from 'styled-components'
 
 import ProductList from '../ProductList/ProductList'
 
-const MaSection = ({ leftTitle, link, products }) => (
-	<>
-		<S.Title>
-			<S.LeftTitle>{leftTitle}</S.LeftTitle>
-			<S.RightLink onClick={link}>더보기</S.RightLink>
-		</S.Title>
-		<ProductList products={products} size={250} />
-	</>
-)
+const MaSection = ({ leftTitle, link, products }) => {
+	return (
+		<>
+			<S.Title>
+				<S.LeftTitle>{leftTitle}</S.LeftTitle>
+				<S.RightLink onClick={link}>더보기</S.RightLink>
+			</S.Title>
+			<ProductList products={products} size={250} />
+		</>
+	)
+}
 
 export default MaSection
 

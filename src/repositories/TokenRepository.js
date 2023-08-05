@@ -3,7 +3,7 @@ const TokenRepository = {
 	setToken(token) {
 		localStorage.setItem(TOKEN_KEY, token)
 	},
-	getToken(token) {
+	getToken() {
 		return localStorage.getItem(TOKEN_KEY)
 	},
 	removeToken() {

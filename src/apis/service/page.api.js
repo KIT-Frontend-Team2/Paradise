@@ -1,58 +1,42 @@
-import axios from 'axios'
-
 import API_KEY from '../../consts/ApiKey'
+import { axiosInstance } from '../axiosInstance'
 
 export const getPageAxios = {
-	getDetailProduct: async productId => {
-		try {
-			return await axios.get(API_KEY.DETAIL + '/' + productId)
-		} catch (err) {
-			throw new Error(err)
-		}
+	getMainProductList: () => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT)
 	},
 
-	getMainProductList: async () => {
-		try {
-			return await axios.get(API_KEY.LIST)
-		} catch (err) {
-			throw new Error(err)
-		}
+	getDetailProduct: prod_idx => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.DETAIL, {
+			params: { prod_idx },
+		})
 	},
 
-	getProductList: async (optionKey, page) => {
-		try {
-			return await axios.get(API_KEY.LIST + '/' + optionKey, {
-				params: {
-					page,
-				},
-			})
-		} catch (err) {
-			throw new Error(err)
-		}
+	getProductList: (category, page, status) => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH, {
+			params: {
+				category,
+				page,
+				status,
+			},
+		})
 	},
 
-	getSearchKeyWordList: async (keyword, page) => {
-		try {
-			return await axios.get(API_KEY.SEARCH + '/' + keyword, {
-				params: {
-					page,
-				},
-			})
-		} catch (err) {
-			throw new Error(err)
-		}
+	getSearchKeyWordList: (keyword, page) => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH, {
+			params: {
+				keyword,
+				page,
+			},
+		})
 	},
 
-	getSearchUserNameList: async (userName, page) => {
-		try {
-			return await axios.get(API_KEY.SEARCH + API_KEY.USER + '/' + userName, {
-				params: {
-					page,
-				},
-			})
-		} catch (err) {
-			throw new Error(err)
-		}
+	getSearchUserNameList: (userName, page) => {
+		return axiosInstance.get(API_KEY.SEARCH + API_KEY.USER + '/' + userName, {
+			params: {
+				page,
+			},
+		})
 	},
 }
 

@@ -1,3 +1,4 @@
+import defaultImg from 'assets/images/기본프로필/default_profile_5.png'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
@@ -13,7 +14,7 @@ const DeUserProductSection = ({
 	userTemplate,
 	userName,
 	userId,
-	itemData,
+	itemData = [],
 	containerWidth,
 }) => {
 	return (
@@ -25,18 +26,29 @@ const DeUserProductSection = ({
 				userTemplate={userTemplate}
 				userName={userName}
 			/>
-			<DeImageList
-				width={containerWidth}
-				height={containerWidth * 0.65}
-				cols={3}
-				rowHeight={containerWidth * 0.31}
-				itemData={itemData}
-			/>
-			<DeUserProductButton
-				width={containerWidth}
-				productCount={productCount}
-				userId={userId}
-			/>
+			{itemData.length > 1 ? (
+				<>
+					<DeImageList
+						width={containerWidth}
+						height={containerWidth * 0.65}
+						cols={3}
+						rowHeight={containerWidth * 0.31}
+						itemData={itemData}
+					/>
+					{productCount && (
+						<DeUserProductButton
+							width={containerWidth}
+							productCount={productCount}
+							userId={userId}
+						/>
+					)}
+				</>
+			) : (
+				<S.DefaultProductList>
+					<img src={defaultImg} alt={'사용자의 데이터가 없습니다.'} />
+					"해당 사용자의 판매 상품이 존재하지 않습니다.
+				</S.DefaultProductList>
+			)}
 		</S.ProductBox>
 	)
 }
@@ -51,7 +63,7 @@ DeUserProductSection.propTypes = {
 	/**
 	 * 상품의 갯수를 넣어주세요
 	 */
-	productCount: PropTypes.number.isRequired,
+	productCount: PropTypes.number,
 	/**
 	 * 판매자의 온도를 알려주세요
 	 */
@@ -63,15 +75,22 @@ DeUserProductSection.propTypes = {
 	/**
 	 * 판매자가 파는 품목을 알려주세요
 	 */
-	itemData: PropTypes.array.isRequired,
+	itemData: PropTypes.array,
 	/**
 	 * 해당 판매자의 아이디로 조회하기 위해 아이디를 받아옵니다.
 	 */
-	userId: PropTypes.string.isRequired,
+	userId: PropTypes.number.isRequired,
 }
 
 const S = {}
 
 S.ProductBox = styled.div`
 	max-width: 540px;
+`
+
+S.DefaultProductList = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 `

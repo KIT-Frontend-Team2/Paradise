@@ -8,25 +8,14 @@ const MyHeader = () => {
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
 
 	const { getMyPageHeader } = LoadUserApi()
-	const { data, isLoading, isError } = getMyPageHeader()
+	const { data } = getMyPageHeader()
 
-	if (isError) {
-		return <>Error</>
-	}
+	console.log(data.data)
 
-	if (isLoading) {
-		return <S.LoadingHeader></S.LoadingHeader>
-	}
+	const { User, ondo, productsCount, likeCount, chatCount } = data.data
+	const { nickName, profileUrl } = User
 
-	const {
-		user_nick_name,
-		user_profile_url,
-		user_temperature,
-		user_address,
-		user_total_product,
-		user_like_list_count,
-		user_chat_count,
-	} = data.data.data.user_info
+	const user_address = '서울시 강남구 역삼동'
 
 	const onClickMenu = path => {
 		setMyMenu(path)
@@ -40,43 +29,45 @@ const MyHeader = () => {
 						<S.EditButton>
 							<EditIcon sx={{ color: '#333' }} />
 						</S.EditButton>
-						<img src={user_profile_url} alt={user_nick_name} loading={'lazy'} />
+						<img src={profileUrl || ''} alt={nickName} loading={'lazy'} />
 					</S.UserImg>
 					<div>
 						<S.FlexWrap>
-							<S.UserNick>{user_nick_name}</S.UserNick>
-							<S.UserOndo>{user_temperature}℃</S.UserOndo>
+							<S.UserNick>{nickName}</S.UserNick>
+							<S.UserOndo>{ondo}℃</S.UserOndo>
 						</S.FlexWrap>
 						<S.UserAddress>{user_address}</S.UserAddress>
 					</div>
 				</S.ProfileBox>
-				<S.Box>
-					<S.Title>등록상품</S.Title>
-					<S.Link
-						className={myMenu === 'mySell' ? 'on' : ''}
-						onClick={() => onClickMenu('mySell')}
-					>
-						{user_total_product}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>관심상품</S.Title>
-					<S.Link
-						className={myMenu === 'wish' ? 'on' : ''}
-						onClick={() => onClickMenu('wish')}
-					>
-						{user_like_list_count}
-					</S.Link>
-				</S.Box>
-				<S.Box>
-					<S.Title>채팅</S.Title>
-					<S.Link
-						className={myMenu === 'chat' ? 'on' : ''}
-						onClick={() => window.alert('채팅 오픈')}
-					>
-						{user_chat_count}
-					</S.Link>
-				</S.Box>
+				<S.BoxContainer>
+					<S.Box>
+						<S.Title>등록상품</S.Title>
+						<S.Link
+							className={myMenu === 'mySell' ? 'on' : ''}
+							onClick={() => onClickMenu('mySell')}
+						>
+							{productsCount}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>관심상품</S.Title>
+						<S.Link
+							className={myMenu === 'wish' ? 'on' : ''}
+							onClick={() => onClickMenu('wish')}
+						>
+							{likeCount}
+						</S.Link>
+					</S.Box>
+					<S.Box>
+						<S.Title>채팅</S.Title>
+						<S.Link
+							className={myMenu === 'chat' ? 'on' : ''}
+							onClick={() => window.alert('채팅 오픈')}
+						>
+							{chatCount}
+						</S.Link>
+					</S.Box>
+				</S.BoxContainer>
 			</S.Container>
 		</S.Header>
 	)
@@ -91,18 +82,13 @@ S.Header = styled.div`
 	margin-bottom: 30px;
 `
 
-S.LoadingHeader = styled.div`
-	background-color: ${({ theme }) => theme.PALETTE.gray[100]};
-	height: 180px;
-	margin-bottom: 30px;
-`
-
 S.Container = styled.div`
 	display: flex;
 	gap: 8px;
-	width: 1100px;
+	width: ${({ theme }) => (theme.isDesktop ? '1100px' : '100%')};
 	margin: 0 auto;
 	padding: 30px 0;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 `
 
 S.FlexWrap = styled.div`
@@ -113,6 +99,7 @@ S.FlexWrap = styled.div`
 S.ProfileBox = styled.div`
 	display: flex;
 	align-items: center;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	padding: 30px;
 	gap: 15px;
 	flex: 1;
@@ -172,12 +159,16 @@ S.UserAddress = styled.div`
 	color: ${({ theme }) => theme.PALETTE.gray[800]};
 	font-size: ${({ theme }) => theme.FONT_SIZE.xxsmall};
 `
-
+S.BoxContainer = styled.div`
+	flex-direction: row;
+	display: ${({ theme }) => (theme.isDesktop ? 'flex' : 'none')};
+`
 S.Box = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	flex: 1;
 	width: 160px;
 	height: 120px;
 	background-color: ${({ theme }) => theme.PALETTE.background.white};

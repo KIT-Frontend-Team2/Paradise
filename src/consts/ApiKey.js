@@ -8,7 +8,7 @@ const API_KEY = {
 	SHARE: '/share',
 	DETAIL: '/detail',
 	SEARCH: '/search',
-	MYPAGE: '/mypage',
+	MYPAGE: '/my-page',
 	LIKE: '/like',
 	ACCOUNT: '/account',
 	PROFILE: '/profile',
@@ -20,9 +20,12 @@ const API_KEY = {
 	UPDATE: '/update',
 	REGISTER: '/register',
 	LANDING: '/landing',
-	VIEWLIST: '/view-list',
+	VIEWLIST: '/viewed-list',
 	ERROR: '/ErrorPage',
 	HOME: '/home',
+	RELOAD: 0,
+	API: '/api',
+	REVIEW: '/review',
 }
 
 export default API_KEY

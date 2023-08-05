@@ -2,28 +2,21 @@ import React from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import LoadApi from '../../hooks/pageQuery/useLoadPage'
-import ProductSearchUserTemplate from '../templates/ProductSearchUserTemplate/ProductSearchUserTemplate'
+import ProductListTemplate from '../templates/ProductListTemplate/ProductListTemplate'
 
 const ProductUserListPage = () => {
 	const { getSearchUserPage } = LoadApi()
 	const { userId } = useParams()
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
-	const { data, isError, isLoading } = getSearchUserPage(userId, page)
-	if (isError) {
-		return <>에러</>
-	}
-
-	if (isLoading) {
-		return <>로딩중</>
-	}
-
+	const { data } = getSearchUserPage(userId, page)
+	const { product, pagination } = data.data
 	return (
-		<ProductSearchUserTemplate
-			page={page}
-			total={data.data.total}
-			userName={userId}
-			products={data.data.data}
+		<ProductListTemplate
+			pagination={pagination}
+			products={product}
+			title={userId}
+			intro={'님의 상품 목록입니다.'}
 		/>
 	)
 }

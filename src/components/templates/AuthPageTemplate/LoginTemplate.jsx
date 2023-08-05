@@ -3,14 +3,18 @@ import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
+import useUserAPi from '../../../hooks/service/user.service'
+import useMove from '../../../hooks/useMovePage'
 import { Validation2 } from './validation'
 
-const Login = () => {
+const Login = ({ setState }) => {
+	const { linkMainPage } = useMove()
+	const [request, setRequest] = useState(false)
 	const {
 		register,
 		handleSubmit,
@@ -21,8 +25,24 @@ const Login = () => {
 		resolver: yupResolver(Validation2),
 	})
 
-	const onSubmit = data => {
-		console.log(data)
+	const { mutateAsync } = useUserAPi.login()
+
+	const onSubmit = async () => {
+		try {
+			if (request) return
+			setRequest(true)
+			await mutateAsync({
+				email: watch('email'),
+				pw: watch('password'),
+			})
+			linkMainPage()
+		} catch (err) {
+			alert(
+				'이메일 또는 비밀번호를 잘못 입력했습니다.\n' +
+					'입력하신 내용을 다시 확인해주세요.',
+			)
+			setRequest(false)
+		}
 	}
 
 	return (
@@ -45,6 +65,7 @@ const Login = () => {
 						<S.FromLabel>비밀번호</S.FromLabel>
 						<InputGroup>
 							<Input
+								type={'password'}
 								name="password"
 								placeholder={'비밀번호를 입력해주세요'}
 								{...register('password')}
@@ -53,20 +74,21 @@ const Login = () => {
 						</InputGroup>
 					</S.Content>
 					<S.Checkradio>
-						<input type="checkbox" />
-						<S.FromLabel>
-							<label className="checklabel">아이디 기억하기</label>
-						</S.FromLabel>
+						{/*<input type="checkbox" />*/}
+						{/*<S.FromLabel>*/}
+						{/*	<label className="checklabel">아이디 기억하기</label>*/}
+						{/*</S.FromLabel>*/}
 					</S.Checkradio>
 					<S.Button type="submit" label={'로그인'} size={'full'} />
-					<S.Button
-						type="submit"
-						label={'구글로 회원가입'}
+					<S.SignUp
+						type="button"
+						label={'회원가입'}
 						size={'full'}
-						variant={'outlined'}
-					/>
+						onClick={() => setState(false)}
+					>
+						회원가입
+					</S.SignUp>
 				</S.Form>
-				<StyledLink to="/">회원가입</StyledLink>
 			</S.Wrapper>
 		</Container>
 	)
@@ -77,8 +99,9 @@ export default Login
 const S = {}
 
 S.Wrapper = styled.div`
-	width: 480px;
-	margin: 90px auto 250px;
+	width: 100%;
+	max-width: 480px;
+	margin: 90px auto 200px;
 	text-align: center;
 `
 S.Title = styled.h2`
@@ -96,6 +119,7 @@ S.Content = styled.div`
 	&:first-child {
 		padding: 20px 0;
 	}
+
 	&:last-child {
 		padding-bottom: 0;
 	}
@@ -142,7 +166,15 @@ S.Button = styled(Button)`
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 `
 
-const StyledLink = styled(Link)`
-	text-decoration: none;
+S.SignUp = styled(Button)`
+	background-color: rgba(255, 255, 255, 100%);
+	border: 1px solid #cccccc;
 	color: ${({ theme }) => theme.PALETTE.black};
+	font-size: ${({ theme }) => theme.FONT_SIZE.xlarge};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
+
+	&:hover {
+		background-color: rgba(255, 255, 255, 65%);
+		border: 1px solid #cccccc;
+	}
 `

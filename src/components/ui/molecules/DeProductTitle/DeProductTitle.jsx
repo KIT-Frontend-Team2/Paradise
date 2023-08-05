@@ -53,9 +53,9 @@ DeProductTitle.propTypes = {
 	/**
 	 * 상품을 좋아요 한 사람의 수를 알려주세요
 	 */
-	like: PropTypes.number.isRequired,
+	like: PropTypes.number,
 	/**
 	 * 해당 상품을 좋아요 했는지 안했는지 알려주세요
 	 */
-	chatCount: PropTypes.number.isRequired,
+	chatCount: PropTypes.number,
 }
