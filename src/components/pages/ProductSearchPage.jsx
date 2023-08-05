@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import LoadApi from '../../hooks/pageQuery/useLoadPage'
-import ProductSearchTemplate from '../templates/ProductSearchTemplate/ProductSearchTemplate'
+import ProductListTemplate from '../templates/ProductListTemplate/ProductListTemplate'
 
 const ProductSearchPage = () => {
 	const { getSearchPage } = LoadApi()
@@ -12,10 +12,11 @@ const ProductSearchPage = () => {
 	const { data } = getSearchPage(keyword, page)
 	const { product, pagination } = data.data
 	return (
-		<ProductSearchTemplate
+		<ProductListTemplate
 			pagination={pagination}
-			keyword={keyword}
 			products={product}
+			title={keyword}
+			intro={'의 검색결과 입니다.'}
 		/>
 	)
 }
