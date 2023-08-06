@@ -54,4 +54,3 @@ export const Validation4 = yup.object({
 		.required('동일한 비밀번호를 입력해 주세요')
 		.oneOf([yup.ref('password')], '비밀번호가 다릅니다.'),
 })
-

@@ -8,10 +8,14 @@ import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
+
 import MyChangePw from './MyChangePw'
+import useMypageApi from 'hooks/service/useMypage.service'
+
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
+
 
 	const {
 		register,
@@ -19,13 +23,29 @@ const MyPageInfo = () => {
 		watch,
 		formState: { errors },
 		setValue,
+		reset
 	} = useForm({
 		mode: 'onchange',
 		resolver: yupResolver(Validation3),
 	})
 
+	const nickname  = watch('nickname')
+	const { mutate } = useMypageApi.useChagneInfo()
+	const {mutate : checkmutate } = useMypageApi.useCheckNicName(
+		nickname 
+	)
+
+
+
 	const onSubmit = data => {
 		console.log(data)
+		const UserInfo = {
+			region: watch('address') ,
+			nickName: watch('nickname'),
+			phone: watch('phone'),
+		}
+		mutate(UserInfo)
+		reset()
 	}
 
 	const handleOpen = e => {
@@ -41,6 +61,11 @@ const MyPageInfo = () => {
 		setValue('address', fullAddress)
 	}
 
+
+	const hadleCheckNicName = () => {
+		checkmutate()
+	}
+
 	return (
 		<S.Wrap>
 			<S.Wrapper>
@@ -50,7 +75,7 @@ const MyPageInfo = () => {
 						<span className="secondary">*필수항목</span>은 꼭 입력해주세요
 					</span>
 				</S.Notice>
-				<MyChangePw/>
+				<MyChangePw />
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
 					<S.CheckContent>
 						<S.FromLabel>이메일</S.FromLabel>
@@ -80,6 +105,7 @@ const MyPageInfo = () => {
 								type="button"
 								label={'중복확인'}
 								variant={'primary-outlined'}
+								onClick = {hadleCheckNicName}
 							/>
 						</InputGroup>
 					</S.CheckContent>
@@ -102,6 +128,7 @@ const MyPageInfo = () => {
 						</S.FromLabel>
 						<InputGroup>
 							<Input
+								readOnly
 								name="address"
 								placeholder={'검색 버튼을 눌러주세요'}
 								width={'322'}
