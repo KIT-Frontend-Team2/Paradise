@@ -22,7 +22,7 @@ const DeFormTagGroup = ({
 							/>
 							<input
 								type="hidden"
-								{...register(`product_tag.${index}`, {
+								{...register(`tag.${index}`, {
 									validate: () => {
 										if (!categoryTag) {
 											return '카테고리를 선택해주세요.'
@@ -33,10 +33,8 @@ const DeFormTagGroup = ({
 						</div>
 					))}
 			</TagGroup>
-			{errors.product_tag && (
-				<ErrorMessage className="error">
-					{errors.product_tag[0].message}
-				</ErrorMessage>
+			{errors.tag && (
+				<ErrorMessage className="error">{errors.tag[0].message}</ErrorMessage>
 			)}
 		</>
 	)
