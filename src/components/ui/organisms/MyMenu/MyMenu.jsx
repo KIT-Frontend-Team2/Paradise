@@ -63,10 +63,9 @@ S.MyMenu = styled.div`
 		justify-content: space-between;
 		flex: 1;
 
-		:hover{
+		:hover {
 			border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
 		}
-
 	}
 
 	li {
@@ -86,7 +85,7 @@ S.MyMenu = styled.div`
 			border-top: 0;
 		}
 
-		:hover{
+		:hover {
 			border: none;
 		}
 

@@ -4,18 +4,16 @@ import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import useMypageApi from 'hooks/service/useMypage.service'
 import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import MyChangePw from './MyChangePw'
-import useMypageApi from 'hooks/service/useMypage.service'
-
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
-
 
 	const {
 		register,
@@ -23,24 +21,20 @@ const MyPageInfo = () => {
 		watch,
 		formState: { errors },
 		setValue,
-		reset
+		reset,
 	} = useForm({
 		mode: 'onchange',
 		resolver: yupResolver(Validation3),
 	})
 
-	const nickname  = watch('nickname')
+	const nickname = watch('nickname')
 	const { mutate } = useMypageApi.useChagneInfo()
-	const {mutate : checkmutate } = useMypageApi.useCheckNicName(
-		nickname 
-	)
-
-
+	const { mutate: checkmutate } = useMypageApi.useCheckNicName(nickname)
 
 	const onSubmit = data => {
 		console.log(data)
 		const UserInfo = {
-			region: watch('address') ,
+			region: watch('address'),
 			nickName: watch('nickname'),
 			phone: watch('phone'),
 		}
@@ -60,7 +54,6 @@ const MyPageInfo = () => {
 	const handleAddress = fullAddress => {
 		setValue('address', fullAddress)
 	}
-
 
 	const hadleCheckNicName = () => {
 		checkmutate()
@@ -105,7 +98,7 @@ const MyPageInfo = () => {
 								type="button"
 								label={'중복확인'}
 								variant={'primary-outlined'}
-								onClick = {hadleCheckNicName}
+								onClick={hadleCheckNicName}
 							/>
 						</InputGroup>
 					</S.CheckContent>

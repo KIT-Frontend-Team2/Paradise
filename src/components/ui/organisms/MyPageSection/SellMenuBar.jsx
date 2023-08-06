@@ -5,7 +5,7 @@ import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useState } from 'react'
 import { styled } from 'styled-components'
 
-const SellMenuBar = ({prod_idx}) => {
+const SellMenuBar = ({ prod_idx }) => {
 	const [changeIcon, setChangeIcon] = useState(true)
 	const [openMenu, setOpenMenu] = useState(false)
 	const [handleState, setHandleState] = useState(false)
@@ -15,26 +15,24 @@ const SellMenuBar = ({prod_idx}) => {
 		setOpenMenu(!openMenu)
 	}
 
-	const {mutate} = useMypageApi.useDeleteProduct()
-	const {mutate: chageState} = useMypageApi.useChangeState(prod_idx) 
+	const { mutate } = useMypageApi.useDeleteProduct()
+	const { mutate: chageState } = useMypageApi.useChangeState(prod_idx)
 
 	const hadleDelete = () => {
-		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?');
+		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
 
-		if(confirmDelete){
+		if (confirmDelete) {
 			mutate(prod_idx)
-		}else{
+		} else {
 			alert('물품 삭제를 취소하셨습니다.')
 		}
 	}
 
 	const hadnleState = () => {
 		setHandleState(true)
-		if(handleState){
+		if (handleState) {
 			chageState()
 		}
-		
-
 	}
 
 	return (

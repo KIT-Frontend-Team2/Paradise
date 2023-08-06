@@ -1,29 +1,27 @@
-
-import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import Pagination from 'components/ui/molecules/Pagination/Pagination'
+import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useEffect, useState } from 'react'
-import { styled } from 'styled-components'
 import { useSearchParams } from 'react-router-dom'
+import { styled } from 'styled-components'
 
 const MyWishTemplate = () => {
-  const [curPage, setCurPage] = useState(1);
-  const { data } = useMypageApi.useWishPage({ page: curPage });
-  const { page_size, count } = data.data.pagination;
-	const [ searchParams , _] = useSearchParams();
+	const [curPage, setCurPage] = useState(1)
+	const { data } = useMypageApi.useWishPage({ page: curPage })
+	const { page_size, count } = data.data.pagination
+	const [searchParams, _] = useSearchParams()
 
+	const handlePageChange = newpage => {
+		setCurPage(newpage)
+		searchParams.set('page', curPage)
+	}
 
-  const handlePageChange = (newpage) => {
-    setCurPage(newpage)
-		searchParams.set('page', curPage);
-  };
-
-  useEffect(() => {
-    const pageParam = searchParams.get('page');
-    if (pageParam) {
-      setCurPage(pageParam);
-    }
-  }, [searchParams]);
+	useEffect(() => {
+		const pageParam = searchParams.get('page')
+		if (pageParam) {
+			setCurPage(pageParam)
+		}
+	}, [searchParams])
 
 	return (
 		<S.Wrapper>
@@ -32,10 +30,10 @@ const MyWishTemplate = () => {
 				<MyPageContent products={data.data.LikeList} />
 			</S.Content>
 			<Pagination
-					page={curPage}
-					item_length={page_size}
-					total={count}
-					onClick={handlePageChange}
+				page={curPage}
+				item_length={page_size}
+				total={count}
+				onClick={handlePageChange}
 			></Pagination>
 		</S.Wrapper>
 	)

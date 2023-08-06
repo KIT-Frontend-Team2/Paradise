@@ -1,7 +1,6 @@
-
+import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
-import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -9,38 +8,34 @@ import { styled } from 'styled-components'
 import Calendar from 'utils/calendar'
 
 const MyCashTemplate = () => {
-  const nowDate = new Date();
-	const startDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1 +1);
-  const endDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0);
-  const NewstartDate = startDate.toISOString().split("T")[0]
-  const NEwendDate = endDate.toISOString().split("T")[0]
-
-	
+	const nowDate = new Date()
+	const startDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1 + 1)
+	const endDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
+	const NewstartDate = startDate.toISOString().split('T')[0]
+	const NEwendDate = endDate.toISOString().split('T')[0]
 
 	const [catagory, setCatagory] = useState('seller')
-  const [start, setStartDate] = useState(NewstartDate);
-  const [end, setEndDate] = useState(NEwendDate);
-	const [curPage, setCurPage] = useState(1);
-	const {data} = useMypageApi.useAccountPage(curPage, catagory, start, end)
-	const { page_size, count } = data.data.pagination;
-	const [ searchParams , _] = useSearchParams();
+	const [start, setStartDate] = useState(NewstartDate)
+	const [end, setEndDate] = useState(NEwendDate)
+	const [curPage, setCurPage] = useState(1)
+	const { data } = useMypageApi.useAccountPage(curPage, catagory, start, end)
+	const { page_size, count } = data.data.pagination
+	const [searchParams, _] = useSearchParams()
 
 	console.log(start, end)
 
-	const handlePageChange = (newpage) => {
-    setCurPage(newpage)
-		searchParams.set('page', curPage);
-  };
+	const handlePageChange = newpage => {
+		setCurPage(newpage)
+		searchParams.set('page', curPage)
+	}
 
-  useEffect(() => {
-    const pageParam = searchParams.get('page');
-    if (pageParam) {
-      setCurPage(pageParam);
-    }
-  }, [searchParams]);
-	
+	useEffect(() => {
+		const pageParam = searchParams.get('page')
+		if (pageParam) {
+			setCurPage(pageParam)
+		}
+	}, [searchParams])
 
-	
 	return (
 		<S.Wrapper>
 			<S.Title>
@@ -50,15 +45,20 @@ const MyCashTemplate = () => {
 			<S.TotalPrice>
 				<TotalPrice />
 			</S.TotalPrice>
-			<Calendar setStartDate={setStartDate} setEndDate={setEndDate} end={end} start={start}/>
+			<Calendar
+				setStartDate={setStartDate}
+				setEndDate={setEndDate}
+				end={end}
+				start={start}
+			/>
 			<S.Content>
-				<MyPageContent products={data.data.payList} setCatagory={setCatagory}/>
+				<MyPageContent products={data.data.payList} setCatagory={setCatagory} />
 			</S.Content>
 			<Pagination
-					page={curPage}
-					item_length={page_size}
-					total={count}
-					onClick={handlePageChange}
+				page={curPage}
+				item_length={page_size}
+				total={count}
+				onClick={handlePageChange}
 			></Pagination>
 		</S.Wrapper>
 	)

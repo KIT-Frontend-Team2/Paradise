@@ -11,14 +11,8 @@ import Customchecbox from '../../../../assets/images/checkbox.png'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
 
-
-const MyPageContent = ({
-	products, setCatagory
-}) => {
-
-
+const MyPageContent = ({ products, setCatagory }) => {
 	const MyContentValue = useRecoilValue(myMenuAtom)
-
 
 	const {
 		isDesktop,
@@ -46,31 +40,30 @@ const MyPageContent = ({
 		switch (filter) {
 			case '0':
 				setCatagory(0)
-				break;
+				break
 			case '1':
 				setCatagory(1)
-				break;
+				break
 			case 'seller':
 				setCatagory('seller')
-				break;
+				break
 			case 'buyer':
 				setCatagory('buyer')
-				break;
+				break
 			default:
 				return products
 		}
 	}
 
-
 	return (
 		<S.Wrapper>
 			<Container>
 				<S.Filter>
-					{MyContentValue !== 'cash' ? 
+					{MyContentValue !== 'cash' ? (
 						<S.Left>
 							<Button
 								type="button"
-								label={'판매'} 
+								label={'판매'}
 								variant={'primary-outlined'}
 								size={'small'}
 								onClick={() => handleFilter('0')}
@@ -82,8 +75,10 @@ const MyPageContent = ({
 								variant={'outlined'}
 								onClick={() => handleFilter('1')}
 							/>
-					</S.Left>
-					:''}
+						</S.Left>
+					) : (
+						''
+					)}
 					{MyContentValue === 'mySell' ? (
 						<S.Right>
 							<input type="checkbox" />
@@ -109,44 +104,27 @@ const MyPageContent = ({
 					''
 				)}
 				<S.Content repeat={repeat}>
-					{MyContentValue === 'mySell' ? 		
-					products.map(item => (
-							<MyUploadCard
-								MyContentValue={MyContentValue}
-								key={item.idx}
-								price={item.price} // 없음
-								isLike={item.isLike} //없음
-								chat_count={item.createdAt} //없음
-								img_url={item.img_url}
-								like={item.product_like} //없음 
-								name={item.title}
-								id={item.idx}
-								place={item.region}
-								time={item.createdAt} //없음
-								state={item.status}
-								content={item.product_content} //없음
-							/>
-						)) :''}
-							{MyContentValue === 'wish'? 		
-							products.map(item => (
+					{MyContentValue === 'mySell'
+						? products.map(item => (
 								<MyUploadCard
-										MyContentValue={MyContentValue}
-										key={item.Product.idx}
-										price={item.Product.price}
-										isLike={item.Product.isLike}
-										chat_count={item.Product.createdAt}
-										img_url={item.Product.img_url}
-										like={item.Product.liked}
-										name={item.Product.title}
-										id={item.Product.idx}
-										place={item.Product.region}
-										time={item.Product.createdAt}
-										state={item.Product.status}
-										content={item.Product.product_content} 
-            />
-						)) :''}
-						{MyContentValue === 'recent'? 		
-							products.map(item => (
+									MyContentValue={MyContentValue}
+									key={item.idx}
+									price={item.price} // 없음
+									isLike={item.isLike} //없음
+									chat_count={item.createdAt} //없음
+									img_url={item.img_url}
+									like={item.product_like} //없음
+									name={item.title}
+									id={item.idx}
+									place={item.region}
+									time={item.createdAt} //없음
+									state={item.status}
+									content={item.product_content} //없음
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'wish'
+						? products.map(item => (
 								<MyUploadCard
 									MyContentValue={MyContentValue}
 									key={item.Product.idx}
@@ -160,9 +138,29 @@ const MyPageContent = ({
 									place={item.Product.region}
 									time={item.Product.createdAt}
 									state={item.Product.status}
-									content={item.Product.product_content} 
-            />
-						)) :''}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'recent'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.Product.idx}
+									price={item.Product.price}
+									isLike={item.Product.isLike}
+									chat_count={item.Product.createdAt}
+									img_url={item.Product.img_url}
+									like={item.Product.liked}
+									name={item.Product.title}
+									id={item.Product.idx}
+									place={item.Product.region}
+									time={item.Product.createdAt}
+									state={item.Product.status}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
 				</S.Content>
 				{/* <Pagination
       page={1} // 현재 페이지 번호

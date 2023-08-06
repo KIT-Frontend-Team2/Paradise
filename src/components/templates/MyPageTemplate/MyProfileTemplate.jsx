@@ -1,15 +1,13 @@
 import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
+import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
-
-import useMypageApi from 'hooks/service/useMypage.service'
 
 const MyProfileTemplate = () => {
 	const { data } = useMypageApi.useGetinfo()
 	const inputRef = useRef(null)
 	const [image, setImage] = useState('')
-
 
 	const handleImageClick = () => {
 		inputRef.current.click()
@@ -17,13 +15,12 @@ const MyProfileTemplate = () => {
 
 	const handleImageChange = e => {
 		const file = e.target.files[0]
-		console.log(file); 
+		console.log(file)
 		if (file) {
 			setImage(file)
 			inputRef.current.value = ''
 		}
 	}
-
 
 	const { mutate } = useMypageApi.useChangeProfile()
 
@@ -35,7 +32,6 @@ const MyProfileTemplate = () => {
 		mutate(formData)
 	}
 
-	
 	return (
 		<S.Wrapper>
 			<S.Title>프로필 변경</S.Title>

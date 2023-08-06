@@ -2,13 +2,13 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Checkbox from '@mui/material/Checkbox'
+import useOneRequest from 'hooks/common/useOneRequest'
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import timeHelper from 'utils/time-helper'
 
 import useProductService from '../../../../hooks/service/useProduct.service'
 import SellMenuBar from './SellMenuBar'
-import useOneRequest from 'hooks/common/useOneRequest'
 
 const MyUploadCard = ({
 	MyContentValue,
@@ -25,15 +25,13 @@ const MyUploadCard = ({
 	state,
 	content,
 }) => {
-	const [likeState, setLikeState] = useState(Boolean(like));
+	const [likeState, setLikeState] = useState(Boolean(like))
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 
-
 	useEffect(() => {
-    setLikeState(Boolean(like));
-  }, [isLike]);
-
+		setLikeState(Boolean(like))
+	}, [isLike])
 
 	return (
 		<S.Card>
@@ -42,7 +40,7 @@ const MyUploadCard = ({
 					<S.LikeBox>
 						<Checkbox
 							onClick={onClick}
-							checked={likeState} // 
+							checked={likeState} //
 							icon={<FavoriteBorder />}
 							checkedIcon={<Favorite sx={{ color: 'red' }} />}
 						/>
@@ -53,7 +51,7 @@ const MyUploadCard = ({
 				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
 				{MyContentValue === 'mySell' ? (
 					<S.Toggle>
-						<SellMenuBar prod_idx ={id} />
+						<SellMenuBar prod_idx={id} />
 					</S.Toggle>
 				) : (
 					''
@@ -69,11 +67,7 @@ const MyUploadCard = ({
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
-			{price !== 0 ? (
-				<S.PriceBox>{price + '원'}</S.PriceBox>
-			) : (
-				<S.PriceBox />
-			)}
+			{price !== 0 ? <S.PriceBox>{price + '원'}</S.PriceBox> : <S.PriceBox />}
 			<S.FlexBox>
 				{like > 0 && (
 					<S.IconWithText>

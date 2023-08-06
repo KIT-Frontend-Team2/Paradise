@@ -1,4 +1,3 @@
-
 import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import useMypageApi from 'hooks/service/useMypage.service'
@@ -7,38 +6,39 @@ import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 const MySellTemplate = () => {
-
 	const [catagory, setCatagory] = useState()
-	const [curPage, setCurPage] = useState(1);
-	const filter = {page: curPage , category: catagory}
-	const {data} = useMypageApi.useSellPage(filter)
-	const { page_size, count } = data.data.pagination;
-	const [ searchParams , _] = useSearchParams();
+	const [curPage, setCurPage] = useState(1)
+	const filter = { page: curPage, category: catagory }
+	const { data } = useMypageApi.useSellPage(filter)
+	const { page_size, count } = data.data.pagination
+	const [searchParams, _] = useSearchParams()
 
-	const handlePageChange = (newpage) => {
-    setCurPage(newpage)
-		searchParams.set('page', curPage);
-  };
+	const handlePageChange = newpage => {
+		setCurPage(newpage)
+		searchParams.set('page', curPage)
+	}
 
-  useEffect(() => {
-    const pageParam = searchParams.get('page');
-    if (pageParam) {
-      setCurPage(pageParam);
-    }
-  }, [searchParams]);
-
+	useEffect(() => {
+		const pageParam = searchParams.get('page')
+		if (pageParam) {
+			setCurPage(pageParam)
+		}
+	}, [searchParams])
 
 	return (
 		<S.Wrapper>
 			<S.Title>등록상품</S.Title>
 			<S.Content>
-				<MyPageContent products={data.data.products} setCatagory={setCatagory}/>
+				<MyPageContent
+					products={data.data.products}
+					setCatagory={setCatagory}
+				/>
 			</S.Content>
 			<Pagination
-					page={curPage}
-					item_length={page_size}
-					total={count}
-					onClick={handlePageChange}
+				page={curPage}
+				item_length={page_size}
+				total={count}
+				onClick={handlePageChange}
 			></Pagination>
 		</S.Wrapper>
 	)

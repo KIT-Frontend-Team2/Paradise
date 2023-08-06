@@ -59,14 +59,11 @@ const userService = {
 	},
 
 	changeUserProfile: image => {
-		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/profile', 
-			image,
-		{
+		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/profile', image, {
 			headers: {
-					'Content-Type': 'multipart/form-data',
+				'Content-Type': 'multipart/form-data',
 			},
-		}
-		)
+		})
 	},
 
 	changeUserPassword: pw => {
