@@ -14,6 +14,7 @@ const Chat = () => {
 	const { data } = useChatApi.useGetChatList()
 
 	const [selectedChat, setSelectedChat] = useState(null)
+	console.log(selectedChat)
 
 	const [layout, setLayout] = useState(true)
 
@@ -34,6 +35,7 @@ const Chat = () => {
 							productTitle={selectedChat.product.title}
 							productImage={selectedChat.product.img_url}
 							productPrice={selectedChat.product.price}
+							isRead={selectedChat.isRead}
 							setLayout={setLayout}
 						/>
 					) : (

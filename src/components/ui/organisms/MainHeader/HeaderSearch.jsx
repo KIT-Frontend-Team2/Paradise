@@ -1,6 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton } from '@mui/material'
-import { headerMock } from '__mock__/datas/header.mock'
 import useMove from 'hooks/useMovePage'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -52,10 +51,7 @@ const HeaderSearch = () => {
 					</IconButton>
 				</S.SearchBox>
 				<S.UserInfoContainer>
-					<UserInfo
-						user_profile_url={headerMock.data.user_info.user_profile_url}
-						user_nick_name={headerMock.data.user_info.user_nick_name}
-					/>
+					<UserInfo />
 				</S.UserInfoContainer>
 			</S.SearchContainer>
 		</>

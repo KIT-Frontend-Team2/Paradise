@@ -14,6 +14,7 @@ const ChatList = ({
 	isRead,
 	productPrice,
 }) => {
+	console.log(isRead)
 	return (
 		<>
 			<S.ChatListContainer key={id} onClick={() => handleChatClick(data)}>

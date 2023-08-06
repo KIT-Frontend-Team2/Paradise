@@ -1,24 +1,25 @@
-import { isLoggedInAtom } from 'atom/header/atom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import useChatApi from 'hooks/service/useChat.service'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
+import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
 import useUserAPi from '../../../../hooks/service/user.service'
 import useMove from '../../../../hooks/useMovePage'
 
-const UserInfo = ({ user_profile_url, user_nick_name }) => {
-	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
+const UserInfo = () => {
+	// const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
 	const { isTablet } = useDevice()
-
+	const user = JSON.parse(UserRepository.getUser())
 	const handleLogin = e => {
 		e.preventDefault()
 		setIsLoggedIn(true)
 	}
 	const { linkMainPage, linkMyPage } = useMove()
 	const { mutate, isSuccess } = useUserAPi.logout()
+	const { data } = useChatApi.useGetChatList()
 
 	const handleLogout = e => {
 		e.preventDefault()
@@ -33,37 +34,35 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 
 	return (
 		<S.UserInfoContainer>
-			{isLoggenIn ? (
-				<S.UserInfoContent>
-					<S.UserImageBox>
-						<S.UserImage
-							src={user_profile_url}
-							alt={user_nick_name}
-							onClick={linkMyPage}
-						/>
-						<S.NotificationDot />
-					</S.UserImageBox>
-					<S.UserLoginContent istablet={isTablet.toString()}>
-						<Link to="#" onClick={linkMyPage}>
-							{user_nick_name} 님
-						</Link>
-						<span>I</span>
-						<Link to="/" onClick={handleLogout}>
-							로그아웃
-						</Link>
-					</S.UserLoginContent>
-				</S.UserInfoContent>
-			) : (
-				<S.UserLoginContent>
-					<Link to="/login" alt="로그인" onClick={handleLogin}>
-						로그인
+			<S.UserInfoContent>
+				<S.UserImageBox>
+					<S.UserImage
+						src={user.profileUrl}
+						alt={user.nickName}
+						onClick={linkMyPage}
+					/>
+					<S.NotificationDot />
+				</S.UserImageBox>
+				<S.UserLoginContent istablet={isTablet.toString()}>
+					<Link to="#" onClick={linkMyPage}>
+						{user.nickName} 님
 					</Link>
 					<span>I</span>
-					<Link to="/signup" alt="회원가입">
-						회원가입
+					<Link to="/" onClick={handleLogout}>
+						로그아웃
 					</Link>
 				</S.UserLoginContent>
-			)}
+			</S.UserInfoContent>
+
+			{/* <S.UserLoginContent>
+				<Link to="/login" alt="로그인" onClick={handleLogin}>
+					로그인
+				</Link>
+				<span>I</span>
+				<Link to="/signup" alt="회원가입">
+					회원가입
+				</Link>
+			</S.UserLoginContent> */}
 		</S.UserInfoContainer>
 	)
 }

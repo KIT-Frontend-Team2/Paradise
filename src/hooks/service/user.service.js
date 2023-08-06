@@ -19,7 +19,7 @@ const useUserAPi = {
 			{
 				retry: 1,
 				onSuccess: data => {
-					UserRepository.setUser(data.data.user)
+					UserRepository.setUser(JSON.stringify(data.data.user))
 					TokenRepository.setToken(data.data.tokenForHeader)
 				},
 			},

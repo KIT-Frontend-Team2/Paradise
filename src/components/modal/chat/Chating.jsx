@@ -13,8 +13,10 @@ const Chating = ({
 	productTitle,
 	productImage,
 	productPrice,
+	isRead,
 }) => {
 	const { data, isLoading } = useChatApi.useGetChatLog(id)
+	console.log({ data })
 
 	const { mutate } = useChatApi.useSendChat(id)
 	const messagesEndRef = useRef(null)
@@ -71,7 +73,6 @@ const Chating = ({
 					setLayout={setLayout}
 				/>
 			</S.ChatProductCardContent>
-			{/* {data && ( */}
 			<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
 				{chatDataWithDividers &&
 					chatDataWithDividers.map((data, index) =>
@@ -89,12 +90,12 @@ const Chating = ({
 								messages={data.message}
 								nickName={data.User.nick_name}
 								profileUrl={data.User.profile_url}
+								isRead={isRead}
 							/>
 						),
 					)}
 				<div ref={messagesEndRef} />
 			</S.MeesageContent>
-			{/* )} */}
 			<S.ChatInputContent>
 				<ChatInput onSubmit={handleMessageSubmit} />
 			</S.ChatInputContent>

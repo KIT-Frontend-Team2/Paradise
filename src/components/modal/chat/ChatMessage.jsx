@@ -1,6 +1,13 @@
 import styled, { css } from 'styled-components'
 
-const ChatMessage = ({ id, createdAt, messages, nickName, profileUrl }) => {
+const ChatMessage = ({
+	id,
+	createdAt,
+	messages,
+	nickName,
+	profileUrl,
+	isRead,
+}) => {
 	const isSender = nickName === nickName
 	const senderImage = isSender ? '' : profileUrl
 
@@ -22,6 +29,7 @@ const ChatMessage = ({ id, createdAt, messages, nickName, profileUrl }) => {
 					<S.MessageText $issender={isSender}>{messages}</S.MessageText>
 				)}
 				<S.MetaInfo>
+					{!isRead && <S.UnreadIndicator>1</S.UnreadIndicator>}
 					<S.MessageTime>{formDate(createdAt)}</S.MessageTime>
 				</S.MetaInfo>
 			</S.MessageBox>
@@ -67,14 +75,18 @@ S.MessageBox = styled.div`
 `
 
 S.MetaInfo = styled.div`
-	display: flex;
+	display: grid;
+	grid-template-rows: auto auto;
+	grid-template-columns: auto;
 	align-items: center;
-	gap: 5px;
+	/* gap: 5px; */
 	font-size: 14px;
 	padding: 0 8px;
 `
 
 S.MessageTime = styled.span`
+	grid-row: 2 / 3;
+	grid-column: 1;
 	font-size: 12px;
 	color: #999;
 `
@@ -85,4 +97,9 @@ S.MessageText = styled.div`
 	border-radius: ${({ $issender }) =>
 		$issender ? '10px 0 10px 10px' : '0 10px 10px 10px'};
 	color: ${({ $issender }) => ($issender ? '#fff' : '#333')};
+`
+S.UnreadIndicator = styled.div`
+	grid-row: 1 / 2;
+	grid-column: 1;
+	font-size: 12px;
 `
