@@ -33,8 +33,8 @@ const ProductFormMap = ({
 								if (status === kakao.maps.services.Status.OK) {
 									console.log(searchaddress2)
 									// setAddress(searchaddress2)
-									setValue('product_place', searchaddress2)
-									clearErrors('product_place')
+									setValue('region', searchaddress2)
+									clearErrors('region')
 									const { x, y } = result[0].road_address || result[0].address
 									const container = document.getElementById('map')
 									const options = {
@@ -49,15 +49,15 @@ const ProductFormMap = ({
 								}
 							})
 						} else {
-							setValue('product_place', undefined)
-							setError('product_place', {
+							setValue('region', undefined)
+							setError('region', {
 								message:
 									'주소를 동까지 입력해주세요. (ex. 서울시 강남구 역삼동)',
 							})
 						}
 					} else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-						setValue('product_place', undefined)
-						setError('product_place', {
+						setValue('region', undefined)
+						setError('region', {
 							message: '검색결과가 없습니다.',
 						})
 					}
