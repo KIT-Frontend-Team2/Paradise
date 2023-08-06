@@ -10,12 +10,29 @@ const ProductListPage = () => {
 	const { getListPage } = LoadApi()
 	const category = filter === 'sell' ? 0 : 1
 	const { data } = getListPage(category, page, '판매중')
+	const { product, pagination } = data.data
+
+	let title = ''
+
+	switch (filter) {
+		case 'sell':
+			title = '판매 상품'
+			break
+		case 'free':
+			title = '나눔 상품'
+			break
+		case 'all':
+			title = '상품 목록'
+			break
+		default:
+			throw new Error('옳지 않은 접근입니다.')
+	}
+
 	return (
 		<ProductListTemplate
-			page={page}
-			total={data.data.pagination.count}
-			filter={filter}
-			products={data.data.product}
+			pagination={pagination}
+			products={product}
+			title={title}
 		/>
 	)
 }

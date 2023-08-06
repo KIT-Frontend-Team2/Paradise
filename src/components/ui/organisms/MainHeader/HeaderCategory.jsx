@@ -68,7 +68,6 @@ export const categories = [
 		label: '가공식품',
 		path: 'processed-food',
 	},
-	,
 	{
 		label: '반려동물용품',
 		path: 'animal',
