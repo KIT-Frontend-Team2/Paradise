@@ -49,7 +49,7 @@ export default MyCashTemplate
 const S = {}
 
 S.Wrapper = styled.div`
-	width: 873px;
+	width: ${({ theme }) => (theme.isDesktop ? '873px' : '100%')};
 	min-height: 100vh;
 `
 

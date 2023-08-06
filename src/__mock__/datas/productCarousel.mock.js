@@ -1,0 +1,88 @@
+const productCarouselMock = [
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 310,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 311,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 312,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 313,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 314,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+	{
+		ProductImages: [],
+		ProductsTags: [],
+		createdAt: '2023-08-02T00:11:05.000Z',
+		description: '고양이 사진 팝니다 사기 아니에요 ',
+		idx: 315,
+		img_url:
+			'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		likeCount: 1,
+		liked: 1,
+		price: 100000000000000000,
+		status: '판매중',
+		title: '고양이 사진 팝니다',
+	},
+]
+
+export default productCarouselMock

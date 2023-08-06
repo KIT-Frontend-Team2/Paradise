@@ -1,31 +1,41 @@
-const reviewService = () => {
-	const makeReview = (productId, reviewInfo) => {
-		console.log(productId, '해당 상품의 리뷰를 등록합니다.', reviewInfo)
-	}
+import API_KEY from '../../consts/ApiKey'
+import { axiosInstance } from '../axiosInstance'
 
-	const getReviewList = page => {
-		console.log(page, '리뷰 목록을 조회합니다.')
-	}
+const reviewService = {
+	postReview: reviewInfo => {
+		return axiosInstance.post(API_KEY.API + API_KEY.REVIEW, {
+			params: {
+				...reviewInfo,
+			},
+		})
+	},
 
-	const getDetailReview = reviewId => {
-		console.log(reviewId, '해당 리뷰의 상세정보를 조회합니다.')
-	}
+	getReviewList: page => {
+		return axiosInstance.get(API_KEY.API + API_KEY.REVIEW, {
+			params: {
+				page,
+			},
+		})
+	},
 
-	const modifyReview = (productId, reviewInfo) => {
-		console.log(productId, '해당 상품의 리뷰를 수정합니다.', reviewInfo)
-	}
+	getDetailReview: review_idx => {
+		return axiosInstance.get(API_KEY.API + API_KEY.REVIEW + '/get', {
+			params: { review_idx },
+		})
+	},
 
-	const deleteReview = reviewId => {
-		console.log(reviewId, '해당 상품의 리뷰를 삭제합니다.')
-	}
+	modifyReview: (review_idx, reviewInfo) => {
+		return axiosInstance.patch(
+			API_KEY.API + API_KEY.REVIEW + `/?review_idx=${review_idx}`,
+			{ ...reviewInfo },
+		)
+	},
 
-	return {
-		makeReview,
-		getReviewList,
-		getDetailReview,
-		modifyReview,
-		deleteReview,
-	}
+	deleteReview: review_idx => {
+		return axiosInstance.delete(API_KEY.API + API_KEY.REVIEW, {
+			params: { review_idx },
+		})
+	},
 }
 
 export default reviewService

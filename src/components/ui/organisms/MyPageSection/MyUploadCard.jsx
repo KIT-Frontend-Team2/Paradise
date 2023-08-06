@@ -11,7 +11,7 @@ import SellMenuBar from './SellMenuBar'
 
 const MyUploadCard = ({
 	MyContentValue,
-	key,
+	// key,
 	price,
 	isLike,
 	chat_count,
@@ -32,19 +32,19 @@ const MyUploadCard = ({
 
 	return (
 		<S.Card>
-			{MyContentValue === 'wish' ? (
-				<S.LikeBox>
-					<Checkbox
-						onClick={onClickWithLike}
-						checked={Boolean(likeState)}
-						icon={<FavoriteBorder />}
-						checkedIcon={<Favorite sx={{ color: 'red' }} />}
-					/>
-				</S.LikeBox>
-			) : (
-				''
-			)}
 			<S.ImageBox>
+				{MyContentValue === 'wish' ? (
+					<S.LikeBox>
+						<Checkbox
+							onClick={onClickWithLike}
+							checked={Boolean(likeState)}
+							icon={<FavoriteBorder />}
+							checkedIcon={<Favorite sx={{ color: 'red' }} />}
+						/>
+					</S.LikeBox>
+				) : (
+					''
+				)}
 				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
 				{MyContentValue === 'mySell' ? (
 					<S.Toggle>
@@ -161,7 +161,7 @@ S.CloseBox = styled.div`
 	width: 100%;
 	height: 100%;
 	background: rgba(00, 00, 00, 50%);
-	z-index: 100;
+	z-index: ${({ theme }) => theme.Z_INDEX['altImage']};
 	top: 0;
 	display: flex;
 	justify-content: space-evenly;

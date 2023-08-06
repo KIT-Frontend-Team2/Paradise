@@ -1,6 +1,3 @@
-import { ThemeProvider } from 'styled-components'
-
-import theme from '../../../../styles/theme'
 import DeProductCategoryTag from './DeProductCategoryTag'
 
 export default {
@@ -10,13 +7,6 @@ export default {
 	argTypes: {
 		category: { control: 'object' },
 	},
-	decorators: [
-		Story => (
-			<ThemeProvider theme={theme}>
-				<Story />
-			</ThemeProvider>
-		),
-	],
 }
 
 const Template = args => <DeProductCategoryTag category={args.category} />
@@ -24,5 +14,24 @@ const Template = args => <DeProductCategoryTag category={args.category} />
 export const Controls = Template.bind({})
 
 Controls.args = {
-	category: ['의류 / 신발', '바오바오', '중고', '한번만씀'],
+	category: [
+		{
+			idx: 988,
+			Tag: {
+				tag: '고양이',
+			},
+		},
+		{
+			idx: 989,
+			Tag: {
+				tag: '사진',
+			},
+		},
+		{
+			idx: 990,
+			Tag: {
+				tag: '무료나눔?',
+			},
+		},
+	],
 }

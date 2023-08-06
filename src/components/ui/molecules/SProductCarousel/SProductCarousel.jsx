@@ -12,7 +12,7 @@ import './Carousel.css'
 
 const SProductCarousel = ({ products }) => {
 	const [isBeginning, setIsBeginning] = useState(true)
-	const [isEnd, setIsEnd] = useState(false)
+	const [isEnd, setIsEnd] = useState(products.length < 5)
 	const swiperRef = useRef(null)
 
 	SwiperCore.use([Navigation])
@@ -36,7 +36,6 @@ const SProductCarousel = ({ products }) => {
 			setIsBeginning(true)
 		}
 	}
-
 	return (
 		<S.Wrapper>
 			<Swiper
@@ -66,20 +65,20 @@ const SProductCarousel = ({ products }) => {
 				ref={swiperRef}
 			>
 				{products.map(product => (
-					<SwiperSlide key={product.product_id}>
+					<SwiperSlide key={product.idx}>
 						<ProductCard
-							state={product.state}
+							state={product.status}
 							size={200}
-							isLike={product.isLike}
-							like={product.product_like}
-							content={product.product_content}
-							place={product.product_place}
-							chat_count={product.product_chat_count}
-							id={product.product_id}
-							time={product.product_update_at}
-							img_url={product.product_main_img_url}
-							name={product.product_name}
-							price={product.product_price}
+							isLike={!!product.liked}
+							like={product.likeCount}
+							content={product.description}
+							place={product.product_place} //
+							chat_count={product.product_chat_count} //
+							id={product.idx}
+							time={product.createdAt}
+							img_url={product.img_url}
+							name={product.title}
+							price={product.price}
 						/>
 					</SwiperSlide>
 				))}

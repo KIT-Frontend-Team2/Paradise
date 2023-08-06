@@ -2,10 +2,12 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material'
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Checkbox from '@mui/material/Checkbox'
+import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useOneRequest from '../../../../hooks/common/useOneRequest'
 import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
@@ -15,7 +17,6 @@ const ProductCard = ({
 	id,
 	name,
 	place,
-	content,
 	isLike,
 	img_url,
 	time,
@@ -24,20 +25,18 @@ const ProductCard = ({
 	state = '판매중',
 	price,
 }) => {
-	const [likeState, setLikeState] = useState(isLike | false)
+	const [likeState, setLikeState] = useState(isLike)
 	const { linkDetailPage } = useMove()
+	const { mutateAsync } = useProductService.usePostWishAdd(id)
 
-	const { mutate } = useProductService.usePostWishAdd(id)
-	const onClickWithLike = () => {
-		mutate([likeState, setLikeState])
-	}
+	const onClick = useOneRequest(mutateAsync, setLikeState)
 
 	return (
 		<S.Card size={size}>
 			<S.ImgBox>
 				<S.LikeBox>
 					<Checkbox
-						onClick={onClickWithLike}
+						onClick={onClick}
 						checked={Boolean(likeState)}
 						icon={<FavoriteBorder />}
 						checkedIcon={<Favorite sx={{ color: 'red' }} />}
@@ -45,7 +44,7 @@ const ProductCard = ({
 				</S.LikeBox>
 				<img
 					style={{ cursor: 'pointer' }}
-					src={img_url}
+					src={img_url || defaultImg}
 					alt={name}
 					onClick={() => linkDetailPage(id)}
 				/>
@@ -59,11 +58,11 @@ const ProductCard = ({
 				<span>{place}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
-			<S.TitleBox>{content}</S.TitleBox>
+			<S.TitleBox>{name}</S.TitleBox>
 			{price !== 0 ? (
 				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<S.PriceBox />
+				<></>
 			)}
 			<S.FlexBox>
 				{like > 0 && (
@@ -93,7 +92,7 @@ ProductCard.propTypes = {
 	/**
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
-	id: PropTypes.string.isRequired,
+	id: PropTypes.number.isRequired,
 	/**
 	 * 해당 상품의 현재 판매 상태를 나타내줍니다.
 	 */
@@ -105,11 +104,11 @@ ProductCard.propTypes = {
 	/**
 	 * 상품을 올린 사용자의 장소를 입력합니다.
 	 */
-	place: PropTypes.string.isRequired,
+	place: PropTypes.string,
 	/**
 	 * 상품의 설명을 입력합니다.
 	 */
-	content: PropTypes.string.isRequired,
+	content: PropTypes.string,
 	/**
 	 * 상품이 찜하기 상품인지 확인합니다.
 	 */
@@ -117,7 +116,7 @@ ProductCard.propTypes = {
 	/**
 	 * 상품의 이미지를 입력합니다,
 	 */
-	img_url: PropTypes.string.isRequired,
+	img_url: PropTypes.string,
 	/**
 	 * 상품이 등록된 시간 혹은 업데이트된 시간을 입력합니다.
 	 */
@@ -125,11 +124,11 @@ ProductCard.propTypes = {
 	/**
 	 * 상품의 찜하기 갯수를 입력합니다.
 	 */
-	like: PropTypes.number.isRequired,
+	like: PropTypes.number,
 	/**
 	 * 상품의 채팅 갯수를 입력합니다.
 	 */
-	chat_count: PropTypes.number.isRequired,
+	chat_count: PropTypes.number,
 	/**
 	 * 상품의 가격을 결정합니다.
 	 */
@@ -152,6 +151,7 @@ S.LikeBox = styled.div`
 
 S.Card = styled.div`
 	width: ${({ size }) => size + 'px'};
+	text-align: left;
 `
 S.ImgBox = styled.div`
 	position: relative;
@@ -172,7 +172,7 @@ S.CloseBox = styled.div`
 	width: 100%;
 	height: 100%;
 	background: rgba(00, 00, 00, 50%);
-	z-index: 100;
+	z-index: ${({ theme }) => theme.Z_INDEX['altImage']};
 	top: 0;
 	display: flex;
 	justify-content: space-evenly;

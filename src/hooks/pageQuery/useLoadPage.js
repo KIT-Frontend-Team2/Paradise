@@ -15,10 +15,10 @@ const LoadApi = () => {
 		return { data }
 	}
 
-	const getListPage = (optionKey, page) => {
+	const getListPage = (category, page, status) => {
 		const { data } = useQuery(
-			[API_KEY.LIST, optionKey, page],
-			() => getPageAxios.getProductList(optionKey, page),
+			[API_KEY.LIST, category, page],
+			() => getPageAxios.getProductList(category, page, status),
 			{ ...queryConfig },
 		)
 

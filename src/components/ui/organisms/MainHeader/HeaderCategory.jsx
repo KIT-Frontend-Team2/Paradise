@@ -1,4 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu'
+import useMove from 'hooks/useMovePage'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -67,7 +68,6 @@ export const categories = [
 		label: '가공식품',
 		path: 'processed-food',
 	},
-	,
 	{
 		label: '반려동물용품',
 		path: 'animal',
@@ -78,6 +78,12 @@ export const categories = [
 	},
 ]
 const HeaderCategory = () => {
+	const { linkSearchProduct } = useMove()
+
+	const handleCategoryClick = (e, categoryPath) => {
+		e.preventDefault()
+		linkSearchProduct(categoryPath)
+	}
 	return (
 		<>
 			<S.InnerBox>
@@ -86,10 +92,11 @@ const HeaderCategory = () => {
 					카테고리
 				</S.IconWrapper>
 				<S.DropdownMenu>
-					{categories.map(category => (
-						<li>
+					{categories.map((category, index) => (
+						<li key={index}>
 							<Link
-								to={`/?category=${category.path}`}
+								to="#"
+								onClick={e => handleCategoryClick(e, category.label)}
 								style={{ textDecoration: 'none', color: 'inherit' }}
 							>
 								{category.label}

@@ -1,3 +1,4 @@
+import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
@@ -32,7 +33,10 @@ const MyProfileTemplate = () => {
 		<S.Wrapper>
 			<S.Title>프로필 변경</S.Title>
 			<S.Form onSubmit={handleFormSubmit}>
-				<S.UserImg>
+				<S.UserImg onClick={handleImageClick}>
+					<S.Overay>
+						<LinkedCameraIcon />
+					</S.Overay>
 					{image ? (
 						<img src={URL.createObjectURL(image)} alt={user_nick_name} />
 					) : (
@@ -49,11 +53,10 @@ const MyProfileTemplate = () => {
 							name="picture"
 						></S.EditButton>
 						<Button
-							onClick={handleImageClick}
-							label={'수정하기'}
-							variant={'outlined'}
+							type="submit"
+							label={'수정완료'}
+							variant={'primary-outlined'}
 						/>
-						<Button type="submit" label={'수정완료'} />
 					</S.Button>
 				</S.Right>
 			</S.Form>
@@ -66,7 +69,7 @@ export default MyProfileTemplate
 const S = {}
 
 S.Wrapper = styled.div`
-	width: 873px;
+	width: ${({ theme }) => (theme.isDesktop ? '873px' : '100%')};
 	min-height: 100vh;
 `
 S.Title = styled.h2`
@@ -75,10 +78,12 @@ S.Title = styled.h2`
 	text-align: left;
 	padding-bottom: 36px;
 	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.black};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `
 S.Form = styled.form`
 	display: flex;
-	justify-content: flex-start;
+	justify-content: ${({ theme }) =>
+		theme.isDesktop ? 'flex-start' : 'center'};
 	align-items: center;
 `
 S.UserImg = styled.div`
@@ -87,11 +92,29 @@ S.UserImg = styled.div`
 	height: 100px;
 	display: flex;
 	margin-right: 30px;
+	cursor: pointer;
 
 	> img {
 		border-radius: 50%;
 		width: 100%;
 		height: 100%;
+	}
+`
+
+S.Overay = styled.div`
+	position: absolute;
+	bottom: 0;
+	right: 6px;
+	background-color: ${({ theme }) => theme.PALETTE.primary[100]};
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+
+	> SVG {
+		color: ${({ theme }) => theme.PALETTE.white};
+		font-size: ${({ theme }) => theme.FONT_SIZE.large};
+		vertical-align: -5px;
 	}
 `
 S.Right = styled.div``

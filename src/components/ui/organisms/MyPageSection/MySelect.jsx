@@ -24,10 +24,10 @@ export default Myselect
 const S = {}
 
 S.Select = styled.select`
-	width: 150px;
+	width: 60px;
 	height: 40px;
 	padding: 8px;
-	font-size: 16px;
+	font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
 	border-radius: 8px;
 	cursor: pointer;
 	appearance: none;

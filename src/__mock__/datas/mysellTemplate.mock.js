@@ -23,7 +23,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '21',
 					productTitle: '아메리카노',
 					productPrice: 0,
 					product_img:
@@ -40,7 +40,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '22',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -57,7 +57,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '23',
 					productTitle: '아메리카노',
 					productPrice: 0,
 					product_img:
@@ -74,7 +74,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '24',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -94,7 +94,7 @@ const MySellTempalte = {
 
 			free: [
 				{
-					productId: '20',
+					productId: '25',
 					productTitle: '라뗴',
 					productPrice: 0,
 					product_img:
@@ -111,7 +111,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '26',
 					productTitle: '라뗴',
 					productPrice: 0,
 					product_img:
@@ -128,7 +128,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '27',
 					productTitle: '라뗴',
 					productPrice: 0,
 					product_img:
@@ -144,7 +144,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '28',
 					productTitle: '라뗴',
 					productPrice: 0,
 					product_img:
@@ -161,7 +161,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '29',
 					productTitle: '라뗴',
 					productPrice: 0,
 					product_img:
@@ -181,7 +181,7 @@ const MySellTempalte = {
 
 			sale: [
 				{
-					productId: '20',
+					productId: '30',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -197,7 +197,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '31',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -214,7 +214,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '32',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -231,7 +231,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '33',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:
@@ -248,7 +248,7 @@ const MySellTempalte = {
 					isLike: false, // 좋아요를 눌렀는지 확인
 				},
 				{
-					productId: '20',
+					productId: '34',
 					productTitle: '아메리카노',
 					productPrice: 20000,
 					product_img:

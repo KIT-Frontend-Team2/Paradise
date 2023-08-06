@@ -2,70 +2,65 @@ import { useMutation, useQuery } from 'react-query'
 
 import productAxios from '../../apis/service/product.api'
 import API_KEY from '../../consts/ApiKey'
+import { NETWORK } from '../../consts/api'
 
 const useViewListApi = {
 	usePostRegisterProduct: productInfo => {
-		const { data, isError, isLoading } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.PRODUCT, API_KEY.UPDATE, productInfo.id],
 			() => productAxios.addRegisterProduct(productInfo),
 			{
-				retry: 3,
+				retry: NETWORK.RETRY_COUNT,
 			},
 		)
-		return { data, isError, isLoading }
+		return { data }
 	},
 
 	usePatchProductInfo: productInfo => {
-		const { data, isError, isLoading } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.PRODUCT, API_KEY.UPDATE, 'patch'],
 			() => productAxios.patchProductInfo(productInfo),
 			{
 				retry: 1,
 			},
 		)
-		return { data, isError, isLoading }
+		return { data }
 	},
 
 	useDeleteProduct: productId => {
-		const { data, isError, isLoading } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.PRODUCT, API_KEY.UPDATE, 'delete'],
 			() => productAxios.deleteProduct(productId),
 			{
 				retry: 1,
 			},
 		)
-		return { data, isError, isLoading }
+		return { data }
 	},
 
 	usePostChangeStatusProduct: productId => {
-		const { data, isError, isLoading } = useQuery(
+		const { data } = useQuery(
 			[API_KEY.PRODUCT, API_KEY.UPDATE, 'status'],
 			() => productAxios.postCompleteProduct(productId),
 			{
 				retry: 1,
 			},
 		)
-		return { data, isError, isLoading }
+		return { data }
 	},
 
 	usePostWishAdd: productId => {
-		const { mutate } = useMutation(
-			[API_KEY.PRODUCT, API_KEY.LIKE],
-			() => productAxios.postWishAdd(productId),
-			{
-				onMutate: ([originState, setState]) => {
-					setState(prev => !prev)
-					return { originState, setState }
-				},
-				onError: (error, variables, context) => {
-					context.setState(context.originState)
-				},
-				onSuccess: (data, variables, context) => {
-					context.setState(!context.originState)
-				},
-			},
+		const { mutateAsync } = useMutation([API_KEY.PRODUCT, API_KEY.LIKE], () =>
+			productAxios.postWishAdd(productId),
 		)
-		return { mutate }
+		return { mutateAsync }
+	},
+
+	useGetChartData: (keyword, start, end) => {
+		const { data } = useQuery([API_KEY.DETAIL + keyword], () =>
+			productAxios.getProductChartData(keyword, start, end),
+		)
+		return { data }
 	},
 }
 

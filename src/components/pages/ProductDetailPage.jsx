@@ -6,10 +6,8 @@ import ProductDetailTemplate from '../templates/ProductDetailTemplate/ProductDet
 const ProductDetailPage = () => {
 	const { getDetailPage } = LoadApi()
 	const productId = useParams().productId
-
-	const { data } = getDetailPage(productId)
-
-	return <ProductDetailTemplate productInfo={data.data.data} />
+	const { data } = getDetailPage(Number(productId))
+	return <ProductDetailTemplate productInfo={data.data} />
 }
 
 export default ProductDetailPage

@@ -5,7 +5,7 @@ import searchPageMock from '../datas/searchPage.mock'
 import searchUserPageMock from '../datas/searchUserPage.mock'
 
 export const searchList = rest.get(
-	API_KEY.SEARCH + '/:keyword',
+	API_KEY.API + API_KEY.PRODUCT + API_KEY.SEARCH,
 	async (req, res, ctx) => {
 		return res(ctx.status(200), ctx.json(searchPageMock))
 	},

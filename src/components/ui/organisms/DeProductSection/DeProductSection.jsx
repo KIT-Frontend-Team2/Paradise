@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
+import useOneRequest from '../../../../hooks/common/useOneRequest'
 import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
@@ -27,12 +28,9 @@ const DeProductSection = ({
 }) => {
 	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
+	const { mutateAsync } = useProductService.usePostWishAdd(id)
 
-	const { mutate: wishMutate } = useProductService.usePostWishAdd(id)
-
-	const onClick = () => {
-		wishMutate([isLikeState, setIsLikeState])
-	}
+	const onClick = useOneRequest(mutateAsync, setIsLikeState)
 
 	return (
 		<>
@@ -44,8 +42,10 @@ const DeProductSection = ({
 			/>
 			<S.ProductFlexBox size={containerWidth}>
 				<S.ProductPrice>
-					<S.ProductPriceNumber>{price.toLocaleString()}</S.ProductPriceNumber>
-					{'원'}
+					<S.ProductPriceNumber>
+						<div>{price.toLocaleString()}</div>
+						<div>{' 원'}</div>
+					</S.ProductPriceNumber>
 				</S.ProductPrice>
 				{state === '판매중' ? (
 					<S.ProductButtons>
@@ -89,6 +89,7 @@ S.ProductFlexBox = styled.div`
 	display: ${({ size }) => (size < 400 ? 'block' : 'flex')};
 	justify-content: space-between;
 	margin-bottom: 10px;
+	align-items: flex-end;
 `
 
 S.ProductPrice = styled.div`
@@ -96,8 +97,16 @@ S.ProductPrice = styled.div`
 	font-weight: bold;
 `
 
-S.ProductPriceNumber = styled.span`
+S.ProductPriceNumber = styled.div`
+	line-height: 35px;
 	font-size: 35px;
+	display: flex;
+
+	div {
+		max-width: 230px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 `
 
 S.ProductButtons = styled.div`
@@ -115,7 +124,7 @@ DeProductSection.propTypes = {
 	/**
 	 * 상품의 아이디를 알려주세요
 	 */
-	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+	id: PropTypes.number.isRequired,
 	/**
 	 * 상품의 제목을 입력해주세요.
 	 */
@@ -127,7 +136,7 @@ DeProductSection.propTypes = {
 	/**
 	 * 상품을 좋아요 한 사람의 수를 알려주세요
 	 */
-	like: PropTypes.number.isRequired,
+	like: PropTypes.number,
 	/**
 	 * 해당 상품을 좋아요 했는지 안했는지 알려주세요
 	 */
@@ -139,7 +148,7 @@ DeProductSection.propTypes = {
 	/**
 	 * 해당 상품 채팅 채널의 열린 채팅방 수를 알려주세요
 	 */
-	chatCount: PropTypes.number.isRequired,
+	chatCount: PropTypes.number,
 	/**
 	 * 해당 상품의 가격을 알려주세요
 	 */

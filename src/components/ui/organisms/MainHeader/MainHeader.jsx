@@ -12,8 +12,9 @@ import HeaderScroll from './HeaderScroll'
 import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
-	const { linkMainPage, linkShareList, linkMyPage } = useMove()
-	const { isMobile, isMobileAndTablet } = useDevice()
+	const { linkSellList, linkShareList, linkMyPage } = useMove()
+
+	const { isMobile } = useDevice()
 
 	return (
 		<>
@@ -22,7 +23,6 @@ const MainHeader = props => {
 			) : (
 				<>
 					<HeaderScroll />
-
 					<Box
 						sx={{
 							position: 'relative',
@@ -37,11 +37,10 @@ const MainHeader = props => {
 							justifyContent: 'center',
 							alignItems: 'center',
 							margin: 'auto',
-							zIndex: 30,
+							zIndex: 100,
 						}}
 					>
 						<HeaderSearch />
-
 						<S.Container>
 							<Box
 								sx={{
@@ -56,7 +55,7 @@ const MainHeader = props => {
 								<HeaderCategory />
 							</Box>
 							<Box
-								onClick={linkMainPage}
+								onClick={linkSellList}
 								sx={{
 									width: '100%',
 									display: 'flex',
@@ -69,7 +68,7 @@ const MainHeader = props => {
 									},
 								}}
 							>
-								<span>메인페이지</span>
+								<span>판매상품</span>
 							</Box>
 							<Box
 								onClick={linkShareList}
@@ -85,7 +84,7 @@ const MainHeader = props => {
 									},
 								}}
 							>
-								<span>무료나눔</span>
+								<span>중고상품</span>
 							</Box>
 							<Box
 								onClick={linkMyPage}
@@ -103,7 +102,6 @@ const MainHeader = props => {
 							>
 								<span>마이페이지</span>
 							</Box>
-
 							<S.ParadiseSection>
 								<span>파라다이스</span> 서비스 소개
 							</S.ParadiseSection>
@@ -118,30 +116,28 @@ const MainHeader = props => {
 
 export default MainHeader
 
-const Container = styled.div`
+const S = {}
+
+S.Container = styled.div`
 	width: 100%;
 	position: relative;
-	${flexCenter}
+	${flexCenter};
 	margin-top: 20px;
 	span {
 		cursor: pointer;
 	}
 `
 
-const ParadiseSection = styled.div`
+S.ParadiseSection = styled.div`
 	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 10px 0;
-	font-size: ${({ isMobileAndTablet }) =>
-		isMobileAndTablet ? '14px' : '16px'};
+	font-size: 16px;
 	border: 1px solid #999;
 	border-radius: 20px;
 	color: #999;
-	margin-left: ${({ isMobileAndTablet }) => (isMobileAndTablet ? '10px' : '0')};
-	margin-right: ${({ isMobileAndTablet }) =>
-		isMobileAndTablet ? '10px' : '0'};
 
 	cursor: pointer;
 	span {
@@ -150,8 +146,3 @@ const ParadiseSection = styled.div`
 		margin-right: 5px;
 	}
 `
-
-const S = {
-	Container,
-	ParadiseSection,
-}

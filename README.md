@@ -10,6 +10,13 @@
 <img src="https://github.com/KIT-Frontend-Team2/Paradise_/assets/115636461/a09ca487-07fc-46ee-82f5-2731c35f391b" />
 
 <br/>
+
+## 🏝️배포주소
+
+  
+```
+https://paradiseum.netlify.app/
+```
   
 ## 🌈프로젝트를 시작하는 방법
 

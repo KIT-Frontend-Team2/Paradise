@@ -8,14 +8,31 @@ const ProductListPage = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { getListPage } = LoadApi()
-	const { data } = getListPage(filter, page)
+	const category = filter === 'sell' ? 0 : 1
+	const { data } = getListPage(category, page, '판매중')
+	const { product, pagination } = data.data
+
+	let title = ''
+
+	switch (filter) {
+		case 'sell':
+			title = '판매 상품'
+			break
+		case 'free':
+			title = '나눔 상품'
+			break
+		case 'all':
+			title = '상품 목록'
+			break
+		default:
+			throw new Error('옳지 않은 접근입니다.')
+	}
 
 	return (
 		<ProductListTemplate
-			page={page}
-			total={data.data.total}
-			filter={filter}
-			products={data.data.data}
+			pagination={pagination}
+			products={product}
+			title={title}
 		/>
 	)
 }

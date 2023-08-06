@@ -15,30 +15,10 @@ export const Controls = Template.bind({})
 
 Controls.args = {
 	itemData: [
-		{
-			id: '1',
-			img_url:
-				'https://media.bunjang.co.kr/product/215187391_1_1676610122_w856.jpg',
-		},
-		{
-			id: '2',
-			img_url:
-				'https://media.bunjang.co.kr/product/215187391_2_1676610122_w856.jpg',
-		},
-		{
-			id: '3',
-			img_url:
-				'https://media.bunjang.co.kr/product/215187391_3_1676610122_w856.jpg',
-		},
-		{
-			id: '4',
-			img_url:
-				'https://media.bunjang.co.kr/product/215187391_4_1676610122_w856.jpg',
-		},
-		{
-			id: '5',
-			img_url:
-				'https://media.bunjang.co.kr/product/215187391_5_1676610122_w856.jpg',
-		},
+		'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065020_32900714436_d3d6519433_b.jpg',
+		'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065031_1652337370806_0.jpg',
+		'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065046_AdobeStock_480677190-1024x684%20-%20%C3%AB%C2%B3%C2%B5%C3%AC%C2%82%C2%AC%C3%AB%C2%B3%C2%B8.jpeg',
+		'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065051_Cute_Kitten_Eyes-Animal_HD_Wallpaper_2560x1600.jpg',
+		'https://dangimageserver.s3.ap-northeast-2.amazonaws.com/img/user/products/1690935065103_ezgif.com-gif-maker-4.gif',
 	],
 }

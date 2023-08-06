@@ -6,11 +6,14 @@ const ProductUpdatePage = () => {
 	const { getDetailPage } = LoadApi()
 	const productId = useParams().productId
 
-	const { data } = getDetailPage(productId)
+	const { data } = getDetailPage(Number(productId))
 
 	return (
 		<>
-			<ProductForm detail={data.data.data} />
+			<ProductForm
+				isSeller={data.data.isSeller}
+				detail={data.data.searchProduct}
+			/>
 		</>
 	)
 }

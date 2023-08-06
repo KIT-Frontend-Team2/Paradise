@@ -52,12 +52,16 @@ export default MyMenu
 const S = {}
 
 S.MyMenu = styled.div`
-	width: 174px;
+	width: ${({ theme }) => (theme.isDesktop ? '174px' : '100%')};
 
 	ul {
 		margin: 0;
 		padding: 0;
 		border: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		flex: 1;
 	}
 
 	li {
@@ -65,9 +69,13 @@ S.MyMenu = styled.div`
 		list-style: none;
 		height: 50px;
 		line-height: 50px;
-		padding: 0 20px;
+		padding: 0 ${({ theme }) => (theme.isDesktop ? '20px' : '7px')};
 		border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
-
+		text-align: ${({ theme }) => (theme.isDesktop ? 'left' : 'center')};
+		flex: 1;
+		white-space: normal;
+		overflow: hidden;
+		font-size: ${({ theme }) => (theme.isDesktop ? '16px' : '12px')};
 		&:first-child {
 			border-top: 0;
 		}
@@ -91,4 +99,5 @@ S.MyTitle = styled.div`
 	margin-bottom: 30px;
 	font-size: 28px;
 	font-weight: ${({ theme }) => theme.FONT_SIZE.medium};
+	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `

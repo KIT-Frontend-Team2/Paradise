@@ -5,16 +5,12 @@ import { useQuery } from 'react-query'
 import { queryConfig } from './@config'
 
 const LoadUserApi = () => {
-	const { getMyPage } = userService()
-
 	const getMyPageHeader = () => {
-		const { data, isLoading, isError } = useQuery(
-			[API_KEY.MYPAGE],
-			() => getMyPage(),
-			{ ...queryConfig },
-		)
+		const { data } = useQuery([API_KEY.MYPAGE], () => userService.getMypage(), {
+			...queryConfig,
+		})
 
-		return { data, isLoading, isError }
+		return { data }
 	}
 
 	return { getMyPageHeader }
