@@ -1,6 +1,6 @@
 import registerIcon from 'assets/images/ico-image-register.png'
 import deleteIcon from 'assets/images/ico-preview-del.png'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { styled } from 'styled-components'
 
@@ -9,6 +9,10 @@ const DeFormImagePreviewGroup = forwardRef(
 		{
 			register,
 			handleImageChange,
+			mainImage,
+			setMainImage,
+			subImageList,
+			setSubImageList,
 			imagePreviews,
 			setImagePreviews,
 			imageFileList,
@@ -16,6 +20,8 @@ const DeFormImagePreviewGroup = forwardRef(
 		},
 		ref,
 	) => {
+		const [isHighlight, setIsHighlight] = useState(false)
+
 		const onDragEnd = ({ source, destination }) => {
 			if (!destination) return
 			const _imagePreviews = [...imagePreviews]
@@ -41,6 +47,51 @@ const DeFormImagePreviewGroup = forwardRef(
 			setImageFileList(_imageFileList)
 		}
 
+		const onDeleteSubImage = deleteIndex => {
+			const _subImageList = subImageList.filter((_, index) => {
+				return index != deleteIndex
+			})
+			setSubImageList(_subImageList)
+		}
+
+		const onDeleteMainImage = () => {
+			if (subImageList.length > 0) {
+				setMainImage(subImageList[0])
+				const _subImageList = [...subImageList]
+				_subImageList.shift()
+				setSubImageList(_subImageList)
+			} else {
+				setMainImage(undefined)
+			}
+		}
+
+		const highlight = event => {
+			event.preventDefault()
+			event.stopPropagation()
+			setIsHighlight(true)
+		}
+
+		const unhighlight = event => {
+			event.preventDefault()
+			event.stopPropagation()
+			setIsHighlight(false)
+		}
+
+		const handleDrop = event => {
+			unhighlight(event)
+			event.preventDefault()
+			event.stopPropagation()
+			let dt = event.dataTransfer
+			let files = dt.files
+			handleImageChange(files)
+		}
+
+		const alertDragDisable = () => {
+			alert(
+				'기존에 등록된 이미지는 순서 변경이 불가능합니다.\n순서 변경을 원하시면 이미지를 다시 등록해주세요.',
+			)
+		}
+
 		return (
 			<S.PreviewGroup>
 				<input
@@ -49,47 +100,87 @@ const DeFormImagePreviewGroup = forwardRef(
 					id="file"
 					accept="image/*"
 					multiple
-					onChange={handleImageChange}
+					onChange={event => handleImageChange(event.target.files)}
 				/>
-				<label htmlFor="file">
+				<label
+					htmlFor="file"
+					role="button"
+					class={isHighlight ? 'highlight' : ''}
+					onDragEnter={highlight}
+					onDragOver={highlight}
+					onDragLeave={unhighlight}
+					onDrop={handleDrop}
+				>
 					<img className="registerIcon" src={registerIcon} ref={ref} />
 				</label>
-				<DragDropContext onDragEnd={onDragEnd}>
-					<Droppable droppableId="droppable" direction="horizontal">
-						{provided => (
-							<div
-								className="previewBoxWrap"
-								ref={provided.innerRef}
-								{...provided.droppableProps}
-							>
-								{imagePreviews.map((preview, index) => (
-									<Draggable
-										className="previewBox"
-										key={`Preview-${index}`}
-										draggableId={`Preview-${index}`}
-										index={index}
-									>
-										{provided => (
-											<div
-												ref={provided.innerRef}
-												{...provided.draggableProps}
-												{...provided.dragHandleProps}
-											>
-												<img
-													src={preview.img_url}
-													alt={`Preview ${index + 1}`}
-												/>
-												<S.DeleteButton onClick={() => onDeleteImage(index)}>
-													<img src={deleteIcon} />
-												</S.DeleteButton>
-											</div>
-										)}
-									</Draggable>
-								))}
+				{mainImage && (
+					<div className="previewBoxWrap">
+						{mainImage && (
+							<div className="previewBox" onDragEnter={alertDragDisable}>
+								<img src={mainImage} alt="메인이미지" />
+								<S.DeleteButton onClick={onDeleteMainImage}>
+									<img src={deleteIcon} />
+								</S.DeleteButton>
 							</div>
 						)}
-					</Droppable>
-				</DragDropContext>
+						{subImageList.length > 0 &&
+							subImageList.map((preview, index) => (
+								<div
+									key={`img-${index}`}
+									className="previewBox"
+									onDragEnter={alertDragDisable}
+								>
+									<img src={preview} alt={`Preview ${index + 1}`} />
+									{/* <input type="hidden" {...register(`images.${index}`)} /> */}
+									<S.DeleteButton onClick={() => onDeleteSubImage(index)}>
+										<img src={deleteIcon} />
+									</S.DeleteButton>
+								</div>
+							))}
+					</div>
+				)}
+				{imagePreviews && (
+					<DragDropContext onDragEnd={onDragEnd}>
+						<Droppable droppableId="droppable" direction="horizontal">
+							{provided => (
+								<div
+									className="previewBoxWrap"
+									ref={provided.innerRef}
+									{...provided.droppableProps}
+								>
+									{imagePreviews.map((preview, index) => (
+										<Draggable
+											className="previewBox"
+											key={`Preview-${index}`}
+											draggableId={`Preview-${index}`}
+											index={index}
+										>
+											{provided => (
+												<div
+													ref={provided.innerRef}
+													{...provided.draggableProps}
+													{...provided.dragHandleProps}
+												>
+													<img
+														src={preview.img_url}
+														alt={`Preview ${index + 1}`}
+													/>
+													<input
+														type="hidden"
+														{...register(`images.${index}`)}
+													/>
+													<S.DeleteButton onClick={() => onDeleteImage(index)}>
+														<img src={deleteIcon} />
+													</S.DeleteButton>
+												</div>
+											)}
+										</Draggable>
+									))}
+								</div>
+							)}
+						</Droppable>
+					</DragDropContext>
+				)}
 			</S.PreviewGroup>
 		)
 	},
@@ -102,7 +193,7 @@ const S = {}
 S.PreviewGroup = styled.div`
 	display: flex;
 	flex-direction: ${({ theme }) =>
-		theme.isDesktop || theme.isTabletAndLaptop ? `row` : `column`};
+		theme.isDesktop || theme.isTabletAndLaptop ? 'row' : 'column'};
 	gap: 8px;
 
 	input[type='file'] {
@@ -111,10 +202,27 @@ S.PreviewGroup = styled.div`
 
 	label {
 		font-size: 0;
+		position: relative;
 
 		img {
 			width: ${({ theme }) =>
-				theme.isDesktop || theme.isTabletAndLaptop ? `148px` : `30%`};
+				theme.isDesktop || theme.isTabletAndLaptop ? '148px' : '30%'};
+		}
+
+		&.highlight:before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border: 1px solid ${({ theme }) => theme.PALETTE.white};
+			border-radius: 8px;
+		}
+
+		&.highlight:after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border: 2px dashed ${({ theme }) => theme.PALETTE.primary[100]};
+			border-radius: 8px;
 		}
 	}
 
@@ -125,7 +233,7 @@ S.PreviewGroup = styled.div`
 	.previewBoxWrap {
 		display: flex;
 		flex-wrap: ${({ theme }) =>
-			theme.isDesktop || theme.isTabletAndLaptop ? `no-wrap` : `wrap`};
+			theme.isDesktop || theme.isTabletAndLaptop ? 'no-wrap' : 'wrap'};
 
 		& > div {
 			position: relative;
@@ -134,6 +242,10 @@ S.PreviewGroup = styled.div`
 			margin-right: 8px;
 			border-radius: 10px;
 			box-sizing: border-box;
+
+			&.previewBox:last-child {
+				margin-right: 0;
+			}
 
 			&:first-child:before {
 				content: '대표';
@@ -155,6 +267,14 @@ S.PreviewGroup = styled.div`
 				height: 100%;
 				object-fit: cover;
 				border-radius: 10px;
+			}
+		}
+	}
+
+	.previewBoxWrap + .previewBoxWrap {
+		& > div {
+			&:first-child:before {
+				display: none;
 			}
 		}
 	}
