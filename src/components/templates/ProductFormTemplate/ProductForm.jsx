@@ -12,6 +12,7 @@ import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
 
 import * as S from './style'
 import * as V from './validator'
@@ -29,6 +30,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		region,
 	} = detail || {
 		category: 0,
+		price: 0,
 		images: [],
 		ProductsTags: [],
 		ProductImages: [],
@@ -68,25 +70,9 @@ const ProductForm = ({ isSeller, detail }) => {
 
 	const isDesk = isDesktop || isTabletAndLaptop || isTablet
 
-	// 숫자 -> 천단위 문자로 포매팅 함수
-	const numToStr = number => {
-		if (!number) return number
-		return number.toLocaleString()
-	}
-
-	// 문자 -> 숫자
-	const strToNum = str => {
-		if (typeof str === 'number') {
-			return str
-		}
-		let num = str.replace(/\D/g, '')
-		num = Number(num)
-		return num
-	}
-
 	// 숫자를 한글로 변환
 	function geKoreanNumber(num) {
-		num = strToNum(num)
+		num = moneyToFormatNumber(num)
 		let result = ''
 		let digits = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구']
 		let units = [
@@ -144,7 +130,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		defaultValues: {
 			title: title,
 			category: category ? 1 : 0,
-			price: numToStr(price),
+			price: formatNumberToMoney(price),
 			description: description,
 			region: region,
 		},
@@ -273,7 +259,10 @@ const ProductForm = ({ isSeller, detail }) => {
 
 	// 판매 금액 입력 숫자만 제한
 	const onChangePrice = event => {
-		setValue('price', numToStr(strToNum(event.target.value)))
+		setValue(
+			'price',
+			formatNumberToMoney(moneyToFormatNumber(event.target.value)),
+		)
 		trigger('price')
 		geKoreanNumber(event.target.value)
 	}
@@ -293,7 +282,7 @@ const ProductForm = ({ isSeller, detail }) => {
 
 		// 판매가격 숫자 변환
 		if (data.price) {
-			data.price = strToNum(data.price)
+			data.price = moneyToFormatNumber(data.price)
 			if (data.price >= MAX_PRICE) {
 				setError('price', {
 					message: '일억원 이상 등록하실 수 없습니다.',
