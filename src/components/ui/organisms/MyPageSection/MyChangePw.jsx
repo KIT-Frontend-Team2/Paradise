@@ -23,7 +23,6 @@ const MyChangePw = () => {
 	const { mutate } = useMypageApi.useChangePw(pw)
 
 	const onSubmit = data => {
-		console.log(data)
 		mutate()
 	}
 

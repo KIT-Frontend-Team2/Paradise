@@ -23,8 +23,6 @@ const SellMenuBar = ({ prod_idx }) => {
 
 		if (confirmDelete) {
 			mutate(prod_idx)
-		} else {
-			alert('물품 삭제를 취소하셨습니다.')
 		}
 	}
 

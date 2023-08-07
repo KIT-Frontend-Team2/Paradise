@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import MyChangePw from './MyChangePw'
+import useUserAPi from 'hooks/service/user.service'
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
@@ -29,14 +30,13 @@ const MyPageInfo = () => {
 
 	const nickname = watch('nickname')
 	const { mutate } = useMypageApi.useChagneInfo()
-	const { mutate: checkmutate } = useMypageApi.useCheckNicName(nickname)
+	const { mutateAsync: checkmutate } = useUserAPi.checkNickName(nickname)
 
 	const onSubmit = data => {
-		console.log(data)
 		const UserInfo = {
-			region: watch('address'),
-			nickName: watch('nickname'),
-			phone: watch('phone'),
+			region: data.address,
+			nickName: data.nickname,
+			phone: data.phone
 		}
 		mutate(UserInfo)
 		reset()
@@ -77,8 +77,6 @@ const MyPageInfo = () => {
 								readOnly={true}
 								name="email"
 								placeholder={'이메일을 입력해주세요'}
-								{...register('email')}
-								error={errors.email?.message}
 							/>
 						</InputGroup>
 					</S.CheckContent>

@@ -19,26 +19,11 @@ const useMypageApi = {
 		const { mutate } = useMutation(() => userService.changeUserPassword(pw), {
 			onSuccess: () => {
 				alert('비빌번호 변경에 성공하셨습니다.')
-			},
-			onError: () => {
-				alert('비밀번호 변경에 실패하셨습니다.')
-			},
+			}
 		})
 		return { mutate }
 	},
 
-	//닉네임 체크
-	useCheckNicName: nickname => {
-		const { mutate } = useMutation(() => userService.checkNickName(nickname), {
-			onSuccess: () => {
-				alert('사용 가능한 닉네임입니다')
-			},
-			onError: () => {
-				alert('이미 사용중인 닉네임입니다')
-			},
-		})
-		return { mutate }
-	},
 
 	// 회원정보 수정
 
@@ -49,10 +34,7 @@ const useMypageApi = {
 				onSuccess: () => {
 					alert('회원정보가 수정되었습니다.')
 					queryClient.invalidateQueries([API_KEY.MYPAGE])
-				},
-				onError: () => {
-					alert('회원정보 수정에 실패하셨습니다.')
-				},
+				}
 			},
 		)
 		return { mutate }
@@ -65,10 +47,7 @@ const useMypageApi = {
 			{
 				onSuccess: () => {
 					alert('프로필 사진이 변경되었습니다')
-				},
-				onError: () => {
-					alert('프로필 변경에 실패하셨습니다.')
-				},
+				}
 			},
 		)
 		return { mutate }

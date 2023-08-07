@@ -6,17 +6,17 @@ import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import Calendar from 'utils/calendar'
+import { dateFomatter } from 'utils/formatter'
 
 const MyCashTemplate = () => {
 	const nowDate = new Date()
-	const startDate = new Date(nowDate.getFullYear(), nowDate.getMonth(), 1 + 1)
-	const endDate = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
-	const NewstartDate = startDate.toISOString().split('T')[0]
-	const NEwendDate = endDate.toISOString().split('T')[0]
+	const startDate = dateFomatter(new Date(nowDate.getFullYear(), nowDate.getMonth(), 1 ))
+	const endDate = dateFomatter(new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0))
+
 
 	const [catagory, setCatagory] = useState('seller')
-	const [start, setStartDate] = useState(NewstartDate)
-	const [end, setEndDate] = useState(NEwendDate)
+	const [start, setStartDate] = useState(startDate)
+	const [end, setEndDate] = useState(endDate)
 	const [curPage, setCurPage] = useState(1)
 	const { data } = useMypageApi.useAccountPage(curPage, catagory, start, end)
 	const { page_size, count } = data.data.pagination

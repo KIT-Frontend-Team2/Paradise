@@ -15,7 +15,6 @@ const MyProfileTemplate = () => {
 
 	const handleImageChange = e => {
 		const file = e.target.files[0]
-		console.log(file)
 		if (file) {
 			setImage(file)
 			inputRef.current.value = ''
@@ -28,7 +27,6 @@ const MyProfileTemplate = () => {
 		e.preventDefault()
 		const formData = new FormData()
 		formData.append('image', image)
-		console.log(formData.get('image'))
 		mutate(formData)
 	}
 
