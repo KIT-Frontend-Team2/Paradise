@@ -8,6 +8,7 @@ import DeSectionTitle from '../../molecules/DeSectionTitle/DeSectionTitle'
 
 const DeProductCategoryTag = ({ category }) => {
 	const { linkSearchProduct } = useMove()
+	console.log(category)
 	return (
 		<>
 			<DeSectionTitle title={'태그'} />
