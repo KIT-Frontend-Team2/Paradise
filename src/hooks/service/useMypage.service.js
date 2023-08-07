@@ -19,11 +19,10 @@ const useMypageApi = {
 		const { mutate } = useMutation(() => userService.changeUserPassword(pw), {
 			onSuccess: () => {
 				alert('비빌번호 변경에 성공하셨습니다.')
-			}
+			},
 		})
 		return { mutate }
 	},
-
 
 	// 회원정보 수정
 
@@ -34,7 +33,7 @@ const useMypageApi = {
 				onSuccess: () => {
 					alert('회원정보가 수정되었습니다.')
 					queryClient.invalidateQueries([API_KEY.MYPAGE])
-				}
+				},
 			},
 		)
 		return { mutate }
@@ -47,7 +46,7 @@ const useMypageApi = {
 			{
 				onSuccess: () => {
 					alert('프로필 사진이 변경되었습니다')
-				}
+				},
 			},
 		)
 		return { mutate }

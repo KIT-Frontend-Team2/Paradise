@@ -10,9 +10,12 @@ import { dateFomatter } from 'utils/formatter'
 
 const MyCashTemplate = () => {
 	const nowDate = new Date()
-	const startDate = dateFomatter(new Date(nowDate.getFullYear(), nowDate.getMonth(), 1 ))
-	const endDate = dateFomatter(new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0))
-
+	const startDate = dateFomatter(
+		new Date(nowDate.getFullYear(), nowDate.getMonth(), 1),
+	)
+	const endDate = dateFomatter(
+		new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0),
+	)
 
 	const [catagory, setCatagory] = useState('seller')
 	const [start, setStartDate] = useState(startDate)

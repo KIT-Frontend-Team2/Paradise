@@ -5,13 +5,13 @@ import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
 import useMypageApi from 'hooks/service/useMypage.service'
+import useUserAPi from 'hooks/service/user.service'
 import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
 
 import MyChangePw from './MyChangePw'
-import useUserAPi from 'hooks/service/user.service'
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
@@ -36,7 +36,7 @@ const MyPageInfo = () => {
 		const UserInfo = {
 			region: data.address,
 			nickName: data.nickname,
-			phone: data.phone
+			phone: data.phone,
 		}
 		mutate(UserInfo)
 		reset()
