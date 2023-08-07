@@ -3,28 +3,28 @@ import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const DeImgSection = ({ itemData, containerWidth }) => {
+const DeImgSection = ({ Images, containerWidth }) => {
 	const [useTitleImg, setUseTitleImg] = useState(null)
 	useEffect(() => {
-		setUseTitleImg(itemData[0])
-	}, [itemData])
+		setUseTitleImg(Images[0])
+	}, [Images])
 	return (
 		<S.LeftSection>
 			<S.ImgBoxSticky>
 				<S.TitleImg size={containerWidth} image={useTitleImg || defaultImg} />
 				<ImageList
 					sx={{ width: containerWidth }}
-					cols={itemData.length}
-					rowHeight={Math.floor(containerWidth / itemData.length - 10)}
+					cols={Images.length}
+					rowHeight={Math.floor(containerWidth / Images.length - 10)}
 				>
-					{itemData.length !== 1 &&
+					{Images.length !== 1 &&
 						itemData.map(item => (
 							<ImageListItem
 								key={item}
 								sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 							>
 								<S.ImgBox
-									size={containerWidth / itemData.length - 10}
+									size={containerWidth / Images.length - 10}
 									onClick={() => setUseTitleImg(item)}
 								>
 									<img src={item} alt={item} />

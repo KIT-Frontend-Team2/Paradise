@@ -24,7 +24,6 @@ const DeProductSection = ({
 	state,
 	isBuyer,
 	productInfo,
-	containerWidth,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
@@ -40,7 +39,7 @@ const DeProductSection = ({
 				like={like}
 				chatCount={chatCount}
 			/>
-			<S.ProductFlexBox size={containerWidth}>
+			<S.ProductFlexBox>
 				<S.ProductPrice>
 					<S.ProductPriceNumber>
 						<div>{price.toLocaleString()}</div>
@@ -86,10 +85,11 @@ export default DeProductSection
 const S = {}
 
 S.ProductFlexBox = styled.div`
-	display: ${({ size }) => (size < 400 ? 'block' : 'flex')};
+	display: flex;
 	justify-content: space-between;
 	margin-bottom: 10px;
 	align-items: flex-end;
+	flex-wrap: wrap;
 `
 
 S.ProductPrice = styled.div`

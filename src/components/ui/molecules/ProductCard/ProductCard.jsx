@@ -30,7 +30,6 @@ const ProductCard = ({
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 
 	const onClick = useOneRequest(mutateAsync, setLikeState)
-
 	return (
 		<S.Card size={size}>
 			<S.ImgBox>
@@ -138,6 +137,7 @@ ProductCard.propTypes = {
 const S = {}
 
 S.LikeBox = styled.div`
+	z-index: 3;
 	top: 5px;
 	right: 5px;
 	position: absolute;
@@ -145,7 +145,6 @@ S.LikeBox = styled.div`
 
 	:hover {
 		transform: scale(1.05);
-		transition: transform 0.5s;
 	}
 `
 
@@ -161,9 +160,14 @@ S.ImgBox = styled.div`
 	margin-bottom: 9px;
 
 	img {
+		position: relative;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		transition: 1s;
+		&:hover {
+			transform: scale(1.05);
+		}
 	}
 `
 
