@@ -1,7 +1,7 @@
 import registerIcon from 'assets/images/ico-image-register.png'
 import deleteIcon from 'assets/images/ico-preview-del.png'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { styled } from 'styled-components'
 
@@ -22,6 +22,8 @@ const DeFormImagePreviewGroup = forwardRef(
 		ref,
 	) => {
 		const [isHighlight, setIsHighlight] = useState(false)
+		const [isModalOpen, setIsModalOpen] = useState(false)
+
 		const { isDesktop, isTabletAndLaptop } = useDevice()
 
 		const isDesk = isDesktop || isTabletAndLaptop
@@ -91,13 +93,27 @@ const DeFormImagePreviewGroup = forwardRef(
 		}
 
 		const alertDragDisable = () => {
-			alert(
-				'기존에 등록된 이미지는 순서 변경이 불가능합니다.\n순서 변경을 원하시면 이미지를 다시 등록해주세요.',
-			)
+			setIsModalOpen(true)
 		}
+
+		// 토스트 메세지 1.5초뒤 닫힘
+		useEffect(() => {
+			const timer = setTimeout(() => {
+				setIsModalOpen(false)
+			}, 1500)
+			return () => {
+				clearTimeout(timer)
+			}
+		}, [isModalOpen])
 
 		return (
 			<S.PreviewGroup>
+				<S.ToastMessageWrap isModalOpen={isModalOpen}>
+					<S.ToastMessage>
+						기존에 등록된 이미지는 순서 변경이 불가능합니다. <br />
+						순서 변경을 원하시면 이미지를 다시 등록해주세요.
+					</S.ToastMessage>
+				</S.ToastMessageWrap>
 				<input
 					type="file"
 					name="file"
@@ -119,7 +135,7 @@ const DeFormImagePreviewGroup = forwardRef(
 				</label>
 				{mainImage && (
 					<>
-						{!isDesk && <p>기존 이미지</p>}
+						{!isDesk && <p>기존 이미지 (순서 변경 불가)</p>}
 						<div className="previewBoxWrap">
 							{mainImage && (
 								<div className="previewBox" onDragEnter={alertDragDisable}>
@@ -151,7 +167,7 @@ const DeFormImagePreviewGroup = forwardRef(
 						<Droppable droppableId="droppable" direction="horizontal">
 							{provided => (
 								<>
-									{!isDesk && <p>신규 이미지</p>}
+									{!isDesk && <p>신규 등록 이미지</p>}
 									<div
 										className="previewBoxWrap"
 										ref={provided.innerRef}
@@ -318,4 +334,28 @@ S.DeleteButton = styled.div`
 		width: 30px;
 		height: 30px;
 	}
+`
+
+S.ToastMessageWrap = styled.div`
+	display: ${({ isModalOpen }) => (isModalOpen ? 'flex' : 'none')};
+	position: absolute;
+	top: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '-30px' : '10em'};
+	left: 0;
+	right: 0;
+	z-index: 11;
+	align-items: center;
+	justify-content: center;
+`
+
+S.ToastMessage = styled.div`
+	display: inline-block;
+	padding: 20px;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 10px;
+	color: ${({ theme }) => theme.PALETTE.white};
+	font-size: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop
+			? theme.FONT_SIZE.medium
+			: theme.FONT_SIZE.small};
 `
