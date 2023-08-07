@@ -1,5 +1,6 @@
 import registerIcon from 'assets/images/ico-image-register.png'
 import deleteIcon from 'assets/images/ico-preview-del.png'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { forwardRef, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { styled } from 'styled-components'
@@ -21,6 +22,9 @@ const DeFormImagePreviewGroup = forwardRef(
 		ref,
 	) => {
 		const [isHighlight, setIsHighlight] = useState(false)
+		const { isDesktop, isTabletAndLaptop } = useDevice()
+
+		const isDesk = isDesktop || isTabletAndLaptop
 
 		const onDragEnd = ({ source, destination }) => {
 			if (!destination) return
@@ -105,7 +109,7 @@ const DeFormImagePreviewGroup = forwardRef(
 				<label
 					htmlFor="file"
 					role="button"
-					class={isHighlight ? 'highlight' : ''}
+					className={isHighlight ? 'highlight' : ''}
 					onDragEnter={highlight}
 					onDragOver={highlight}
 					onDragLeave={unhighlight}
@@ -114,69 +118,77 @@ const DeFormImagePreviewGroup = forwardRef(
 					<img className="registerIcon" src={registerIcon} ref={ref} />
 				</label>
 				{mainImage && (
-					<div className="previewBoxWrap">
-						{mainImage && (
-							<div className="previewBox" onDragEnter={alertDragDisable}>
-								<img src={mainImage} alt="메인이미지" />
-								<S.DeleteButton onClick={onDeleteMainImage}>
-									<img src={deleteIcon} />
-								</S.DeleteButton>
-							</div>
-						)}
-						{subImageList.length > 0 &&
-							subImageList.map((preview, index) => (
-								<div
-									key={`img-${index}`}
-									className="previewBox"
-									onDragEnter={alertDragDisable}
-								>
-									<img src={preview} alt={`Preview ${index + 1}`} />
-									{/* <input type="hidden" {...register(`images.${index}`)} /> */}
-									<S.DeleteButton onClick={() => onDeleteSubImage(index)}>
+					<>
+						{!isDesk && <p>기존 이미지</p>}
+						<div className="previewBoxWrap">
+							{mainImage && (
+								<div className="previewBox" onDragEnter={alertDragDisable}>
+									<img src={mainImage} alt="메인이미지" />
+									<S.DeleteButton onClick={onDeleteMainImage}>
 										<img src={deleteIcon} />
 									</S.DeleteButton>
 								</div>
-							))}
-					</div>
+							)}
+							{subImageList.length > 0 &&
+								subImageList.map((preview, index) => (
+									<div
+										key={`img-${index}`}
+										className="previewBox"
+										onDragEnter={alertDragDisable}
+									>
+										<img src={preview} alt={`Preview ${index + 1}`} />
+										{/* <input type="hidden" {...register(`images.${index}`)} /> */}
+										<S.DeleteButton onClick={() => onDeleteSubImage(index)}>
+											<img src={deleteIcon} />
+										</S.DeleteButton>
+									</div>
+								))}
+						</div>
+					</>
 				)}
-				{imagePreviews && (
+				{imagePreviews.length > 0 && (
 					<DragDropContext onDragEnd={onDragEnd}>
 						<Droppable droppableId="droppable" direction="horizontal">
 							{provided => (
-								<div
-									className="previewBoxWrap"
-									ref={provided.innerRef}
-									{...provided.droppableProps}
-								>
-									{imagePreviews.map((preview, index) => (
-										<Draggable
-											className="previewBox"
-											key={`Preview-${index}`}
-											draggableId={`Preview-${index}`}
-											index={index}
-										>
-											{provided => (
-												<div
-													ref={provided.innerRef}
-													{...provided.draggableProps}
-													{...provided.dragHandleProps}
-												>
-													<img
-														src={preview.img_url}
-														alt={`Preview ${index + 1}`}
-													/>
-													<input
-														type="hidden"
-														{...register(`images.${index}`)}
-													/>
-													<S.DeleteButton onClick={() => onDeleteImage(index)}>
-														<img src={deleteIcon} />
-													</S.DeleteButton>
-												</div>
-											)}
-										</Draggable>
-									))}
-								</div>
+								<>
+									{!isDesk && <p>신규 이미지</p>}
+									<div
+										className="previewBoxWrap"
+										ref={provided.innerRef}
+										{...provided.droppableProps}
+									>
+										{imagePreviews.map((preview, index) => (
+											<Draggable
+												className="previewBox"
+												key={`Preview-${index}`}
+												draggableId={`Preview-${index}`}
+												index={index}
+											>
+												{provided => (
+													<div
+														ref={provided.innerRef}
+														{...provided.draggableProps}
+														{...provided.dragHandleProps}
+													>
+														<img
+															src={preview.img_url}
+															alt={`Preview ${index + 1}`}
+														/>
+														<input
+															type="hidden"
+															{...register(`images.${index}`)}
+														/>
+														<S.DeleteButton
+															onClick={() => onDeleteImage(index)}
+														>
+															<img src={deleteIcon} />
+														</S.DeleteButton>
+													</div>
+												)}
+											</Draggable>
+										))}
+									</div>
+								</>
 							)}
 						</Droppable>
 					</DragDropContext>
@@ -206,7 +218,11 @@ S.PreviewGroup = styled.div`
 
 		img {
 			width: ${({ theme }) =>
-				theme.isDesktop || theme.isTabletAndLaptop ? '148px' : '30%'};
+				theme.isDesktop
+					? '148px'
+					: `
+					${theme.isTabletAndLaptop ? '130px' : '30%'}
+				`};
 		}
 
 		&.highlight:before {
@@ -230,6 +246,12 @@ S.PreviewGroup = styled.div`
 		cursor: pointer;
 	}
 
+	p {
+		margin: 8px 0 2px;
+		font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
+		color: ${({ theme }) => theme.PALETTE.gray[900]};
+	}
+
 	.previewBoxWrap {
 		display: flex;
 		flex-wrap: ${({ theme }) =>
@@ -237,9 +259,16 @@ S.PreviewGroup = styled.div`
 
 		& > div {
 			position: relative;
-			min-width: 148px;
+			min-width: ${({ theme }) =>
+				theme.isDesktop
+					? '148px'
+					: `
+					${theme.isTabletAndLaptop ? '130px' : '30%'}
+				`};
 			aspect-ratio: 1 / 1;
 			margin-right: 8px;
+			margin-bottom: ${({ theme }) =>
+				theme.isDesktop || theme.isTabletAndLaptop ? '0' : '8px'};
 			border-radius: 10px;
 			box-sizing: border-box;
 
@@ -271,7 +300,7 @@ S.PreviewGroup = styled.div`
 		}
 	}
 
-	.previewBoxWrap + .previewBoxWrap {
+	.previewBoxWrap ~ .previewBoxWrap {
 		& > div {
 			&:first-child:before {
 				display: none;
