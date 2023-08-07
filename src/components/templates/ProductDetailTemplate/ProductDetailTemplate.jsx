@@ -94,7 +94,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		<Container>
 			<S.FlexBox desktop={isDesk.toString()}>
 				{isDesk ? (
-					<DeImgSection containerWidth={containerWidth} itemData={img_array} />
+					<DeImgSection containerWidth={containerWidth} Images={img_array} />
 				) : (
 					<SSlideBanner Images={img_array} loop={true} />
 				)}
@@ -113,7 +113,6 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						title={title}
 						state={status}
 						productInfo={description}
-						containerWidth={containerWidth - 30}
 					/>
 					<DeProductCategoryTag category={ProductsTags} />
 					<DeProductMapSection rightTitle={region} />

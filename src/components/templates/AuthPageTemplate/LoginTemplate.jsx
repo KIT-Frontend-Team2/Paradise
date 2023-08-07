@@ -5,9 +5,11 @@ import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useSetRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
+import { isLoggedInAtom } from '../../../atom/header/atom'
 import useUserAPi from '../../../hooks/service/user.service'
 import useMove from '../../../hooks/useMovePage'
 import { Validation2 } from './validation'
@@ -18,7 +20,6 @@ const Login = ({ setState }) => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm({
 		mode: 'onchange',
@@ -26,15 +27,18 @@ const Login = ({ setState }) => {
 	})
 
 	const { mutateAsync } = useUserAPi.login()
-
-	const onSubmit = async () => {
+	const setLogin = useSetRecoilState(isLoggedInAtom)
+	const onSubmit = async e => {
 		try {
+			const { email, pw, check } = e
 			if (request) return
 			setRequest(true)
 			await mutateAsync({
-				email: watch('email'),
-				pw: watch('password'),
+				email,
+				pw,
+				check,
 			})
+			setLogin(true)
 			linkMainPage()
 		} catch (err) {
 			alert(
@@ -66,18 +70,18 @@ const Login = ({ setState }) => {
 						<InputGroup>
 							<Input
 								type={'password'}
-								name="password"
+								name="pw"
 								placeholder={'비밀번호를 입력해주세요'}
-								{...register('password')}
-								error={errors.password?.message}
+								{...register('pw')}
+								error={errors.pw?.message}
 							/>
 						</InputGroup>
 					</S.Content>
 					<S.Checkradio>
-						{/*<input type="checkbox" />*/}
-						{/*<S.FromLabel>*/}
-						{/*	<label className="checklabel">아이디 기억하기</label>*/}
-						{/*</S.FromLabel>*/}
+						<input type="checkbox" {...register('check')} name={'check'} />
+						<S.FromLabel>
+							<label className="checklabel">아이디 기억하기</label>
+						</S.FromLabel>
 					</S.Checkradio>
 					<S.Button type="submit" label={'로그인'} size={'full'} />
 					<S.SignUp
