@@ -5,10 +5,12 @@ import styled from 'styled-components'
 
 const HeaderChatAlarm = () => {
 	const [showChatModal, setShowChatModal] = useState(true)
+	const [newMessage, setNewMessage] = useState(null)
 	const { isTablet } = useDevice()
 	const handleChatModalClose = () => {
 		setShowChatModal(false)
 	}
+
 	return (
 		<>
 			{showChatModal && (

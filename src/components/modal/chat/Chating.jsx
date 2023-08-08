@@ -1,5 +1,6 @@
 import useChatApi from 'hooks/service/useChat.service'
 import { useEffect, useRef, useState } from 'react'
+import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
 
 import ChatInput from './ChatInput'
@@ -14,11 +15,24 @@ const Chating = ({
 	productImage,
 	productPrice,
 	isRead,
+	isSeller,
+	selectedChat,
+	admin,
 }) => {
 	const { data, isLoading } = useChatApi.useGetChatLog(id)
-	console.log({ data })
 
-	const { mutate } = useChatApi.useSendChat(id)
+	const socket = useSocket()
+
+	useEffect(() => {
+		if (!socket) return
+		socket.emit('join', { room_idx: id })
+		socket.on('receiveMessage', data => {})
+
+		return () => {
+			socket.emit('leave', { room_idx: id })
+		}
+	}, [socket, id])
+
 	const messagesEndRef = useRef(null)
 	// 채팅 스크롤
 	const scrollToBottom = () => {
@@ -31,10 +45,6 @@ const Chating = ({
 			scrollToBottom()
 		}
 	}, [isLoading, data])
-
-	const handleMessageSubmit = message => {
-		mutate(message)
-	}
 
 	// 채팅창 날짜 구분선
 	const dateDividers = messages => {
@@ -91,13 +101,22 @@ const Chating = ({
 								nickName={data.User.nick_name}
 								profileUrl={data.User.profile_url}
 								isRead={isRead}
+								admin={admin}
 							/>
 						),
 					)}
 				<div ref={messagesEndRef} />
 			</S.MeesageContent>
 			<S.ChatInputContent>
-				<ChatInput onSubmit={handleMessageSubmit} />
+				<ChatInput
+					productTitle={productTitle}
+					productId={productId}
+					roomId={id}
+					nickName={selectedChat.User.nick_name}
+					isSeller={isSeller}
+					socket={socket}
+					admin={admin}
+				/>
 			</S.ChatInputContent>
 		</div>
 	)

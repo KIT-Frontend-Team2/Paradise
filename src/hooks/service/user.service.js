@@ -1,4 +1,5 @@
 import { useMutation } from 'react-query'
+import { useSocket } from 'socket/socket'
 
 import userApi from '../../apis/service/user.api'
 import { ERROR_MESSAGE } from '../../consts/api'
@@ -14,6 +15,7 @@ const useUserAPi = {
 	},
 
 	login: () => {
+		const socket = useSocket()
 		const { mutateAsync } = useMutation(
 			loginInfo => userApi.login(loginInfo.email, loginInfo.pw),
 			{
@@ -21,6 +23,8 @@ const useUserAPi = {
 				onSuccess: data => {
 					UserRepository.setUser(JSON.stringify(data.data.user))
 					TokenRepository.setToken(data.data.tokenForHeader)
+					socket.emit('connect-user', { token: TokenRepository.getToken() })
+					console.log(socket.id)
 				},
 			},
 		)

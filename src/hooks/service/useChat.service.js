@@ -1,5 +1,5 @@
-const { default: chatService } = require('apis/service/chat.api')
-const { useMutation, useQuery } = require('react-query')
+import chatService from 'apis/service/chat.api'
+import { useMutation, useQuery } from 'react-query'
 
 const useChatApi = {
 	useMakeChat: prod_idx => {

@@ -2,6 +2,7 @@ import { showChatState } from 'atom/chat/atom'
 import useChatApi from 'hooks/service/useChat.service'
 import { useState } from 'react'
 import { useRecoilValue } from 'recoil'
+import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
 
 import ChatHeader from './ChatHeader'
@@ -13,8 +14,10 @@ const Chat = () => {
 
 	const { data } = useChatApi.useGetChatList()
 
+	const user = JSON.parse(UserRepository.getUser())
+	const admin = user.nickName
+
 	const [selectedChat, setSelectedChat] = useState(null)
-	console.log(selectedChat)
 
 	const [layout, setLayout] = useState(true)
 
@@ -36,6 +39,9 @@ const Chat = () => {
 							productImage={selectedChat.product.img_url}
 							productPrice={selectedChat.product.price}
 							isRead={selectedChat.isRead}
+							isSeller={selectedChat.isSeller}
+							admin={admin}
+							selectedChat={selectedChat}
 							setLayout={setLayout}
 						/>
 					) : (

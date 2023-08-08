@@ -7,8 +7,10 @@ const ChatMessage = ({
 	nickName,
 	profileUrl,
 	isRead,
+	isSeller,
+	admin,
 }) => {
-	const isSender = nickName === nickName
+	const isSender = admin === nickName
 	const senderImage = isSender ? '' : profileUrl
 
 	const formDate = dateString => {
