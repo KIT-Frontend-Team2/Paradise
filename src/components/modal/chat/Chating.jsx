@@ -26,7 +26,9 @@ const Chating = ({
 	useEffect(() => {
 		if (!socket) return
 		socket.emit('join', { room_idx: id })
-		socket.on('receiveMessage', data => {})
+		socket.on('receiveMessage', data => {
+			useChatApi.useGetChatLog(data)
+		})
 
 		return () => {
 			socket.emit('leave', { room_idx: id })
