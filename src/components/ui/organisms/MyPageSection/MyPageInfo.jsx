@@ -4,10 +4,14 @@ import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import useMypageApi from 'hooks/service/useMypage.service'
+import useUserAPi from 'hooks/service/user.service'
 import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
+
+import MyChangePw from './MyChangePw'
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
@@ -18,13 +22,24 @@ const MyPageInfo = () => {
 		watch,
 		formState: { errors },
 		setValue,
+		reset,
 	} = useForm({
 		mode: 'onchange',
 		resolver: yupResolver(Validation3),
 	})
 
+	const nickname = watch('nickname')
+	const { mutate } = useMypageApi.useChagneInfo()
+	const { mutateAsync: checkmutate } = useUserAPi.checkNickName(nickname)
+
 	const onSubmit = data => {
-		console.log(data)
+		const UserInfo = {
+			region: data.address,
+			nickName: data.nickname,
+			phone: data.phone,
+		}
+		mutate(UserInfo)
+		reset()
 	}
 
 	const handleOpen = e => {
@@ -40,6 +55,10 @@ const MyPageInfo = () => {
 		setValue('address', fullAddress)
 	}
 
+	const hadleCheckNicName = () => {
+		checkmutate()
+	}
+
 	return (
 		<S.Wrap>
 			<S.Wrapper>
@@ -49,6 +68,7 @@ const MyPageInfo = () => {
 						<span className="secondary">*필수항목</span>은 꼭 입력해주세요
 					</span>
 				</S.Notice>
+				<MyChangePw />
 				<S.Form onSubmit={handleSubmit(onSubmit)}>
 					<S.CheckContent>
 						<S.FromLabel>이메일</S.FromLabel>
@@ -57,8 +77,6 @@ const MyPageInfo = () => {
 								readOnly={true}
 								name="email"
 								placeholder={'이메일을 입력해주세요'}
-								{...register('email')}
-								error={errors.email?.message}
 							/>
 						</InputGroup>
 					</S.CheckContent>
@@ -78,35 +96,10 @@ const MyPageInfo = () => {
 								type="button"
 								label={'중복확인'}
 								variant={'primary-outlined'}
+								onClick={hadleCheckNicName}
 							/>
 						</InputGroup>
 					</S.CheckContent>
-					<S.Content>
-						<S.FromLabel>
-							새 비밀번호<span className="secondary"> * </span>
-						</S.FromLabel>
-						<InputGroup>
-							<Input
-								name="password"
-								placeholder={'비밀번호를 입력해주세요'}
-								{...register('password')}
-								error={errors.password?.message}
-							/>
-						</InputGroup>
-					</S.Content>
-					<S.Content>
-						<S.FromLabel>
-							새 비밀번호 확인<span className="secondary">* </span>
-						</S.FromLabel>
-						<InputGroup>
-							<Input
-								name="passwordconfirm"
-								placeholder={'비밀번호 확인을 입력해주세요'}
-								{...register('passwordconfirm')}
-								error={errors.passwordconfirm?.message}
-							/>
-						</InputGroup>
-					</S.Content>
 					<S.CheckContent>
 						<S.FromLabel>
 							휴대폰 번호<span className="secondary">* </span>
@@ -126,6 +119,7 @@ const MyPageInfo = () => {
 						</S.FromLabel>
 						<InputGroup>
 							<Input
+								readOnly
 								name="address"
 								placeholder={'검색 버튼을 눌러주세요'}
 								width={'322'}
