@@ -4,8 +4,6 @@ import { queryClient } from '../../App'
 import reviewApi from '../../apis/service/review.api'
 import API_KEY from '../../consts/ApiKey'
 
-// import {queryClient} from "../../App";
-
 const reviewService = {
 	postReview: page => {
 		const { mutateAsync: postMutate } = useMutation(
@@ -48,7 +46,6 @@ const reviewService = {
 		const { mutateAsync: deleteMutate } = useMutation(
 			review_idx => reviewApi.deleteReview(review_idx),
 			{
-				onSuccess: () => alert('삭제되었습니다.'),
 				onSettled: () =>
 					queryClient.invalidateQueries([API_KEY.REVIEW, API_KEY.LIST, page]),
 			},
