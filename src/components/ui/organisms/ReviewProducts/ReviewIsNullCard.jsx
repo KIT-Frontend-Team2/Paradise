@@ -2,9 +2,9 @@ import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const ProductCard = ({ size, id, name, img_url, time, price, handleOpen }) => {
+const ProductCard = ({ id, name, img_url, time, price, handleOpen }) => {
 	return (
-		<S.Card size={size}>
+		<S.Card>
 			<S.ImgBox>
 				<img
 					style={{ cursor: 'pointer' }}
@@ -72,7 +72,6 @@ S.LikeBox = styled.div`
 `
 
 S.Card = styled.div`
-	width: ${({ size }) => size + 'px'};
 	text-align: left;
 `
 S.ImgBox = styled.div`

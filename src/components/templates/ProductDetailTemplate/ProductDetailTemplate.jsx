@@ -98,7 +98,11 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		<Container>
 			<S.FlexBox desktop={isDesk.toString()}>
 				{isDesk ? (
-					<DeImgSection containerWidth={containerWidth} Images={img_array} />
+					<DeImgSection
+						img_url={img_url}
+						containerWidth={containerWidth}
+						Images={img_array}
+					/>
 				) : (
 					<SSlideBanner Images={img_array} loop={true} />
 				)}
@@ -158,6 +162,7 @@ export const S = {}
 
 S.Flex = styled.div`
 	display: flex;
+	gap: 30px;
 `
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;
