@@ -5,9 +5,9 @@ import MyAccountTemplate from './MyAccountTemplate'
 import MyCashTemplate from './MyCashTemplate'
 import MyProfileTemplate from './MyProfileTemplate'
 import MyRecentTemplate from './MyRecentTemplate'
+import MyReviewTemplate from './MyReviewTemplate'
 import MySellTemplate from './MySellTemplate'
 import MyWishTemplate from './MyWishTemplate'
-import MyReviewTemplate from "./MyReviewTemplate";
 
 const MyContent = () => {
 	const myMenu = useRecoilValue(myMenuAtom)
@@ -25,8 +25,8 @@ const MyContent = () => {
 			return <MyAccountTemplate />
 		case 'profile':
 			return <MyProfileTemplate />
-		case'review':
-			return <MyReviewTemplate/>
+		case 'review':
+			return <MyReviewTemplate />
 		default:
 			return <div>:)</div>
 	}
