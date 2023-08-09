@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 import { styled } from 'styled-components'
 
@@ -15,7 +15,9 @@ const MainLayout = () => {
 	return (
 		<ErrorBoundary Fallback={ErrorPage} onReset={handleErrorReset}>
 			<S.Wrapper>
-				<SideBar />
+				<Suspense fallback={<></>}>
+					<SideBar />
+				</Suspense>
 				<MainHeader />
 				<Outlet />
 				<MainFooter />
