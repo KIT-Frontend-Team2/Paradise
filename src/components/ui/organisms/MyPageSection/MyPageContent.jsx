@@ -3,7 +3,7 @@ import { myMenuAtom } from 'atom/mypage/atom'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import React, { useState } from 'react'
+import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
 
@@ -11,25 +11,8 @@ import Customchecbox from '../../../../assets/images/checkbox.png'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
 
-// import Pagination from 'components/ui/molecules/Pagination/Pagination';
-
-const MyPageContent = ({
-	all,
-	free,
-	sale,
-	threeMonths,
-	SixMonths,
-	Ninemonths,
-	year,
-	allState,
-	Salesdetails,
-	Purchasedetails,
-}) => {
-	const [selectFilter, setSelectFilter] = useState('all')
-	// const [searchParams, setSearchParams] = useSearchParams();
-
+const MyPageContent = ({ products, setCatagory }) => {
 	const MyContentValue = useRecoilValue(myMenuAtom)
-	console.log(MyContentValue)
 
 	const {
 		isDesktop,
@@ -54,58 +37,48 @@ const MyPageContent = ({
 	}
 
 	const handleFilter = filter => {
-		setSelectFilter(filter)
-	}
-
-	const selectItem = () => {
-		switch (selectFilter) {
-			case 'all':
-				return all
-			case 'free':
-				return free
-			case 'sale':
-				return sale
-			case 'allState':
-				return allState
-			case 'Salesdetails':
-				return Salesdetails
-			case 'Purchasedetails':
-				return Purchasedetails
-			case 'threeMonths':
-				return threeMonths
-			case 'SixMonths':
-				return SixMonths
-			case 'Ninemonths':
-				return Ninemonths
-			case 'year':
-				return year
+		switch (filter) {
+			case '0':
+				setCatagory(0)
+				break
+			case '1':
+				setCatagory(1)
+				break
+			case 'seller':
+				setCatagory('seller')
+				break
+			case 'buyer':
+				setCatagory('buyer')
+				break
 			default:
-				return all
+				return products
 		}
 	}
-
-	const selectedData = selectItem()
 
 	return (
 		<S.Wrapper>
 			<Container>
 				<S.Filter>
-					<S.Left>
-						<Button
-							type="button"
-							label={'판매'}
-							variant={'primary-outlined'}
-							size={'small'}
-							onClick={() => handleFilter('sale')}
-						/>
-						<Button
-							type="button"
-							label={'나눔'}
-							size={'small'}
-							variant={'outlined'}
-							onClick={() => handleFilter('free')}
-						/>
-					</S.Left>
+					{MyContentValue !== 'cash' ? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => handleFilter('0')}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() => handleFilter('1')}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
 					{MyContentValue === 'mySell' ? (
 						<S.Right>
 							<input type="checkbox" />
@@ -118,9 +91,8 @@ const MyPageContent = ({
 				{MyContentValue === 'cash' ? (
 					<S.BottomFilter>
 						<S.BLeftFilter>
-							<li onClick={() => handleFilter('allState')}>총 내역</li>
-							<li onClick={() => handleFilter('Salesdetails')}>판매 내역</li>
-							<li onClick={() => handleFilter('Purchasedetails')}>구매 내역</li>
+							<li onClick={() => handleFilter('seller')}>판매 내역</li>
+							<li onClick={() => handleFilter('buyer')}>구매 내역</li>
 						</S.BLeftFilter>
 						<S.BRightFilter>
 							<Box sx={{ minWidth: 60 }}>
@@ -132,27 +104,63 @@ const MyPageContent = ({
 					''
 				)}
 				<S.Content repeat={repeat}>
-					{selectedData ? (
-						selectedData.map(item => (
-							<MyUploadCard
-								MyContentValue={MyContentValue}
-								key={item.productId}
-								price={item.productPrice}
-								isLike={item.isLike}
-								chat_count={item.product_chat_count}
-								img_url={item.product_img}
-								like={item.product_like}
-								name={item.productTitle}
-								id={item.productId}
-								place={item.product_place}
-								time={item.product_create_at}
-								state={item.product_state}
-								content={item.product_content}
-							/>
-						))
-					) : (
-						<div>Loading...</div>
-					)}
+					{MyContentValue === 'mySell'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.idx}
+									price={item.price} // 없음
+									isLike={item.isLike} //없음
+									chat_count={item.createdAt} //없음
+									img_url={item.img_url}
+									like={item.product_like} //없음
+									name={item.title}
+									id={item.idx}
+									place={item.region}
+									time={item.createdAt} //없음
+									state={item.status}
+									content={item.product_content} //없음
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'wish'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.Product.idx}
+									price={item.Product.price}
+									isLike={item.Product.isLike}
+									chat_count={item.Product.createdAt}
+									img_url={item.Product.img_url}
+									like={item.Product.liked}
+									name={item.Product.title}
+									id={item.Product.idx}
+									place={item.Product.region}
+									time={item.Product.createdAt}
+									state={item.Product.status}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'recent'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.Product.idx}
+									price={item.Product.price}
+									isLike={item.Product.isLike}
+									chat_count={item.Product.createdAt}
+									img_url={item.Product.img_url}
+									like={item.Product.liked}
+									name={item.Product.title}
+									id={item.Product.idx}
+									place={item.Product.region}
+									time={item.Product.createdAt}
+									state={item.Product.status}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
 				</S.Content>
 				{/* <Pagination
       page={1} // 현재 페이지 번호

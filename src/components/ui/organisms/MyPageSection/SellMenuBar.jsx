@@ -1,16 +1,36 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import Button from 'components/ui/atoms/Button/Button'
+import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useState } from 'react'
 import { styled } from 'styled-components'
 
-const SellMenuBar = () => {
+const SellMenuBar = ({ prod_idx }) => {
 	const [changeIcon, setChangeIcon] = useState(true)
 	const [openMenu, setOpenMenu] = useState(false)
+	const [handleState, setHandleState] = useState(false)
 
 	const handleIcon = () => {
 		setChangeIcon(!changeIcon)
 		setOpenMenu(!openMenu)
+	}
+
+	const { mutate } = useMypageApi.useDeleteProduct()
+	const { mutate: chageState } = useMypageApi.useChangeState(prod_idx)
+
+	const hadleDelete = () => {
+		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
+
+		if (confirmDelete) {
+			mutate(prod_idx)
+		}
+	}
+
+	const hadnleState = () => {
+		setHandleState(true)
+		if (handleState) {
+			chageState()
+		}
 	}
 
 	return (
@@ -25,6 +45,7 @@ const SellMenuBar = () => {
 							style={{ width: '199px', height: '42px', fontSize: '13px' }}
 							label={'판매완료로 변경'}
 							variant={'outlined'}
+							onClick={hadnleState}
 						/>
 						<S.Bottom>
 							<Button
@@ -34,8 +55,9 @@ const SellMenuBar = () => {
 							/>
 							<Button
 								style={{ width: '96px', height: '42px', fontSize: '13px' }}
-								label={'수정'}
+								label={'삭제'}
 								variant={'outlined'}
+								onClick={hadleDelete}
 							/>
 						</S.Bottom>
 					</S.Container>

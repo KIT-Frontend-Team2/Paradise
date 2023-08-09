@@ -1,15 +1,16 @@
-import MySellTempalte from '__mock__/datas/mysellTemplate.mock'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
+import useMypageApi from 'hooks/service/useMypage.service'
 import React from 'react'
 import { styled } from 'styled-components'
 
 const MyRecentTemplate = () => {
-	const { all, free, sale } = MySellTempalte.data.user_product_list
+	const { data } = useMypageApi.useRecentPage()
+
 	return (
 		<S.Wrapper>
 			<S.Title>최근 조회 상품</S.Title>
 			<S.Content>
-				<MyPageContent all={all} free={free} sale={sale} />
+				<MyPageContent products={data.data.productList} />
 			</S.Content>
 		</S.Wrapper>
 	)
