@@ -16,24 +16,45 @@ const Chating = ({
 	productPrice,
 	isRead,
 	isSeller,
-	selectedChat,
 	admin,
 }) => {
-	const { data, isLoading } = useChatApi.useGetChatLog(id)
+	const { data } = useChatApi.useGetChatLog(id)
+
+	const [message, setMessage] = useState('')
+	const { mutate } = useChatApi.useSendChat(id, message)
 
 	const socket = useSocket()
 
 	useEffect(() => {
-		if (!socket) return
 		socket.emit('join', { room_idx: id })
 		socket.on('receiveMessage', data => {
-			useChatApi.useGetChatLog(data)
+			data
 		})
-
 		return () => {
 			socket.emit('leave', { room_idx: id })
 		}
 	}, [socket, id])
+
+	const handleSubmit = e => {
+		e.preventDefault()
+		if (!message.trim()) return
+
+		const msg = {
+			title: productTitle,
+			createdAt: new Date(),
+			prod_idx: productId,
+			room_idx: id,
+			nickName: admin,
+			message: message,
+			isSeller: isSeller,
+		}
+
+		socket.emit('sendMessage', msg)
+
+		mutate(msg.room_idx, msg.message)
+
+		setMessage('')
+	}
 
 	const messagesEndRef = useRef(null)
 	// 채팅 스크롤
@@ -43,10 +64,10 @@ const Chating = ({
 		})
 	}
 	useEffect(() => {
-		if (!isLoading && data) {
+		if (data) {
 			scrollToBottom()
 		}
-	}, [isLoading, data])
+	}, [data])
 
 	// 채팅창 날짜 구분선
 	const dateDividers = messages => {
@@ -111,13 +132,16 @@ const Chating = ({
 			</S.MeesageContent>
 			<S.ChatInputContent>
 				<ChatInput
-					productTitle={productTitle}
-					productId={productId}
-					roomId={id}
-					nickName={selectedChat.User.nick_name}
-					isSeller={isSeller}
-					socket={socket}
-					admin={admin}
+					// productTitle={productTitle}
+					// productId={productId}
+					// roomId={id}
+					// nickName={selectedChat.User.nick_name}
+					// isSeller={isSeller}
+					// socket={socket}
+					// admin={admin}
+					handleSubmit={handleSubmit}
+					message={message}
+					setMessage={setMessage}
 				/>
 			</S.ChatInputContent>
 		</div>

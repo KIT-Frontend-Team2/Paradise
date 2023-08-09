@@ -1,41 +1,20 @@
 import { InsertPhoto, Send } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import useChatApi from 'hooks/service/useChat.service'
-import { useState } from 'react'
+// import useChatApi from 'hooks/service/useChat.service'
+// import { useState } from 'react'
 import styled from 'styled-components'
 
 const ChatInput = ({
-	productTitle,
-	productId,
-	roomId,
-	nickName,
-	isSeller,
-	socket,
-	admin,
+	// productTitle,
+	// productId,
+	// roomId,
+	// isSeller,
+	// socket,
+	// admin,
+	handleSubmit,
+	message,
+	setMessage,
 }) => {
-	const [message, setMessage] = useState('')
-	const { mutate } = useChatApi.useSendChat(roomId, message)
-
-	const handleSubmit = e => {
-		e.preventDefault()
-		if (!message) return
-
-		const data = {
-			title: productTitle,
-			createdAt: new Date(),
-			prod_idx: productId,
-			room_idx: roomId,
-			nickName: admin,
-			message: message,
-			isSeller: isSeller,
-		}
-
-		socket.emit('sendMessage', data)
-		mutate(data.room_idx, data.message)
-
-		setMessage('')
-	}
-
 	const handleKeyDown = e => {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault()
@@ -55,6 +34,7 @@ const ChatInput = ({
 				value={message}
 				onChange={e => setMessage(e.target.value)}
 				onKeyPress={handleKeyDown}
+				autoFocus={true}
 			/>
 
 			<S.IconContainer>

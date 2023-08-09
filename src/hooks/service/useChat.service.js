@@ -1,3 +1,4 @@
+import { queryClient } from 'App'
 import chatService from 'apis/service/chat.api'
 import { useMutation, useQuery } from 'react-query'
 
@@ -11,8 +12,21 @@ const useChatApi = {
 		return { mutate }
 	},
 	useSendChat: (room_idx, message) => {
-		const { mutate } = useMutation(() =>
-			chatService.sendChat(room_idx, message),
+		const { mutate } = useMutation(
+			() => chatService.sendChat(room_idx, message),
+			{
+				onMutate: async () => {
+					await queryClient.cancelQueries(['chat', 'getChatLog'])
+					const chatLog = queryClient.getQueryData(['chat', 'getChatLog'])
+					queryClient.setQueryData(['chat', 'getChatLog'], prev => {
+						const newChat = { ...prev }
+						return newChat
+					})
+					return chatLog
+				},
+				onSuccess: () => queryClient.invalidateQueries(['chat', 'getChatLog']),
+				onSettled: () => queryClient.invalidateQueries(['chat', 'getChatLog']),
+			},
 		)
 		return { mutate }
 	},
