@@ -3,6 +3,7 @@ import { styled } from 'styled-components'
 
 export const Wrapper = styled.div`
 	margin-top: 80px;
+	padding: ${({ theme }) => !theme.isDesktop && !theme.isMobile && '0 16px'};
 `
 
 export const TitleArea = styled.div`
@@ -83,7 +84,7 @@ export const FormRegister = styled.dt`
 	flex: 1;
 	gap: 12px;
 	${({ theme }) =>
-		!theme.isDesktop && !theme.isTabletAndLaptop && `width:100%;`}
+		!theme.isDesktop && !theme.isTabletAndLaptop && 'width:100%;'}
 
 	.infoMessage {
 		padding-left: 15px;
@@ -94,6 +95,10 @@ export const FormRegister = styled.dt`
 
 export const CustomInput = styled.div`
 	position: relative;
+	display: ${({ theme }) =>
+		!theme.isDesktop && !theme.isTabletAndLaptop && 'flex'};
+	width: ${({ theme }) =>
+		!theme.isDesktop && !theme.isTabletAndLaptop && '100%'};
 
 	input {
 		padding-left: 40px;
@@ -109,6 +114,11 @@ export const CustomInput = styled.div`
 	}
 
 	&.price {
+		display: flex;
+		flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
+		gap: 20px;
+		align-items: ${({ theme }) => (theme.isDesktop ? 'center' : 'flex-end')};
+
 		input {
 			text-align: right;
 			padding-right: 40px;
@@ -167,9 +177,19 @@ export const ErrorMessage = styled.span`
 	font-size: ${({ theme }) => theme.FONT_SIZE.small};
 `
 
+export const TagWrapper = styled.div`
+	display: flex;
+	gap: 8px;
+	flex-direction: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop || theme.isTablet
+			? 'row'
+			: 'column'};
+`
+
 export const Map = styled.div`
 	width: 100%;
-	aspect-ratio: 5 / 2;
+	aspect-ratio: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '5 / 2' : '4 / 3'};
 	border-radius: 6px;
 	background-color: #eee;
 `

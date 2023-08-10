@@ -2,6 +2,7 @@ import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
 import { BASE_URL } from '../../consts/api'
+import { getCookie } from '../../repositories/AuthCookie'
 import { axiosInstance } from '../axiosInstance'
 
 const userService = {
@@ -35,15 +36,12 @@ const userService = {
 	},
 
 	getRefreshToken: () => {
-		return axiosInstance.get(
-			BASE_URL + API_KEY.API + API_KEY.USER + '/refreshToken',
-			{
-				params: {
-					email: localStorage.getItem('email'),
-					pw: localStorage.getItem('pw'),
-				},
+		const loginInfo = JSON.stringify(getCookie())
+		return axios.get(BASE_URL + API_KEY.API + API_KEY.USER + '/refreshToken', {
+			data: {
+				loginInfo,
 			},
-		)
+		})
 	},
 
 	getUserInfo: () => {
@@ -59,8 +57,10 @@ const userService = {
 	},
 
 	changeUserProfile: image => {
-		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/profile', {
-			image,
+		return axiosInstance.patch(API_KEY.API + API_KEY.USER + '/profile', image, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
 		})
 	},
 
@@ -81,7 +81,7 @@ const userService = {
 
 	getMyPageLikeProductInfo: filter => {
 		return axiosInstance.get(
-			API_KEY.API + API_KEY.USER + '/my-page/product-list',
+			API_KEY.API + API_KEY.USER + '/my-page/like-product-list',
 			{
 				params: {
 					...filter,
@@ -92,7 +92,7 @@ const userService = {
 
 	getMyPageAccountBook: (page, category, start, end) => {
 		return axiosInstance.get(
-			API_KEY.API + API_KEY.USER + '/my-page/like-product-list',
+			API_KEY.API + API_KEY.USER + '/my-page/account-book',
 			{
 				params: {
 					page,

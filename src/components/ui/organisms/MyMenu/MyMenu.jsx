@@ -25,6 +25,10 @@ const MyMenu = () => {
 			path: 'account',
 			label: '계정관리',
 		},
+		{
+			path: 'review',
+			label: '리뷰 관리',
+		},
 	]
 	const onClickMenu = path => {
 		setMyMenu(path)
@@ -62,6 +66,10 @@ S.MyMenu = styled.div`
 		flex-direction: column;
 		justify-content: space-between;
 		flex: 1;
+
+		:hover {
+			border: 1px solid ${({ theme }) => theme.PALETTE.primary[100]};
+		}
 	}
 
 	li {
@@ -76,8 +84,13 @@ S.MyMenu = styled.div`
 		white-space: normal;
 		overflow: hidden;
 		font-size: ${({ theme }) => (theme.isDesktop ? '16px' : '12px')};
+		cursor: pointer;
 		&:first-child {
 			border-top: 0;
+		}
+
+		:hover {
+			border: none;
 		}
 
 		&.on {
