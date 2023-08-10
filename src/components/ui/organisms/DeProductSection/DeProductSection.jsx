@@ -43,7 +43,7 @@ const DeProductSection = ({
 				<S.ProductPrice>
 					<S.ProductPriceNumber>
 						<div>{price.toLocaleString()}</div>
-						<div>{' 원'}</div>
+						<div style={{ fontSize: '28px' }}>{' 원'}</div>
 					</S.ProductPriceNumber>
 				</S.ProductPrice>
 				{state === '판매중' ? (

@@ -1,6 +1,6 @@
 const Key = 'autoLogin'
-
-export const setCookie = function (value, expiredDay) {
+const expiredDay = 7
+export const setCookie = function (value) {
 	const expired = new Date()
 	expired.setTime(expired.getTime() + expiredDay * 24 * 60 * 60 * 1000)
 

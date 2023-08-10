@@ -1,12 +1,11 @@
 import LinkedCameraIcon from '@mui/icons-material/LinkedCamera'
 import Button from 'components/ui/atoms/Button/Button'
+import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
 
-import MyAccount from '../../../__mock__/datas/myAccount.mock'
-
 const MyProfileTemplate = () => {
-	const { user_profile_url, user_nick_name } = MyAccount.data.user_info
+	const { data } = useMypageApi.useGetinfo()
 	const inputRef = useRef(null)
 	const [image, setImage] = useState('')
 
@@ -22,13 +21,15 @@ const MyProfileTemplate = () => {
 		}
 	}
 
+	const { mutate } = useMypageApi.useChangeProfile()
+
 	const handleFormSubmit = e => {
 		e.preventDefault()
-
 		const formData = new FormData()
-		formData.append('picture', image)
-		console.log(formData.get('picture'))
+		formData.append('image', image)
+		mutate(formData)
 	}
+
 	return (
 		<S.Wrapper>
 			<S.Title>프로필 변경</S.Title>
@@ -38,9 +39,9 @@ const MyProfileTemplate = () => {
 						<LinkedCameraIcon />
 					</S.Overay>
 					{image ? (
-						<img src={URL.createObjectURL(image)} alt={user_nick_name} />
+						<img src={URL.createObjectURL(image)} alt={data.data.nick_name} />
 					) : (
-						<img src={user_profile_url} alt={user_nick_name} />
+						<img src={data.data.profile_url} alt={data.data.nick_name} />
 					)}
 				</S.UserImg>
 				<S.Right>

@@ -1,17 +1,40 @@
-import MySellTempalte from '__mock__/datas/mysellTemplate.mock'
+import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
-import React from 'react'
+import useMypageApi from 'hooks/service/useMypage.service'
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 const MyWishTemplate = () => {
-	const { all, free, sale } = MySellTempalte.data.user_product_list
+	const [curPage, setCurPage] = useState(1)
+	const { data } = useMypageApi.useWishPage({ page: curPage })
+	const { page_size, count } = data.data.pagination
+	const [searchParams, _] = useSearchParams()
+
+	const handlePageChange = newpage => {
+		setCurPage(newpage)
+		searchParams.set('page', curPage)
+	}
+
+	useEffect(() => {
+		const pageParam = searchParams.get('page')
+		if (pageParam) {
+			setCurPage(pageParam)
+		}
+	}, [searchParams])
 
 	return (
 		<S.Wrapper>
-			<S.Title>등록상품</S.Title>
+			<S.Title>관심상품</S.Title>
 			<S.Content>
-				<MyPageContent all={all} free={free} sale={sale} />
+				<MyPageContent products={data.data.LikeList} />
 			</S.Content>
+			<Pagination
+				page={curPage}
+				item_length={page_size}
+				total={count}
+				onClick={handlePageChange}
+			></Pagination>
 		</S.Wrapper>
 	)
 }
