@@ -51,7 +51,6 @@ const ProductForm = ({ isSeller, detail }) => {
 	const [removeBgUrl, setRemoveBgUrl] = useState(null)
 
 	const imageRef = useRef()
-	const categoryRef = useRef()
 	const tagRef = useRef()
 	const addressRef = useRef()
 
@@ -485,11 +484,12 @@ const ProductForm = ({ isSeller, detail }) => {
 								<S.FormRegister>
 									<S.TagWrapper>
 										<FormControl>
-											<InputLabel id="tag">카테고리</InputLabel>
+											<InputLabel id="category-tag-label">카테고리</InputLabel>
 											<Select
-												ref={categoryRef}
-												labelId="tag"
-												value={categoryTag}
+												name="categoryTag"
+												labelId="category-tag-label"
+												label="카테고리"
+												value={categoryTag ? categoryTag : ''}
 												sx={{
 													width: isDesk ? '200px' : '100%',
 													height: '50px',

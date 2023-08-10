@@ -136,7 +136,7 @@ const DeFormImagePreviewGroup = forwardRef(
 		return (
 			<>
 				<S.PreviewGroup>
-					<S.ToastMessageWrap isModalOpen={isModalOpen}>
+					<S.ToastMessageWrap ismodalopen={isModalOpen.toString()}>
 						<S.ToastMessage>
 							기존에 등록된 이미지는 순서 변경이 불가능합니다. <br />
 							순서 변경을 원하시면 이미지를 다시 등록해주세요.
@@ -396,7 +396,7 @@ S.DeleteButton = styled.div`
 `
 
 S.ToastMessageWrap = styled.div`
-	display: ${({ isModalOpen }) => (isModalOpen ? 'flex' : 'none')};
+	display: ${({ ismodalopen }) => (ismodalopen === 'true' ? 'flex' : 'none')};
 	position: absolute;
 	top: ${({ theme }) =>
 		theme.isDesktop || theme.isTabletAndLaptop ? '-30px' : '10em'};
