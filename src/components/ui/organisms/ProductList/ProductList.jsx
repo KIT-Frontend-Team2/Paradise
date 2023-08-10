@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { useDevice } from '../../../../hooks/mediaQuery/useDevice'
 import ProductCard from '../../molecules/ProductCard/ProductCard'
 
-const ProductList = ({ products, size }) => {
+const ProductList = ({ products }) => {
 	const {
 		isDesktop,
 		isTabletAndLaptop,
@@ -24,7 +24,7 @@ const ProductList = ({ products, size }) => {
 	}
 
 	if (isMobile) {
-		repeat = 1
+		repeat = 2
 	}
 
 	return (
@@ -32,7 +32,6 @@ const ProductList = ({ products, size }) => {
 			{products.map(product => {
 				return (
 					<ProductCard
-						size={size}
 						key={product.idx}
 						price={product.price}
 						isLike={!!product.liked}
@@ -57,7 +56,7 @@ export default ProductList
 const S = {}
 
 S.Container = styled.div`
-	margin: 50px 0 100px 0;
+	margin: 50px 0 50px 0;
 	display: grid;
 	grid-template-columns: repeat(${({ repeat }) => repeat}, minmax(0, 1fr));
 	justify-items: center;

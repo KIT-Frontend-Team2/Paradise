@@ -14,7 +14,7 @@ const Chat = () => {
 
 	const { data } = useChatApi.useGetChatList()
 
-	const user = JSON.parse(UserRepository.getUser())
+	const user = UserRepository.getUser()
 	const admin = user.nickName
 
 	const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState)

@@ -1,8 +1,11 @@
 import { useMutation } from 'react-query'
+import { useSetRecoilState } from 'recoil'
 import { useSocket } from 'socket/socket'
 
 import userApi from '../../apis/service/user.api'
+import { isLoggedInAtom } from '../../atom/header/atom'
 import { ERROR_MESSAGE } from '../../consts/api'
+import { deleteCookie, setCookie } from '../../repositories/AuthCookie'
 import TokenRepository from '../../repositories/TokenRepository'
 import UserRepository from '../../repositories/UserRepository'
 
@@ -16,26 +19,32 @@ const useUserAPi = {
 
 	login: () => {
 		const socket = useSocket()
-		const { mutateAsync } = useMutation(
+		const setState = useSetRecoilState(isLoggedInAtom)
+		const { mutateAsync, isSuccess, mutate } = useMutation(
 			loginInfo => userApi.login(loginInfo.email, loginInfo.pw),
 			{
 				retry: 1,
-				onSuccess: data => {
+				onSuccess: (data, variables) => {
 					const userData = {
 						...data.data.user,
 						socket: socket.id,
 					}
-					UserRepository.setUser(JSON.stringify(userData))
+					UserRepository.setUser(userData)
 					TokenRepository.setToken(data.data.tokenForHeader)
 					socket.emit('connect-user', { token: TokenRepository.getToken() })
+					setState(true)
+					if (variables.check === true) {
+						setCookie({ email: variables.email, pw: variables.pw })
+					}
 				},
 			},
 		)
-		return { mutateAsync }
+		return { mutateAsync, mutate, isSuccess }
 	},
 
 	logout: () => {
-		const { mutate, isSuccess } = useMutation(() => userApi.logOut(), {
+		const setState = useSetRecoilState(isLoggedInAtom)
+		const { mutate } = useMutation(() => userApi.logOut(), {
 			retry: 1,
 			onError: () => {
 				alert(ERROR_MESSAGE)
@@ -43,9 +52,11 @@ const useUserAPi = {
 			onSuccess: () => {
 				UserRepository.removeUser()
 				TokenRepository.removeToken()
+				setState(false)
+				deleteCookie()
 			},
 		})
-		return { mutate, isSuccess }
+		return { mutate }
 	},
 
 	checkEmail: email => {

@@ -1,45 +1,68 @@
-import mycashPageMock from '__mock__/datas/mycashTemplate.mock'
+import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
-import React from 'react'
+import useMypageApi from 'hooks/service/useMypage.service'
+import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
+import Calendar from 'utils/calendar'
+import { dateFomatter } from 'utils/formatter'
 
 const MyCashTemplate = () => {
-	const { user_info, user_product_list } = mycashPageMock.data
-	const { user_nick_name, user_total_product } = user_info
-	const { threeMonths, SixMonths, Ninemonths, year } =
-		user_product_list[1].contents
-	const {
-		all: allState,
-		Salesdetails,
-		Purchasedetails,
-	} = user_product_list[2].contents
+	const nowDate = new Date()
+	const startDate = dateFomatter(
+		new Date(nowDate.getFullYear(), nowDate.getMonth(), 1),
+	)
+	const endDate = dateFomatter(
+		new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0),
+	)
+
+	const [catagory, setCatagory] = useState('seller')
+	const [start, setStartDate] = useState(startDate)
+	const [end, setEndDate] = useState(endDate)
+	const [curPage, setCurPage] = useState(1)
+	const { data } = useMypageApi.useAccountPage(curPage, catagory, start, end)
+	const { page_size, count } = data.data.pagination
+	const [searchParams, _] = useSearchParams()
+
+	console.log(start, end)
+
+	const handlePageChange = newpage => {
+		setCurPage(newpage)
+		searchParams.set('page', curPage)
+	}
+
+	useEffect(() => {
+		const pageParam = searchParams.get('page')
+		if (pageParam) {
+			setCurPage(pageParam)
+		}
+	}, [searchParams])
 
 	return (
 		<S.Wrapper>
 			<S.Title>
-				{user_nick_name}님의 {}월 <br />
+				님의 {}월 <br />
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>
-				<TotalPrice user_total_product={user_total_product} />
+				<TotalPrice />
 			</S.TotalPrice>
+			<Calendar
+				setStartDate={setStartDate}
+				setEndDate={setEndDate}
+				end={end}
+				start={start}
+			/>
 			<S.Content>
-				<MyPageContent
-					all={user_product_list[0].contents.all}
-					free={user_product_list[0].contents.free}
-					sale={user_product_list[0].contents.sale}
-					// user_product_list[1]에 해당하는 데이터를 전달합니다.
-					threeMonths={threeMonths}
-					SixMonths={SixMonths}
-					Ninemonths={Ninemonths}
-					year={year}
-					// user_product_list[2]에 해당하는 데이터를 전달합니다.
-					allState={allState}
-					Salesdetails={Salesdetails}
-					Purchasedetails={Purchasedetails}
-				/>
+				<MyPageContent products={data.data.payList} setCatagory={setCatagory} />
 			</S.Content>
+			<Pagination
+				page={curPage}
+				item_length={page_size}
+				total={count}
+				onClick={handlePageChange}
+			></Pagination>
 		</S.Wrapper>
 	)
 }

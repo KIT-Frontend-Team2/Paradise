@@ -1,5 +1,4 @@
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
@@ -9,28 +8,23 @@ import defaultProfile from '../../../../assets/images/기본프로필/default_pr
 import useUserAPi from '../../../../hooks/service/user.service'
 import useMove from '../../../../hooks/useMovePage'
 
-const UserInfo = () => {
+const UserInfo = ({ newChat }) => {
 	// const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
 	const { isTablet } = useDevice()
-	const user = JSON.parse(UserRepository.getUser())
+	const user = UserRepository.getUser()
 
 	const handleLogin = e => {
 		e.preventDefault()
 		setIsLoggedIn(true)
 	}
-	const { linkMainPage, linkMyPage } = useMove()
-	const { mutate, isSuccess } = useUserAPi.logout()
+	const { linkAuthPage, linkMyPage } = useMove()
+	const { mutate } = useUserAPi.logout()
 
 	const handleLogout = e => {
 		e.preventDefault()
 		mutate()
+		linkAuthPage()
 	}
-
-	useEffect(() => {
-		if (isSuccess === true) {
-			linkMainPage()
-		}
-	}, [isSuccess])
 
 	return (
 		user && (
@@ -42,7 +36,7 @@ const UserInfo = () => {
 							alt={user.nickName}
 							onClick={linkMyPage}
 						/>
-						<S.NotificationDot />
+						{newChat && <S.NotificationDot />}
 					</S.UserImageBox>
 					<S.UserLoginContent istablet={isTablet.toString()}>
 						<Link to="#" onClick={linkMyPage}>

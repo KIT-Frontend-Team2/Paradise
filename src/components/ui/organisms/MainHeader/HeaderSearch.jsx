@@ -9,7 +9,7 @@ import { flexCenter } from 'styles/common'
 import headerlogo from '../../../../assets/images/headerlogo.png'
 import UserInfo from './UserInfo'
 
-const HeaderSearch = () => {
+const HeaderSearch = ({ newChat }) => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const { linkSearchProduct } = useMove()
@@ -51,7 +51,7 @@ const HeaderSearch = () => {
 					</IconButton>
 				</S.SearchBox>
 				<S.UserInfoContainer>
-					<UserInfo />
+					<UserInfo newChat={newChat} />
 				</S.UserInfoContainer>
 			</S.SearchContainer>
 		</>

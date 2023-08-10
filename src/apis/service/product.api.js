@@ -3,9 +3,9 @@ import { axiosInstance } from '../axiosInstance'
 
 const productAxios = {
 	addRegisterProduct: productInfo => {
-		return axiosInstance.post(API_KEY.API + API_KEY.PRODUCT, {
-			params: {
-				...productInfo,
+		return axiosInstance.post(API_KEY.API + API_KEY.PRODUCT, productInfo, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
@@ -17,8 +17,10 @@ const productAxios = {
 	},
 
 	patchProductInfo: productInfo => {
-		return axiosInstance.patch(API_KEY.API + API_KEY.PRODUCT, _, {
-			params: { ...productInfo },
+		return axiosInstance.patch(API_KEY.API + API_KEY.PRODUCT, productInfo, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
 		})
 	},
 

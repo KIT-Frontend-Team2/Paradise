@@ -13,7 +13,6 @@ import useMove from '../../../../hooks/useMovePage'
 import timeHelper from '../../../../utils/time-helper'
 
 const ProductCard = ({
-	size,
 	id,
 	name,
 	place,
@@ -30,9 +29,8 @@ const ProductCard = ({
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 
 	const onClick = useOneRequest(mutateAsync, setLikeState)
-
 	return (
-		<S.Card size={size}>
+		<S.Card>
 			<S.ImgBox>
 				<S.LikeBox>
 					<Checkbox
@@ -86,10 +84,6 @@ export default ProductCard
 
 ProductCard.propTypes = {
 	/**
-	 * 상품 카드의 가로 길이를 설정할 수 있습니다. 이미지의 세로길이도 동일합니다.
-	 */
-	size: PropTypes.number.isRequired,
-	/**
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
 	id: PropTypes.number.isRequired,
@@ -138,6 +132,7 @@ ProductCard.propTypes = {
 const S = {}
 
 S.LikeBox = styled.div`
+	z-index: 3;
 	top: 5px;
 	right: 5px;
 	position: absolute;
@@ -145,13 +140,12 @@ S.LikeBox = styled.div`
 
 	:hover {
 		transform: scale(1.05);
-		transition: transform 0.5s;
 	}
 `
 
 S.Card = styled.div`
-	width: ${({ size }) => size + 'px'};
 	text-align: left;
+	width: 100%;
 `
 S.ImgBox = styled.div`
 	position: relative;
@@ -161,9 +155,14 @@ S.ImgBox = styled.div`
 	margin-bottom: 9px;
 
 	img {
+		position: relative;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		transition: 1s;
+		&:hover {
+			transform: scale(1.05);
+		}
 	}
 `
 

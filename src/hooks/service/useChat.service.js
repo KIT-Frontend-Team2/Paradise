@@ -41,9 +41,9 @@ const useChatApi = {
 
 		return { data, isLoading }
 	},
-	useGetChatList: category => {
-		const { data } = useQuery(['chat', 'getChatList', category], () =>
-			chatService.getChatList(category),
+	useGetChatList: () => {
+		const { data } = useQuery(['chat', 'getChatList'], () =>
+			chatService.getChatList(),
 		)
 		return { data }
 	},

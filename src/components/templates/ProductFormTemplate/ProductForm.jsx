@@ -1,4 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import productAxios from 'apis/service/product.api'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
@@ -7,52 +8,110 @@ import ProductFormMap from 'components/ui/molecules/Map/ProductFormMap'
 import DeFormImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
 import { categories } from 'components/ui/organisms/MainHeader/HeaderCategory'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
+import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
 
 import * as S from './style'
 import * as V from './validator'
 
-const ProductForm = ({ detail }) => {
+const ProductForm = ({ isSeller, detail }) => {
 	const {
-		isBuyer,
-		product_title,
-		is_free_product,
-		product_price,
-		product_imgs,
-		product_tag,
-		product_content,
-		product_place,
+		idx,
+		title,
+		category,
+		price,
+		img_url,
+		ProductImages,
+		ProductsTags,
+		description,
+		region,
 	} = detail || {
-		is_free_product: false,
-		product_imgs: [],
-		product_tag: [],
-		product_place: '서울시 강남구 역삼동', // 작성자 지역
+		category: 0,
+		price: 0,
+		images: [],
+		ProductsTags: [],
+		ProductImages: [],
+		region: '서울시 강남구 역삼동', // 작성자 지역
 	}
+
 	const MAX_IMAGE_CNT = 5
+	const MAX_PRICE = 100000000
+	const [mainImage, setMainImage] = useState(img_url || undefined)
+	const [subImageList, setSubImageList] = useState([])
 	const [imageFileList, setImageFileList] = useState([])
-	const [imagePreviews, setImagePreviews] = useState(product_imgs)
-	const [isFreeProduct, setIsFreeProduct] = useState(is_free_product)
+	const [imagePreviews, setImagePreviews] = useState([])
+	const [isFreeProduct, setIsFreeProduct] = useState(category ? 1 : 0)
 	const [categoryTag, setCategoryTag] = useState('')
-	const [tagList, setTagList] = useState(product_tag)
-	const [address, setAddress] = useState(product_place)
+	const [tagList, setTagList] = useState([])
+	const [address, setAddress] = useState(region)
+	const [koPrice, setKoPrice] = useState('')
 
 	const imageRef = useRef()
 	const categoryRef = useRef()
 	const tagRef = useRef()
 	const addressRef = useRef()
 
-	// 숫자 -> 천단위 문자로 포매팅 함수
-	const numToStr = number => {
-		if (!number) return
-		return number.toLocaleString()
-	}
+	useEffect(() => {
+		const tag = ProductsTags.map(ProductTag => ProductTag.Tag.tag)
+		setTagList(tag)
+		setCategoryTag(tag[0])
+		const images = ProductImages.map(ProductImage => ProductImage.img_url)
+		setSubImageList(images)
+		price && geKoreanNumber(price)
+	}, [detail])
 
-	// 문자 -> 숫자
-	const strToNum = str => {
-		let num = str.replace(/\D/g, '')
-		num = Number(num)
-		return num
+	const { linkMainPage, linkDetailPage } = useMove()
+
+	const [isHighlight, setIsHighlight] = useState(false)
+	const { isDesktop, isTabletAndLaptop, isTablet } = useDevice()
+
+	const isDesk = isDesktop || isTabletAndLaptop || isTablet
+
+	// 숫자를 한글로 변환
+	function geKoreanNumber(num) {
+		num = moneyToFormatNumber(num)
+		let result = ''
+		let digits = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구']
+		let units = [
+			'',
+			'십',
+			'백',
+			'천',
+			'만',
+			'십만',
+			'백만',
+			'천만',
+			'억',
+			'십억',
+			'백억',
+			'천억',
+			'조',
+			'십조',
+			'백조',
+			'천조',
+		]
+
+		let numStr = num.toString() // 문자열로 변환
+		let numLen = numStr.length // 문자열의 길이
+
+		for (let i = 0; i < numLen; i++) {
+			let digit = parseInt(numStr.charAt(i)) // i번째 자릿수 숫자
+			let unit = units[numLen - i - 1] // i번째 자릿수 단위
+
+			// 일의 자리인 경우에는 숫자를 그대로 한글로 변환
+			if (i === numLen - 1 && digit === 1 && numLen !== 1) {
+				result += '일'
+			} else if (digit !== 0) {
+				// 일의 자리가 아니거나 숫자가 0이 아닐 경우
+				result += digits[digit] + unit
+			}
+		}
+		result += '원'
+
+		setKoPrice(result)
 	}
 
 	const {
@@ -63,53 +122,46 @@ const ProductForm = ({ detail }) => {
 		trigger,
 		setError,
 		clearErrors,
+		setFocus,
 		handleSubmit,
-		formState: { isValid, errors },
+		formState: { errors },
 	} = useForm({
 		mode: 'onChange',
 		defaultValues: {
-			product_title: product_title,
-			is_free_product: is_free_product,
-			product_price: numToStr(product_price),
-			product_content: product_content,
-			product_place: product_place,
+			title: title,
+			category: category ? 1 : 0,
+			price: formatNumberToMoney(price),
+			description: description,
+			region: region,
 		},
 	})
 
 	// React-Hook-Form 등록 및 유효성 검사
-	const titleRegister = register('product_title', V.validateTitle())
-	const isFreeRegister = register('is_free_product')
-	const priceRegister = register(
-		'product_price',
-		V.validatePrice(getValues('is_free_product')),
-	)
-	const contentRegister = register('product_content', V.validateContent())
-	const placeRegister = register('product_place', V.validatePlace())
-
-	/* TODO: 본인이 등록한 상품을 수정하는 것인지 검사하는 로직 */
-	useEffect(() => {
-		if (isBuyer) {
-			// 로직
-		} else {
-			// 로직
-		}
-	}, [detail])
+	const titleRegister = register('title', V.validateTitle())
+	const isFreeRegister = register('category')
+	const priceRegister = register('price', V.validatePrice(100000000))
+	const contentRegister = register('description', V.validateContent())
+	const placeRegister = register('region', V.validatePlace())
 
 	// 이미지 변경
-	const handleImageChange = e => {
-		const files = e.target.files
+	const handleImageChange = files => {
 		const imagePreviewsArray = [...imagePreviews]
+		const imageFileArray = [...imageFileList]
 
 		for (let i = 0; i < files.length; i++) {
 			const reader = new FileReader()
 
 			reader.onload = event => {
 				imagePreviewsArray.push({ id: i, img_url: event.target.result })
-				if (imagePreviewsArray.length > 5) {
+				imageFileArray.push(files[i])
+				let totalImageCnt = imagePreviewsArray.length + subImageList.length
+
+				if (mainImage) totalImageCnt++
+				if (totalImageCnt > 5) {
 					return alert('이미지는 최대 5장까지 등록 가능합니다.')
 				}
 				setImagePreviews([...imagePreviewsArray])
-				setImageFileList([...imageFileList, ...files])
+				setImageFileList([...imageFileArray])
 			}
 
 			reader.readAsDataURL(files[i])
@@ -120,11 +172,12 @@ const ProductForm = ({ detail }) => {
 
 	// 판매, 나눔 변경
 	const onClickIsFree = isFree => {
-		setValue('is_free_product', isFree)
+		setValue('category', isFree)
 		setIsFreeProduct(isFree)
 		if (isFree) {
-			setValue('product_price', 0)
-			trigger('product_price')
+			setValue('price', 0)
+			trigger('price')
+			setKoPrice('')
 		}
 	}
 
@@ -134,15 +187,14 @@ const ProductForm = ({ detail }) => {
 		if (tagList.find(tag => tag === newTag)) return
 		setTagList([newTag, ...tagList])
 		setCategoryTag(newTag)
-		clearErrors('product_tag')
+		clearErrors('tag')
 		unregister('tag')
 	}
 
 	// 태그 리스트 변경에 따라 폼 요소 값 변경
 	useEffect(() => {
 		tagList.forEach((tag, index) => {
-			// console.log(`product_tag.${index}: ${tag}`)
-			setValue(`product_tag.${index}`, tag)
+			setValue(`tag.${index}`, tag)
 		})
 	}, [tagList])
 
@@ -169,8 +221,17 @@ const ProductForm = ({ detail }) => {
 	const onDeleteTag = deleteIndex => {
 		const _tagList = tagList.filter((_tag, index) => index !== deleteIndex)
 		setTagList(_tagList)
-		if (deleteIndex === 0) setCategoryTag('')
-		unregister(`product_tag.${tagList.length - 1}`)
+		if (deleteIndex === 0) {
+			const isCategory = categories.findIndex(category => {
+				return category.label === _tagList[0]
+			})
+			if (isCategory > 0) {
+				setCategoryTag(_tagList[0])
+			} else {
+				setCategoryTag('')
+			}
+		}
+		unregister(`tag.${tagList.length - 1}`)
 	}
 
 	// 태그 유효성 검사 시 포커스 옮김
@@ -184,8 +245,8 @@ const ProductForm = ({ detail }) => {
 		if (addr) {
 			setAddress(addr)
 		} else {
-			setValue('product_place', undefined)
-			setError('product_place', {
+			setValue('region', undefined)
+			setError('region', {
 				message: '거래 희망 장소를 입력해주세요',
 			})
 		}
@@ -198,14 +259,20 @@ const ProductForm = ({ detail }) => {
 
 	// 판매 금액 입력 숫자만 제한
 	const onChangePrice = event => {
-		setValue('product_price', numToStr(strToNum(event.target.value)))
-		trigger('product_price')
+		setValue(
+			'price',
+			formatNumberToMoney(moneyToFormatNumber(event.target.value)),
+		)
+		trigger('price')
+		geKoreanNumber(event.target.value)
 	}
 
 	// 등록 버튼을 누를 때
-	const onSubmit = data => {
+	const onSubmit = async data => {
+		const formData = new FormData()
+
 		// 이미지 체크
-		if (imagePreviews.length === 0) {
+		if (!mainImage && imagePreviews.length === 0) {
 			imageRef.current.scrollIntoView()
 			setError('image', {
 				message: '이미지를 하나 이상 추가해주세요.',
@@ -214,270 +281,343 @@ const ProductForm = ({ detail }) => {
 		}
 
 		// 판매가격 숫자 변환
-		if (data.product_price) {
-			data.product_price = strToNum(data.product_price)
+		if (data.price) {
+			data.price = moneyToFormatNumber(data.price)
+			if (data.price >= MAX_PRICE) {
+				setError('price', {
+					message: '일억원 이상 등록하실 수 없습니다.',
+				})
+				setFocus('price')
+				return
+			}
 		}
-		data.product_imgs = imageFileList
-		console.log(data)
+
+		formData.append('title', data.title)
+		formData.append('price', data.price)
+		formData.append('description', data.description)
+		formData.append('category', data.category)
+		formData.append('region', data.region)
+		formData.append('tag', data.tag)
+		imageFileList.forEach(el => {
+			formData.append('images', el)
+		})
+
 		const mode = detail ? '수정' : '등록'
-		window.alert(`물품 ${mode}이 완료되었습니다.`)
+
+		if (confirm(`물품을 ${mode}하시겠습니까?`)) {
+			if (detail) {
+				formData.append('idx', idx)
+				if (mainImage) {
+					formData.append('main_url', mainImage)
+				}
+				formData.append('img_url', subImageList)
+				// for (const value of formData.values()) {
+				// 	console.log(value)
+				// }
+				const response = await productAxios.patchProductInfo(formData)
+				if (response.status === 200) {
+					window.alert(`물품 ${mode}이 완료되었습니다.`)
+					linkDetailPage(idx)
+				}
+				// 수정
+			} else {
+				// 등록
+				const response = await productAxios.addRegisterProduct(formData)
+				if (response.status === 200) {
+					const product_id = response.data.message
+					window.alert(`물품 ${mode}이 완료되었습니다.`)
+					linkDetailPage(product_id)
+				}
+			}
+		}
 	}
 
+	/* 본인이 등록한 상품을 수정하는 것인지 검사하는 로직 */
+	useEffect(() => {
+		if (detail && !isSeller) {
+			alert('옳지 않은 접근입니다.')
+			linkMainPage()
+		}
+	}, [detail, isSeller])
+
 	return (
-		<Container>
-			<S.Wrapper>
-				{/* 타이틀 시작 */}
-				<S.TitleArea>
-					<S.Title2>{detail ? '물품 수정' : '물품 등록'}</S.Title2>
-					<S.RightArea>
-						<span>
-							<span className="secondary">*필수항목</span>은 꼭 입력해주세요
-						</span>
-					</S.RightArea>
-				</S.TitleArea>
-				{/* 타이틀 끝 */}
-				<form onSubmit={handleSubmit(onSubmit)}>
-					{/* 물품 이미지 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>
-							물품 이미지
-							<span id="cnt">
-								({imagePreviews.length}/{MAX_IMAGE_CNT})
-							</span>
-						</S.FormLabel>
-						<S.FormRegister>
-							<div>
-								<DeFormImagePreviewGroup
-									ref={imageRef}
-									register={register}
-									handleImageChange={handleImageChange}
-									imagePreviews={imagePreviews}
-									setImagePreviews={setImagePreviews}
-									imageFileList={imageFileList}
-									setImageFileList={setImageFileList}
-								/>
-							</div>
-							<ul className="infoMessage">
-								<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-								<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-							</ul>
-							{errors.image && (
-								<S.ErrorMessage className="error">
-									{errors.image.message}
-								</S.ErrorMessage>
-							)}
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 제목 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>제목</S.FormLabel>
-						<S.FormRegister>
-							<Input
-								placeholder={'제목을 입력해주세요'}
-								width={'500'}
-								{...titleRegister}
-								error={errors.product_title && errors.product_title.message}
-								onKeyPress={event => {
-									if (event.key === 'Enter') {
-										event.preventDefault()
-									}
-								}}
-							/>
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 거래방식 (판매/나눔) */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>거래방식</S.FormLabel>
-						<Input type="hidden" {...isFreeRegister} />
-						<S.FormRegister>
-							<InputGroup>
-								<Button
-									className={!isFreeProduct && 'selected'}
-									type="button"
-									label={'판매'}
-									variant={'gray-outlined'}
-									onClick={() => onClickIsFree(false)}
-								/>
-								<Button
-									className={isFreeProduct && 'selected'}
-									type="button"
-									label={'나눔'}
-									variant={'gray-outlined'}
-									onClick={() => onClickIsFree(true)}
-								/>
-							</InputGroup>
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 가격 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>가격</S.FormLabel>
-						<S.FormRegister>
-							<S.CustomInput className="price">
-								<Input
-									placeholder={'가격을 입력해주세요'}
-									width={'348'}
-									disabled={isFreeProduct}
-									{...priceRegister}
-									onChange={onChangePrice}
-									error={errors.product_price && errors.product_price.message}
-								/>
-							</S.CustomInput>
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 태그 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>태그</S.FormLabel>
-						<S.FormRegister>
-							<InputGroup display={'inline-flex'}>
-								<FormControl>
-									<InputLabel id="product_tag">카테고리</InputLabel>
-									<Select
-										ref={categoryRef}
-										labelId="product_tag"
-										value={categoryTag}
-										sx={{
-											width: '200px',
-											height: '50px',
-											padding: '0 16px',
-											lineHeight: '50px',
-											fontSize: '18px',
-										}}
-										onChange={onChangeCategoryTag}
-									>
-										{categories.map(category => (
-											<MenuItem
-												key={`cate-${category.path}`}
-												value={category.label}
-											>
-												{category.label}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								<S.CustomInput className="tag">
+		<>
+			{detail && !isSeller ? (
+				<Container></Container>
+			) : (
+				<Container>
+					<S.Wrapper>
+						{/* 타이틀 시작 */}
+						<S.TitleArea>
+							<S.Title2>{detail ? '물품 수정' : '물품 등록'}</S.Title2>
+							<S.RightArea>
+								<span>
+									<span className="secondary">*필수항목</span>은 꼭 입력해주세요
+								</span>
+							</S.RightArea>
+						</S.TitleArea>
+						{/* 타이틀 끝 */}
+						<form
+							onSubmit={handleSubmit(onSubmit)}
+							encType="multipart/form-data"
+						>
+							{/* 물품 이미지 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>
+									물품 이미지
+									<span id="cnt">
+										(
+										{detail
+											? mainImage
+												? subImageList.length + imagePreviews.length + 1
+												: subImageList + imagePreviews.length
+											: imagePreviews.length}
+										/{MAX_IMAGE_CNT})
+									</span>
+								</S.FormLabel>
+								<S.FormRegister>
+									<div>
+										<DeFormImagePreviewGroup
+											ref={imageRef}
+											register={register}
+											handleImageChange={handleImageChange}
+											mainImage={mainImage}
+											setMainImage={setMainImage}
+											subImageList={subImageList}
+											setSubImageList={setSubImageList}
+											imagePreviews={imagePreviews}
+											setImagePreviews={setImagePreviews}
+											imageFileList={imageFileList}
+											setImageFileList={setImageFileList}
+										/>
+									</div>
+									<ul className="infoMessage">
+										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
+										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
+									</ul>
+									{errors.image && (
+										<S.ErrorMessage className="error">
+											{errors.image.message}
+										</S.ErrorMessage>
+									)}
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 제목 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>제목</S.FormLabel>
+								<S.FormRegister>
 									<Input
-										ref={tagRef}
-										className="tag"
-										placeholder={'태그를 입력해주세요'}
-										width={'348'}
-										onKeyPress={onTagEnter}
+										placeholder={'제목을 입력해주세요'}
+										width={'500'}
+										{...titleRegister}
+										error={errors.title && errors.title.message}
+										onKeyPress={event => {
+											if (event.key === 'Enter') {
+												event.preventDefault()
+											}
+										}}
 									/>
-								</S.CustomInput>
-								<Button
-									type="button"
-									label={'추가'}
-									variant={'outlined'}
-									onClick={onAddTag}
-								/>
-							</InputGroup>
-							{tagList.length > 0 ? (
-								<DeFormTagGroup
-									register={register}
-									tagList={tagList}
-									errors={errors}
-									categoryTag={categoryTag}
-									onDeleteTag={onDeleteTag}
-								/>
-							) : (
-								<>
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 거래방식 (판매/나눔) */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>거래방식</S.FormLabel>
+								<Input type="hidden" {...isFreeRegister} />
+								<S.FormRegister>
+									<InputGroup>
+										<Button
+											className={isFreeProduct === 0 && 'selected'}
+											type="button"
+											label={'판매'}
+											variant={'gray-outlined'}
+											onClick={() => onClickIsFree(0)}
+										/>
+										<Button
+											className={isFreeProduct === 1 && 'selected'}
+											type="button"
+											label={'나눔'}
+											variant={'gray-outlined'}
+											onClick={() => onClickIsFree(1)}
+										/>
+									</InputGroup>
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 가격 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>가격</S.FormLabel>
+								<S.FormRegister>
+									<S.CustomInput className="price">
+										<Input
+											placeholder={'가격을 입력해주세요'}
+											width={'348'}
+											disabled={isFreeProduct}
+											{...priceRegister}
+											onChange={onChangePrice}
+											error={errors.price && errors.price.message}
+										/>
+										<span>{koPrice}</span>
+									</S.CustomInput>
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 태그 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>태그</S.FormLabel>
+								<S.FormRegister>
+									<S.TagWrapper>
+										<FormControl>
+											<InputLabel id="tag">카테고리</InputLabel>
+											<Select
+												ref={categoryRef}
+												labelId="tag"
+												value={categoryTag}
+												sx={{
+													width: isDesk ? '200px' : '100%',
+													height: '50px',
+													padding: '0 16px',
+													lineHeight: '50px',
+													fontSize: '18px',
+												}}
+												onChange={onChangeCategoryTag}
+											>
+												{categories.map(category => (
+													<MenuItem
+														key={`cate-${category.path}`}
+														value={category.label}
+														selected={categoryTag === category.label}
+													>
+														{category.label}
+													</MenuItem>
+												))}
+											</Select>
+										</FormControl>
+										<InputGroup display={isDesk ? 'inline-flex' : 'flex'}>
+											<S.CustomInput className="tag">
+												<Input
+													ref={tagRef}
+													className="tag"
+													placeholder={'태그를 입력해주세요'}
+													width={isDesk && '348'}
+													onKeyPress={onTagEnter}
+												/>
+											</S.CustomInput>
+											<Button
+												type="button"
+												label={'추가'}
+												variant={'outlined'}
+												onClick={onAddTag}
+											/>
+										</InputGroup>
+									</S.TagWrapper>
+									{tagList.length > 0 ? (
+										<DeFormTagGroup
+											register={register}
+											tagList={tagList}
+											errors={errors}
+											categoryTag={categoryTag}
+											onDeleteTag={onDeleteTag}
+										/>
+									) : (
+										<>
+											<Input
+												type="text"
+												value={''}
+												{...register('tag', {
+													required: '태그를 하나 이상 등록해주세요.',
+												})}
+												style={{
+													width: '0',
+													height: '0',
+													border: 'none',
+												}}
+												onFocus={onFocusHiddenTag}
+											/>
+											{errors.tag && (
+												<S.ErrorMessage className="error">
+													{errors.tag.message}
+												</S.ErrorMessage>
+											)}
+										</>
+									)}
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 내용 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>내용</S.FormLabel>
+								<S.FormRegister>
+									<S.Textarea
+										placeholder={'텍스트를 적어주세요'}
+										row={'5'}
+										{...contentRegister}
+										error={errors.description && errors.description.message}
+									></S.Textarea>
+									{errors.description && (
+										<S.ErrorMessage className="error">
+											{errors.description.message}
+										</S.ErrorMessage>
+									)}
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 거래 희망 장소 */}
+							<S.FormGroup>
+								<S.FormLabel required={'required'}>거래 희망 장소</S.FormLabel>
+								<S.FormRegister>
 									<Input
 										type="text"
-										value={''}
-										{...register('tag', {
-											required: '태그를 하나 이상 등록해주세요.',
-										})}
+										{...placeRegister}
 										style={{
-											width: '0',
+											marginBottom: '-12px',
+											width: '0px',
 											height: '0',
 											border: 'none',
 										}}
-										onFocus={onFocusHiddenTag}
+										onFocus={onFocusHiddenMap}
 									/>
-									{errors.tag && (
-										<S.ErrorMessage className="error">
-											{errors.tag.message}
-										</S.ErrorMessage>
-									)}
-								</>
-							)}
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 내용 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>내용</S.FormLabel>
-						<S.FormRegister>
-							<S.Textarea
-								placeholder={'텍스트를 적어주세요'}
-								row={'5'}
-								{...contentRegister}
-								error={errors.product_content && errors.product_content.message}
-							></S.Textarea>
-							{errors.product_content && (
-								<S.ErrorMessage className="error">
-									{errors.product_content.message}
-								</S.ErrorMessage>
-							)}
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 거래 희망 장소 */}
-					<S.FormGroup>
-						<S.FormLabel required={'required'}>거래 희망 장소</S.FormLabel>
-						<S.FormRegister>
-							<Input
-								type="text"
-								{...placeRegister}
-								style={{
-									marginBottom: '-12px',
-									width: '0px',
-									height: '0',
-									border: 'none',
-								}}
-								onFocus={onFocusHiddenMap}
-							/>
-							<InputGroup display={'flex'}>
-								<Input
-									placeholder={'ex. 서울시 강남구 역삼동'}
-									defaultValue={address}
-									onBlur={onSearchMap}
-									ref={addressRef}
-									error={errors.product_place && errors.product_place.message}
-								/>
+									<InputGroup display={'flex'}>
+										<Input
+											placeholder={'ex. 서울시 강남구 역삼동'}
+											defaultValue={address}
+											onBlur={onSearchMap}
+											ref={addressRef}
+											error={errors.region && errors.region.message}
+										/>
+										<Button
+											type="button"
+											label={'주소 검색'}
+											variant={'outlined'}
+											onClick={onSearchMap}
+										/>
+									</InputGroup>
+									<S.Map>
+										<ProductFormMap
+											formAddress={address}
+											setValue={setValue}
+											setError={setError}
+											clearErrors={clearErrors}
+											setAddress={setAddress}
+										/>
+									</S.Map>
+								</S.FormRegister>
+							</S.FormGroup>
+							{/* 버튼 그룹 시작 */}
+							<S.ButtonWrap>
 								<Button
 									type="button"
-									label={'주소 검색'}
-									variant={'outlined'}
-									onClick={onSearchMap}
+									label={'취소'}
+									variant={'cancel'}
+									size={'large'}
 								/>
-							</InputGroup>
-							<S.Map>
-								<ProductFormMap
-									formAddress={address}
-									setValue={setValue}
-									setError={setError}
-									clearErrors={clearErrors}
-									setAddress={setAddress}
+								<Button
+									label={detail ? '물품 수정 완료' : '물품 등록 완료'}
+									variant={'primary'}
+									size={'large'}
 								/>
-							</S.Map>
-						</S.FormRegister>
-					</S.FormGroup>
-					{/* 버튼 그룹 시작 */}
-					<S.ButtonWrap>
-						<Button
-							type="button"
-							label={'취소'}
-							variant={'cancel'}
-							size={'large'}
-						/>
-						<Button
-							label={detail ? '물품 수정 완료' : '물품 등록 완료'}
-							variant={'primary'}
-							size={'large'}
-						/>
-					</S.ButtonWrap>
-					{/* 버튼 그룹 끝 */}
-				</form>
-			</S.Wrapper>
-		</Container>
+							</S.ButtonWrap>
+							{/* 버튼 그룹 끝 */}
+						</form>
+					</S.Wrapper>
+				</Container>
+			)}
+		</>
 	)
 }
 

@@ -27,8 +27,8 @@ const SSlideBanner = ({ Images, isAuto, loop, ...rest }) => {
 				className="mySwiper"
 			>
 				{Images.map(image => (
-					<SwiperSlide key={image.id}>
-						<img src={image.img_url} alt={image.img_url} loading={'lazy'} />
+					<SwiperSlide key={image}>
+						<img src={image} alt={image} loading={'lazy'} />
 					</SwiperSlide>
 				))}
 			</Swiper>

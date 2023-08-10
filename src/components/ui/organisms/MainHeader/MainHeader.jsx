@@ -1,7 +1,8 @@
 import { Box } from '@mui/material'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -15,6 +16,15 @@ const MainHeader = props => {
 	const { linkSellList, linkShareList, linkMyPage } = useMove()
 
 	const { isMobile } = useDevice()
+	const [showChatModal, setShowChatModal] = useState(false)
+	const [newChat, setNewChat] = useState()
+	const socket = useSocket()
+	useEffect(() => {
+		socket.on('newMessage', data => {
+			setNewChat(data)
+			setShowChatModal(true)
+		})
+	})
 
 	return (
 		<>
@@ -40,7 +50,7 @@ const MainHeader = props => {
 							zIndex: 100,
 						}}
 					>
-						<HeaderSearch />
+						<HeaderSearch newChat={newChat} />
 						<S.Container>
 							<Box
 								sx={{
@@ -105,7 +115,11 @@ const MainHeader = props => {
 							<S.ParadiseSection>
 								<span>파라다이스</span> 서비스 소개
 							</S.ParadiseSection>
-							<HeaderChatAlarm />
+							<HeaderChatAlarm
+								newChat={newChat}
+								showChatModal={showChatModal}
+								setShowChatModal={setShowChatModal}
+							/>
 						</S.Container>
 					</Box>
 				</>

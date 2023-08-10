@@ -2,6 +2,7 @@ import useChatApi from 'hooks/service/useChat.service'
 import { useEffect, useRef, useState } from 'react'
 import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
+import timeHelper from 'utils/time-helper'
 
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
@@ -17,12 +18,10 @@ const Chating = ({
 	isRead,
 	isSeller,
 	admin,
-	createdAt,
 }) => {
 	const { data } = useChatApi.useGetChatLog(id)
 	const [message, setMessage] = useState('')
 	const { mutate } = useChatApi.useSendChat(id, message)
-	const [newChat, setNewChat] = useState()
 
 	const socket = useSocket()
 
@@ -30,13 +29,13 @@ const Chating = ({
 		socket.emit('join', { room_idx: id })
 		socket.on('receiveMessage', data => {
 			mutate(data)
+			console.log(timeHelper(data.createdAt))
 		})
 
 		return () => {
 			socket.emit('leave', { room_idx: id })
 		}
 	}, [socket, id])
-	console.log(newChat)
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -44,7 +43,7 @@ const Chating = ({
 
 		const msg = {
 			title: productTitle,
-			createdAt: createdAt,
+			createdAt: new Date(),
 			prod_idx: productId,
 			room_idx: id,
 			nickName: admin,
@@ -55,6 +54,7 @@ const Chating = ({
 		socket.emit('sendMessage', msg)
 
 		mutate(msg.room_idx, msg.message)
+		console.log(timeHelper(msg.createdAt))
 
 		setMessage('')
 	}

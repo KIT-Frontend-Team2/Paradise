@@ -1,25 +1,23 @@
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { useState } from 'react'
 import styled from 'styled-components'
+import timeHelper from 'utils/time-helper'
 
-const HeaderChatAlarm = () => {
-	const [showChatModal, setShowChatModal] = useState(false)
-	const [prodId, setProdId] = useState(null)
-
+const HeaderChatAlarm = ({ newChat, showChatModal, setShowChatModal }) => {
 	const { isTablet } = useDevice()
 	const handleChatModalClose = () => {
 		setShowChatModal(false)
 	}
-
+	console.log(newChat)
 	return (
 		<>
-			{showChatModal && data && (
+			{showChatModal && newChat && (
 				<S.ChatModal istablet={isTablet ? 'true' : 'false'}>
 					<S.ChatBox>
 						<S.ChatText>새로운 채팅 도착!</S.ChatText>
-						<S.ChatTime>title</S.ChatTime>
+						<S.ChatTime>{timeHelper(newChat.createdAt)}</S.ChatTime>
 					</S.ChatBox>
-					<S.ProductName>asdasd</S.ProductName>
+					<S.ProductName>{newChat.title}</S.ProductName>
+					{/* <div>{newChat.message}</div> */}
 					<S.CloseButton onClick={handleChatModalClose}>닫기</S.CloseButton>
 				</S.ChatModal>
 			)}

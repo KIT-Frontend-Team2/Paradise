@@ -21,7 +21,7 @@ import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUser
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
 	const { product } = productInfo.relatedProduct
-	const {
+	let {
 		ProductImages,
 		createdAt,
 		description,
@@ -32,12 +32,16 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		region,
 		status,
 		title,
-		ProductsTags = [{ Tag: { tag: title } }],
+		ProductsTags,
 		user_idx,
 	} = productInfo.searchProduct
 	const img_array = [img_url, ...ProductImages.map(item => item.img_url)]
 	const ChartDate = getStartAndEndDate()
 	const [isChart, setIsChart] = useState(true)
+
+	if (ProductsTags.length === 0) {
+		ProductsTags = [{ Tag: { tag: '기타 중고 물품' } }]
+	}
 	const { data } = useProductService.useGetChartData(
 		ProductsTags[0].Tag.tag,
 		ChartDate[0],
@@ -94,7 +98,11 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		<Container>
 			<S.FlexBox desktop={isDesk.toString()}>
 				{isDesk ? (
-					<DeImgSection containerWidth={containerWidth} itemData={img_array} />
+					<DeImgSection
+						img_url={img_url}
+						containerWidth={containerWidth}
+						Images={img_array}
+					/>
 				) : (
 					<SSlideBanner Images={img_array} loop={true} />
 				)}
@@ -113,7 +121,6 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						title={title}
 						state={status}
 						productInfo={description}
-						containerWidth={containerWidth - 30}
 					/>
 					<DeProductCategoryTag category={ProductsTags} />
 					<DeProductMapSection rightTitle={region} />
@@ -155,6 +162,7 @@ export const S = {}
 
 S.Flex = styled.div`
 	display: flex;
+	gap: 30px;
 `
 S.FlexBox = styled(S.Flex)`
 	padding-bottom: 30px;

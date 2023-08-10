@@ -2,10 +2,13 @@ import API_KEY from '../../consts/ApiKey'
 import { axiosInstance } from '../axiosInstance'
 
 const reviewService = {
-	postReview: reviewInfo => {
-		return axiosInstance.post(API_KEY.API + API_KEY.REVIEW, {
+	postReview: (payList_idx, reviewInfo) => {
+		return axiosInstance.post(API_KEY.API + API_KEY.REVIEW, reviewInfo, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
 			params: {
-				...reviewInfo,
+				payList_idx,
 			},
 		})
 	},
@@ -25,10 +28,14 @@ const reviewService = {
 	},
 
 	modifyReview: (review_idx, reviewInfo) => {
-		return axiosInstance.patch(
-			API_KEY.API + API_KEY.REVIEW + `/?review_idx=${review_idx}`,
-			{ ...reviewInfo },
-		)
+		return axiosInstance.patch(API_KEY.API + API_KEY.REVIEW, reviewInfo, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			params: {
+				review_idx,
+			},
+		})
 	},
 
 	deleteReview: review_idx => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import LoadApi from '../../hooks/pageQuery/useLoadPage'
-import ProductSearchUserTemplate from '../templates/ProductSearchUserTemplate/ProductSearchUserTemplate'
+import ProductListTemplate from '../templates/ProductListTemplate/ProductListTemplate'
 
 const ProductUserListPage = () => {
 	const { getSearchUserPage } = LoadApi()
@@ -12,10 +12,11 @@ const ProductUserListPage = () => {
 	const { data } = getSearchUserPage(userId, page)
 	const { product, pagination } = data.data
 	return (
-		<ProductSearchUserTemplate
+		<ProductListTemplate
 			pagination={pagination}
 			products={product}
-			userName={userId}
+			title={userId}
+			intro={'님의 상품 목록입니다.'}
 		/>
 	)
 }
