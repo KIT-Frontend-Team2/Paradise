@@ -23,6 +23,7 @@ const DeFormImagePreviewGroup = forwardRef(
 			setImageFileList,
 			removeBgUrl,
 			setRemoveBgUrl,
+			type,
 		},
 		ref,
 	) => {
@@ -126,6 +127,7 @@ const DeFormImagePreviewGroup = forwardRef(
 
 		// 썸네일 미리보기
 		useEffect(() => {
+			if (type === 'review') return
 			if (!detail && imagePreviews.length > 0) {
 				setRemoveBgUrl(imagePreviews[0].img_url)
 				setIsRemoveDone(false)
@@ -246,7 +248,7 @@ const DeFormImagePreviewGroup = forwardRef(
 					<S.RemoveBackgroundWrap>
 						<h3>대표 썸네일 미리보기</h3>
 						<S.FlexBox>
-							<S.ImageWrapper isRemoveBgLoading={isRemoveBgLoading}>
+							<S.ImageWrapper isremovebgloading={isRemoveBgLoading.toString()}>
 								<img src={removeBgUrl} />
 							</S.ImageWrapper>
 							<S.TipWrapper>
@@ -397,12 +399,12 @@ S.DeleteButton = styled.div`
 
 S.ToastMessageWrap = styled.div`
 	display: ${({ ismodalopen }) => (ismodalopen === 'true' ? 'flex' : 'none')};
-	position: absolute;
+	position: fixed;
 	top: ${({ theme }) =>
-		theme.isDesktop || theme.isTabletAndLaptop ? '-30px' : '10em'};
+		theme.isDesktop || theme.isTabletAndLaptop ? '30px' : '10em'};
 	left: 0;
 	right: 0;
-	z-index: 11;
+	z-index: 999;
 	align-items: center;
 	justify-content: center;
 `
@@ -465,8 +467,8 @@ S.ImageWrapper = styled.div`
 	border-radius: 10px;
 
 	&:before {
-		display: ${({ isRemoveBgLoading }) =>
-			isRemoveBgLoading ? 'block' : 'none'};
+		display: ${({ isremovebgloading }) =>
+			isremovebgloading === 'true' ? 'block' : 'none'};
 		content: '';
 		position: absolute;
 		z-index: 10;
@@ -475,8 +477,8 @@ S.ImageWrapper = styled.div`
 	}
 
 	&:after {
-		display: ${({ isRemoveBgLoading }) =>
-			isRemoveBgLoading ? 'block' : 'none'};
+		display: ${({ isremovebgloading }) =>
+			isremovebgloading === 'true' ? 'block' : 'none'};
 		content: '';
 		position: absolute;
 		z-index: 20;

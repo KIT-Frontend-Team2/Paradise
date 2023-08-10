@@ -17,7 +17,7 @@ import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
 import * as S from './style'
 import * as V from './validator'
 
-const ProductForm = ({ isSeller, detail }) => {
+const ProductForm = ({ userInfo, isSeller, detail }) => {
 	const {
 		idx,
 		title,
@@ -34,7 +34,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		images: [],
 		ProductsTags: [],
 		ProductImages: [],
-		region: '서울시 강남구 역삼동', // 작성자 지역
+		region: '', // 작성자 지역
 	}
 
 	const MAX_IMAGE_CNT = 5
@@ -61,7 +61,10 @@ const ProductForm = ({ isSeller, detail }) => {
 		const images = ProductImages.map(ProductImage => ProductImage.img_url)
 		setSubImageList(images)
 		price && geKoreanNumber(price)
-	}, [detail])
+		if (userInfo) {
+			setAddress(userInfo.region)
+		}
+	}, [detail, userInfo])
 
 	const { linkMainPage, linkDetailPage } = useMove()
 
@@ -132,7 +135,7 @@ const ProductForm = ({ isSeller, detail }) => {
 			category: category ? 1 : 0,
 			price: formatNumberToMoney(price),
 			description: description,
-			region: region,
+			region: address,
 		},
 	})
 
@@ -301,7 +304,7 @@ const ProductForm = ({ isSeller, detail }) => {
 						const response = await fetch(removeBgUrl)
 						const blob = await response.blob()
 
-						const bgRemoveFile = new File([blob], 'image.jpg', {
+						const bgRemoveFile = new File([blob], 'image.png', {
 							type: blob.type,
 						})
 						formData.append('images', bgRemoveFile)
