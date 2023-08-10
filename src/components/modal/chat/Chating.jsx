@@ -20,6 +20,7 @@ const Chating = ({
 	admin,
 }) => {
 	const { data } = useChatApi.useGetChatLog(id)
+
 	const [message, setMessage] = useState('')
 	const { mutate } = useChatApi.useSendChat(id, message)
 
