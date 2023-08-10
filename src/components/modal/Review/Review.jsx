@@ -14,6 +14,7 @@ import { Product_Info } from '../../../consts/product'
 import reviewService from '../../../hooks/service/review.service'
 import toastMessage from '../../../utils/toast-message'
 
+
 const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 	const { img_url, ReviewImages, title, content, ondo, idx } = (isUpdate &&
 		detail) || {
@@ -276,6 +277,7 @@ export const S = {}
 S.BackgroundColor = styled.div`
 	background: white;
 	padding: 50px;
+
 `
 
 S.Con = styled.div`
