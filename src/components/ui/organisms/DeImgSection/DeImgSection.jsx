@@ -11,7 +11,9 @@ const DeImgSection = ({ img_url, Images, containerWidth }) => {
 	return (
 		<S.LeftSection>
 			<S.ImgBoxSticky>
-				<S.TitleImg size={containerWidth} image={useTitleImg || defaultImg} />
+				<S.TitleImg>
+					<img src={useTitleImg || defaultImg} alt={useTitleImg} />
+				</S.TitleImg>
 				<ImageList
 					sx={{ width: containerWidth - 20, margin: '10px auto 10px' }}
 					cols={Images.length}
@@ -54,12 +56,15 @@ S.ImgBoxSticky = styled.div`
 
 S.TitleImg = styled.div`
 	max-width: 500px;
-	background-image: ${({ image }) => `url(${image})`};
-	background-size: cover;
 	aspect-ratio: 1/1;
 	border: 1px solid ${({ theme }) => theme.PALETTE.gray['300']};
-	background-position: center;
 	margin: 0 auto;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 `
 S.ImgBox = styled.div`
 	aspect-ratio: 1/1;
