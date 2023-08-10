@@ -21,10 +21,13 @@ const useUserAPi = {
 			{
 				retry: 1,
 				onSuccess: data => {
-					UserRepository.setUser(JSON.stringify(data.data.user))
+					const userData = {
+						...data.data.user,
+						socket: socket.id,
+					}
+					UserRepository.setUser(JSON.stringify(userData))
 					TokenRepository.setToken(data.data.tokenForHeader)
 					socket.emit('connect-user', { token: TokenRepository.getToken() })
-					console.log(socket.id)
 				},
 			},
 		)

@@ -1,7 +1,7 @@
-import { showChatState } from 'atom/chat/atom'
+import { selectedChatState, showChatState } from 'atom/chat/atom'
 import useChatApi from 'hooks/service/useChat.service'
 import { useState } from 'react'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
 
@@ -17,7 +17,7 @@ const Chat = () => {
 	const user = JSON.parse(UserRepository.getUser())
 	const admin = user.nickName
 
-	const [selectedChat, setSelectedChat] = useState(null)
+	const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState)
 
 	const [layout, setLayout] = useState(true)
 
@@ -41,7 +41,7 @@ const Chat = () => {
 							isRead={selectedChat.isRead}
 							isSeller={selectedChat.isSeller}
 							admin={admin}
-							selectedChat={selectedChat}
+							createdAt={selectedChat.lastMessageCreatedAt}
 							setLayout={setLayout}
 						/>
 					) : (

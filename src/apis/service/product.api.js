@@ -43,6 +43,13 @@ const productAxios = {
 			params: { keyword, start, end },
 		})
 	},
+	getProductDetail: prod_idx => {
+		return axiosInstance.get(API_KEY.API + API_KEY.PRODUCT + API_KEY.DETAIL, {
+			params: {
+				prod_idx,
+			},
+		})
+	},
 }
 
 export default productAxios

@@ -17,23 +17,26 @@ const Chating = ({
 	isRead,
 	isSeller,
 	admin,
+	createdAt,
 }) => {
 	const { data } = useChatApi.useGetChatLog(id)
-
 	const [message, setMessage] = useState('')
 	const { mutate } = useChatApi.useSendChat(id, message)
+	const [newChat, setNewChat] = useState()
 
 	const socket = useSocket()
 
 	useEffect(() => {
 		socket.emit('join', { room_idx: id })
 		socket.on('receiveMessage', data => {
-			data
+			mutate(data)
 		})
+
 		return () => {
 			socket.emit('leave', { room_idx: id })
 		}
 	}, [socket, id])
+	console.log(newChat)
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -41,7 +44,7 @@ const Chating = ({
 
 		const msg = {
 			title: productTitle,
-			createdAt: new Date(),
+			createdAt: createdAt,
 			prod_idx: productId,
 			room_idx: id,
 			nickName: admin,
