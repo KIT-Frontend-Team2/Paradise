@@ -3,8 +3,10 @@ import React, { Suspense, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
+import { REVIEW_MESSAGE } from '../../../consts/message'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import reviewService from '../../../hooks/service/review.service'
+import ToastMessage from '../../../utils/toast-message'
 import Review from '../../modal/Review/Review'
 import ReviewDetail from '../../modal/Review/ReviewDetail'
 import Button from '../../ui/atoms/Button/Button'
@@ -63,14 +65,16 @@ const MyReviewTemplate = () => {
 	}
 
 	const deletehandling = async id => {
-		try {
-			if (confirm('정말 삭제하시겠습니까?')) {
-				await deleteMutate(id)
-				detailClose()
-				setSelectState(false)
-			}
-		} catch (err) {
-			console.log(err)
+
+		if (confirm('정말 삭제하시겠습니까?')) {
+			await ToastMessage.promise(
+				deleteMutate(id),
+				REVIEW_MESSAGE.DELETE_LOADING,
+				REVIEW_MESSAGE.DELETE_SUCCESS,
+				REVIEW_MESSAGE.ERROR_MESSAGE,
+			)
+			detailClose()
+			setSelectState(false)
 		}
 	}
 
@@ -105,7 +109,7 @@ const MyReviewTemplate = () => {
 			{/*리뷰 작성, 수정하기 모달*/}
 			<Modal
 				open={isOpen}
-				onClose={updateClose}
+				onClose={() => updateClose()}
 				children={
 					<S.ModalContainer mobile={isMobile.toString()}>
 						<Review
@@ -121,7 +125,7 @@ const MyReviewTemplate = () => {
 			{/*리뷰 상세 모달*/}
 			<Modal
 				open={isDetail}
-				onClose={detailClose}
+				onClose={() => detailClose()}
 				children={
 					<Suspense fallback={<></>}>
 						<S.ModalContainer mobile={isMobile.toString()}>

@@ -9,8 +9,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
+import { REVIEW_MESSAGE } from '../../../consts/message'
 import { Product_Info } from '../../../consts/product'
 import reviewService from '../../../hooks/service/review.service'
+import toastMessage from '../../../utils/toast-message'
+
 
 const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 	const { img_url, ReviewImages, title, content, ondo, idx } = (isUpdate &&
@@ -62,7 +65,7 @@ const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 
 				if (mainImage) totalImageCnt++
 				if (totalImageCnt > 5) {
-					return alert('이미지는 최대 5장까지 등록 가능합니다.')
+					return toastMessage.error(REVIEW_MESSAGE.IMAGE_MAX_ERROR)
 				}
 				setImagePreviews([...imagePreviewsArray])
 				setImageFileList([...imageFileArray])
@@ -83,29 +86,38 @@ const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 				formData.append('images', el)
 			})
 		}
-		const mode = isUpdate && detail ? '수정' : '등록'
 
-		if (confirm(`리뷰를 ${mode}하시겠습니까?`)) {
-			if (isUpdate && detail) {
-				if (mainImage) {
-					formData.append('main_url', mainImage)
-				}
-				formData.append('img_url', subImageList)
-				console.log(imageFileList)
-				console.log(imageFileList)
-				const response = await patchMutate({ idx, formData })
-				if (response.status === 200) {
-					window.alert(`리뷰 ${mode}이 완료되었습니다.`)
-					handleClose()
-				}
-				// 수정
-			} else {
-				// 등록
-				const response = await postMutate({ ReviewId, formData })
-				if (response.status === 200) {
-					window.alert(`리뷰 ${mode}이 완료되었습니다.`)
-					handleClose()
-				}
+		if (isUpdate && detail) {
+			if (mainImage) {
+				formData.append('main_url', mainImage)
+			}
+			formData.append('img_url', subImageList)
+			const response = await toastMessage.promise(
+				patchMutate({
+					idx,
+					formData,
+				}),
+				REVIEW_MESSAGE.PATCH_LOADING,
+				REVIEW_MESSAGE.PATCH_SUCCESS,
+				REVIEW_MESSAGE.ERROR_MESSAGE,
+			)
+			if (response.status === 200) {
+				handleClose()
+			}
+			// 수정
+		} else {
+			// 등록
+			const response = await toastMessage.promise(
+				postMutate({
+					ReviewId,
+					formData,
+				}),
+				REVIEW_MESSAGE.POST_LOADING,
+				REVIEW_MESSAGE.POST_SUCCESS,
+				REVIEW_MESSAGE.ERROR_MESSAGE,
+			)
+			if (response.status === 200) {
+				handleClose()
 			}
 		}
 	}
@@ -264,7 +276,8 @@ export const S = {}
 
 S.BackgroundColor = styled.div`
 	background: white;
-	padding: 20px 20px 20px;
+	padding: 50px;
+
 `
 
 S.Con = styled.div`
