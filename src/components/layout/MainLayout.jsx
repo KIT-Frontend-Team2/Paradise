@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
 import { styled } from 'styled-components'
 
@@ -8,17 +9,13 @@ import ErrorBoundary from '../error/ErrorBoundary'
 import SideBar from '../modal/Side/SideBar'
 import MainFooter from '../ui/organisms/MainFooter/MainFooter'
 import MainHeader from '../ui/organisms/MainHeader/MainHeader'
-import {Toaster} from "react-hot-toast";
 
 const MainLayout = () => {
 	const { handleErrorReset } = useResetError()
 
 	return (
 		<ErrorBoundary Fallback={ErrorPage} onReset={handleErrorReset}>
-			<Toaster
-				position="top-center"
-				reverseOrder={false}
-			/>
+			<Toaster position="top-center" reverseOrder={false} />
 			<S.Wrapper>
 				<Suspense fallback={<></>}>
 					<SideBar />

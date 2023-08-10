@@ -25,7 +25,7 @@ const productAxios = {
 	},
 
 	deleteProduct: prod_idx => {
-		return axiosInstance.delete(API_KEY.API + API_KEY.PRODUCT, {
+		return axiosInstance.delete(API_KEY.API + API_KEY.PRODUCT+'error', {
 			params: { prod_idx },
 		})
 	},
