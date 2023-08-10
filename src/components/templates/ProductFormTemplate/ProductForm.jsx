@@ -48,6 +48,7 @@ const ProductForm = ({ isSeller, detail }) => {
 	const [tagList, setTagList] = useState([])
 	const [address, setAddress] = useState(region)
 	const [koPrice, setKoPrice] = useState('')
+	const [removeBgUrl, setRemoveBgUrl] = useState(null)
 
 	const imageRef = useRef()
 	const categoryRef = useRef()
@@ -292,15 +293,35 @@ const ProductForm = ({ isSeller, detail }) => {
 			}
 		}
 
+		const convertImage = async () => {
+			for (let index = 0; index < imageFileList.length; index++) {
+				const el = imageFileList[index]
+
+				if (index === 0 && !detail) {
+					try {
+						const response = await fetch(removeBgUrl)
+						const blob = await response.blob()
+
+						const bgRemoveFile = new File([blob], 'image.jpg', {
+							type: blob.type,
+						})
+						formData.append('images', bgRemoveFile)
+					} catch (err) {
+						console.error('이미지 가져오기 실패', err)
+					}
+				} else {
+					formData.append('images', el)
+				}
+			}
+		}
+
 		formData.append('title', data.title)
 		formData.append('price', data.price)
 		formData.append('description', data.description)
 		formData.append('category', data.category)
 		formData.append('region', data.region)
 		formData.append('tag', data.tag)
-		imageFileList.forEach(el => {
-			formData.append('images', el)
-		})
+		await convertImage()
 
 		const mode = detail ? '수정' : '등록'
 
@@ -378,6 +399,7 @@ const ProductForm = ({ isSeller, detail }) => {
 								<S.FormRegister>
 									<div>
 										<DeFormImagePreviewGroup
+											detail={detail}
 											ref={imageRef}
 											register={register}
 											handleImageChange={handleImageChange}
@@ -389,12 +411,10 @@ const ProductForm = ({ isSeller, detail }) => {
 											setImagePreviews={setImagePreviews}
 											imageFileList={imageFileList}
 											setImageFileList={setImageFileList}
+											removeBgUrl={removeBgUrl}
+											setRemoveBgUrl={setRemoveBgUrl}
 										/>
 									</div>
-									<ul className="infoMessage">
-										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-									</ul>
 									{errors.image && (
 										<S.ErrorMessage className="error">
 											{errors.image.message}
