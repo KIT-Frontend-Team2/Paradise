@@ -115,9 +115,11 @@ export const CustomInput = styled.div`
 
 	&.price {
 		display: flex;
-		flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
+		flex-direction: ${({ theme }) =>
+			theme.isDesktop || theme.isTabletAndLaptop ? 'row' : 'column'};
 		gap: 20px;
-		align-items: ${({ theme }) => (theme.isDesktop ? 'center' : 'flex-end')};
+		align-items: ${({ theme }) =>
+			theme.isDesktop || theme.isTabletAndLaptop ? 'center' : 'flex-end'};
 
 		input {
 			text-align: right;

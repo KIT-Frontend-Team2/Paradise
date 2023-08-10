@@ -236,12 +236,9 @@ const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 											setImagePreviews={setImagePreviews}
 											imageFileList={imageFileList}
 											setImageFileList={setImageFileList}
+											type={'review'}
 										/>
 									</div>
-									<ul className="infoMessage">
-										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-									</ul>
 								</S.FormRegister>
 							</S.FormGroup>
 							{/* 버튼 그룹 시작 */}
