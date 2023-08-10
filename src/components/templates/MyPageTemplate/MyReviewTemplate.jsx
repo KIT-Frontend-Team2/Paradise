@@ -98,7 +98,7 @@ const MyReviewTemplate = () => {
 	}
 
 	if (isMobile) {
-		repeat = 1
+		repeat = 2
 	}
 	return (
 		<S.Wrapper>

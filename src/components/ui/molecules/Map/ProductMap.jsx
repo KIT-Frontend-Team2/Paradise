@@ -21,7 +21,6 @@ const ProductMap = ({ formAddress }) => {
 
 						if (region && district && village) {
 							let searchaddress2 = `${region} ${district} ${village}`
-							console.log(searchaddress2)
 							geocoder.addressSearch(searchaddress2, function (result, status) {
 								if (status === kakao.maps.services.Status.OK) {
 									const { x, y } = result[0].road_address || result[0].address

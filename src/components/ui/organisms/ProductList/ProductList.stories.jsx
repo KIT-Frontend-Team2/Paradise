@@ -17,7 +17,6 @@ const Template = args => <ProductList {...args} />
 export const Controls = Template.bind({})
 
 Controls.args = {
-	size: 250,
 	products: [
 		{
 			idx: 310,

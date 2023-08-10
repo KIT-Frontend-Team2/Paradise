@@ -46,7 +46,6 @@ S.LikeBox = styled.div`
 `
 
 S.Card = styled.div`
-	width: ${({ size }) => size + 'px'};
 	text-align: left;
 `
 S.ImgBox = styled.div`
