@@ -1,22 +1,32 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
+import SellCheck from 'components/modal/mypage/SellCheck'
 import Button from 'components/ui/atoms/Button/Button'
+import useChatApi from 'hooks/service/useChat.service'
 import useMypageApi from 'hooks/service/useMypage.service'
+import useMove from 'hooks/useMovePage'
 import React, { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
-const SellMenuBar = ({ prod_idx }) => {
+const SellMenuBar = ({ prod_idx, filter }) => {
+	const { linkModifyProduct } = useMove()
+	const id = prod_idx
+
 	const [changeIcon, setChangeIcon] = useState(true)
 	const [openMenu, setOpenMenu] = useState(false)
 	const [handleState, setHandleState] = useState(false)
+	const [searchParams, _] = useSearchParams()
 
 	const handleIcon = () => {
 		setChangeIcon(!changeIcon)
 		setOpenMenu(!openMenu)
 	}
 
+	const page = searchParams.get('page')
+	const { data } = useChatApi.useGetChatProduct(page, prod_idx)
+	const chatUser = data.data
 	const { mutate } = useMypageApi.useDeleteProduct()
-	const { mutate: chageState } = useMypageApi.useChangeState(prod_idx)
 
 	const hadleDelete = () => {
 		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
@@ -27,10 +37,8 @@ const SellMenuBar = ({ prod_idx }) => {
 	}
 
 	const hadnleState = () => {
-		setHandleState(true)
-		if (handleState) {
-			chageState()
-		}
+		if (!handleState) return setHandleState(true)
+		setHandleState(false)
 	}
 
 	return (
@@ -52,6 +60,9 @@ const SellMenuBar = ({ prod_idx }) => {
 								style={{ width: '96px', height: '42px', fontSize: '13px' }}
 								label={'수정'}
 								variant={'outlined'}
+								onClick={() => {
+									linkModifyProduct(id)
+								}}
 							/>
 							<Button
 								style={{ width: '96px', height: '42px', fontSize: '13px' }}
@@ -62,6 +73,17 @@ const SellMenuBar = ({ prod_idx }) => {
 						</S.Bottom>
 					</S.Container>
 				</S.Wraaper>
+			) : (
+				''
+			)}
+			{handleState ? (
+				<SellCheck
+					chatUser={chatUser}
+					prod_idx={prod_idx}
+					setHandleState={setHandleState}
+					setOpenMenu={setOpenMenu}
+					filter={filter}
+				/>
 			) : (
 				''
 			)}

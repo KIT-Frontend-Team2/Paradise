@@ -1,4 +1,5 @@
 import Pagination from 'components/ui/molecules/Pagination/Pagination'
+import MonthPrice from 'components/ui/organisms/MyPageSection/MyMonthPrice'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
 import useMypageApi from 'hooks/service/useMypage.service'
@@ -25,8 +26,6 @@ const MyCashTemplate = () => {
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
-	console.log(start, end)
-
 	const handlePageChange = newpage => {
 		setCurPage(newpage)
 		searchParams.set('page', curPage)
@@ -46,7 +45,8 @@ const MyCashTemplate = () => {
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>
-				<TotalPrice />
+				<MonthPrice amount={data.data.amount} />
+				<TotalPrice amount={data.data.amount} />
 			</S.TotalPrice>
 			<Calendar
 				setStartDate={setStartDate}
@@ -84,5 +84,8 @@ S.Title = styled.h2`
 S.Content = styled.div``
 
 S.TotalPrice = styled.div`
+	display: flex;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
+	gap: 10px;
 	margin: 60px 0;
 `
