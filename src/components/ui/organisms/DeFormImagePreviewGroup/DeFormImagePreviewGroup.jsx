@@ -1,5 +1,7 @@
+import removeBackground from '@imgly/background-removal'
 import registerIcon from 'assets/images/ico-image-register.png'
 import deleteIcon from 'assets/images/ico-preview-del.png'
+import Button from 'components/ui/atoms/Button/Button'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { forwardRef, useEffect, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -8,6 +10,7 @@ import { styled } from 'styled-components'
 const DeFormImagePreviewGroup = forwardRef(
 	(
 		{
+			detail,
 			register,
 			handleImageChange,
 			mainImage,
@@ -18,12 +21,16 @@ const DeFormImagePreviewGroup = forwardRef(
 			setImagePreviews,
 			imageFileList,
 			setImageFileList,
+			removeBgUrl,
+			setRemoveBgUrl,
+			type,
 		},
 		ref,
 	) => {
 		const [isHighlight, setIsHighlight] = useState(false)
 		const [isModalOpen, setIsModalOpen] = useState(false)
-
+		const [isRemoveBgLoading, setIsRemoveBgLoading] = useState(false)
+		const [isRemoveDone, setIsRemoveDone] = useState(false)
 		const { isDesktop, isTabletAndLaptop } = useDevice()
 
 		const isDesk = isDesktop || isTabletAndLaptop
@@ -106,110 +113,164 @@ const DeFormImagePreviewGroup = forwardRef(
 			}
 		}, [isModalOpen])
 
+		const removeBg = async () => {
+			setIsRemoveBgLoading(true)
+
+			const image = removeBgUrl
+			const imageBlob = await removeBackground(image)
+			const url = URL.createObjectURL(imageBlob)
+
+			setRemoveBgUrl(url)
+			setIsRemoveBgLoading(false)
+			setIsRemoveDone(true)
+		}
+
+		// 썸네일 미리보기
+		useEffect(() => {
+			if (type === 'review') return
+			if (!detail && imagePreviews.length > 0) {
+				setRemoveBgUrl(imagePreviews[0].img_url)
+				setIsRemoveDone(false)
+			} else {
+				setRemoveBgUrl(null)
+			}
+		}, [imagePreviews[0]])
 		return (
-			<S.PreviewGroup>
-				<S.ToastMessageWrap isModalOpen={isModalOpen}>
-					<S.ToastMessage>
-						기존에 등록된 이미지는 순서 변경이 불가능합니다. <br />
-						순서 변경을 원하시면 이미지를 다시 등록해주세요.
-					</S.ToastMessage>
-				</S.ToastMessageWrap>
-				<input
-					type="file"
-					name="file"
-					id="file"
-					accept="image/*"
-					multiple
-					onChange={event => handleImageChange(event.target.files)}
-				/>
-				<label
-					htmlFor="file"
-					role="button"
-					className={isHighlight ? 'highlight' : ''}
-					onDragEnter={highlight}
-					onDragOver={highlight}
-					onDragLeave={unhighlight}
-					onDrop={handleDrop}
-				>
-					<img className="registerIcon" src={registerIcon} ref={ref} />
-				</label>
-				{mainImage && (
-					<>
-						{!isDesk && <p>기존 이미지 (순서 변경 불가)</p>}
-						<div className="previewBoxWrap">
-							{mainImage && (
-								<div className="previewBox" onDragEnter={alertDragDisable}>
-									<img src={mainImage} alt="메인이미지" />
-									<S.DeleteButton onClick={onDeleteMainImage}>
-										<img src={deleteIcon} />
-									</S.DeleteButton>
-								</div>
-							)}
-							{subImageList.length > 0 &&
-								subImageList.map((preview, index) => (
-									<div
-										key={`img-${index}`}
-										className="previewBox"
-										onDragEnter={alertDragDisable}
-									>
-										<img src={preview} alt={`Preview ${index + 1}`} />
-										{/* <input type="hidden" {...register(`images.${index}`)} /> */}
-										<S.DeleteButton onClick={() => onDeleteSubImage(index)}>
+			<>
+				<S.PreviewGroup>
+					<S.ToastMessageWrap ismodalopen={isModalOpen.toString()}>
+						<S.ToastMessage>
+							기존에 등록된 이미지는 순서 변경이 불가능합니다. <br />
+							순서 변경을 원하시면 이미지를 다시 등록해주세요.
+						</S.ToastMessage>
+					</S.ToastMessageWrap>
+					<input
+						type="file"
+						name="file"
+						id="file"
+						accept="image/*"
+						multiple
+						onChange={event => handleImageChange(event.target.files)}
+					/>
+					<label
+						htmlFor="file"
+						role="button"
+						className={isHighlight ? 'highlight' : ''}
+						onDragEnter={highlight}
+						onDragOver={highlight}
+						onDragLeave={unhighlight}
+						onDrop={handleDrop}
+					>
+						<img className="registerIcon" src={registerIcon} ref={ref} />
+					</label>
+					{mainImage && (
+						<>
+							{!isDesk && <p>기존 이미지</p>}
+							<div className="previewBoxWrap">
+								{mainImage && (
+									<div className="previewBox" onDragEnter={alertDragDisable}>
+										<img src={mainImage} alt="메인이미지" />
+										<S.DeleteButton onClick={onDeleteMainImage}>
 											<img src={deleteIcon} />
 										</S.DeleteButton>
 									</div>
-								))}
-						</div>
-					</>
-				)}
-				{imagePreviews.length > 0 && (
-					<DragDropContext onDragEnd={onDragEnd}>
-						<Droppable droppableId="droppable" direction="horizontal">
-							{provided => (
-								<>
-									{!isDesk && <p>신규 등록 이미지</p>}
-									<div
-										className="previewBoxWrap"
-										ref={provided.innerRef}
-										{...provided.droppableProps}
-									>
-										{imagePreviews.map((preview, index) => (
-											<Draggable
-												className="previewBox"
-												key={`Preview-${index}`}
-												draggableId={`Preview-${index}`}
-												index={index}
-											>
-												{provided => (
-													<div
-														ref={provided.innerRef}
-														{...provided.draggableProps}
-														{...provided.dragHandleProps}
-													>
-														<img
-															src={preview.img_url}
-															alt={`Preview ${index + 1}`}
-														/>
-														<input
-															type="hidden"
-															{...register(`images.${index}`)}
-														/>
-														<S.DeleteButton
-															onClick={() => onDeleteImage(index)}
+								)}
+								{subImageList.length > 0 &&
+									subImageList.map((preview, index) => (
+										<div
+											key={`img-${index}`}
+											className="previewBox"
+											onDragEnter={alertDragDisable}
+										>
+											<img src={preview} alt={`Preview ${index + 1}`} />
+											{/* <input type="hidden" {...register(`images.${index}`)} /> */}
+											<S.DeleteButton onClick={() => onDeleteSubImage(index)}>
+												<img src={deleteIcon} />
+											</S.DeleteButton>
+										</div>
+									))}
+							</div>
+						</>
+					)}
+					{imagePreviews.length > 0 && (
+						<DragDropContext onDragEnd={onDragEnd}>
+							<Droppable droppableId="droppable" direction="horizontal">
+								{provided => (
+									<>
+										{!isDesk && <p>신규 이미지</p>}
+										<div
+											className="previewBoxWrap"
+											ref={provided.innerRef}
+											{...provided.droppableProps}
+										>
+											{imagePreviews.map((preview, index) => (
+												<Draggable
+													className="previewBox"
+													key={`Preview-${index}`}
+													draggableId={`Preview-${index}`}
+													index={index}
+												>
+													{provided => (
+														<div
+															ref={provided.innerRef}
+															{...provided.draggableProps}
+															{...provided.dragHandleProps}
 														>
-															<img src={deleteIcon} />
-														</S.DeleteButton>
-													</div>
-												)}
-											</Draggable>
-										))}
-									</div>
-								</>
-							)}
-						</Droppable>
-					</DragDropContext>
+															<img
+																src={preview.img_url}
+																alt={`Preview ${index + 1}`}
+															/>
+															<input
+																type="hidden"
+																{...register(`images.${index}`)}
+															/>
+															<S.DeleteButton
+																onClick={() => onDeleteImage(index)}
+															>
+																<img src={deleteIcon} />
+															</S.DeleteButton>
+														</div>
+													)}
+												</Draggable>
+											))}
+										</div>
+									</>
+								)}
+							</Droppable>
+						</DragDropContext>
+					)}
+				</S.PreviewGroup>
+				<ul className="infoMessage">
+					<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
+					<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
+				</ul>
+				{removeBgUrl && (
+					<S.RemoveBackgroundWrap>
+						<h3>대표 썸네일 미리보기</h3>
+						<S.FlexBox>
+							<S.ImageWrapper isremovebgloading={isRemoveBgLoading.toString()}>
+								<img src={removeBgUrl} />
+							</S.ImageWrapper>
+							<S.TipWrapper>
+								<S.Tip>상품을 돋보이게 하는 TIP!</S.Tip>
+								<ul className="infoMessage">
+									<li>대표 사진의 배경을 제거하면 상품이 더 돋보여요</li>
+								</ul>
+								{isRemoveDone ? (
+									<div>배경 제거 완료! 🥳</div>
+								) : (
+									<Button
+										type="button"
+										label={'배경 제거하기'}
+										variant={'primary-outlined'}
+										onClick={removeBg}
+									/>
+								)}
+							</S.TipWrapper>
+						</S.FlexBox>
+					</S.RemoveBackgroundWrap>
 				)}
-			</S.PreviewGroup>
+			</>
 		)
 	},
 )
@@ -337,13 +398,13 @@ S.DeleteButton = styled.div`
 `
 
 S.ToastMessageWrap = styled.div`
-	display: ${({ isModalOpen }) => (isModalOpen ? 'flex' : 'none')};
-	position: absolute;
+	display: ${({ ismodalopen }) => (ismodalopen === 'true' ? 'flex' : 'none')};
+	position: fixed;
 	top: ${({ theme }) =>
-		theme.isDesktop || theme.isTabletAndLaptop ? '-30px' : '10em'};
+		theme.isDesktop || theme.isTabletAndLaptop ? '30px' : '10em'};
 	left: 0;
 	right: 0;
-	z-index: 11;
+	z-index: 999;
 	align-items: center;
 	justify-content: center;
 `
@@ -358,4 +419,100 @@ S.ToastMessage = styled.div`
 		theme.isDesktop || theme.isTabletAndLaptop
 			? theme.FONT_SIZE.medium
 			: theme.FONT_SIZE.small};
+`
+
+S.RemoveBackgroundWrap = styled.div`
+	margin-top: 20px;
+	border: 1px solid ${({ theme }) => theme.PALETTE.gray[500]};
+	border-radius: 10px;
+	padding: 20px;
+
+	& > h3 {
+		margin: 0 0 16px;
+		font-size: 16px;
+	}
+`
+
+S.FlexBox = styled.div`
+	display: flex;
+	flex-direction: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'row' : 'column'};
+	justify-content: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'space-around' : 'center'};
+	align-items: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'flex-start' : 'center'};
+	width: 100%;
+	gap: 20px;
+`
+
+S.TipWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'flex-start' : 'center'};
+`
+
+S.Tip = styled.h3`
+	font-size: 16px;
+`
+
+S.ImageWrapper = styled.div`
+	position: relative;
+	width: 100%;
+	max-width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop
+			? '250px'
+			: `${theme.isTablet ? '50vw' : '70vw'}`};
+	aspect-ratio: 1 / 1;
+	border-radius: 10px;
+
+	&:before {
+		display: ${({ isremovebgloading }) =>
+			isremovebgloading === 'true' ? 'block' : 'none'};
+		content: '';
+		position: absolute;
+		z-index: 10;
+		inset: 0;
+		background: rgba(255, 255, 255, 0.4);
+	}
+
+	&:after {
+		display: ${({ isremovebgloading }) =>
+			isremovebgloading === 'true' ? 'block' : 'none'};
+		content: '';
+		position: absolute;
+		z-index: 20;
+		top: 50%;
+		left: 50%;
+		margin-top: -21px;
+		margin-left: -21px;
+		border-radius: 50%;
+		text-indent: -9999em;
+		width: 42px;
+		height: 42px;
+		border-width: 5px;
+		border-style: solid;
+		border-color: rgb(230, 233, 238) rgb(230, 233, 238) rgb(230, 233, 238)
+			rgb(0, 157, 145);
+		animation: 1.1s linear 0s infinite normal none running rotate;
+	}
+
+	@keyframes rotate {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
+	img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+	}
 `

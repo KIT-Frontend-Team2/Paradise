@@ -17,7 +17,7 @@ import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
 import * as S from './style'
 import * as V from './validator'
 
-const ProductForm = ({ isSeller, detail }) => {
+const ProductForm = ({ userInfo, isSeller, detail }) => {
 	const {
 		idx,
 		title,
@@ -34,7 +34,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		images: [],
 		ProductsTags: [],
 		ProductImages: [],
-		region: '서울시 강남구 역삼동', // 작성자 지역
+		region: '', // 작성자 지역
 	}
 
 	const MAX_IMAGE_CNT = 5
@@ -48,9 +48,9 @@ const ProductForm = ({ isSeller, detail }) => {
 	const [tagList, setTagList] = useState([])
 	const [address, setAddress] = useState(region)
 	const [koPrice, setKoPrice] = useState('')
+	const [removeBgUrl, setRemoveBgUrl] = useState(null)
 
 	const imageRef = useRef()
-	const categoryRef = useRef()
 	const tagRef = useRef()
 	const addressRef = useRef()
 
@@ -61,7 +61,10 @@ const ProductForm = ({ isSeller, detail }) => {
 		const images = ProductImages.map(ProductImage => ProductImage.img_url)
 		setSubImageList(images)
 		price && geKoreanNumber(price)
-	}, [detail])
+		if (userInfo) {
+			setAddress(userInfo.region)
+		}
+	}, [detail, userInfo])
 
 	const { linkMainPage, linkDetailPage } = useMove()
 
@@ -132,7 +135,7 @@ const ProductForm = ({ isSeller, detail }) => {
 			category: category ? 1 : 0,
 			price: formatNumberToMoney(price),
 			description: description,
-			region: region,
+			region: address,
 		},
 	})
 
@@ -292,15 +295,35 @@ const ProductForm = ({ isSeller, detail }) => {
 			}
 		}
 
+		const convertImage = async () => {
+			for (let index = 0; index < imageFileList.length; index++) {
+				const el = imageFileList[index]
+
+				if (index === 0 && !detail) {
+					try {
+						const response = await fetch(removeBgUrl)
+						const blob = await response.blob()
+
+						const bgRemoveFile = new File([blob], 'image.png', {
+							type: blob.type,
+						})
+						formData.append('images', bgRemoveFile)
+					} catch (err) {
+						console.error('이미지 가져오기 실패', err)
+					}
+				} else {
+					formData.append('images', el)
+				}
+			}
+		}
+
 		formData.append('title', data.title)
 		formData.append('price', data.price)
 		formData.append('description', data.description)
 		formData.append('category', data.category)
 		formData.append('region', data.region)
 		formData.append('tag', data.tag)
-		imageFileList.forEach(el => {
-			formData.append('images', el)
-		})
+		await convertImage()
 
 		const mode = detail ? '수정' : '등록'
 
@@ -378,6 +401,7 @@ const ProductForm = ({ isSeller, detail }) => {
 								<S.FormRegister>
 									<div>
 										<DeFormImagePreviewGroup
+											detail={detail}
 											ref={imageRef}
 											register={register}
 											handleImageChange={handleImageChange}
@@ -389,12 +413,10 @@ const ProductForm = ({ isSeller, detail }) => {
 											setImagePreviews={setImagePreviews}
 											imageFileList={imageFileList}
 											setImageFileList={setImageFileList}
+											removeBgUrl={removeBgUrl}
+											setRemoveBgUrl={setRemoveBgUrl}
 										/>
 									</div>
-									<ul className="infoMessage">
-										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-									</ul>
 									{errors.image && (
 										<S.ErrorMessage className="error">
 											{errors.image.message}
@@ -465,11 +487,12 @@ const ProductForm = ({ isSeller, detail }) => {
 								<S.FormRegister>
 									<S.TagWrapper>
 										<FormControl>
-											<InputLabel id="tag">카테고리</InputLabel>
+											<InputLabel id="category-tag-label">카테고리</InputLabel>
 											<Select
-												ref={categoryRef}
-												labelId="tag"
-												value={categoryTag}
+												name="categoryTag"
+												labelId="category-tag-label"
+												label="카테고리"
+												value={categoryTag ? categoryTag : ''}
 												sx={{
 													width: isDesk ? '200px' : '100%',
 													height: '50px',
@@ -496,7 +519,7 @@ const ProductForm = ({ isSeller, detail }) => {
 													ref={tagRef}
 													className="tag"
 													placeholder={'태그를 입력해주세요'}
-													width={isDesk && '348'}
+													width={isDesk ? '348' : ''}
 													onKeyPress={onTagEnter}
 												/>
 											</S.CustomInput>

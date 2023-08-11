@@ -1,6 +1,5 @@
 import MenuIcon from '@mui/icons-material/Menu'
 import useMove from 'hooks/useMovePage'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const categories = [
@@ -94,13 +93,9 @@ const HeaderCategory = () => {
 				<S.DropdownMenu>
 					{categories.map((category, index) => (
 						<li key={index}>
-							<Link
-								to="#"
-								onClick={e => handleCategoryClick(e, category.label)}
-								style={{ textDecoration: 'none', color: 'inherit' }}
-							>
+							<div onClick={e => handleCategoryClick(e, category.label)}>
 								{category.label}
-							</Link>
+							</div>
 						</li>
 					))}
 				</S.DropdownMenu>
@@ -134,6 +129,7 @@ S.IconWrapper = styled.div`
 	}
 `
 S.DropdownMenu = styled.ul`
+	width: 100%;
 	position: absolute;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -147,6 +143,7 @@ S.DropdownMenu = styled.ul`
 		padding: 5px;
 		cursor: pointer;
 		font-size: 14px;
+		width: 100%;
 
 		&:hover {
 			background-color: #f5f5f5;

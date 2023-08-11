@@ -2,6 +2,7 @@ import { useDevice } from 'hooks/mediaQuery/useDevice'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { RouterProvider } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
+import SocketProvider from 'socket/socket'
 import { ThemeProvider } from 'styled-components'
 
 // import { worker } from './__mock__/handler'
@@ -25,7 +26,9 @@ function App() {
 			<ThemeProvider theme={{ ...theme, ...media }}>
 				<QueryClientProvider client={queryClient}>
 					<RecoilRoot>
-						<RouterProvider router={router} />
+						<SocketProvider>
+							<RouterProvider router={router} />
+						</SocketProvider>
 					</RecoilRoot>
 				</QueryClientProvider>
 			</ThemeProvider>

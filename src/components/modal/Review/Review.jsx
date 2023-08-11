@@ -14,7 +14,6 @@ import { Product_Info } from '../../../consts/product'
 import reviewService from '../../../hooks/service/review.service'
 import toastMessage from '../../../utils/toast-message'
 
-
 const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 	const { img_url, ReviewImages, title, content, ondo, idx } = (isUpdate &&
 		detail) || {
@@ -237,12 +236,9 @@ const Review = ({ page, isUpdate, detail, handleClose, ReviewId }) => {
 											setImagePreviews={setImagePreviews}
 											imageFileList={imageFileList}
 											setImageFileList={setImageFileList}
+											type={'review'}
 										/>
 									</div>
-									<ul className="infoMessage">
-										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-									</ul>
 								</S.FormRegister>
 							</S.FormGroup>
 							{/* 버튼 그룹 시작 */}
@@ -277,7 +273,6 @@ export const S = {}
 S.BackgroundColor = styled.div`
 	background: white;
 	padding: 50px;
-
 `
 
 S.Con = styled.div`

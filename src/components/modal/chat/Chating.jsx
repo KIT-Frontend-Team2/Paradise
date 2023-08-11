@@ -1,6 +1,6 @@
 import useChatApi from 'hooks/service/useChat.service'
-import { useEffect } from 'react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
 
 import ChatInput from './ChatInput'
@@ -14,43 +14,84 @@ const Chating = ({
 	productTitle,
 	productImage,
 	productPrice,
+	isRead,
+	isSeller,
+	admin,
 }) => {
 	const { data } = useChatApi.useGetChatLog(id)
 
-	const { mutate } = useChatApi.useSendChat(id)
-	const messagesEndRef = useRef(null)
+	const [message, setMessage] = useState('')
+	const { mutate } = useChatApi.useSendChat()
+
+	const socket = useSocket()
+
+	useEffect(() => {
+		socket.emit('join', { room_idx: id })
+		socket.on('receiveMessage', data => {
+			mutate(data)
+		})
+
+		return () => {
+			socket.emit('leave', { room_idx: id })
+		}
+	}, [socket, id])
+
+	const handleSubmit = e => {
+		e.preventDefault()
+		if (!message.trim()) return
+
+		const msg = {
+			title: productTitle,
+			createdAt: new Date(),
+			prod_idx: productId,
+			room_idx: id,
+			nickName: admin,
+			message: message,
+			isSeller: isSeller,
+		}
+
+		socket.emit('sendMessage', msg)
+
+		mutate({
+			room_idx: msg.room_idx,
+			message: msg.message,
+		})
+
+		setMessage('')
+	}
+
 	// 채팅 스크롤
+	const messagesEndRef = useRef(null)
 	const scrollToBottom = () => {
 		messagesEndRef.current.scrollIntoView({
 			behavior: 'smooth',
 		})
 	}
 	useEffect(() => {
-		scrollToBottom()
+		if (data) {
+			scrollToBottom()
+		}
 	}, [data])
 
-	const handleMessageSubmit = message => {
-		mutate(message)
-	}
-
 	// 채팅창 날짜 구분선
-	const dateDividers = messages => {
-		let prevDate = null
-		const result = []
+	// const dateDividers = messages => {
+	// 	let prevDate = null
+	// 	const result = []
 
-		messages.forEach(message => {
-			const currDate = new Date(message.createdAt).toLocaleDateString()
-			if (currDate !== prevDate) {
-				result.push({ type: 'divider', date: currDate })
-				prevDate = currDate
-			}
-			result.push(message)
-		})
+	// 	messages.map(message => {
+	// 		const currDate = new Date(message.createdAt).toLocaleDateString()
+	// 		if (currDate !== prevDate) {
+	// 			result.push({ type: 'divider', date: currDate })
+	// 			prevDate = currDate
+	// 		}
+	// 		result.push(message)
+	// 	})
 
-		return result
-	}
+	// 	return result
+	// }
 
-	const chatDataWithDividers = dateDividers(data.data)
+	// const chatDataWithDividers = dateDividers(data.data)
+	const chatDataWithDividers = data.data
 
 	const [collapsed, setCollapsed] = useState(false)
 	const toggleCollapse = () => {
@@ -72,9 +113,9 @@ const Chating = ({
 			</S.ChatProductCardContent>
 			<S.MeesageContent collapsed={collapsed ? 'true' : 'false'}>
 				{chatDataWithDividers &&
-					chatDataWithDividers.map(data =>
+					chatDataWithDividers.map((data, index) =>
 						data.type === 'divider' ? (
-							<S.DateDivider key={data.idx}>
+							<S.DateDivider key={index}>
 								<S.DateDividerLine />
 								<S.DateDividerText>{data.date}</S.DateDividerText>
 								<S.DateDividerLine />
@@ -87,14 +128,26 @@ const Chating = ({
 								messages={data.message}
 								nickName={data.User.nick_name}
 								profileUrl={data.User.profile_url}
+								isRead={isRead}
+								admin={admin}
 							/>
 						),
 					)}
 				<div ref={messagesEndRef} />
 			</S.MeesageContent>
-
 			<S.ChatInputContent>
-				<ChatInput onSubmit={handleMessageSubmit} />
+				<ChatInput
+					// productTitle={productTitle}
+					// productId={productId}
+					// roomId={id}
+					// nickName={selectedChat.User.nick_name}
+					// isSeller={isSeller}
+					// socket={socket}
+					// admin={admin}
+					handleSubmit={handleSubmit}
+					message={message}
+					setMessage={setMessage}
+				/>
 			</S.ChatInputContent>
 		</div>
 	)
