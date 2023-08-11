@@ -3,44 +3,44 @@ import React from 'react'
 import styled from 'styled-components'
 import { formatNumberToMoney } from 'utils/formatter'
 
+const MonthPrice = ({ amount}) => {
 
-const TotalPrice = ({ amount }) => {
 	const {
-		totalPurchaseAmount,
-		totalSaleAmount,
+		thisMonthPurchaseAmount,
+		thisMonthSaleAmount,
 	} = amount
 
-	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount);
-	const TotalSaleAmountNumber = parseFloat(totalSaleAmount);
-	const result = TotalSaleAmountNumber-TotalPurchaseAmountNumber
+	const MonthPurchaseAmountNumber = parseFloat(thisMonthPurchaseAmount);
+	const MonthSaleAmountNumber = parseFloat(thisMonthSaleAmount);
+	const result = MonthSaleAmountNumber-MonthPurchaseAmountNumber
 
 	return (
 		<S.Wrapper>
 			<S.Left>
-				<S.Title>총 판매 금액 </S.Title>
-				<S.Price>{formatNumberToMoney(parseInt(totalSaleAmount))}</S.Price>
+				<S.Title>이번달 판매 금액</S.Title>
+				<S.Price>{formatNumberToMoney(parseInt(thisMonthSaleAmount))}</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
-					판매총액 <span>{formatNumberToMoney(parseInt(totalSaleAmount))}</span>
+					판매총액 <span>{formatNumberToMoney(parseInt(thisMonthSaleAmount))}</span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
-					구매총액 <span>{formatNumberToMoney(parseInt(totalPurchaseAmount))}</span>
+					구매총액 <span>{formatNumberToMoney(parseInt(thisMonthPurchaseAmount))}</span>
 				</S.TotalPurchasePrice>
 				<S.TotalPrice>
-					합 <span>{formatNumberToMoney(parseInt(result))}</span>
+					합 <span>{formatNumberToMoney(result)}</span>
 				</S.TotalPrice>
 			</S.Right>
 		</S.Wrapper>
 	)
 }
 
-export default TotalPrice
+export default MonthPrice
 
 const S = {}
 
 S.Wrapper = styled(Box)`
-	background-color: ${({ theme }) => theme.PALETTE.gray[300]};
+	background-color: ${({ theme }) => theme.PALETTE.primary[100]};
 	padding: 40px;
 	display: flex;
 	flex: 1;
@@ -49,12 +49,12 @@ S.Wrapper = styled(Box)`
 `
 
 S.Left = styled.div`
-	color: ${({ theme }) => theme.PALETTE.fontColor};
+	color: ${({ theme }) => theme.PALETTE.white};
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'flex')};
 	align-items: center;
 `
 S.Right = styled.div`
-	color: ${({ theme }) => theme.PALETTE.fontColor};
+	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
 	flex-direction: ${({ theme }) =>
 		theme.isDesktop ? 'column' : 'row'};

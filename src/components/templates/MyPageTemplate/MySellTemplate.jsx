@@ -10,9 +10,12 @@ const MySellTemplate = () => {
 	const [curPage, setCurPage] = useState(1)
 	const filter = { page: curPage, category: catagory }
 	const { data } = useMypageApi.useSellPage(filter)
+	const {products} = data.data
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
+
+	
 	const handlePageChange = newpage => {
 		setCurPage(newpage)
 		searchParams.set('page', curPage)
@@ -30,8 +33,9 @@ const MySellTemplate = () => {
 			<S.Title>등록상품</S.Title>
 			<S.Content>
 				<MyPageContent
-					products={data.data.products}
+					products={products}
 					setCatagory={setCatagory}
+					filter={filter}
 				/>
 			</S.Content>
 			<Pagination

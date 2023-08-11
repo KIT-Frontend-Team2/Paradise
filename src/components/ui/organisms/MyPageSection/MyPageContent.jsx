@@ -3,7 +3,7 @@ import { myMenuAtom } from 'atom/mypage/atom'
 import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import React from 'react'
+import React, { useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
 
@@ -11,8 +11,11 @@ import Customchecbox from '../../../../assets/images/checkbox.png'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
 
-const MyPageContent = ({ products, setCatagory }) => {
+const MyPageContent = ({ products, setCatagory ,filter }) => {
+
+	
 	const MyContentValue = useRecoilValue(myMenuAtom)
+	const [isCategory, setIsCategory] = useState(false)
 
 	const {
 		isDesktop,
@@ -55,25 +58,67 @@ const MyPageContent = ({ products, setCatagory }) => {
 		}
 	}
 
+
+	const handleIsFliter = (filter) => {
+		switch (filter) {
+			case 'true':
+				setIsCategory('true')
+				break
+			case 'false':
+				setIsCategory('false')
+				break
+			default:
+				return products
+		}
+	}
+
 	return (
 		<S.Wrapper>
 			<Container>
-				<S.Filter>
-					{MyContentValue !== 'cash' ? (
+				{MyContentValue !== 'recent'? <S.Filter>
+					{MyContentValue === 'mySell' ? (
 						<S.Left>
 							<Button
 								type="button"
 								label={'판매'}
 								variant={'primary-outlined'}
 								size={'small'}
-								onClick={() => handleFilter('0')}
+								onClick={() => { 
+									handleFilter('0')
+								}}
 							/>
 							<Button
 								type="button"
 								label={'나눔'}
 								size={'small'}
 								variant={'outlined'}
-								onClick={() => handleFilter('1')}
+								onClick={() =>{
+									handleFilter('1')
+								}}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
+					{MyContentValue === 'wish' || MyContentValue === 'recent'? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => { 
+									handleIsFliter('true')
+								}}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() =>{
+									handleIsFliter('false')
+								}}
 							/>
 						</S.Left>
 					) : (
@@ -87,7 +132,8 @@ const MyPageContent = ({ products, setCatagory }) => {
 					) : (
 						''
 					)}
-				</S.Filter>
+				</S.Filter>:''
+				}
 				{MyContentValue === 'cash' ? (
 					<S.BottomFilter>
 						<S.BLeftFilter>
@@ -120,28 +166,57 @@ const MyPageContent = ({ products, setCatagory }) => {
 									time={item.createdAt} //없음
 									state={item.status}
 									content={item.product_content} //없음
+									filter={filter}
 								/>
 						  ))
 						: ''}
-					{MyContentValue === 'wish'
-						? products.map(item => (
-								<MyUploadCard
-									MyContentValue={MyContentValue}
-									key={item.Product.idx}
-									price={item.Product.price}
-									isLike={item.Product.isLike}
-									chat_count={item.Product.createdAt}
-									img_url={item.Product.img_url}
-									like={item.Product.liked}
-									name={item.Product.title}
-									id={item.Product.idx}
-									place={item.Product.region}
-									time={item.Product.createdAt}
-									state={item.Product.status}
-									content={item.Product.product_content}
-								/>
-						  ))
-						: ''}
+						{MyContentValue === 'wish'
+							? products.map(item => {
+									if (isCategory === 'true' || isCategory === 'false') {
+										if ((item.Product.category === true && isCategory === 'true') || 
+												(item.Product.category === false && isCategory === 'false')) {
+											return (
+												<MyUploadCard
+													MyContentValue={MyContentValue}
+													categorys={item.Product.category}
+													key={item.Product.idx}
+													price={item.Product.price}
+													isLike={item.Product.isLike}
+													chat_count={item.Product.createdAt}
+													img_url={item.Product.img_url}
+													like={item.Product.liked}
+													name={item.Product.title}
+													id={item.Product.idx}
+													place={item.Product.region}
+													time={item.Product.createdAt}
+													state={item.Product.status}
+													content={item.Product.product_content} // 없음
+												/>
+											);
+										}
+									} else {
+										return (
+											<MyUploadCard
+												MyContentValue={MyContentValue}
+												categorys={item.Product.category}
+												key={item.Product.idx}
+												price={item.Product.price}
+												isLike={item.Product.isLike}
+												chat_count={item.Product.createdAt}
+												img_url={item.Product.img_url}
+												like={item.Product.liked}
+												name={item.Product.title}
+												id={item.Product.idx}
+												place={item.Product.region}
+												time={item.Product.createdAt}
+												state={item.Product.status}
+												content={item.Product.product_content} // 없음
+											/>
+										);
+									}
+									return null;
+								})
+							: null}
 					{MyContentValue === 'recent'
 						? products.map(item => (
 								<MyUploadCard
@@ -158,6 +233,25 @@ const MyPageContent = ({ products, setCatagory }) => {
 									time={item.Product.createdAt}
 									state={item.Product.status}
 									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
+						{MyContentValue === 'cash'
+						? products.map(item => (
+								<MyUploadCard
+								MyContentValue={MyContentValue}
+								key={item.Product.idx}
+								price={item.Product.price}
+								isLike={item.Product.isLike}
+								chat_count={item.Product.createdAt}
+								img_url={item.Product.img_url}
+								like={item.Product.liked}
+								name={item.Product.title}
+								id={item.Product.idx}
+								place={item.Product.region}
+								time={item.createdAt}
+								state={item.Product.status}
+								content={item.Product.product_content}
 								/>
 						  ))
 						: ''}

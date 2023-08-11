@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import Calendar from 'utils/calendar'
 import { dateFomatter } from 'utils/formatter'
+import MonthPrice from 'components/ui/organisms/MyPageSection/MyMonthPrice'
 
 const MyCashTemplate = () => {
 	const nowDate = new Date()
@@ -25,7 +26,7 @@ const MyCashTemplate = () => {
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
-	console.log(start, end)
+	console.log(data.data.payList)
 
 	const handlePageChange = newpage => {
 		setCurPage(newpage)
@@ -46,7 +47,8 @@ const MyCashTemplate = () => {
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>
-				<TotalPrice />
+				<MonthPrice amount={data.data.amount}/>
+				<TotalPrice amount={data.data.amount}/>
 			</S.TotalPrice>
 			<Calendar
 				setStartDate={setStartDate}
@@ -84,5 +86,8 @@ S.Title = styled.h2`
 S.Content = styled.div``
 
 S.TotalPrice = styled.div`
+	display: flex;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
+	gap: 10px;
 	margin: 60px 0;
 `

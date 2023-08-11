@@ -1,16 +1,16 @@
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
-import useMypageApi from 'hooks/service/useMypage.service'
+import useViewListApi from 'hooks/service/useViewList.service'
 import React from 'react'
 import { styled } from 'styled-components'
 
 const MyRecentTemplate = () => {
-	const { data } = useMypageApi.useRecentPage()
-
+	const { data } = useViewListApi.useGetViewList()
+	const {productList} = data.data
 	return (
 		<S.Wrapper>
 			<S.Title>최근 조회 상품</S.Title>
 			<S.Content>
-				<MyPageContent products={data.data.productList} />
+				<MyPageContent products={productList} />
 			</S.Content>
 		</S.Wrapper>
 	)

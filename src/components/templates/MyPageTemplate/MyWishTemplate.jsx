@@ -6,8 +6,11 @@ import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
 const MyWishTemplate = () => {
+	
+	const [catagory, setCatagory] = useState(false)
 	const [curPage, setCurPage] = useState(1)
 	const { data } = useMypageApi.useWishPage({ page: curPage })
+	const {LikeList} = data.data
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
@@ -27,7 +30,11 @@ const MyWishTemplate = () => {
 		<S.Wrapper>
 			<S.Title>관심상품</S.Title>
 			<S.Content>
-				<MyPageContent products={data.data.LikeList} />
+				<MyPageContent 
+				products={LikeList} 
+				setCatagory={setCatagory}
+				catagory={catagory}
+				/>
 			</S.Content>
 			<Pagination
 				page={curPage}
