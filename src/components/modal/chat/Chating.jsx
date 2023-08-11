@@ -2,7 +2,6 @@ import useChatApi from 'hooks/service/useChat.service'
 import { useEffect, useRef, useState } from 'react'
 import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
-import timeHelper from 'utils/time-helper'
 
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
@@ -22,7 +21,7 @@ const Chating = ({
 	const { data } = useChatApi.useGetChatLog(id)
 
 	const [message, setMessage] = useState('')
-	const { mutate } = useChatApi.useSendChat(id, message)
+	const { mutate } = useChatApi.useSendChat()
 
 	const socket = useSocket()
 
@@ -30,7 +29,6 @@ const Chating = ({
 		socket.emit('join', { room_idx: id })
 		socket.on('receiveMessage', data => {
 			mutate(data)
-			console.log(timeHelper(data.createdAt))
 		})
 
 		return () => {
@@ -54,14 +52,16 @@ const Chating = ({
 
 		socket.emit('sendMessage', msg)
 
-		mutate(msg.room_idx, msg.message)
-		console.log(timeHelper(msg.createdAt))
+		mutate({
+			room_idx: msg.room_idx,
+			message: msg.message,
+		})
 
 		setMessage('')
 	}
 
-	const messagesEndRef = useRef(null)
 	// 채팅 스크롤
+	const messagesEndRef = useRef(null)
 	const scrollToBottom = () => {
 		messagesEndRef.current.scrollIntoView({
 			behavior: 'smooth',
@@ -74,23 +74,24 @@ const Chating = ({
 	}, [data])
 
 	// 채팅창 날짜 구분선
-	const dateDividers = messages => {
-		let prevDate = null
-		const result = []
+	// const dateDividers = messages => {
+	// 	let prevDate = null
+	// 	const result = []
 
-		messages.forEach(message => {
-			const currDate = new Date(message.createdAt).toLocaleDateString()
-			if (currDate !== prevDate) {
-				result.push({ type: 'divider', date: currDate })
-				prevDate = currDate
-			}
-			result.push(message)
-		})
+	// 	messages.map(message => {
+	// 		const currDate = new Date(message.createdAt).toLocaleDateString()
+	// 		if (currDate !== prevDate) {
+	// 			result.push({ type: 'divider', date: currDate })
+	// 			prevDate = currDate
+	// 		}
+	// 		result.push(message)
+	// 	})
 
-		return result
-	}
+	// 	return result
+	// }
 
-	const chatDataWithDividers = dateDividers(data.data)
+	// const chatDataWithDividers = dateDividers(data.data)
+	const chatDataWithDividers = data.data
 
 	const [collapsed, setCollapsed] = useState(false)
 	const toggleCollapse = () => {

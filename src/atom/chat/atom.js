@@ -9,3 +9,8 @@ export const selectedChatState = atom({
 	key: 'selectedChat',
 	default: null,
 })
+
+export const chatLayoutState = atom({
+	key: 'chatLayout',
+	default: true,
+})

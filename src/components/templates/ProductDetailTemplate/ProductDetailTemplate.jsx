@@ -20,6 +20,7 @@ import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUser
 
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
+
 	const { product } = productInfo.relatedProduct
 	let {
 		ProductImages,
@@ -121,6 +122,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						title={title}
 						state={status}
 						productInfo={description}
+						nickName={nick_name}
 					/>
 					<DeProductCategoryTag category={ProductsTags} />
 					<DeProductMapSection rightTitle={region} />

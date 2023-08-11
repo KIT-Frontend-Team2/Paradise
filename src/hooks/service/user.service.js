@@ -19,22 +19,26 @@ const useUserAPi = {
 
 	login: () => {
 		const socket = useSocket()
+
 		const setState = useSetRecoilState(isLoggedInAtom)
 		const { mutateAsync, isSuccess, mutate } = useMutation(
 			loginInfo => userApi.login(loginInfo.email, loginInfo.pw),
 			{
 				retry: 1,
 				onSuccess: (data, variables) => {
-					const userData = {
+					const so = {
 						...data.data.user,
-						socket: socket.id,
+						socket: socket?.id,
 					}
-					UserRepository.setUser(userData)
+					UserRepository.setUser(so)
 					TokenRepository.setToken(data.data.tokenForHeader)
-					socket.emit('connect-user', { token: TokenRepository.getToken() })
+					socket?.emit('connect-user', { token: TokenRepository.getToken() })
 					setState(true)
 					if (variables.check === true) {
-						setCookie({ email: variables.email, pw: variables.pw })
+						setCookie({
+							email: variables.email,
+							pw: variables.pw,
+						})
 					}
 				},
 			},

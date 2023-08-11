@@ -62,12 +62,6 @@ const useViewListApi = {
 		)
 		return { data }
 	},
-	useGetProductDetail: prod_idx => {
-		const { data } = useQuery([API_KEY.PRODUCT, API_KEY.DETAIL, prod_idx], () =>
-			productAxios.getProductDetail(prod_idx),
-		)
-		return { data }
-	},
 }
 
 export default useViewListApi

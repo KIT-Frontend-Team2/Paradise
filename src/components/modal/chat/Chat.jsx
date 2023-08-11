@@ -1,6 +1,9 @@
-import { selectedChatState, showChatState } from 'atom/chat/atom'
+import {
+	chatLayoutState,
+	selectedChatState,
+	showChatState,
+} from 'atom/chat/atom'
 import useChatApi from 'hooks/service/useChat.service'
-import { useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
@@ -19,7 +22,7 @@ const Chat = () => {
 
 	const [selectedChat, setSelectedChat] = useRecoilState(selectedChatState)
 
-	const [layout, setLayout] = useState(true)
+	const [layout, setLayout] = useRecoilState(chatLayoutState)
 
 	const handleChatClick = data => {
 		setSelectedChat(data)
@@ -41,7 +44,6 @@ const Chat = () => {
 							isRead={selectedChat.isRead}
 							isSeller={selectedChat.isSeller}
 							admin={admin}
-							createdAt={selectedChat.lastMessageCreatedAt}
 							setLayout={setLayout}
 						/>
 					) : (
