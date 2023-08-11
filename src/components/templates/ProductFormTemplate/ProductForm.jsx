@@ -519,7 +519,7 @@ const ProductForm = ({ userInfo, isSeller, detail }) => {
 													ref={tagRef}
 													className="tag"
 													placeholder={'태그를 입력해주세요'}
-													width={isDesk && '348'}
+													width={isDesk ? '348' : ''}
 													onKeyPress={onTagEnter}
 												/>
 											</S.CustomInput>
