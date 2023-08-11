@@ -51,7 +51,7 @@ S.LeftSection = styled.div`
 
 S.ImgBoxSticky = styled.div`
 	position: sticky;
-	top: 0;
+	top: 180px;
 `
 
 S.TitleImg = styled.div`

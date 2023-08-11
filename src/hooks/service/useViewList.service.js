@@ -4,6 +4,7 @@ import { queryClient } from '../../App'
 import viewListAxios from '../../apis/service/viewlist.api'
 import API_KEY from '../../consts/ApiKey'
 import { ERROR_MESSAGE, NETWORK } from '../../consts/api'
+import toastMessage from "../../utils/toast-message";
 
 const useViewListApi = {
 	useGetViewList: () => {
@@ -24,7 +25,7 @@ const useViewListApi = {
 			() => viewListAxios.postRecentProduct(productId),
 			{
 				onError: (err, newProduct, context) => {
-					alert(ERROR_MESSAGE)
+					toastMessage.error(ERROR_MESSAGE)
 					queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
 				},
 				onSettled: () => queryClient.invalidateQueries([API_KEY.VIEWLIST]),
@@ -38,7 +39,7 @@ const useViewListApi = {
 			() => viewListAxios.deleteRecentProduct(productId),
 			{
 				onError: (err, newProduct, context) => {
-					alert(ERROR_MESSAGE)
+					toastMessage.error(ERROR_MESSAGE)
 					queryClient.setQueryData([API_KEY.VIEWLIST], context.previousProduct)
 				},
 				onSettled: () => queryClient.invalidateQueries([API_KEY.VIEWLIST]),
