@@ -26,7 +26,6 @@ const MyCashTemplate = () => {
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
-
 	const handlePageChange = newpage => {
 		setCurPage(newpage)
 		searchParams.set('page', curPage)
