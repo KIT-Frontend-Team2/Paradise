@@ -1,7 +1,7 @@
 import { queryClient } from 'App'
+import chatService from 'apis/service/chat.api'
 import productAxios from 'apis/service/product.api'
 import userService from 'apis/service/user.api'
-import viewListAxios from 'apis/service/viewlist.api'
 import API_KEY from 'consts/ApiKey'
 import { useMutation, useQuery } from 'react-query'
 
@@ -66,11 +66,14 @@ const useMypageApi = {
 	},
 
 	//판매완료 변경
-	useChangeState: prod_idx => {
+	useChangeState: (prod_idx, token) => {
 		const { mutate } = useMutation(
-			() => productAxios.postCompleteProduct(prod_idx),
+			() => productAxios.postCompleteProduct(prod_idx, token),
 			{
-				onSuccess: () => queryClient.invalidateQueries(['myPageProductInfo']),
+				onSuccess: () => {
+					alert('구매자가 확정되었습니다.')
+					queryClient.invalidateQueries(['myPageProductInfo', filter])
+				},
 			},
 		)
 		return { mutate }
@@ -92,14 +95,6 @@ const useMypageApi = {
 		return { data }
 	},
 
-	//최근 본 상품 조회
-	useRecentPage: () => {
-		const { data } = useQuery(['myPageRecnet'], () =>
-			viewListAxios.getRecentProduct(),
-		)
-		return { data }
-	},
-
 	// 가계부 페이지조회
 	useAccountPage: (page, category, start, end) => {
 		const { data } = useQuery(
@@ -109,7 +104,12 @@ const useMypageApi = {
 		return { data }
 	},
 
-	//판매완료변경
+	useGetChatProduct: (page, prod_idx) => {
+		const { data } = useQuery(['chat', 'getChatProduct', page, prod_idx], () =>
+			chatService.getChatProduct(page, prod_idx),
+		)
+		return { data }
+	},
 }
 
 export default useMypageApi

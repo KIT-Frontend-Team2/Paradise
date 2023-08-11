@@ -10,8 +10,6 @@ const MyHeader = () => {
 	const { getMyPageHeader } = LoadUserApi()
 	const { data } = getMyPageHeader()
 
-	console.log(`ㅎ더데이터 `, data.data)
-
 	const { User, ondo, productsCount, likeCount, chatCount } = data.data
 	const { nickName, profileUrl } = User
 
