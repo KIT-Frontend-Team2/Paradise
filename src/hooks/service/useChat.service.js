@@ -24,7 +24,6 @@ const useChatApi = {
 					})
 					return chatLog
 				},
-				onSuccess: () => queryClient.invalidateQueries(['chat', 'getChatLog']),
 				onSettled: () => queryClient.invalidateQueries(['chat', 'getChatLog']),
 			},
 		)
