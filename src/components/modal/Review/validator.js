@@ -10,7 +10,7 @@ export const ReviewValidation = yup.object({
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')
-		.max(15, '최대 500글자 입니다'),
+		.max(500, '최대 500글자 입니다'),
 	ondo: yup
 		.number()
 		.min(1, '만족도를 선택해주세요')
