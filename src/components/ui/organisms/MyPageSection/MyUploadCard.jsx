@@ -33,7 +33,7 @@ const MyUploadCard = ({
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 
-	console.log(`카테고리`, categorys)
+
 	useEffect(() => {
 		setLikeState(Boolean(like))
 	}, [isLike])
