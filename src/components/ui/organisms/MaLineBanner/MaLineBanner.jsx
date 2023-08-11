@@ -41,6 +41,7 @@ S.Container = styled.div`
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 	background: #f8f8f8;
 	padding: 26px 63px 29px 63px;
+	margin-top: 50px;
 `
 
 S.SubTitle = styled.div`
