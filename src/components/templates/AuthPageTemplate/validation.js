@@ -26,11 +26,12 @@ export const Validation2 = yup.object({
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),
-	password: yup
+	pw: yup
 		.string()
 		.required('필수 입력사항입니다.')
 		.min(4, '최소4글자 입니다.')
 		.max(15, '최대 15글자 입니다'),
+	check: yup.bool(),
 })
 
 export const Validation3 = yup.object({

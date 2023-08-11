@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Suspense } from 'react'
+import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
 import { styled } from 'styled-components'
 
@@ -14,8 +15,11 @@ const MainLayout = () => {
 
 	return (
 		<ErrorBoundary Fallback={ErrorPage} onReset={handleErrorReset}>
+			<Toaster position="top-center" reverseOrder={false} />
 			<S.Wrapper>
-				<SideBar />
+				<Suspense fallback={<></>}>
+					<SideBar />
+				</Suspense>
 				<MainHeader />
 				<Outlet />
 				<MainFooter />

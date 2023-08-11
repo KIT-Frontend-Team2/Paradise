@@ -2,6 +2,7 @@ import axios from 'axios'
 import API_KEY from 'consts/ApiKey'
 
 import { BASE_URL } from '../../consts/api'
+import { getCookie } from '../../repositories/AuthCookie'
 import { axiosInstance } from '../axiosInstance'
 
 const userService = {
@@ -35,15 +36,12 @@ const userService = {
 	},
 
 	getRefreshToken: () => {
-		return axiosInstance.get(
-			BASE_URL + API_KEY.API + API_KEY.USER + '/refreshToken',
-			{
-				params: {
-					email: localStorage.getItem('email'),
-					pw: localStorage.getItem('pw'),
-				},
+		const loginInfo = JSON.stringify(getCookie())
+		return axios.get(BASE_URL + API_KEY.API + API_KEY.USER + '/refreshToken', {
+			data: {
+				loginInfo,
 			},
-		)
+		})
 	},
 
 	getUserInfo: () => {

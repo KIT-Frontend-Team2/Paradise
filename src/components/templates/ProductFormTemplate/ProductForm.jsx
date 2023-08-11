@@ -8,15 +8,16 @@ import ProductFormMap from 'components/ui/molecules/Map/ProductFormMap'
 import DeFormImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
 import { categories } from 'components/ui/organisms/MainHeader/HeaderCategory'
+import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
 
 import * as S from './style'
 import * as V from './validator'
 
-const ProductForm = ({ isSeller, detail }) => {
-	console.log(detail)
+const ProductForm = ({ userInfo, isSeller, detail }) => {
 	const {
 		idx,
 		title,
@@ -29,13 +30,15 @@ const ProductForm = ({ isSeller, detail }) => {
 		region,
 	} = detail || {
 		category: 0,
+		price: 0,
 		images: [],
 		ProductsTags: [],
 		ProductImages: [],
-		region: '서울시 강남구 역삼동', // 작성자 지역
+		region: '', // 작성자 지역
 	}
 
 	const MAX_IMAGE_CNT = 5
+	const MAX_PRICE = 100000000
 	const [mainImage, setMainImage] = useState(img_url || undefined)
 	const [subImageList, setSubImageList] = useState([])
 	const [imageFileList, setImageFileList] = useState([])
@@ -44,9 +47,10 @@ const ProductForm = ({ isSeller, detail }) => {
 	const [categoryTag, setCategoryTag] = useState('')
 	const [tagList, setTagList] = useState([])
 	const [address, setAddress] = useState(region)
+	const [koPrice, setKoPrice] = useState('')
+	const [removeBgUrl, setRemoveBgUrl] = useState(null)
 
 	const imageRef = useRef()
-	const categoryRef = useRef()
 	const tagRef = useRef()
 	const addressRef = useRef()
 
@@ -56,21 +60,61 @@ const ProductForm = ({ isSeller, detail }) => {
 		setCategoryTag(tag[0])
 		const images = ProductImages.map(ProductImage => ProductImage.img_url)
 		setSubImageList(images)
-	}, [detail])
+		price && geKoreanNumber(price)
+		if (userInfo) {
+			setAddress(userInfo.region)
+		}
+	}, [detail, userInfo])
 
 	const { linkMainPage, linkDetailPage } = useMove()
 
-	// 숫자 -> 천단위 문자로 포매팅 함수
-	const numToStr = number => {
-		if (!number) return number
-		return number.toLocaleString()
-	}
+	const [isHighlight, setIsHighlight] = useState(false)
+	const { isDesktop, isTabletAndLaptop, isTablet } = useDevice()
 
-	// 문자 -> 숫자
-	const strToNum = str => {
-		let num = str.replace(/\D/g, '')
-		num = Number(num)
-		return num
+	const isDesk = isDesktop || isTabletAndLaptop || isTablet
+
+	// 숫자를 한글로 변환
+	function geKoreanNumber(num) {
+		num = moneyToFormatNumber(num)
+		let result = ''
+		let digits = ['영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구']
+		let units = [
+			'',
+			'십',
+			'백',
+			'천',
+			'만',
+			'십만',
+			'백만',
+			'천만',
+			'억',
+			'십억',
+			'백억',
+			'천억',
+			'조',
+			'십조',
+			'백조',
+			'천조',
+		]
+
+		let numStr = num.toString() // 문자열로 변환
+		let numLen = numStr.length // 문자열의 길이
+
+		for (let i = 0; i < numLen; i++) {
+			let digit = parseInt(numStr.charAt(i)) // i번째 자릿수 숫자
+			let unit = units[numLen - i - 1] // i번째 자릿수 단위
+
+			// 일의 자리인 경우에는 숫자를 그대로 한글로 변환
+			if (i === numLen - 1 && digit === 1 && numLen !== 1) {
+				result += '일'
+			} else if (digit !== 0) {
+				// 일의 자리가 아니거나 숫자가 0이 아닐 경우
+				result += digits[digit] + unit
+			}
+		}
+		result += '원'
+
+		setKoPrice(result)
 	}
 
 	const {
@@ -81,6 +125,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		trigger,
 		setError,
 		clearErrors,
+		setFocus,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
@@ -88,19 +133,16 @@ const ProductForm = ({ isSeller, detail }) => {
 		defaultValues: {
 			title: title,
 			category: category ? 1 : 0,
-			price: numToStr(price),
+			price: formatNumberToMoney(price),
 			description: description,
-			region: region,
+			region: address,
 		},
 	})
 
 	// React-Hook-Form 등록 및 유효성 검사
 	const titleRegister = register('title', V.validateTitle())
 	const isFreeRegister = register('category')
-	const priceRegister = register(
-		'price',
-		V.validatePrice(getValues('category')),
-	)
+	const priceRegister = register('price', V.validatePrice(100000000))
 	const contentRegister = register('description', V.validateContent())
 	const placeRegister = register('region', V.validatePlace())
 
@@ -138,6 +180,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		if (isFree) {
 			setValue('price', 0)
 			trigger('price')
+			setKoPrice('')
 		}
 	}
 
@@ -154,7 +197,6 @@ const ProductForm = ({ isSeller, detail }) => {
 	// 태그 리스트 변경에 따라 폼 요소 값 변경
 	useEffect(() => {
 		tagList.forEach((tag, index) => {
-			// console.log(`product_tag.${index}: ${tag}`)
 			setValue(`tag.${index}`, tag)
 		})
 	}, [tagList])
@@ -186,7 +228,6 @@ const ProductForm = ({ isSeller, detail }) => {
 			const isCategory = categories.findIndex(category => {
 				return category.label === _tagList[0]
 			})
-			console.log(isCategory)
 			if (isCategory > 0) {
 				setCategoryTag(_tagList[0])
 			} else {
@@ -221,8 +262,12 @@ const ProductForm = ({ isSeller, detail }) => {
 
 	// 판매 금액 입력 숫자만 제한
 	const onChangePrice = event => {
-		setValue('price', numToStr(strToNum(event.target.value)))
+		setValue(
+			'price',
+			formatNumberToMoney(moneyToFormatNumber(event.target.value)),
+		)
 		trigger('price')
+		geKoreanNumber(event.target.value)
 	}
 
 	// 등록 버튼을 누를 때
@@ -240,7 +285,36 @@ const ProductForm = ({ isSeller, detail }) => {
 
 		// 판매가격 숫자 변환
 		if (data.price) {
-			data.price = strToNum(data.price)
+			data.price = moneyToFormatNumber(data.price)
+			if (data.price >= MAX_PRICE) {
+				setError('price', {
+					message: '일억원 이상 등록하실 수 없습니다.',
+				})
+				setFocus('price')
+				return
+			}
+		}
+
+		const convertImage = async () => {
+			for (let index = 0; index < imageFileList.length; index++) {
+				const el = imageFileList[index]
+
+				if (index === 0 && !detail) {
+					try {
+						const response = await fetch(removeBgUrl)
+						const blob = await response.blob()
+
+						const bgRemoveFile = new File([blob], 'image.png', {
+							type: blob.type,
+						})
+						formData.append('images', bgRemoveFile)
+					} catch (err) {
+						console.error('이미지 가져오기 실패', err)
+					}
+				} else {
+					formData.append('images', el)
+				}
+			}
 		}
 
 		formData.append('title', data.title)
@@ -249,9 +323,7 @@ const ProductForm = ({ isSeller, detail }) => {
 		formData.append('category', data.category)
 		formData.append('region', data.region)
 		formData.append('tag', data.tag)
-		imageFileList.forEach(el => {
-			formData.append('images', el)
-		})
+		await convertImage()
 
 		const mode = detail ? '수정' : '등록'
 
@@ -262,11 +334,10 @@ const ProductForm = ({ isSeller, detail }) => {
 					formData.append('main_url', mainImage)
 				}
 				formData.append('img_url', subImageList)
-				for (const value of formData.values()) {
-					console.log(value)
-				}
+				// for (const value of formData.values()) {
+				// 	console.log(value)
+				// }
 				const response = await productAxios.patchProductInfo(formData)
-				console.log(response)
 				if (response.status === 200) {
 					window.alert(`물품 ${mode}이 완료되었습니다.`)
 					linkDetailPage(idx)
@@ -275,7 +346,6 @@ const ProductForm = ({ isSeller, detail }) => {
 			} else {
 				// 등록
 				const response = await productAxios.addRegisterProduct(formData)
-				console.log(response)
 				if (response.status === 200) {
 					const product_id = response.data.message
 					window.alert(`물품 ${mode}이 완료되었습니다.`)
@@ -288,7 +358,7 @@ const ProductForm = ({ isSeller, detail }) => {
 	/* 본인이 등록한 상품을 수정하는 것인지 검사하는 로직 */
 	useEffect(() => {
 		if (detail && !isSeller) {
-			alert('해당 물품을 수정할 수 있는 권한이 없습니다.')
+			alert('옳지 않은 접근입니다.')
 			linkMainPage()
 		}
 	}, [detail, isSeller])
@@ -319,13 +389,19 @@ const ProductForm = ({ isSeller, detail }) => {
 								<S.FormLabel required={'required'}>
 									물품 이미지
 									<span id="cnt">
-										({detail ? subImageList.length : imagePreviews.length}/
-										{MAX_IMAGE_CNT})
+										(
+										{detail
+											? mainImage
+												? subImageList.length + imagePreviews.length + 1
+												: subImageList + imagePreviews.length
+											: imagePreviews.length}
+										/{MAX_IMAGE_CNT})
 									</span>
 								</S.FormLabel>
 								<S.FormRegister>
 									<div>
 										<DeFormImagePreviewGroup
+											detail={detail}
 											ref={imageRef}
 											register={register}
 											handleImageChange={handleImageChange}
@@ -337,12 +413,10 @@ const ProductForm = ({ isSeller, detail }) => {
 											setImagePreviews={setImagePreviews}
 											imageFileList={imageFileList}
 											setImageFileList={setImageFileList}
+											removeBgUrl={removeBgUrl}
+											setRemoveBgUrl={setRemoveBgUrl}
 										/>
 									</div>
-									<ul className="infoMessage">
-										<li>클릭 또는 이미지를 드래그하여 등록할 수 있습니다.</li>
-										<li>드래그하여 상품 이미지 순서를 변경할 수 있습니다.</li>
-									</ul>
 									{errors.image && (
 										<S.ErrorMessage className="error">
 											{errors.image.message}
@@ -403,6 +477,7 @@ const ProductForm = ({ isSeller, detail }) => {
 											onChange={onChangePrice}
 											error={errors.price && errors.price.message}
 										/>
+										<span>{koPrice}</span>
 									</S.CustomInput>
 								</S.FormRegister>
 							</S.FormGroup>
@@ -410,15 +485,16 @@ const ProductForm = ({ isSeller, detail }) => {
 							<S.FormGroup>
 								<S.FormLabel required={'required'}>태그</S.FormLabel>
 								<S.FormRegister>
-									<InputGroup display={'inline-flex'}>
+									<S.TagWrapper>
 										<FormControl>
-											<InputLabel id="tag">카테고리</InputLabel>
+											<InputLabel id="category-tag-label">카테고리</InputLabel>
 											<Select
-												ref={categoryRef}
-												labelId="tag"
-												value={categoryTag}
+												name="categoryTag"
+												labelId="category-tag-label"
+												label="카테고리"
+												value={categoryTag ? categoryTag : ''}
 												sx={{
-													width: '200px',
+													width: isDesk ? '200px' : '100%',
 													height: '50px',
 													padding: '0 16px',
 													lineHeight: '50px',
@@ -437,22 +513,24 @@ const ProductForm = ({ isSeller, detail }) => {
 												))}
 											</Select>
 										</FormControl>
-										<S.CustomInput className="tag">
-											<Input
-												ref={tagRef}
-												className="tag"
-												placeholder={'태그를 입력해주세요'}
-												width={'348'}
-												onKeyPress={onTagEnter}
+										<InputGroup display={isDesk ? 'inline-flex' : 'flex'}>
+											<S.CustomInput className="tag">
+												<Input
+													ref={tagRef}
+													className="tag"
+													placeholder={'태그를 입력해주세요'}
+													width={isDesk ? '348' : ''}
+													onKeyPress={onTagEnter}
+												/>
+											</S.CustomInput>
+											<Button
+												type="button"
+												label={'추가'}
+												variant={'outlined'}
+												onClick={onAddTag}
 											/>
-										</S.CustomInput>
-										<Button
-											type="button"
-											label={'추가'}
-											variant={'outlined'}
-											onClick={onAddTag}
-										/>
-									</InputGroup>
+										</InputGroup>
+									</S.TagWrapper>
 									{tagList.length > 0 ? (
 										<DeFormTagGroup
 											register={register}

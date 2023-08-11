@@ -17,20 +17,7 @@ const MainPageTemplate = ({ productInfo }) => {
 
 	useSidebar()
 	const { usedProduct, freeProduct } = productInfo
-	const mainLogo = [
-		{
-			img_url: MainLogo,
-			id: 1,
-		},
-		{
-			img_url: MainLogo,
-			id: 2,
-		},
-		{
-			img_url: MainLogo,
-			id: 3,
-		},
-	]
+	const mainLogo = [MainLogo]
 	return (
 		<>
 			<S.MainBannerBox>

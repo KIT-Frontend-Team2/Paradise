@@ -15,14 +15,47 @@ const MainFooter = props => {
 			) : (
 				<S.Footer>
 					<S.Waves>
-						<S.Wave id="wave1"></S.Wave>
-						<S.Wave id="wave2"></S.Wave>
-						<S.Wave id="wave3"></S.Wave>
-						<S.Wave id="wave4"></S.Wave>
+						<svg
+							className="waves"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 24 150 28"
+							preserveAspectRatio="none"
+							shapeRendering="auto"
+						>
+							<path
+								x="48"
+								y="0"
+								d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+								fill="rgba(233,233,231,0.6)"
+							></path>
+							<path
+								x="48"
+								y="3"
+								d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+								fill="rgba(233,233,231,0.4)"
+							></path>
+							<path
+								x="48"
+								y="5"
+								d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+								fill="rgba(233,233,231,0.2)"
+							></path>
+							<path
+								x="48"
+								y="7"
+								d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+								fill="rgba(233,233,231)"
+							></path>
+						</svg>
 					</S.Waves>
 					<S.LogoBox>
 						<S.Icon>
-							<img src={footerlogo} />
+							<a
+								href="https://github.com/KIT-Frontend-Team2/Paradise"
+								target="_blank"
+							>
+								<img src={footerlogo} />
+							</a>
 						</S.Icon>
 						<S.TextBox>KIT-Frontend-Team2 | Contact us in Github</S.TextBox>
 					</S.LogoBox>
@@ -41,67 +74,56 @@ S.Footer = styled.div`
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	background: #3586ff;
-	height: 100px;
+	background: #e9e9e7;
+	height: 120px;
 	${flexCenter}
 `
 
 S.Waves = styled.div`
 	position: absolute;
-	top: -100px;
+	top: -40px;
+	left: 0;
 	width: 100%;
-	height: 100px;
-`
+	overflow: hidden;
+	line-height: 0;
 
-S.Wave = styled.div`
-	position: absolute;
-	width: 100%;
-	height: 100px;
-	background-image: url('https://i.ibb.co/wQZVxxk/wave.png');
-	background-size: 1000px 100px;
-
-	&:nth-child(1) {
-		z-index: 10;
-		opacity: 1;
-		bottom: 0;
-		animation: animateWaves 6s linear infinite;
+	.waves {
+		position: relative;
+		width: 100%;
+		height: 50px;
+		margin-bottom: -7px; /*Fix for safari gap*/
 	}
 
-	&:nth-child(2) {
-		z-index: 9;
-		opacity: 0.5;
-		bottom: 10px;
-		animation: animateWaves 6s linear infinite !important;
+	.waves > path {
+		animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
 	}
 
-	&:nth-child(3) {
-		z-index: 10;
-		opacity: 0.2;
-		bottom: 15px;
-		animation: animateWaves 5s linear infinite;
-	}
-	&:nth-child(4) {
-		z-index: 9;
-		opacity: 0.7;
-		bottom: 20px;
-		animation: animate 5s linear infinite;
+	.waves > path:nth-child(1) {
+		animation-delay: -2s;
+		animation-duration: 7s;
 	}
 
-	@keyframes animateWaves {
+	.waves > path:nth-child(2) {
+		animation-delay: -3s;
+		animation-duration: 10s;
+	}
+
+	.waves > path:nth-child(3) {
+		animation-delay: -4s;
+		animation-duration: 13s;
+	}
+
+	.waves > path:nth-child(4) {
+		animation-delay: -5s;
+		animation-duration: 20s;
+	}
+
+	@keyframes move-forever {
 		0% {
-			background-position-x: 1000px;
+			transform: translate3d(-90px, 0, 0);
 		}
 		100% {
-			background-position-x: 0px;
-		}
-	}
-
-	@keyframes animate {
-		0% {
-			background-position-x: -1000px;
-		}
-		100% {
-			background-position-x: 0px;
+			transform: translate3d(85px, 0, 0);
 		}
 	}
 `
@@ -110,6 +132,7 @@ S.Icon = styled.div`
 	position: relative;
 	${flexCenter}
 	flex-wrap: wrap;
+	opacity: 0.4;
 	img {
 		font-size: 2rem;
 		display: inline-block;
@@ -121,7 +144,9 @@ S.Icon = styled.div`
 `
 S.TextBox = styled.div`
 	text-align: center;
-	margin-top: 20px;
+	margin-top: 10px;
+	color: ${({ theme }) => theme.PALETTE.gray[800]};
+	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `
 
 S.LogoBox = styled.div`

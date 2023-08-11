@@ -3,28 +3,30 @@ import defaultImg from 'assets/images/기본프로필/default_profile_3.png'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-const DeImgSection = ({ itemData, containerWidth }) => {
-	const [useTitleImg, setUseTitleImg] = useState(null)
+const DeImgSection = ({ img_url, Images, containerWidth }) => {
+	const [useTitleImg, setUseTitleImg] = useState(img_url || defaultImg)
 	useEffect(() => {
-		setUseTitleImg(itemData[0])
-	}, [itemData])
+		setUseTitleImg(Images[0])
+	}, [img_url])
 	return (
 		<S.LeftSection>
 			<S.ImgBoxSticky>
-				<S.TitleImg size={containerWidth} image={useTitleImg || defaultImg} />
+				<S.TitleImg>
+					<img src={useTitleImg || defaultImg} alt={useTitleImg} />
+				</S.TitleImg>
 				<ImageList
-					sx={{ width: containerWidth }}
-					cols={itemData.length}
-					rowHeight={Math.floor(containerWidth / itemData.length - 10)}
+					sx={{ width: containerWidth - 20, margin: '10px auto 10px' }}
+					cols={Images.length}
+					rowHeight={Math.floor(containerWidth / Images.length - 10)}
 				>
-					{itemData.length !== 1 &&
-						itemData.map(item => (
+					{Images.length !== 1 &&
+						Images.map(item => (
 							<ImageListItem
 								key={item}
 								sx={{ alignItems: 'center', justifyContent: 'space-evenly' }}
 							>
 								<S.ImgBox
-									size={containerWidth / itemData.length - 10}
+									size={containerWidth / Images.length - 10}
 									onClick={() => setUseTitleImg(item)}
 								>
 									<img src={item} alt={item} />
@@ -49,15 +51,20 @@ S.LeftSection = styled.div`
 
 S.ImgBoxSticky = styled.div`
 	position: sticky;
-	top: 0;
+	top: 180px;
 `
 
 S.TitleImg = styled.div`
-	background-image: ${({ image }) => `url(${image})`};
-	background-size: cover;
+	max-width: 500px;
 	aspect-ratio: 1/1;
 	border: 1px solid ${({ theme }) => theme.PALETTE.gray['300']};
-	background-position: center;
+	margin: 0 auto;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
 `
 S.ImgBox = styled.div`
 	aspect-ratio: 1/1;
@@ -71,5 +78,6 @@ S.ImgBox = styled.div`
 		text-align: center;
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 `

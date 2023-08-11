@@ -1,6 +1,5 @@
 import { isLoggedInAtom } from 'atom/header/atom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
@@ -17,19 +16,14 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 		e.preventDefault()
 		setIsLoggedIn(true)
 	}
-	const { linkMainPage, linkMyPage } = useMove()
-	const { mutate, isSuccess } = useUserAPi.logout()
+	const { linkAuthPage, linkMyPage } = useMove()
+	const { mutate } = useUserAPi.logout()
 
 	const handleLogout = e => {
 		e.preventDefault()
 		mutate()
+		linkAuthPage()
 	}
-
-	useEffect(() => {
-		if (isSuccess === true) {
-			linkMainPage()
-		}
-	}, [isSuccess])
 
 	return (
 		<S.UserInfoContainer>

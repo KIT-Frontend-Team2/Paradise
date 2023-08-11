@@ -36,7 +36,7 @@ MaSection.propTypes = {
 const S = {}
 
 S.Title = styled.div`
-	padding-top: 105px;
+	padding-top: ${({ theme }) => (theme.isMobile ? 40 : 105)}px;
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
