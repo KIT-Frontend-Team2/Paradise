@@ -4,7 +4,7 @@ import { queryClient } from '../../App'
 import viewListAxios from '../../apis/service/viewlist.api'
 import API_KEY from '../../consts/ApiKey'
 import { ERROR_MESSAGE, NETWORK } from '../../consts/api'
-import toastMessage from "../../utils/toast-message";
+import toastMessage from '../../utils/toast-message'
 
 const useViewListApi = {
 	useGetViewList: () => {
