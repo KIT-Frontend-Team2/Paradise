@@ -38,6 +38,7 @@ const Login = ({ setState }) => {
 				pw,
 				check,
 			})
+
 			setLogin(true)
 			linkMainPage()
 		} catch (err) {

@@ -1,6 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton } from '@mui/material'
-import { headerMock } from '__mock__/datas/header.mock'
 import useMove from 'hooks/useMovePage'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +9,7 @@ import { flexCenter } from 'styles/common'
 import headerlogo from '../../../../assets/images/headerlogo.png'
 import UserInfo from './UserInfo'
 
-const HeaderSearch = () => {
+const HeaderSearch = ({ newChat }) => {
 	const navigate = useNavigate()
 	const inputRef = useRef(null)
 	const { linkSearchProduct } = useMove()
@@ -52,10 +51,7 @@ const HeaderSearch = () => {
 					</IconButton>
 				</S.SearchBox>
 				<S.UserInfoContainer>
-					<UserInfo
-						user_profile_url={headerMock.data.user_info.user_profile_url}
-						user_nick_name={headerMock.data.user_info.user_nick_name}
-					/>
+					<UserInfo newChat={newChat} />
 				</S.UserInfoContainer>
 			</S.SearchContainer>
 		</>
