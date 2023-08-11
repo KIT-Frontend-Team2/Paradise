@@ -3,16 +3,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { formatNumberToMoney } from 'utils/formatter'
 
-const MonthPrice = ({ amount}) => {
+const MonthPrice = ({ amount }) => {
+	const { thisMonthPurchaseAmount, thisMonthSaleAmount } = amount
 
-	const {
-		thisMonthPurchaseAmount,
-		thisMonthSaleAmount,
-	} = amount
-
-	const MonthPurchaseAmountNumber = parseFloat(thisMonthPurchaseAmount);
-	const MonthSaleAmountNumber = parseFloat(thisMonthSaleAmount);
-	const result = MonthSaleAmountNumber-MonthPurchaseAmountNumber
+	const MonthPurchaseAmountNumber = parseFloat(thisMonthPurchaseAmount)
+	const MonthSaleAmountNumber = parseFloat(thisMonthSaleAmount)
+	const result = MonthSaleAmountNumber - MonthPurchaseAmountNumber
 
 	return (
 		<S.Wrapper>
@@ -22,10 +18,12 @@ const MonthPrice = ({ amount}) => {
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
-					판매총액 <span>{formatNumberToMoney(parseInt(thisMonthSaleAmount))}</span>
+					판매총액{' '}
+					<span>{formatNumberToMoney(parseInt(thisMonthSaleAmount))}</span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
-					구매총액 <span>{formatNumberToMoney(parseInt(thisMonthPurchaseAmount))}</span>
+					구매총액{' '}
+					<span>{formatNumberToMoney(parseInt(thisMonthPurchaseAmount))}</span>
 				</S.TotalPurchasePrice>
 				<S.TotalPrice>
 					합 <span>{formatNumberToMoney(result)}</span>
@@ -56,8 +54,7 @@ S.Left = styled.div`
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
-	flex-direction: ${({ theme }) =>
-		theme.isDesktop ? 'column' : 'row'};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'column' : 'row')};
 	justify-content: ${({ theme }) =>
 		theme.isDesktop ? 'space-between' : 'flex-start'};
 	align-items: center;
@@ -77,8 +74,7 @@ S.TotalSalePrice = styled.div`
 		content: '|';
 		margin-left: 20px;
 		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-		display: ${({ theme }) =>
-		theme.isDesktop ? 'none' : 'block'};
+		display: ${({ theme }) => (theme.isDesktop ? 'none' : 'block')};
 	}
 `
 S.TotalPurchasePrice = styled.div`
@@ -87,8 +83,7 @@ S.TotalPurchasePrice = styled.div`
 		content: '|';
 		margin-left: 20px;
 		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-		display: ${({ theme }) =>
-		theme.isDesktop ? 'none' : 'block'};
+		display: ${({ theme }) => (theme.isDesktop ? 'none' : 'block')};
 	}
 `
 S.TotalPrice = styled.div``

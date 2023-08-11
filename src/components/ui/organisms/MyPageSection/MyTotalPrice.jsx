@@ -3,16 +3,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { formatNumberToMoney } from 'utils/formatter'
 
-
 const TotalPrice = ({ amount }) => {
-	const {
-		totalPurchaseAmount,
-		totalSaleAmount,
-	} = amount
+	const { totalPurchaseAmount, totalSaleAmount } = amount
 
-	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount);
-	const TotalSaleAmountNumber = parseFloat(totalSaleAmount);
-	const result = TotalSaleAmountNumber-TotalPurchaseAmountNumber
+	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount)
+	const TotalSaleAmountNumber = parseFloat(totalSaleAmount)
+	const result = TotalSaleAmountNumber - TotalPurchaseAmountNumber
 
 	return (
 		<S.Wrapper>
@@ -25,7 +21,8 @@ const TotalPrice = ({ amount }) => {
 					판매총액 <span>{formatNumberToMoney(parseInt(totalSaleAmount))}</span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
-					구매총액 <span>{formatNumberToMoney(parseInt(totalPurchaseAmount))}</span>
+					구매총액{' '}
+					<span>{formatNumberToMoney(parseInt(totalPurchaseAmount))}</span>
 				</S.TotalPurchasePrice>
 				<S.TotalPrice>
 					합 <span>{formatNumberToMoney(parseInt(result))}</span>
@@ -56,8 +53,7 @@ S.Left = styled.div`
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.fontColor};
 	display: flex;
-	flex-direction: ${({ theme }) =>
-		theme.isDesktop ? 'column' : 'row'};
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'column' : 'row')};
 	justify-content: ${({ theme }) =>
 		theme.isDesktop ? 'space-between' : 'flex-start'};
 	align-items: center;
@@ -77,8 +73,7 @@ S.TotalSalePrice = styled.div`
 		content: '|';
 		margin-left: 20px;
 		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-		display: ${({ theme }) =>
-		theme.isDesktop ? 'none' : 'block'};
+		display: ${({ theme }) => (theme.isDesktop ? 'none' : 'block')};
 	}
 `
 S.TotalPurchasePrice = styled.div`
@@ -87,8 +82,7 @@ S.TotalPurchasePrice = styled.div`
 		content: '|';
 		margin-left: 20px;
 		font-weight: ${({ theme }) => theme.FONT_WEIGHT.bold};
-		display: ${({ theme }) =>
-		theme.isDesktop ? 'none' : 'block'};
+		display: ${({ theme }) => (theme.isDesktop ? 'none' : 'block')};
 	}
 `
 S.TotalPrice = styled.div``

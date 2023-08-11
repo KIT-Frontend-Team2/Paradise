@@ -1,4 +1,5 @@
 import Pagination from 'components/ui/molecules/Pagination/Pagination'
+import MonthPrice from 'components/ui/organisms/MyPageSection/MyMonthPrice'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import TotalPrice from 'components/ui/organisms/MyPageSection/MyTotalPrice'
 import useMypageApi from 'hooks/service/useMypage.service'
@@ -7,7 +8,6 @@ import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 import Calendar from 'utils/calendar'
 import { dateFomatter } from 'utils/formatter'
-import MonthPrice from 'components/ui/organisms/MyPageSection/MyMonthPrice'
 
 const MyCashTemplate = () => {
 	const nowDate = new Date()
@@ -47,8 +47,8 @@ const MyCashTemplate = () => {
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>
-				<MonthPrice amount={data.data.amount}/>
-				<TotalPrice amount={data.data.amount}/>
+				<MonthPrice amount={data.data.amount} />
+				<TotalPrice amount={data.data.amount} />
 			</S.TotalPrice>
 			<Calendar
 				setStartDate={setStartDate}

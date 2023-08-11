@@ -3,14 +3,15 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import Checkbox from '@mui/material/Checkbox'
 import useOneRequest from 'hooks/common/useOneRequest'
+import useMove from 'hooks/useMovePage'
 import React, { useEffect, useState } from 'react'
 import { styled } from 'styled-components'
+import { formatNumberToMoney } from 'utils/formatter'
 import timeHelper from 'utils/time-helper'
 
 import useProductService from '../../../../hooks/service/useProduct.service'
 import SellMenuBar from './SellMenuBar'
-import useMove from 'hooks/useMovePage'
-import { formatNumberToMoney } from 'utils/formatter'
+
 const MyUploadCard = ({
 	MyContentValue,
 	key,
@@ -25,25 +26,22 @@ const MyUploadCard = ({
 	time,
 	state,
 	filter,
-	categorys
+	categorys,
 }) => {
 	const { linkDetailPage } = useMove()
 	const [likeState, setLikeState] = useState(Boolean(like))
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 
-
-
-	console.log(`카테고리`,categorys)
+	console.log(`카테고리`, categorys)
 	useEffect(() => {
 		setLikeState(Boolean(like))
 	}, [isLike])
 
 	return (
 		<S.Card>
-			{MyContentValue !== 'mySell' ? 
-			<S.ImageBox
-				>
+			{MyContentValue !== 'mySell' ? (
+				<S.ImageBox>
 					{MyContentValue === 'wish' ? (
 						<S.LikeBox>
 							<Checkbox
@@ -56,7 +54,14 @@ const MyUploadCard = ({
 					) : (
 						''
 					)}
-					<img src={img_url} style={{ cursor: 'pointer' }} alt={name}  	onClick={()=>{linkDetailPage(id)}}/>
+					<img
+						src={img_url}
+						style={{ cursor: 'pointer' }}
+						alt={name}
+						onClick={() => {
+							linkDetailPage(id)
+						}}
+					/>
 					{MyContentValue === 'mySell' ? (
 						<S.Toggle>
 							<SellMenuBar prod_idx={id} filter={filter} />
@@ -70,41 +75,45 @@ const MyUploadCard = ({
 						</S.CloseBox>
 					)}
 				</S.ImageBox>
-			:
-			<S.ImageBox>
-				{MyContentValue === 'wish' ? (
-					<S.LikeBox>
-						<Checkbox
-							onClick={onClick}
-							checked={likeState} //
-							icon={<FavoriteBorder />}
-							checkedIcon={<Favorite sx={{ color: 'red' }} />}
-						/>
-					</S.LikeBox>
-				) : (
-					''
-				)}
-				<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
-				{MyContentValue === 'mySell' ? (
-					<S.Toggle>
-						<SellMenuBar prod_idx={id} filter={filter} />
-					</S.Toggle>
-				) : (
-					''
-				)}
-				{MyContentValue === 'mySell' && state === '판매완료' && (
-					<S.CloseBox>
-						<span>판매완료</span>
-					</S.CloseBox>
-				)}
-			</S.ImageBox>
-			}
+			) : (
+				<S.ImageBox>
+					{MyContentValue === 'wish' ? (
+						<S.LikeBox>
+							<Checkbox
+								onClick={onClick}
+								checked={likeState} //
+								icon={<FavoriteBorder />}
+								checkedIcon={<Favorite sx={{ color: 'red' }} />}
+							/>
+						</S.LikeBox>
+					) : (
+						''
+					)}
+					<img src={img_url} style={{ cursor: 'pointer' }} alt={name} />
+					{MyContentValue === 'mySell' ? (
+						<S.Toggle>
+							<SellMenuBar prod_idx={id} filter={filter} />
+						</S.Toggle>
+					) : (
+						''
+					)}
+					{MyContentValue === 'mySell' && state === '판매완료' && (
+						<S.CloseBox>
+							<span>판매완료</span>
+						</S.CloseBox>
+					)}
+				</S.ImageBox>
+			)}
 			<S.PlaceWithTimeBox>
 				<span>{place}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
-			{price !== 0 ? <S.PriceBox>{formatNumberToMoney(price) + '원'}</S.PriceBox> : <S.PriceBox />}
+			{price !== 0 ? (
+				<S.PriceBox>{formatNumberToMoney(price) + '원'}</S.PriceBox>
+			) : (
+				<S.PriceBox />
+			)}
 			<S.FlexBox>
 				{like > 0 && (
 					<S.IconWithText>
@@ -132,7 +141,6 @@ S.LikeBox = styled.div`
 	right: 5px;
 	position: absolute;
 	transition: 0.5s;
-
 
 	:hover {
 		transform: scale(1.05);

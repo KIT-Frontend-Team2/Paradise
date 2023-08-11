@@ -5,7 +5,7 @@ import { styled } from 'styled-components'
 
 const MyRecentTemplate = () => {
 	const { data } = useViewListApi.useGetViewList()
-	const {productList} = data.data
+	const { productList } = data.data
 	return (
 		<S.Wrapper>
 			<S.Title>최근 조회 상품</S.Title>

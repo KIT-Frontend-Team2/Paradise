@@ -9,7 +9,7 @@ import React, { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
-const SellMenuBar = ({ prod_idx,filter }) => {
+const SellMenuBar = ({ prod_idx, filter }) => {
 	const { linkModifyProduct } = useMove()
 	const id = prod_idx
 
@@ -18,17 +18,15 @@ const SellMenuBar = ({ prod_idx,filter }) => {
 	const [handleState, setHandleState] = useState(false)
 	const [searchParams, _] = useSearchParams()
 
-
 	const handleIcon = () => {
 		setChangeIcon(!changeIcon)
 		setOpenMenu(!openMenu)
 	}
 
 	const page = searchParams.get('page')
-	const {data} = useChatApi.useGetChatProduct(page, prod_idx)
+	const { data } = useChatApi.useGetChatProduct(page, prod_idx)
 	const chatUser = data.data
 	const { mutate } = useMypageApi.useDeleteProduct()
-
 
 	const hadleDelete = () => {
 		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
@@ -39,7 +37,7 @@ const SellMenuBar = ({ prod_idx,filter }) => {
 	}
 
 	const hadnleState = () => {
-		if(!handleState) return setHandleState(true)
+		if (!handleState) return setHandleState(true)
 		setHandleState(false)
 	}
 
@@ -62,7 +60,9 @@ const SellMenuBar = ({ prod_idx,filter }) => {
 								style={{ width: '96px', height: '42px', fontSize: '13px' }}
 								label={'수정'}
 								variant={'outlined'}
-								onClick={()=>{linkModifyProduct(id)}}
+								onClick={() => {
+									linkModifyProduct(id)
+								}}
 							/>
 							<Button
 								style={{ width: '96px', height: '42px', fontSize: '13px' }}
@@ -76,13 +76,17 @@ const SellMenuBar = ({ prod_idx,filter }) => {
 			) : (
 				''
 			)}
-			{handleState ? 
-			<SellCheck 
-			chatUser={chatUser}  
-			prod_idx={ prod_idx} 
-			setHandleState={setHandleState}
-			setOpenMenu={setOpenMenu} 
-			filter={filter} />:''}
+			{handleState ? (
+				<SellCheck
+					chatUser={chatUser}
+					prod_idx={prod_idx}
+					setHandleState={setHandleState}
+					setOpenMenu={setOpenMenu}
+					filter={filter}
+				/>
+			) : (
+				''
+			)}
 		</>
 	)
 }

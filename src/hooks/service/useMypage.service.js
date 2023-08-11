@@ -66,13 +66,13 @@ const useMypageApi = {
 	},
 
 	//판매완료 변경
-	useChangeState: (prod_idx,token,) => {
+	useChangeState: (prod_idx, token) => {
 		const { mutate } = useMutation(
-			() => productAxios.postCompleteProduct(prod_idx,token),
+			() => productAxios.postCompleteProduct(prod_idx, token),
 			{
 				onSuccess: () => {
-					alert('구매자가 확정되었습니다.');
-					queryClient.invalidateQueries(['myPageProductInfo',filter]);
+					alert('구매자가 확정되었습니다.')
+					queryClient.invalidateQueries(['myPageProductInfo', filter])
 				},
 			},
 		)
@@ -104,10 +104,10 @@ const useMypageApi = {
 		return { data }
 	},
 
-
 	useGetChatProduct: (page, prod_idx) => {
-		const { data } = useQuery(['chat', 'getChatProduct', page, prod_idx], 
-		() =>chatService.getChatProduct(page, prod_idx),)
+		const { data } = useQuery(['chat', 'getChatProduct', page, prod_idx], () =>
+			chatService.getChatProduct(page, prod_idx),
+		)
 		return { data }
 	},
 }
