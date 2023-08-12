@@ -114,7 +114,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					<DeProductSection
 						id={idx}
 						isBuyer={productInfo.isSeller}
-						chatCount={productInfo.product_chat_count}
+						chatCount={productInfo.chat.length}
 						isLike={!!liked}
 						like={productInfo.product_like}
 						price={price}
