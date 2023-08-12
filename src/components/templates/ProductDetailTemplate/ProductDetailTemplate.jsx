@@ -130,7 +130,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						imgProfile={profile_url}
 						userTemplate={Ondo.ondo}
 						// itemData={user_product_list}
-						// productCount={user_product_count}
+						productCount={0}
 						userName={nick_name}
 						userId={user_idx}
 						containerWidth={containerWidth - 30}

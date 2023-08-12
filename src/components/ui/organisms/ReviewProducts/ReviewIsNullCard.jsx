@@ -22,7 +22,7 @@ const ProductCard = ({ id, name, img_url, time, price, handleOpen }) => {
 			{price !== 0 ? (
 				<S.PriceBox>{price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<></>
+				<S.PriceBox>무료</S.PriceBox>
 			)}
 		</S.Card>
 	)

@@ -11,7 +11,7 @@ const MaSection = ({ leftTitle, link, products }) => {
 				<S.LeftTitle>{leftTitle}</S.LeftTitle>
 				<S.RightLink onClick={link}>더보기</S.RightLink>
 			</S.Title>
-			<ProductList products={products} size={250} />
+			<ProductList products={products} />
 		</>
 	)
 }
