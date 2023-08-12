@@ -16,21 +16,21 @@ const ProductListTemplate = ({ pagination, products, title, intro }) => {
 	}
 	return (
 		<Container>
-			{products.length !== 0 ? (
-				<>
-					<S.ListTitle>
-						<S.ListFilter>
-							{title}
-							{intro && <S.FilterIntro>{intro}</S.FilterIntro>}
-						</S.ListFilter>
-						<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
-					</S.ListTitle>
+			<>
+				<S.ListTitle>
+					<S.ListFilter>
+						{title}
+						{intro && <S.FilterIntro>{intro}</S.FilterIntro>}
+					</S.ListFilter>
+					<S.ProductCount>{'총 ' + total + '건'}</S.ProductCount>
+				</S.ListTitle>
+				{products.length !== 0 ? (
 					<ProductList size={250} products={products} />
-					<Pagination page={page} item_length={item_length} total={total} />
-				</>
-			) : (
-				<EmptySection titleMessage={EMPTY_MESSAGE.EMPTY_LIST} />
-			)}
+				) : (
+					<EmptySection titleMessage={EMPTY_MESSAGE.EMPTY_LIST} />
+				)}
+				<Pagination page={page} item_length={item_length} total={total} />
+			</>
 		</Container>
 	)
 }

@@ -1,16 +1,15 @@
 import useMove from 'hooks/useMovePage'
 import { useEffect } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
 
-import { isLoggedInAtom } from '../atom/header/atom'
 import useUserAPi from '../hooks/service/user.service'
 import { getCookie } from '../repositories/AuthCookie'
+import { getLogin } from '../repositories/LoginCookie'
 
 const PrivateRoute = () => {
 	const { mutate } = useUserAPi.login()
 	const { linkLanding } = useMove()
-	const isLoggedIn = useRecoilValue(isLoggedInAtom)
+	const isLoggedIn = getLogin()
 	useEffect(() => {
 		const userInfo = getCookie()
 		if (!isLoggedIn && userInfo) {

@@ -3,23 +3,22 @@ import React, { Suspense, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
 
+import { HTTPError } from '../../../apis/HTTPError'
 import { REVIEW_MESSAGE } from '../../../consts/message'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import reviewService from '../../../hooks/service/review.service'
 import ToastMessage from '../../../utils/toast-message'
 import Review from '../../modal/Review/Review'
 import ReviewDetail from '../../modal/Review/ReviewDetail'
-import Button from '../../ui/atoms/Button/Button'
 import Pagination from '../../ui/molecules/Pagination/Pagination'
-import ReviewIsNullProducts from '../../ui/organisms/ReviewProducts/ReviewIsNullProducts'
-import ReviewProducts from '../../ui/organisms/ReviewProducts/ReviewProducts'
+import EmptySection from '../../ui/organisms/EmptySection/EmptySection'
+import ReviewProducts from '../../ui/organisms/ReviewProducts/ReviewIsNullProducts'
 
 const MyReviewTemplate = () => {
 	const [searchParam, _] = useSearchParams()
 	const page = searchParam.get('page') || 1
 	const { data } = reviewService.getReview(page)
 	const { pagination, reviewList } = data.data
-	const [selectState, setSelectState] = useState(false)
 	// 상세 모달이 열린 유무를 확인
 	const [isDetail, setIsDetail] = useState(false)
 	// 수정, 삭제 모달이 열린 유무를 확인
@@ -73,14 +72,12 @@ const MyReviewTemplate = () => {
 				REVIEW_MESSAGE.ERROR_MESSAGE,
 			)
 			detailClose()
-			setSelectState(false)
 		}
 	}
 
-	const reviewIsNullProducts = reviewList.filter(
-		review => review.Review === null,
-	)
-	const reviewProducts = reviewList.filter(review => review.Review !== null)
+	if (page !== 1 && reviewList.length === 0) {
+		throw new HTTPError(400, '옳지않은 접근입니다.')
+	}
 
 	const {
 		isDesktop,
@@ -140,37 +137,18 @@ const MyReviewTemplate = () => {
 			/>
 			<S.Title>리뷰 관리</S.Title>
 			<S.Content>
-				<S.Filter>
-					<S.Left>
-						<Button
-							type="button"
-							label={'리뷰 작성'}
-							variant={!selectState ? 'primary-outlined' : 'outlined'}
-							size={'small'}
-							onClick={() => setSelectState(false)}
-						/>
-						<Button
-							type="button"
-							label={'작성한 리뷰'}
-							size={'small'}
-							variant={selectState ? 'primary-outlined' : 'outlined'}
-							onClick={() => setSelectState(true)}
-						/>
-					</S.Left>
-				</S.Filter>
-				<S.ProductList repeat={repeat}>
-					{!selectState ? (
-						<ReviewIsNullProducts
-							handleOpen={handleOpen}
-							reviewIsNullProducts={reviewIsNullProducts}
-						/>
-					) : (
+				<S.Filter></S.Filter>
+				{reviewList.length !== 0 ? (
+					<S.ProductList repeat={repeat}>
 						<ReviewProducts
+							handleOpen={handleOpen}
+							reviewList={reviewList}
 							detailOpen={detailOpen}
-							reviewProducts={reviewProducts}
 						/>
-					)}
-				</S.ProductList>
+					</S.ProductList>
+				) : (
+					<EmptySection titleMessage={'구매한 상품이 없습니다'} />
+				)}
 			</S.Content>
 			<Pagination
 				page={page}
@@ -187,7 +165,6 @@ const S = {}
 
 S.Wrapper = styled.div`
 	width: ${({ theme }) => (theme.isDesktop ? '873px' : '100%')};
-	min-height: 100vh;
 `
 
 S.Title = styled.h2`

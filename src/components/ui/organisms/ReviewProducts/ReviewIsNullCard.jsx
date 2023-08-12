@@ -32,10 +32,6 @@ export default ProductCard
 
 ProductCard.propTypes = {
 	/**
-	 * 상품 카드의 가로 길이를 설정할 수 있습니다. 이미지의 세로길이도 동일합니다.
-	 */
-	size: PropTypes.number.isRequired,
-	/**
 	 * 링크 이동을 위한 상품의 아이디를 입력합니다.
 	 */
 	id: PropTypes.number.isRequired,
@@ -73,6 +69,7 @@ S.LikeBox = styled.div`
 
 S.Card = styled.div`
 	text-align: left;
+	width: 100%;
 `
 S.ImgBox = styled.div`
 	position: relative;
