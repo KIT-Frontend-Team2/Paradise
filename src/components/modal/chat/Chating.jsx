@@ -19,6 +19,8 @@ const Chating = ({
 	admin,
 }) => {
 	const { data } = useChatApi.useGetChatLog(id)
+	// console.log(data.data.slice(-1))
+	// const receiverMsg = data.data.slice(-1)
 
 	const [message, setMessage] = useState('')
 	const { mutate } = useChatApi.useSendChat()
