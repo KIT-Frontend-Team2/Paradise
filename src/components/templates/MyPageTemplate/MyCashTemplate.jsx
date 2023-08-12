@@ -1,4 +1,3 @@
-
 import Pagination from 'components/ui/molecules/Pagination/Pagination'
 import MonthPrice from 'components/ui/organisms/MyPageSection/MyMonthPrice'
 import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
@@ -13,25 +12,23 @@ import { dateFomatter } from 'utils/formatter'
 const MyCashTemplate = () => {
 	const nowDate = new Date()
 	const startDate = dateFomatter(
-		new Date(nowDate.getFullYear(), nowDate.getMonth())
+		new Date(nowDate.getFullYear(), nowDate.getMonth()),
 	)
 	const endDate = dateFomatter(
-		new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
+		new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0),
 	)
 
 	const MonthDate = nowDate.getMonth() + 1
 
-
-	const {data: getUserInfo} = useMypageApi.useGetinfo()
-  const {nick_name} = getUserInfo.data;
-
+	const { data: getUserInfo } = useMypageApi.useGetinfo()
+	const { nick_name } = getUserInfo.data
 
 	const [catagory, setCatagory] = useState('seller')
 	const [start, setStartDate] = useState(startDate)
 	const [end, setEndDate] = useState(endDate)
 	const [curPage, setCurPage] = useState(1)
 	const { data } = useMypageApi.useAccountPage(curPage, catagory, start, end)
-	const {amount} = data.data
+	const { amount } = data.data
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
@@ -50,7 +47,7 @@ const MyCashTemplate = () => {
 	return (
 		<S.Wrapper>
 			<S.Title>
-				{nick_name}님의 {MonthDate}월 <br/>
+				{nick_name}님의 {MonthDate}월 <br />
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>

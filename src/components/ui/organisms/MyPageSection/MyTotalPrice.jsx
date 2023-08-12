@@ -14,7 +14,9 @@ const TotalPrice = ({ amount }) => {
 		<S.Wrapper>
 			<S.Left>
 				<S.Title>총 판매 금액 </S.Title>
-				<S.Price>{formatNumberToMoney(parseInt(totalSaleAmount)) + '원'}</S.Price>
+				<S.Price>
+					{formatNumberToMoney(parseInt(totalSaleAmount)) + '원'}
+				</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
@@ -48,9 +50,9 @@ S.Wrapper = styled(Box)`
 S.Left = styled.div`
 	color: ${({ theme }) => theme.PALETTE.fontColor};
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'flex')};
-	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	align-items: center;
-	margin-bottom: 20px ;
+	margin-bottom: 20px;
 `
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.fontColor};

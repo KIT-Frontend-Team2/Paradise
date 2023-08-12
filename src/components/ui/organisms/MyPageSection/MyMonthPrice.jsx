@@ -14,7 +14,9 @@ const MonthPrice = ({ amount }) => {
 		<S.Wrapper>
 			<S.Left>
 				<S.Title>이번달 판매 금액</S.Title>
-				<S.Price>{formatNumberToMoney(parseInt(thisMonthSaleAmount)) + '원'}</S.Price>
+				<S.Price>
+					{formatNumberToMoney(parseInt(thisMonthSaleAmount)) + '원'}
+				</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
@@ -49,15 +51,15 @@ S.Wrapper = styled(Box)`
 S.Left = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'flex')};
-	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};;
+	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	align-items: center;
-	margin-bottom: 20px ;
+	margin-bottom: 20px;
 `
 S.Right = styled.div`
 	color: ${({ theme }) => theme.PALETTE.white};
 	display: flex;
 	justify-content: ${({ theme }) =>
-	theme.isDesktop ? 'space-between' : 'flex-start'};
+		theme.isDesktop ? 'space-between' : 'flex-start'};
 	align-items: center;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.light};
 `
@@ -72,10 +74,8 @@ S.Price = styled.div`
 `
 S.TotalSalePrice = styled.div`
 	margin-right: 15px;
-
 `
 S.TotalPurchasePrice = styled.div`
 	margin-right: 15px;
-
 `
 S.TotalPrice = styled.div``

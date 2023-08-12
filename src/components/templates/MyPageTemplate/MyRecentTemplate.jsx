@@ -29,6 +29,5 @@ S.Title = styled.h2`
 	font-size: 24px;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 	text-align: left;
-
 `
 S.Content = styled.div``

@@ -110,8 +110,6 @@ const useMypageApi = {
 		)
 		return { data }
 	},
-
-
 }
 
 export default useMypageApi

@@ -70,131 +70,111 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 
 	return (
 		<S.Wrapper>
-				{MyContentValue !== 'recent' ? (
-					<S.Filter>
-						{MyContentValue === 'mySell' ? (
-							<S.Left>
-								<Button
-									type="button"
-									label={'판매'}
-									variant={'primary-outlined'}
-									size={'small'}
-									onClick={() => {
-										handleFilter('0')
-									}}
-								/>
-								<Button
-									type="button"
-									label={'나눔'}
-									size={'small'}
-									variant={'outlined'}
-									onClick={() => {
-										handleFilter('1')
-									}}
-								/>
-							</S.Left>
-						) : (
-							''
-						)}
-						{MyContentValue === 'wish' || MyContentValue === 'recent' ? (
-							<S.Left>
-								<Button
-									type="button"
-									label={'판매'}
-									variant={'primary-outlined'}
-									size={'small'}
-									onClick={() => {
-										handleIsFliter('true')
-									}}
-								/>
-								<Button
-									type="button"
-									label={'나눔'}
-									size={'small'}
-									variant={'outlined'}
-									onClick={() => {
-										handleIsFliter('false')
-									}}
-								/>
-							</S.Left>
-						) : (
-							''
-						)}
-						{MyContentValue === 'mySell' ? (
-							<S.Right>
-								<input type="checkbox" />
-								<label className="checklabel">판매완료</label>
-							</S.Right>
-						) : (
-							''
-						)}
-					</S.Filter>
-				) : (
-					''
-				)}
-				{MyContentValue === 'cash' ? (
-					<S.BottomFilter>
-						<S.BLeftFilter>
-							<li onClick={() => handleFilter('seller')}>판매 내역</li>
-							<li onClick={() => handleFilter('buyer')}>구매 내역</li>
-						</S.BLeftFilter>
-						<S.BRightFilter>
-							<Box sx={{ minWidth: 60 }}>
-								<Myselect handleFilter={handleFilter} />
-							</Box>
-						</S.BRightFilter>
-					</S.BottomFilter>
-				) : (
-					''
-				)}
-				<S.Content repeat={repeat}>
-					{MyContentValue === 'mySell'
-						? products.map(item => (
-								<MyUploadCard
-									MyContentValue={MyContentValue}
-									key={item.idx}
-									price={item.price} // 없음
-									isLike={item.isLike} //없음
-									chat_count={item.createdAt} //없음
-									img_url={item.img_url}
-									like={item.product_like} //없음
-									name={item.title}
-									id={item.idx}
-									place={item.region}
-									time={item.createdAt} //없음
-									state={item.status}
-									content={item.product_content} //없음
-									filter={filter}
-								/>
-						  ))
-						: ''}
-					{MyContentValue === 'wish'
-						? products.map(item => {
-								if (isCategory === 'true' || isCategory === 'false') {
-									if (
-										(item.Product.category === true && isCategory === 'true') ||
-										(item.Product.category === false && isCategory === 'false')
-									) {
-										return (
-											<MyUploadCard
-												MyContentValue={MyContentValue}
-												categorys={item.Product.category}
-												key={item.Product.idx}
-												price={item.Product.price}
-												isLike={item.Product.isLike}
-												chat_count={item.Product.createdAt}
-												img_url={item.Product.img_url}
-												like={item.Product.liked}
-												name={item.Product.title}
-												id={item.Product.idx}
-												place={item.Product.region}
-												time={item.Product.createdAt}
-												state={item.Product.status}
-												content={item.Product.product_content} // 없음
-											/>
-										)
-									}
-								} else {
+			{MyContentValue !== 'recent' ? (
+				<S.Filter>
+					{MyContentValue === 'mySell' ? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => {
+									handleFilter('0')
+								}}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() => {
+									handleFilter('1')
+								}}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
+					{MyContentValue === 'wish' || MyContentValue === 'recent' ? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => {
+									handleIsFliter('true')
+								}}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() => {
+									handleIsFliter('false')
+								}}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
+					{MyContentValue === 'mySell' ? (
+						<S.Right>
+							<input type="checkbox" />
+							<label className="checklabel">판매완료</label>
+						</S.Right>
+					) : (
+						''
+					)}
+				</S.Filter>
+			) : (
+				''
+			)}
+			{MyContentValue === 'cash' ? (
+				<S.BottomFilter>
+					<S.BLeftFilter>
+						<li onClick={() => handleFilter('seller')}>판매 내역</li>
+						<li onClick={() => handleFilter('buyer')}>구매 내역</li>
+					</S.BLeftFilter>
+					<S.BRightFilter>
+						<Box sx={{ minWidth: 60 }}>
+							<Myselect handleFilter={handleFilter} />
+						</Box>
+					</S.BRightFilter>
+				</S.BottomFilter>
+			) : (
+				''
+			)}
+			<S.Content repeat={repeat}>
+				{MyContentValue === 'mySell'
+					? products.map(item => (
+							<MyUploadCard
+								MyContentValue={MyContentValue}
+								key={item.idx}
+								price={item.price} // 없음
+								isLike={item.isLike} //없음
+								chat_count={item.createdAt} //없음
+								img_url={item.img_url}
+								like={item.product_like} //없음
+								name={item.title}
+								id={item.idx}
+								place={item.region}
+								time={item.createdAt} //없음
+								state={item.status}
+								content={item.product_content} //없음
+								filter={filter}
+							/>
+					  ))
+					: ''}
+				{MyContentValue === 'wish'
+					? products.map(item => {
+							if (isCategory === 'true' || isCategory === 'false') {
+								if (
+									(item.Product.category === true && isCategory === 'true') ||
+									(item.Product.category === false && isCategory === 'false')
+								) {
 									return (
 										<MyUploadCard
 											MyContentValue={MyContentValue}
@@ -214,49 +194,69 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 										/>
 									)
 								}
-								return null
-						  })
-						: null}
-					{MyContentValue === 'recent'
-						? products.map(item => (
-								<MyUploadCard
-									MyContentValue={MyContentValue}
-									key={item.Product.idx}
-									price={item.Product.price}
-									isLike={item.Product.isLike}
-									chat_count={item.Product.createdAt}
-									img_url={item.Product.img_url}
-									like={item.Product.liked}
-									name={item.Product.title}
-									id={item.Product.idx}
-									place={item.Product.region}
-									time={item.Product.createdAt}
-									state={item.Product.status}
-									content={item.Product.product_content}
-								/>
-						  ))
-						: ''}
-					{MyContentValue === 'cash'
-						? products.map(item => (
-								<MyUploadCard
-									MyContentValue={MyContentValue}
-									key={item.Product.idx}
-									price={item.Product.price}
-									isLike={item.Product.isLike}
-									chat_count={item.Product.createdAt}
-									img_url={item.Product.img_url}
-									like={item.Product.liked}
-									name={item.Product.title}
-									id={item.Product.idx}
-									place={item.Product.region}
-									time={item.createdAt}
-									state={item.Product.status}
-									content={item.Product.product_content}
-								/>
-						  ))
-						: ''}
-				</S.Content>
-				{/* <Pagination
+							} else {
+								return (
+									<MyUploadCard
+										MyContentValue={MyContentValue}
+										categorys={item.Product.category}
+										key={item.Product.idx}
+										price={item.Product.price}
+										isLike={item.Product.isLike}
+										chat_count={item.Product.createdAt}
+										img_url={item.Product.img_url}
+										like={item.Product.liked}
+										name={item.Product.title}
+										id={item.Product.idx}
+										place={item.Product.region}
+										time={item.Product.createdAt}
+										state={item.Product.status}
+										content={item.Product.product_content} // 없음
+									/>
+								)
+							}
+							return null
+					  })
+					: null}
+				{MyContentValue === 'recent'
+					? products.map(item => (
+							<MyUploadCard
+								MyContentValue={MyContentValue}
+								key={item.Product.idx}
+								price={item.Product.price}
+								isLike={item.Product.isLike}
+								chat_count={item.Product.createdAt}
+								img_url={item.Product.img_url}
+								like={item.Product.liked}
+								name={item.Product.title}
+								id={item.Product.idx}
+								place={item.Product.region}
+								time={item.Product.createdAt}
+								state={item.Product.status}
+								content={item.Product.product_content}
+							/>
+					  ))
+					: ''}
+				{MyContentValue === 'cash'
+					? products.map(item => (
+							<MyUploadCard
+								MyContentValue={MyContentValue}
+								key={item.Product.idx}
+								price={item.Product.price}
+								isLike={item.Product.isLike}
+								chat_count={item.Product.createdAt}
+								img_url={item.Product.img_url}
+								like={item.Product.liked}
+								name={item.Product.title}
+								id={item.Product.idx}
+								place={item.Product.region}
+								time={item.createdAt}
+								state={item.Product.status}
+								content={item.Product.product_content}
+							/>
+					  ))
+					: ''}
+			</S.Content>
+			{/* <Pagination
       page={1} // 현재 페이지 번호
       item_length={10} // 한 페이지에서 보여지는 아이템들의 개수
       total={100} // 아이템들의 총 길이
