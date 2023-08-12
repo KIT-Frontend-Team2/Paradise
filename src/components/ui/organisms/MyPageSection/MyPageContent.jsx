@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import { myMenuAtom } from 'atom/mypage/atom'
-import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useState } from 'react'
@@ -71,7 +70,6 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 
 	return (
 		<S.Wrapper>
-			<Container>
 				{MyContentValue !== 'recent' ? (
 					<S.Filter>
 						{MyContentValue === 'mySell' ? (
@@ -263,7 +261,6 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
       item_length={10} // 한 페이지에서 보여지는 아이템들의 개수
       total={100} // 아이템들의 총 길이
     /> */}
-			</Container>
 		</S.Wrapper>
 	)
 }

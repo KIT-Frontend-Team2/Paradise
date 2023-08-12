@@ -16,6 +16,9 @@ import MyChangePw from './MyChangePw'
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
 
+	const {data: getUserInfo} = useMypageApi.useGetinfo()
+	const {nick_name,phone , region } = getUserInfo.data
+
 	const {
 		register,
 		handleSubmit,
@@ -25,12 +28,21 @@ const MyPageInfo = () => {
 		reset,
 	} = useForm({
 		mode: 'onchange',
+		defaultValues: {
+      nickname: nick_name,
+      phone :phone ,
+			address : region
+    },
 		resolver: yupResolver(Validation3),
 	})
+
 
 	const nickname = watch('nickname')
 	const { mutate } = useMypageApi.useChagneInfo()
 	const { mutateAsync: checkmutate } = useUserAPi.checkNickName(nickname)
+
+
+
 
 	const onSubmit = data => {
 		const UserInfo = {
@@ -55,8 +67,12 @@ const MyPageInfo = () => {
 		setValue('address', fullAddress)
 	}
 
-	const hadleCheckNicName = () => {
-		checkmutate()
+	const hadleCheckNicName = async () => {
+		try {
+			await checkmutate()
+		} catch (err) {
+			alert(err.message)
+		}
 	}
 
 	return (
