@@ -8,11 +8,13 @@ import ProductFormMap from 'components/ui/molecules/Map/ProductFormMap'
 import DeFormImagePreviewGroup from 'components/ui/organisms/DeFormImagePreviewGroup/DeFormImagePreviewGroup'
 import DeFormTagGroup from 'components/ui/organisms/DeFormTagGroup/DeFormTagGroup'
 import { categories } from 'components/ui/organisms/MainHeader/HeaderCategory'
+import { REVIEW_MESSAGE } from 'consts/message'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { formatNumberToMoney, moneyToFormatNumber } from 'utils/formatter'
+import toastMessage from 'utils/toast-message'
 
 import * as S from './style'
 import * as V from './validator'
@@ -328,6 +330,7 @@ const ProductForm = ({ userInfo, isSeller, detail }) => {
 		const mode = detail ? '수정' : '등록'
 
 		if (confirm(`물품을 ${mode}하시겠습니까?`)) {
+			// 수정
 			if (detail) {
 				formData.append('idx', idx)
 				if (mainImage) {
@@ -337,19 +340,29 @@ const ProductForm = ({ userInfo, isSeller, detail }) => {
 				// for (const value of formData.values()) {
 				// 	console.log(value)
 				// }
-				const response = await productAxios.patchProductInfo(formData)
-				if (response.status === 200) {
-					window.alert(`물품 ${mode}이 완료되었습니다.`)
-					linkDetailPage(idx)
+				try {
+					const response = await productAxios.patchProductInfo(formData)
+					if (response.status === 200) {
+						// window.alert(`물품 ${mode}이 완료되었습니다.`)
+						toastMessage.success(`물품 ${mode}이 완료되었습니다.`)
+						linkDetailPage(idx)
+					}
+				} catch (err) {
+					console.log(err)
+					toastMessage.error(REVIEW_MESSAGE.ERROR_MESSAGE)
 				}
-				// 수정
 			} else {
 				// 등록
-				const response = await productAxios.addRegisterProduct(formData)
-				if (response.status === 200) {
-					const product_id = response.data.message
-					window.alert(`물품 ${mode}이 완료되었습니다.`)
-					linkDetailPage(product_id)
+				try {
+					const response = await productAxios.addRegisterProduct(formData)
+					if (response.status === 200) {
+						const product_id = response.data.message
+						toastMessage.success(`물품 ${mode}이 완료되었습니다.`)
+						linkDetailPage(product_id)
+					}
+				} catch (err) {
+					console.log(err)
+					toastMessage.error(REVIEW_MESSAGE.ERROR_MESSAGE)
 				}
 			}
 		}
