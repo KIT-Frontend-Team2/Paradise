@@ -2,17 +2,17 @@ import LandingPageTemplate from 'components/templates/LandingPageTemplate/Landin
 
 import useMove from '../../hooks/useMovePage'
 
-const LandingPage = () => {
-	const { linkAuthPage } = useMove()
+const AboutPage = () => {
+	const { linkRegister } = useMove()
 	const movePage = () => {
-		linkAuthPage()
+		linkRegister()
 	}
 
 	return (
 		<>
-			<LandingPageTemplate type={'landing'} movePage={movePage} />
+			<LandingPageTemplate type={'about'} movePage={movePage} />
 		</>
 	)
 }
 
-export default LandingPage
+export default AboutPage

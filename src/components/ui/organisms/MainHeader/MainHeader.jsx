@@ -11,7 +11,7 @@ import HeaderScroll from './HeaderScroll'
 import HeaderSearch from './HeaderSearch'
 
 const MainHeader = props => {
-	const { linkSellList, linkShareList, linkMyPage } = useMove()
+	const { linkSellList, linkShareList, linkMyPage, linkAbout } = useMove()
 
 	const { isMobile } = useDevice()
 	// const [showChatModal, setShowChatModal] = useState(false)
@@ -112,7 +112,7 @@ const MainHeader = props => {
 							>
 								<span>마이페이지</span>
 							</Box>
-							<S.ParadiseSection>
+							<S.ParadiseSection onClick={linkAbout}>
 								<span>파라다이스</span> 서비스 소개
 							</S.ParadiseSection>
 							{/* <HeaderChatAlarm

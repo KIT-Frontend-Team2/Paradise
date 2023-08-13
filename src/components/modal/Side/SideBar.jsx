@@ -39,6 +39,8 @@ S.SideBarBanner = styled.div`
 	margin-top: 216px;
 `
 S.SideBarChat = styled.div`
+	display: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'block' : 'none'};
 	z-index: 100;
 	bottom: 10%;
 	position: fixed;
