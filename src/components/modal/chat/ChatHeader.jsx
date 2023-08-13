@@ -19,6 +19,7 @@ const ChatHeader = ({ layout, setLayout }) => {
 				display: 'flex',
 				justifyContent: 'center',
 				backgroundColor: '#009d91',
+				boxShadow: 'none',
 			}}
 		>
 			<Toolbar>
@@ -28,7 +29,7 @@ const ChatHeader = ({ layout, setLayout }) => {
 						aria-label="back"
 						onClick={() => setLayout(true)}
 					>
-						<ArrowBackIosIcon sx={{ color: '#fff', fontSize: '12px' }} />
+						<ArrowBackIosIcon sx={{ color: '#fff', fontSize: '16px' }} />
 					</IconButton>
 				)}
 				<Typography

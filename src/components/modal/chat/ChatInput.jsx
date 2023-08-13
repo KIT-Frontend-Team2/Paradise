@@ -54,7 +54,7 @@ export default ChatInput
 export const S = {}
 
 S.Form = styled.form`
-	border-top: 1px solid #999999;
+	border-top: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
 	width: 100%;
 	height: 100px;
 	padding-top: 8px;

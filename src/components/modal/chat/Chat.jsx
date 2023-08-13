@@ -80,15 +80,17 @@ S.ChatContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: fixed;
-	right: 16px;
+	right: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '16px' : '0'};
 	bottom: 0;
-	width: 600px;
-	height: 700px;
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '600px' : '100%'};
+	height: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '700px' : '100%'};
 
 	background-color: white;
-	border: 1px solid #eaeaea;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	z-index: 999;
+	z-index: 1200;
 `
 
 S.ChatListContent = styled.div`
