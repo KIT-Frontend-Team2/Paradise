@@ -25,7 +25,14 @@ const HeaderMobile = () => {
 	}
 	return (
 		<>
-			<AppBar sx={{ position: 'fixed', backgroundColor: '#fff' }}>
+			<AppBar
+				sx={{
+					position: 'fixed',
+					backgroundColor: '#fff',
+					boxShadow: 'none',
+					borderBottom: '1px solid #ddd',
+				}}
+			>
 				<Toolbar>
 					<S.LogoBox>
 						<img src={headerlogo} alt="logo" />

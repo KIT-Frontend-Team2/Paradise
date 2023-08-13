@@ -169,10 +169,12 @@ S.ChatInputContent = styled.div`
 
 S.MeesageContent = styled.div`
 	width: 100%;
-	height: calc(
-		700px - ${({ collapsed }) => (collapsed === 'true' ? '280px' : '320px')}
-	);
+	height: ${({ theme, collapsed }) =>
+		theme.isDesktop || theme.isTabletAndLaptop
+			? `calc( 700px - ${collapsed === 'true' ? '260px' : '320px'});`
+			: `calc(100vh - ${collapsed === 'true' ? '260px' : '320px'});`};
 
+	background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 	overflow-y: auto;
 	padding-top: ${({ collapsed }) => (collapsed === 'true' ? '100px' : '160px')};
 `
