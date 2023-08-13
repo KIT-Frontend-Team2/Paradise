@@ -32,8 +32,12 @@ const Chat = () => {
 	return (
 		<>
 			{showChat && (
-				<S.ChatContainer>
-					<ChatHeader layout={layout} setLayout={setLayout} />
+				<S.ChatContainer selectedchat={selectedChat}>
+					<ChatHeader
+						layout={layout}
+						setLayout={setLayout}
+						setSelectedChat={setSelectedChat}
+					/>
 					{!layout ? (
 						<Chating
 							id={selectedChat.idx}
@@ -80,16 +84,22 @@ S.ChatContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	position: fixed;
+	top: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '' : '0'};
+	bottom: ${({ theme, selectedchat }) =>
+		selectedchat || theme.isDesktop || theme.isTabletAndLaptop ? '0' : '61px'};
 	right: ${({ theme }) =>
 		theme.isDesktop || theme.isTabletAndLaptop ? '16px' : '0'};
-	bottom: 0;
 	width: ${({ theme }) =>
 		theme.isDesktop || theme.isTabletAndLaptop ? '600px' : '100%'};
 	height: ${({ theme }) =>
-		theme.isDesktop || theme.isTabletAndLaptop ? '700px' : '100%'};
+		theme.isDesktop || theme.isTabletAndLaptop ? '700px' : ''};
 
 	background-color: white;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	box-shadow: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop
+			? '0 2px 10px rgba(0, 0, 0, 0.1)'
+			: 'none'};
 	z-index: 1200;
 `
 

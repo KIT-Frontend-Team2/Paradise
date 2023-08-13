@@ -2,7 +2,9 @@ import wonIcon from 'assets/images/ico-won.png'
 import { styled } from 'styled-components'
 
 export const Wrapper = styled.div`
-	margin-top: 80px;
+	margin-top: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '80px' : '40px'};
+	gap: 20px;
 	padding: ${({ theme }) => !theme.isDesktop && !theme.isMobile && '0 16px'};
 `
 
@@ -31,7 +33,8 @@ export const RightArea = styled.div`
 
 export const FormGroup = styled.dl`
 	margin: 0;
-	padding: 35px 0;
+	padding: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '35px 0' : '20px 0'};
 	display: flex;
 	align-items: center;
 	border-bottom: 1px solid ${({ theme }) => theme.PALETTE.gray[400]};
