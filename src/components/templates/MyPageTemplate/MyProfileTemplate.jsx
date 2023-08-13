@@ -3,6 +3,7 @@ import Button from 'components/ui/atoms/Button/Button'
 import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
+import defaultImage from '../../../assets/images/기본프로필/default_profile_1.png'
 
 const MyProfileTemplate = () => {
 	const { data } = useMypageApi.useGetinfo()
@@ -42,7 +43,7 @@ const MyProfileTemplate = () => {
 					{image ? (
 						<img src={URL.createObjectURL(image)} alt={nick_name} />
 					) : (
-						<img src={profile_url} alt={nick_name} />
+						<img src={profile_url || defaultImage} alt={nick_name} />
 					)}
 				</S.UserImg>
 				<S.Right>
@@ -100,6 +101,7 @@ S.UserImg = styled.div`
 		border-radius: 50%;
 		width: 100%;
 		height: 100%;
+		object-fit: cover;
 	}
 `
 

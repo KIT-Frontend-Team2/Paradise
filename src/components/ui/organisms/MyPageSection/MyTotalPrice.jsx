@@ -6,8 +6,11 @@ import { formatNumberToMoney } from 'utils/formatter'
 const TotalPrice = ({ amount }) => {
 	const { totalPurchaseAmount, totalSaleAmount } = amount
 
-	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount)
-	const TotalSaleAmountNumber = parseFloat(totalSaleAmount)
+
+	const totalPurchase = totalPurchaseAmount || 0
+	const totalSale = totalSaleAmount || 0
+	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount) || 0
+	const TotalSaleAmountNumber = parseFloat(totalSaleAmount) || 0
 	const result = TotalSaleAmountNumber - TotalPurchaseAmountNumber
 
 	return (
@@ -15,16 +18,16 @@ const TotalPrice = ({ amount }) => {
 			<S.Left>
 				<S.Title>총 판매 금액 </S.Title>
 				<S.Price>
-					{formatNumberToMoney(parseInt(totalSaleAmount)) + '원'}
+					{formatNumberToMoney(parseInt(totalSale)) + '원'}
 				</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
-					판매총액 <span>{formatNumberToMoney(parseInt(totalSaleAmount))}</span>
+					판매총액 <span>{formatNumberToMoney(parseInt(totalSale))}</span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
-					구매총액{' '}
-					<span>{formatNumberToMoney(parseInt(totalPurchaseAmount))}</span>
+					구매총액
+					<span>{formatNumberToMoney(parseInt(totalPurchase))}</span>
 				</S.TotalPurchasePrice>
 				<S.TotalPrice>
 					합 <span>{formatNumberToMoney(parseInt(result))}</span>

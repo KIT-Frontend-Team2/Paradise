@@ -3,9 +3,11 @@ import { Validation4 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import { CHAGE_USERINFO } from 'consts/message'
 import useMypageApi from 'hooks/service/useMypage.service'
 import { useForm } from 'react-hook-form'
 import { styled } from 'styled-components'
+import toastMessage from 'utils/toast-message'
 
 const MyChangePw = () => {
 	const {
@@ -13,6 +15,7 @@ const MyChangePw = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
+		reset,
 		setValue,
 	} = useForm({
 		mode: 'onChange',
@@ -20,10 +23,16 @@ const MyChangePw = () => {
 	})
 
 	const pw = watch('password')
-	const { mutate } = useMypageApi.useChangePw(pw)
+	const { mutateAsync } = useMypageApi.useChangePw(pw)
 
-	const onSubmit = data => {
-		mutate()
+	const onSubmit = async data => {
+			await toastMessage.promise(
+			mutateAsync(),
+			CHAGE_USERINFO.PW_LADING,
+			CHAGE_USERINFO.PW_SUCCESS,
+			CHAGE_USERINFO.PW_ERROR
+		)
+		reset()
 	}
 
 	return (

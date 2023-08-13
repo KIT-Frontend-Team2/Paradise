@@ -12,7 +12,6 @@ const UserInfo = ({ newChat }) => {
 	// const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
 	const { isTablet } = useDevice()
 	const user = UserRepository.getUser()
-	console.log(user)
 
 	const handleLogin = e => {
 		e.preventDefault()

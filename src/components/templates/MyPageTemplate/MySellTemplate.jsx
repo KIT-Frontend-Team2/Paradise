@@ -3,6 +3,7 @@ import MyPageContent from 'components/ui/organisms/MyPageSection/MyPageContent'
 import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import { styled } from 'styled-components'
 
 const MySellTemplate = () => {
@@ -25,6 +26,7 @@ const MySellTemplate = () => {
 			setCurPage(pageParam)
 		}
 	}, [searchParams])
+
 
 	return (
 		<S.Wrapper>

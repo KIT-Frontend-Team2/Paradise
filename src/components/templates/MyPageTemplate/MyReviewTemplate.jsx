@@ -201,5 +201,4 @@ S.ModalContainer = styled.div`
   top: ${({ mobile }) => mobile === 'false' && 40}%;
   left: ${({ mobile }) => mobile === 'false' && 50}%;
   transform: ${({ mobile }) => mobile === 'false' && `translate(-50%, -50%)`};
-}
 `

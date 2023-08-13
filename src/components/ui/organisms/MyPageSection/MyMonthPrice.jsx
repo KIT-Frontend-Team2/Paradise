@@ -6,8 +6,10 @@ import { formatNumberToMoney } from 'utils/formatter'
 const MonthPrice = ({ amount }) => {
 	const { thisMonthPurchaseAmount, thisMonthSaleAmount } = amount
 
-	const MonthPurchaseAmountNumber = parseFloat(thisMonthPurchaseAmount)
-	const MonthSaleAmountNumber = parseFloat(thisMonthSaleAmount)
+	const thisMonthPurchase = thisMonthPurchaseAmount || 0
+	const thisMonthSale = thisMonthSaleAmount || 0
+	const MonthPurchaseAmountNumber = parseFloat(thisMonthPurchaseAmount) || 0
+	const MonthSaleAmountNumber = parseFloat(thisMonthSaleAmount) || 0
 	const result = MonthSaleAmountNumber - MonthPurchaseAmountNumber
 
 	return (
@@ -15,17 +17,17 @@ const MonthPrice = ({ amount }) => {
 			<S.Left>
 				<S.Title>이번달 판매 금액</S.Title>
 				<S.Price>
-					{formatNumberToMoney(parseInt(thisMonthSaleAmount)) + '원'}
+					{formatNumberToMoney(parseInt(thisMonthSale)) + '원'}
 				</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
 					판매총액{' '}
-					<span>{formatNumberToMoney(parseInt(thisMonthSaleAmount))} </span>
+					<span>{formatNumberToMoney(parseInt(thisMonthSale))} </span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
 					구매총액{' '}
-					<span>{formatNumberToMoney(parseInt(thisMonthPurchaseAmount))}</span>
+					<span>{formatNumberToMoney(parseInt(thisMonthPurchase))}</span>
 				</S.TotalPurchasePrice>
 				<S.TotalPrice>
 					합 <span>{formatNumberToMoney(result)}</span>

@@ -3,6 +3,8 @@ import { myMenuAtom } from 'atom/mypage/atom'
 import LoadUserApi from 'hooks/pageQuery/useLoadUser'
 import { useRecoilState } from 'recoil'
 import { styled } from 'styled-components'
+import defaultImage from '../../../../assets/images/기본프로필/default_profile_1.png'
+
 
 const MyHeader = () => {
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
@@ -27,7 +29,7 @@ const MyHeader = () => {
 						<S.EditButton>
 							<EditIcon sx={{ color: '#333' }} />
 						</S.EditButton>
-						<img src={profileUrl || ''} alt={nickName} loading={'lazy'} />
+						<img src={profileUrl || defaultImage} alt={nickName} loading={'lazy'} />
 					</S.UserImg>
 					<div>
 						<S.FlexWrap>

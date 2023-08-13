@@ -5,6 +5,7 @@ import userService from 'apis/service/user.api'
 import API_KEY from 'consts/ApiKey'
 import { useMutation, useQuery } from 'react-query'
 
+
 const useMypageApi = {
 	//유저정보 조회
 	useGetinfo: () => {
@@ -16,27 +17,21 @@ const useMypageApi = {
 
 	//비밀번호 수정
 	useChangePw: pw => {
-		const { mutate } = useMutation(() => userService.changeUserPassword(pw), {
-			onSuccess: () => {
-				alert('비빌번호 변경에 성공하셨습니다.')
-			},
+		const { mutateAsync } = useMutation(() => userService.changeUserPassword(pw), {
 		})
-		return { mutate }
+		return { mutateAsync }
 	},
 
 	// 회원정보 수정
 
 	useChagneInfo: () => {
-		const { mutate } = useMutation(
+		const { mutateAsync } = useMutation(
 			UserInfo => userService.changeUserInfo(UserInfo),
 			{
-				onSuccess: () => {
-					alert('회원정보가 수정되었습니다.')
-					queryClient.invalidateQueries([API_KEY.MYPAGE])
-				},
-			},
+				onSuccess: () => queryClient.invalidateQueries([API_KEY.MYPAGE]),
+			}
 		)
-		return { mutate }
+		return { mutateAsync }
 	},
 
 	// 프로필 사진 변경
@@ -54,15 +49,15 @@ const useMypageApi = {
 
 	//물품삭제
 	useDeleteProduct: () => {
-		const { mutate } = useMutation(
+		const { mutateAsync } = useMutation(
 			prod_idx => productAxios.deleteProduct(prod_idx),
 			{
 				onSuccess: () => {
-					alert('물품이 삭제되었습니다.')
+					queryClient.invalidateQueries(['myPageProductInfo'])
 				},
 			},
 		)
-		return { mutate }
+		return { mutateAsync }
 	},
 
 	//판매완료 변경
@@ -71,7 +66,7 @@ const useMypageApi = {
 			() => productAxios.postCompleteProduct(prod_idx, token),
 			{
 				onSuccess: () => {
-					alert('구매자가 확정되었습니다.')
+					alert('판매완료 되었습니다.')
 					queryClient.invalidateQueries(['myPageProductInfo', filter])
 				},
 			},
