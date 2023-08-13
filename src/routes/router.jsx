@@ -1,4 +1,5 @@
 import Container from 'components/layout/Container'
+import AboutPage from 'components/pages/AboutPage'
 import MyPageTemplateSkeleton from 'components/templates/MyPageTemplate/MyPageTemplateSkeleton'
 import { Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
@@ -98,6 +99,14 @@ const router = createBrowserRouter([
 						element: (
 							<Suspense fallback={<MyPageTemplateSkeleton />}>
 								<MyPage />
+							</Suspense>
+						),
+					},
+					{
+						path: API_KEY.ABOUT,
+						element: (
+							<Suspense fallback={<Container />}>
+								<AboutPage />
 							</Suspense>
 						),
 					},

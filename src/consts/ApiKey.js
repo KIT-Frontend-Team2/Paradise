@@ -20,6 +20,7 @@ const API_KEY = {
 	UPDATE: '/update',
 	REGISTER: '/register',
 	LANDING: '/landing',
+	ABOUT: '/about',
 	VIEWLIST: '/viewed-list',
 	ERROR: '/ErrorPage',
 	HOME: '/home',
