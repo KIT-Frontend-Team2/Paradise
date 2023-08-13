@@ -1,31 +1,50 @@
-const { default: chatService } = require('apis/service/chat.api')
-const { useMutation, useQuery } = require('react-query')
+import { queryClient } from 'App'
+import chatService from 'apis/service/chat.api'
+import { useMutation, useQuery } from 'react-query'
 
 const useChatApi = {
 	useMakeChat: prod_idx => {
-		const { mutate } = useMutation(() => chatService.makeChat(prod_idx))
-		return { mutate }
+		const { mutateAsync, mutate } = useMutation(() =>
+			chatService.makeChat(prod_idx),
+		)
+		return { mutateAsync, mutate }
 	},
 	useReadAllChat: room_idx => {
 		const { mutate } = useMutation(() => chatService.readAllChat(room_idx))
 		return { mutate }
 	},
 	useSendChat: (room_idx, message) => {
-		const { mutate } = useMutation(() =>
-			chatService.sendChat(room_idx, message),
+		const { mutate } = useMutation(
+			({ room_idx, message }) => chatService.sendChat(room_idx, message),
+			{
+				onMutate: async () => {
+					await queryClient.cancelQueries(['chat', 'getChatLog'])
+					const chatLog = queryClient.getQueryData(['chat', 'getChatLog'])
+					queryClient.setQueryData(['chat', 'getChatLog'], prev => {
+						const newChat = { ...prev }
+						return newChat
+					})
+					return chatLog
+				},
+				onSettled: () => queryClient.invalidateQueries(['chat', 'getChatLog']),
+			},
 		)
 		return { mutate }
 	},
-	useGetChatLog: room_idx => {
-		const { data } = useQuery(['chat', 'getChatLog', room_idx], () =>
-			chatService.getChatLog(room_idx),
+	useGetChatLog: params => {
+		const { data, isLoading } = useQuery(
+			['chat', 'getChatLog'],
+			() => chatService.getChatLog(params),
+			{
+				placeholderData: { data: [] },
+			},
 		)
 
-		return { data }
+		return { data, isLoading }
 	},
-	useGetChatList: category => {
-		const { data } = useQuery(['chat', 'getChatList', category], () =>
-			chatService.getChatList(category),
+	useGetChatList: () => {
+		const { data } = useQuery(['chat', 'getChatList'], () =>
+			chatService.getChatList(),
 		)
 		return { data }
 	},

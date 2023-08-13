@@ -38,10 +38,10 @@ const useViewListApi = {
 		return { data }
 	},
 
-	usePostChangeStatusProduct: productId => {
+	usePostChangeStatusProduct: (productId, socket) => {
 		const { data } = useQuery(
 			[API_KEY.PRODUCT, API_KEY.UPDATE, 'status'],
-			() => productAxios.postCompleteProduct(productId),
+			() => productAxios.postCompleteProduct(productId, socket),
 			{
 				retry: 1,
 			},

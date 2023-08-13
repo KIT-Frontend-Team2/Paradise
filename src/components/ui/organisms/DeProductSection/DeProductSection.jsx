@@ -1,6 +1,10 @@
 import ChatIcon from '@mui/icons-material/Chat'
+import { chatLayoutState, showChatState } from 'atom/chat/atom'
+import useChatApi from 'hooks/service/useChat.service'
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
+import { useSetRecoilState } from 'recoil'
+import { useSocket } from 'socket/socket'
 import styled from 'styled-components'
 
 import useOneRequest from '../../../../hooks/common/useOneRequest'
@@ -24,10 +28,43 @@ const DeProductSection = ({
 	state,
 	isBuyer,
 	productInfo,
+	nickName,
+	roomId,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
+
+	const setShowChat = useSetRecoilState(showChatState)
+	const setChatLayout = useSetRecoilState(chatLayoutState)
+
+	const { mutate } = useChatApi.useMakeChat(id)
+	console.log(roomId)
+	const { mutate: send } = useChatApi.useSendChat(id)
+	const socket = useSocket()
+
+	const handleChatClick = () => {
+		mutate(id)
+
+		const message = '채팅을 시작합니다'
+		const data = {
+			title: title,
+			createdAt: time,
+			prod_idx: id,
+			room_idx: roomId,
+			nickName: nickName,
+			message: message,
+		}
+		socket.emit('sendMessage', data)
+
+		send({
+			room_idx: data.room_idx,
+			message,
+		})
+		console.log(data)
+		setShowChat(true)
+		setChatLayout(true)
+	}
 
 	const onClick = useOneRequest(mutateAsync, setIsLikeState)
 
@@ -67,6 +104,7 @@ const DeProductSection = ({
 								variant={'primary'}
 								starticon={<ChatIcon fontSize="small" />}
 								label={!isBuyer ? '채팅하기' : '채팅목록'}
+								onClick={handleChatClick}
 							/>
 						</MTooltip>
 					</S.ProductButtons>

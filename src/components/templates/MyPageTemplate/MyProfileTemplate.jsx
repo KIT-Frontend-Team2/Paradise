@@ -6,6 +6,7 @@ import { styled } from 'styled-components'
 
 const MyProfileTemplate = () => {
 	const { data } = useMypageApi.useGetinfo()
+	const { profile_url, nick_name } = data.data
 	const inputRef = useRef(null)
 	const [image, setImage] = useState('')
 
@@ -39,9 +40,9 @@ const MyProfileTemplate = () => {
 						<LinkedCameraIcon />
 					</S.Overay>
 					{image ? (
-						<img src={URL.createObjectURL(image)} alt={data.data.nick_name} />
+						<img src={URL.createObjectURL(image)} alt={nick_name} />
 					) : (
-						<img src={data.data.profile_url} alt={data.data.nick_name} />
+						<img src={profile_url} alt={nick_name} />
 					)}
 				</S.UserImg>
 				<S.Right>

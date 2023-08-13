@@ -6,8 +6,11 @@ import AppBar from '@mui/material/AppBar'
 import IconButton from '@mui/material/IconButton'
 import Toolbar from '@mui/material/Toolbar'
 import { Box } from '@mui/system'
-import React, { useState } from 'react'
+import { setSearchClickState } from 'atom/chat/atom'
+import useMove from 'hooks/useMovePage'
+import { useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 
 import headerlogo from '../../../../assets/images/headerlogo.png'
@@ -15,7 +18,9 @@ import { categories } from '../MainHeader/HeaderCategory'
 
 const HeaderMobile = () => {
 	const [menuClick, setMenuclick] = useState(false)
-	const [searchClick, setSearchClick] = useState(false)
+	const inputRef = useRef(null)
+	const { linkMainPage, linkSearchProduct } = useMove()
+	const [searchClick, setSearchClick] = useRecoilState(setSearchClickState)
 
 	const hadleMenuClick = () => {
 		setMenuclick(!menuClick)
@@ -23,11 +28,27 @@ const HeaderMobile = () => {
 	const handleSearchClick = () => {
 		setSearchClick(!searchClick)
 	}
+
+	const searchKeyword = e => {
+		e.preventDefault()
+		const keyword = inputRef.current.value
+		console.log(keyword)
+		linkSearchProduct(keyword)
+		inputRef.current.value = ''
+	}
+
 	return (
 		<>
-			<AppBar sx={{ position: 'fixed', backgroundColor: '#fff' }}>
+			<AppBar
+				sx={{
+					position: 'fixed',
+					backgroundColor: '#fff',
+					boxShadow: 'none',
+					borderBottom: '1px solid #ddd',
+				}}
+			>
 				<Toolbar>
-					<S.LogoBox>
+					<S.LogoBox onClick={linkMainPage}>
 						<img src={headerlogo} alt="logo" />
 					</S.LogoBox>
 
@@ -40,9 +61,14 @@ const HeaderMobile = () => {
 					>
 						{searchClick ? (
 							<>
-								<S.SearchBar>
-									<InputBase placeholder="어떤 상품을 찾으시나요?" />
-								</S.SearchBar>
+								<S.SearchContainer onSubmit={searchKeyword}>
+									<S.SearchBar>
+										<InputBase
+											placeholder="어떤 상품을 찾으시나요?"
+											inputRef={inputRef}
+										/>
+									</S.SearchBar>
+								</S.SearchContainer>
 								<S.CancelButton onClick={handleSearchClick}>
 									취소
 								</S.CancelButton>
@@ -85,6 +111,8 @@ export default HeaderMobile
 
 export const S = {}
 
+S.SearchContainer = styled.form``
+
 S.LogoBox = styled.div`
 	max-height: 48px;
 	width: auto;
@@ -116,7 +144,7 @@ S.Category = styled.div`
 	}
 `
 S.Content = styled.div`
-	padding-top: 64px;
+	padding-top: 56px;
 `
 
 S.SearchBar = styled.div`

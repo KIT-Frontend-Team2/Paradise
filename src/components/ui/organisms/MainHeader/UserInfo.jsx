@@ -1,16 +1,20 @@
-import { isLoggedInAtom } from 'atom/header/atom'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import LoadUserApi from 'hooks/pageQuery/useLoadUser'
 import { Link } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
+import defaultProfile from '../../../../assets/images/기본프로필/default_profile_1.png'
 import useUserAPi from '../../../../hooks/service/user.service'
 import useMove from '../../../../hooks/useMovePage'
 
-const UserInfo = ({ user_profile_url, user_nick_name }) => {
-	const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
+const UserInfo = ({ newChat }) => {
 	const { isTablet } = useDevice()
+	// const user = UserRepository.getUser()
+	const { getMyPageHeader } = LoadUserApi()
+	const { data } = getMyPageHeader()
+	const { User } = data.data
+	const { nickName, profileUrl } = User
 
 	const handleLogin = e => {
 		e.preventDefault()
@@ -26,20 +30,20 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 	}
 
 	return (
-		<S.UserInfoContainer>
-			{isLoggenIn ? (
+		User && (
+			<S.UserInfoContainer>
 				<S.UserInfoContent>
 					<S.UserImageBox>
 						<S.UserImage
-							src={user_profile_url}
-							alt={user_nick_name}
+							src={profileUrl ? profileUrl : defaultProfile}
+							alt={nickName}
 							onClick={linkMyPage}
 						/>
-						<S.NotificationDot />
+						{newChat && <S.NotificationDot />}
 					</S.UserImageBox>
 					<S.UserLoginContent istablet={isTablet.toString()}>
 						<Link to="#" onClick={linkMyPage}>
-							{user_nick_name} 님
+							{nickName} 님
 						</Link>
 						<span>I</span>
 						<Link to="/" onClick={handleLogout}>
@@ -47,18 +51,18 @@ const UserInfo = ({ user_profile_url, user_nick_name }) => {
 						</Link>
 					</S.UserLoginContent>
 				</S.UserInfoContent>
-			) : (
-				<S.UserLoginContent>
-					<Link to="/login" alt="로그인" onClick={handleLogin}>
-						로그인
-					</Link>
-					<span>I</span>
-					<Link to="/signup" alt="회원가입">
-						회원가입
-					</Link>
-				</S.UserLoginContent>
-			)}
-		</S.UserInfoContainer>
+
+				{/* <S.UserLoginContent>
+				<Link to="/login" alt="로그인" onClick={handleLogin}>
+					로그인
+				</Link>
+				<span>I</span>
+				<Link to="/signup" alt="회원가입">
+					회원가입
+				</Link>
+			</S.UserLoginContent> */}
+			</S.UserInfoContainer>
+		)
 	)
 }
 
@@ -70,6 +74,7 @@ S.UserInfoContainer = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
+	justify-content: end;
 `
 
 S.UserInfoContent = styled.div`
@@ -108,6 +113,7 @@ S.UserImage = styled.img`
 	border-radius: 50%;
 	margin-bottom: 8px;
 	cursor: pointer;
+	object-fit: cover;
 `
 
 S.NotificationDot = styled.div`

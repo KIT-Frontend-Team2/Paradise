@@ -5,11 +5,9 @@ import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSetRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 import Checkbox from '../../../assets/images/checkbox.png'
-import { isLoggedInAtom } from '../../../atom/header/atom'
 import useUserAPi from '../../../hooks/service/user.service'
 import useMove from '../../../hooks/useMovePage'
 import { Validation2 } from './validation'
@@ -27,7 +25,6 @@ const Login = ({ setState }) => {
 	})
 
 	const { mutateAsync } = useUserAPi.login()
-	const setLogin = useSetRecoilState(isLoggedInAtom)
 	const onSubmit = async e => {
 		try {
 			const { email, pw, check } = e
@@ -38,7 +35,7 @@ const Login = ({ setState }) => {
 				pw,
 				check,
 			})
-			setLogin(true)
+
 			linkMainPage()
 		} catch (err) {
 			alert(
@@ -80,7 +77,7 @@ const Login = ({ setState }) => {
 					<S.Checkradio>
 						<input type="checkbox" {...register('check')} name={'check'} />
 						<S.FromLabel>
-							<label className="checklabel">아이디 기억하기</label>
+							<label className="checklabel">자동 로그인</label>
 						</S.FromLabel>
 					</S.Checkradio>
 					<S.Button type="submit" label={'로그인'} size={'full'} />

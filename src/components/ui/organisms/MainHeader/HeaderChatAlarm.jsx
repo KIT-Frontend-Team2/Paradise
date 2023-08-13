@@ -1,26 +1,24 @@
-import { headerMock } from '__mock__/datas/header.mock'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
-import { useState } from 'react'
 import styled from 'styled-components'
 
-const HeaderChatAlarm = () => {
-	const [showChatModal, setShowChatModal] = useState(true)
+const HeaderChatAlarm = ({ newChat, showChatModal, setShowChatModal }) => {
 	const { isTablet } = useDevice()
-	const handleChatModalClose = () => {
-		setShowChatModal(false)
-	}
+	// const handleChatModalClose = () => {
+	// 	setShowChatModal(false)
+	// }
 	return (
 		<>
-			{showChatModal && (
-				<S.ChatModal istablet={isTablet ? 'true' : 'false'}>
-					<S.ChatBox>
-						<S.ChatText>새로운 채팅 도착!</S.ChatText>
-						<S.ChatTime>{headerMock.data.last_chat_ago}</S.ChatTime>
-					</S.ChatBox>
-					<S.ProductName>{headerMock.data.product_name}</S.ProductName>
-					<S.CloseButton onClick={handleChatModalClose}>닫기</S.CloseButton>
-				</S.ChatModal>
-			)}
+			{/* {showChatModal && newChat && ( */}
+			<S.ChatModal istablet={isTablet ? 'true' : 'false'}>
+				<S.ChatBox>
+					<S.ChatText>새로운 채팅 도착!</S.ChatText>
+					{/* <S.ChatTime>{timeHelper(newChat.createdAt)}</S.ChatTime> */}
+				</S.ChatBox>
+				{/* <S.ProductName>{newChat.title}</S.ProductName> */}
+				{/* <div>{newChat.message}</div> */}
+				{/* <S.CloseButton onClick={handleChatModalClose}>닫기</S.CloseButton> */}
+			</S.ChatModal>
+			{/* )} */}
 		</>
 	)
 }

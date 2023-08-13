@@ -30,12 +30,12 @@ const productAxios = {
 		})
 	},
 
-	postCompleteProduct: (prod_idx, socket) => {
+	postCompleteProduct: (prod_idx, token) => {
 		return axiosInstance.post(
 			API_KEY.API + API_KEY.PRODUCT + '/sale-complete',
 			{
 				prod_idx,
-				socket,
+				token,
 			},
 		)
 	},

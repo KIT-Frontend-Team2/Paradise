@@ -84,7 +84,9 @@ S.Container = styled.div`
 	position: fixed;
 	display: flex;
 	align-items: center;
-	width: ${({ collapsed }) => (collapsed === 'true' ? '550px' : '550px')};
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '550px' : 'calc(100% - 54px)'};
+	min-width: 280px;
 	height: ${({ collapsed }) => (collapsed === 'true' ? '20px' : '100px')};
 	border: 1px solid #dddddd;
 	border-radius: 6px;
