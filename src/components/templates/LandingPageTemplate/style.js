@@ -24,7 +24,7 @@ export const Section = styled.div`
 	}
 
 	&.section2 {
-		padding: 8em 0;
+		padding: 6em 0;
 		background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 
 		ul {
