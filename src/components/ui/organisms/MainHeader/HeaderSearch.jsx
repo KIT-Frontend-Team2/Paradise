@@ -4,7 +4,6 @@ import useMove from 'hooks/useMovePage'
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { flexCenter } from 'styles/common'
 
 import headerlogo from '../../../../assets/images/headerlogo.png'
 import UserInfo from './UserInfo'
@@ -64,21 +63,33 @@ export const S = {}
 
 S.SearchContainer = styled.form`
 	width: 100%;
-	${flexCenter}
+	display: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? 'flex' : 'grid'};
+	justify-content: space-between;
+	align-items: center;
 	height: 100%;
-	padding: 0 20px;
+	grid-template-columns: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '' : '1fr 1fr'};
+	grid-template-rows: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '' : '1fr 1fr'};
 `
 
 S.SearchBox = styled.div`
-	width: 380px;
-	height: 42px;
-	border-radius: 15px;
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '280px' : 'calc(100% - 60px)'};
+	height: 28px;
+	border-radius: 10px;
 	border: 1px solid #009d91;
 	padding: 8px 42px 8px 16px;
 	position: relative;
 	display: flex;
 	align-items: center;
-	margin: 0 40px;
+	margin: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '0 40px' : '0'};
+	grid-row: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '' : '2'};
+	grid-column: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '' : '1/3'};
 `
 
 S.SearchBar = styled.input`
