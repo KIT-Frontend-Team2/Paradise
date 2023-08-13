@@ -48,6 +48,7 @@ const HeaderScroll = () => {
 				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
+				borderBottom: '1px solid #ddd',
 				padding: '16px',
 				boxSizing: 'border-box',
 				display: 'flex',
