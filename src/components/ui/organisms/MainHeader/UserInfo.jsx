@@ -1,6 +1,6 @@
 import { useDevice } from 'hooks/mediaQuery/useDevice'
+import LoadUserApi from 'hooks/pageQuery/useLoadUser'
 import { Link } from 'react-router-dom'
-import UserRepository from 'repositories/UserRepository'
 import styled from 'styled-components'
 import { flexCenter } from 'styles/common'
 
@@ -9,10 +9,12 @@ import useUserAPi from '../../../../hooks/service/user.service'
 import useMove from '../../../../hooks/useMovePage'
 
 const UserInfo = ({ newChat }) => {
-	// const [isLoggenIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom)
 	const { isTablet } = useDevice()
-	const user = UserRepository.getUser()
-	console.log(user)
+	// const user = UserRepository.getUser()
+	const { getMyPageHeader } = LoadUserApi()
+	const { data } = getMyPageHeader()
+	const { User } = data.data
+	const { nickName, profileUrl } = User
 
 	const handleLogin = e => {
 		e.preventDefault()
@@ -28,20 +30,20 @@ const UserInfo = ({ newChat }) => {
 	}
 
 	return (
-		user && (
+		User && (
 			<S.UserInfoContainer>
 				<S.UserInfoContent>
 					<S.UserImageBox>
 						<S.UserImage
-							src={user.profileUrl ? user.profileUrl : defaultProfile}
-							alt={user.nickName}
+							src={profileUrl ? profileUrl : defaultProfile}
+							alt={nickName}
 							onClick={linkMyPage}
 						/>
 						{newChat && <S.NotificationDot />}
 					</S.UserImageBox>
 					<S.UserLoginContent istablet={isTablet.toString()}>
 						<Link to="#" onClick={linkMyPage}>
-							{user.nickName} 님
+							{nickName} 님
 						</Link>
 						<span>I</span>
 						<Link to="/" onClick={handleLogout}>
@@ -110,6 +112,7 @@ S.UserImage = styled.img`
 	border-radius: 50%;
 	margin-bottom: 8px;
 	cursor: pointer;
+	object-fit: cover;
 `
 
 S.NotificationDot = styled.div`
