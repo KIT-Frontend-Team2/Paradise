@@ -15,7 +15,6 @@ const SellMenuBar = ({ prod_idx, filter }) => {
 	const { linkModifyProduct } = useMove()
 	const id = prod_idx
 
-
 	const [changeIcon, setChangeIcon] = useState(true)
 	const [openMenu, setOpenMenu] = useState(false)
 	const [handleState, setHandleState] = useState(false)
@@ -33,7 +32,7 @@ const SellMenuBar = ({ prod_idx, filter }) => {
 
 	const hadleDelete = async () => {
 		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
-		const prod_idx = id 
+		const prod_idx = id
 		if (confirmDelete) {
 			await toastMessage.promise(
 				mutateAsync(prod_idx),

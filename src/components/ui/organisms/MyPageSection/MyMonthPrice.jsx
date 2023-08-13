@@ -16,14 +16,11 @@ const MonthPrice = ({ amount }) => {
 		<S.Wrapper>
 			<S.Left>
 				<S.Title>이번달 판매 금액</S.Title>
-				<S.Price>
-					{formatNumberToMoney(parseInt(thisMonthSale)) + '원'}
-				</S.Price>
+				<S.Price>{formatNumberToMoney(parseInt(thisMonthSale)) + '원'}</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>
-					판매총액{' '}
-					<span>{formatNumberToMoney(parseInt(thisMonthSale))} </span>
+					판매총액 <span>{formatNumberToMoney(parseInt(thisMonthSale))} </span>
 				</S.TotalSalePrice>
 				<S.TotalPurchasePrice>
 					구매총액{' '}

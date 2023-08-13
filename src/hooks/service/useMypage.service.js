@@ -5,7 +5,6 @@ import userService from 'apis/service/user.api'
 import API_KEY from 'consts/ApiKey'
 import { useMutation, useQuery } from 'react-query'
 
-
 const useMypageApi = {
 	//유저정보 조회
 	useGetinfo: () => {
@@ -17,8 +16,10 @@ const useMypageApi = {
 
 	//비밀번호 수정
 	useChangePw: pw => {
-		const { mutateAsync } = useMutation(() => userService.changeUserPassword(pw), {
-		})
+		const { mutateAsync } = useMutation(
+			() => userService.changeUserPassword(pw),
+			{},
+		)
 		return { mutateAsync }
 	},
 
@@ -29,7 +30,7 @@ const useMypageApi = {
 			UserInfo => userService.changeUserInfo(UserInfo),
 			{
 				onSuccess: () => queryClient.invalidateQueries([API_KEY.MYPAGE]),
-			}
+			},
 		)
 		return { mutateAsync }
 	},

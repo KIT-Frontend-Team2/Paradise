@@ -26,11 +26,11 @@ const MyChangePw = () => {
 	const { mutateAsync } = useMypageApi.useChangePw(pw)
 
 	const onSubmit = async data => {
-			await toastMessage.promise(
+		await toastMessage.promise(
 			mutateAsync(),
 			CHAGE_USERINFO.PW_LADING,
 			CHAGE_USERINFO.PW_SUCCESS,
-			CHAGE_USERINFO.PW_ERROR
+			CHAGE_USERINFO.PW_ERROR,
 		)
 		reset()
 	}

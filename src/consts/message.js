@@ -15,12 +15,11 @@ export const REVIEW_MESSAGE = {
 	DELETE_LOADING: '삭제중입니다.',
 }
 
-
-export const CHAGE_USERINFO ={
-	PW_LADING:'수정중입니다.',
+export const CHAGE_USERINFO = {
+	PW_LADING: '수정중입니다.',
 	PW_SUCCESS: '비밀번호가 수정되었습니다.',
 	PW_ERROR: '비빌번호 변경에 실패하였습니다.',
-	INFO_LODING:'수정중입니다.',
+	INFO_LODING: '수정중입니다.',
 	INFO_SUCCESS: '수정되었습니다.',
 	INFO_ERROR: '수정에 실패했습니다.',
 	STATE_LODING: '수정중입니다.',
@@ -28,5 +27,5 @@ export const CHAGE_USERINFO ={
 	STATE_ERROR: '상태변경에 실패했습니다.',
 	DELETE_LOADING: '물품을 삭제중입니다.',
 	DELETE_SUCCESS: '물품이 삭제되었습니다.',
-	DELETE_ERROR: '다시 시도해주세요'
+	DELETE_ERROR: '다시 시도해주세요',
 }

@@ -3,6 +3,7 @@ import Button from 'components/ui/atoms/Button/Button'
 import useMypageApi from 'hooks/service/useMypage.service'
 import React, { useRef, useState } from 'react'
 import { styled } from 'styled-components'
+
 import defaultImage from '../../../assets/images/기본프로필/default_profile_1.png'
 
 const MyProfileTemplate = () => {

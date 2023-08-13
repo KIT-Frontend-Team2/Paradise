@@ -7,10 +7,9 @@ import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
 
 import Customchecbox from '../../../../assets/images/checkbox.png'
+import EmptySection from '../EmptySection/EmptySection'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
-import EmptySection from '../EmptySection/EmptySection'
-
 
 const MyPageContent = ({ products, setCatagory, filter }) => {
 	const MyContentValue = useRecoilValue(myMenuAtom)
@@ -149,34 +148,55 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 			) : (
 				''
 			)}
-			{products.length !== 0 ? (<S.Content repeat={repeat}>
-				{MyContentValue === 'mySell'
-					? products.map(item => (
-							<MyUploadCard
-								MyContentValue={MyContentValue}
-								key={item.idx}
-								price={item.price} // 없음
-								isLike={item.isLike} //없음
-								chat_count={item.createdAt} //없음
-								img_url={item.img_url}
-								like={item.product_like} //없음
-								name={item.title}
-								id={item.idx}
-								place={item.region}
-								time={item.createdAt} //없음
-								state={item.status}
-								content={item.product_content} //없음
-								filter={filter}
-							/>
-					  ))
-					: ''}
-				{MyContentValue === 'wish'
-					? products.map(item => {
-							if (isCategory === 'true' || isCategory === 'false') {
-								if (
-									(item.Product.category === true && isCategory === 'true') ||
-									(item.Product.category === false && isCategory === 'false')
-								) {
+			{products.length !== 0 ? (
+				<S.Content repeat={repeat}>
+					{MyContentValue === 'mySell'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.idx}
+									price={item.price} // 없음
+									isLike={item.isLike} //없음
+									chat_count={item.createdAt} //없음
+									img_url={item.img_url}
+									like={item.product_like} //없음
+									name={item.title}
+									id={item.idx}
+									place={item.region}
+									time={item.createdAt} //없음
+									state={item.status}
+									content={item.product_content} //없음
+									filter={filter}
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'wish'
+						? products.map(item => {
+								if (isCategory === 'true' || isCategory === 'false') {
+									if (
+										(item.Product.category === true && isCategory === 'true') ||
+										(item.Product.category === false && isCategory === 'false')
+									) {
+										return (
+											<MyUploadCard
+												MyContentValue={MyContentValue}
+												categorys={item.Product.category}
+												key={item.Product.idx}
+												price={item.Product.price}
+												isLike={item.Product.isLike}
+												chat_count={item.Product.createdAt}
+												img_url={item.Product.img_url}
+												like={item.Product.liked}
+												name={item.Product.title}
+												id={item.Product.idx}
+												place={item.Product.region}
+												time={item.Product.createdAt}
+												state={item.Product.status}
+												content={item.Product.product_content} // 없음
+											/>
+										)
+									}
+								} else {
 									return (
 										<MyUploadCard
 											MyContentValue={MyContentValue}
@@ -196,69 +216,51 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 										/>
 									)
 								}
-							} else {
-								return (
-									<MyUploadCard
-										MyContentValue={MyContentValue}
-										categorys={item.Product.category}
-										key={item.Product.idx}
-										price={item.Product.price}
-										isLike={item.Product.isLike}
-										chat_count={item.Product.createdAt}
-										img_url={item.Product.img_url}
-										like={item.Product.liked}
-										name={item.Product.title}
-										id={item.Product.idx}
-										place={item.Product.region}
-										time={item.Product.createdAt}
-										state={item.Product.status}
-										content={item.Product.product_content} // 없음
-									/>
-								)
-							}
-							return null
-					  })
-					: null}
-				{MyContentValue === 'recent'
-					? products.map(item => (
-							<MyUploadCard
-								MyContentValue={MyContentValue}
-								key={item.Product.idx}
-								price={item.Product.price}
-								isLike={item.Product.isLike}
-								chat_count={item.Product.createdAt}
-								img_url={item.Product.img_url}
-								like={item.Product.liked}
-								name={item.Product.title}
-								id={item.Product.idx}
-								place={item.Product.region}
-								time={item.Product.createdAt}
-								state={item.Product.status}
-								content={item.Product.product_content}
-							/>
-					  ))
-					: ''}
-				{MyContentValue === 'cash'
-					? products.map(item => (
-							<MyUploadCard
-								MyContentValue={MyContentValue}
-								key={item.Product.idx}
-								price={item.Product.price}
-								isLike={item.Product.isLike}
-								chat_count={item.Product.createdAt}
-								img_url={item.Product.img_url}
-								like={item.Product.liked}
-								name={item.Product.title}
-								id={item.Product.idx}
-								place={item.Product.region}
-								time={item.createdAt}
-								state={item.Product.status}
-								content={item.Product.product_content}
-							/>
-					  ))
-					: ''}
-			</S.Content>) : (
-				<EmptySection titleMessage={'구매한 상품이 없습니다'} />)}
+								return null
+						  })
+						: null}
+					{MyContentValue === 'recent'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.Product.idx}
+									price={item.Product.price}
+									isLike={item.Product.isLike}
+									chat_count={item.Product.createdAt}
+									img_url={item.Product.img_url}
+									like={item.Product.liked}
+									name={item.Product.title}
+									id={item.Product.idx}
+									place={item.Product.region}
+									time={item.Product.createdAt}
+									state={item.Product.status}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
+					{MyContentValue === 'cash'
+						? products.map(item => (
+								<MyUploadCard
+									MyContentValue={MyContentValue}
+									key={item.Product.idx}
+									price={item.Product.price}
+									isLike={item.Product.isLike}
+									chat_count={item.Product.createdAt}
+									img_url={item.Product.img_url}
+									like={item.Product.liked}
+									name={item.Product.title}
+									id={item.Product.idx}
+									place={item.Product.region}
+									time={item.createdAt}
+									state={item.Product.status}
+									content={item.Product.product_content}
+								/>
+						  ))
+						: ''}
+				</S.Content>
+			) : (
+				<EmptySection titleMessage={'구매한 상품이 없습니다'} />
+			)}
 		</S.Wrapper>
 	)
 }

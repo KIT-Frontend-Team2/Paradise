@@ -6,7 +6,6 @@ import { formatNumberToMoney } from 'utils/formatter'
 const TotalPrice = ({ amount }) => {
 	const { totalPurchaseAmount, totalSaleAmount } = amount
 
-
 	const totalPurchase = totalPurchaseAmount || 0
 	const totalSale = totalSaleAmount || 0
 	const TotalPurchaseAmountNumber = parseFloat(totalPurchaseAmount) || 0
@@ -17,9 +16,7 @@ const TotalPrice = ({ amount }) => {
 		<S.Wrapper>
 			<S.Left>
 				<S.Title>총 판매 금액 </S.Title>
-				<S.Price>
-					{formatNumberToMoney(parseInt(totalSale)) + '원'}
-				</S.Price>
+				<S.Price>{formatNumberToMoney(parseInt(totalSale)) + '원'}</S.Price>
 			</S.Left>
 			<S.Right>
 				<S.TotalSalePrice>

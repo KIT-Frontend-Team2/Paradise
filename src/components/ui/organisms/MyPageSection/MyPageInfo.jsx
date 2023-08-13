@@ -4,17 +4,17 @@ import { Validation3 } from 'components/templates/AuthPageTemplate/validation'
 import Button from 'components/ui/atoms/Button/Button'
 import Input from 'components/ui/atoms/Input/Input'
 import InputGroup from 'components/ui/molecules/InputGroup/InputGroup'
+import { CHAGE_USERINFO } from 'consts/message'
 import useMypageApi from 'hooks/service/useMypage.service'
 import useUserAPi from 'hooks/service/user.service'
 import React from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import UserRepository from 'repositories/UserRepository'
 import { styled } from 'styled-components'
+import toastMessage from 'utils/toast-message'
 
 import MyChangePw from './MyChangePw'
-import toastMessage from 'utils/toast-message'
-import { CHAGE_USERINFO } from 'consts/message'
-import UserRepository from 'repositories/UserRepository'
 
 const MyPageInfo = () => {
 	const [isPopUp, setIsPopUp] = useState(false)
@@ -45,7 +45,7 @@ const MyPageInfo = () => {
 	const { mutateAsync: checkmutate } = useUserAPi.checkNickName(nickname)
 
 	const onSubmit = async data => {
-		if(nick_name === nickname || isNicknameChecked){
+		if (nick_name === nickname || isNicknameChecked) {
 			const UserInfo = {
 				region: data.address,
 				nickName: data.nickname,
@@ -65,7 +65,7 @@ const MyPageInfo = () => {
 				CHAGE_USERINFO.INFO_SUCCESS,
 				CHAGE_USERINFO.INFO_ERROR,
 			)
-		}else{
+		} else {
 			alert('닉네임중복확인을 하세요')
 			setChangeState(true)
 		}

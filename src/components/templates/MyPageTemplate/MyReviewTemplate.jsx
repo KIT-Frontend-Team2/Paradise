@@ -196,9 +196,9 @@ S.ProductList = styled.div`
 	padding-top: 40px;
 `
 S.ModalContainer = styled.div`
-  position: relative;
-  height: ${({ mobile }) => (mobile === 'true' ? 100 : 70)}vh;
-  top: ${({ mobile }) => mobile === 'false' && 40}%;
-  left: ${({ mobile }) => mobile === 'false' && 50}%;
-  transform: ${({ mobile }) => mobile === 'false' && `translate(-50%, -50%)`};
+	position: relative;
+	height: ${({ mobile }) => (mobile === 'true' ? 100 : 70)}vh;
+	top: ${({ mobile }) => mobile === 'false' && 40}%;
+	left: ${({ mobile }) => mobile === 'false' && 50}%;
+	transform: ${({ mobile }) => mobile === 'false' && `translate(-50%, -50%)`};
 `

@@ -33,8 +33,6 @@ const MyUploadCard = ({
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 
-
-
 	useEffect(() => {
 		setLikeState(Boolean(like))
 	}, [isLike])
@@ -106,10 +104,11 @@ const MyUploadCard = ({
 				</S.ImageBox>
 			)}
 			<S.PlaceWithTimeBox>
-				{MyContentValue === 'recent' || MyContentValue === 'cash' ? 
+				{MyContentValue === 'recent' || MyContentValue === 'cash' ? (
 					<span>서울시 강남구 역삼동</span>
-				: <span>{place}</span>
-				}
+				) : (
+					<span>{place}</span>
+				)}
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
@@ -119,26 +118,27 @@ const MyUploadCard = ({
 				<S.PriceBox>{formatNumberToMoney(0) + '원'}</S.PriceBox>
 			)}
 			<S.FlexBox>
-				{MyContentValue !== 'wish' ? 				
-				<>
+				{MyContentValue !== 'wish' ? (
+					<>
 						<S.IconWithText>
-								<FavoriteBorderIcon />
-								<span>3</span>
+							<FavoriteBorderIcon />
+							<span>3</span>
 						</S.IconWithText>
-				</>: 
-				<>
-					{like > 0 && (
-						<S.IconWithText>
+					</>
+				) : (
+					<>
+						{like > 0 && (
+							<S.IconWithText>
 								<FavoriteBorderIcon />
 								<span>{like}</span>
-						</S.IconWithText>
-					)}
-				</>
-				}
-					<S.IconWithText>
-						<ChatBubbleOutlineOutlinedIcon />
-						<span>3</span>
-					</S.IconWithText>
+							</S.IconWithText>
+						)}
+					</>
+				)}
+				<S.IconWithText>
+					<ChatBubbleOutlineOutlinedIcon />
+					<span>3</span>
+				</S.IconWithText>
 			</S.FlexBox>
 		</S.Card>
 	)
