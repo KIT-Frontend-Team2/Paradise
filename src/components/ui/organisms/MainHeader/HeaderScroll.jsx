@@ -5,7 +5,6 @@ import { useDevice } from 'hooks/mediaQuery/useDevice'
 import useMove from 'hooks/useMovePage'
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { flexCenter } from 'styles/common'
 
 import HeaderCategory from './HeaderCategory'
 import UserInfo from './UserInfo'
@@ -14,7 +13,7 @@ const HeaderScroll = () => {
 	const [isVisible, setIsVisible] = useState(false)
 	const { linkSellList, linkShareList, linkMyPage, linkSearchProduct } =
 		useMove()
-	const { isTablet } = useDevice()
+	const { isDesktop, isTabletAndLaptop, isTablet } = useDevice()
 	const inputRef = useRef(null)
 
 	const searchKeyword = e => {
@@ -49,6 +48,7 @@ const HeaderScroll = () => {
 				width: '100%',
 				height: '55px',
 				backgroundColor: '#FFFFFF',
+				borderBottom: '1px solid #ddd',
 				padding: '16px',
 				boxSizing: 'border-box',
 				display: 'flex',
@@ -58,40 +58,45 @@ const HeaderScroll = () => {
 				// boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
 			}}
 		>
-			<S.Container>
-				<S.Box istablet={isTablet ? 'true' : 'false'}>
-					<HeaderCategory />
-
-					<span onClick={linkSellList}>판매상품</span>
-					<span onClick={linkShareList}>중고상품</span>
-					<span onClick={linkMyPage}>마이페이지</span>
-				</S.Box>
-				<S.UserSearchContainer onSubmit={searchKeyword}>
-					<S.SearchBox>
-						<SearchIcon
-							onClick={searchKeyword}
-							sx={{
-								position: 'absolute',
-								right: '8px',
-								color: '#000',
-								cursor: 'pointer',
-								top: '4px',
-							}}
-						/>
-						<S.SearchBar
-							ref={inputRef}
-							type="text"
-							placeholder="어떤 상품을 찾으시나요?"
-						/>
-					</S.SearchBox>
+			<S.HeaderContainer>
+				<S.Container>
+					<S.Box istablet={isTablet ? 'true' : 'false'}>
+						<HeaderCategory />
+						{(isDesktop || isTabletAndLaptop) && (
+							<>
+								<span onClick={linkSellList}>판매상품</span>
+								<span onClick={linkShareList}>중고상품</span>
+								<span onClick={linkMyPage}>마이페이지</span>
+							</>
+						)}
+					</S.Box>
+					<S.UserSearchContainer onSubmit={searchKeyword}>
+						<S.SearchBox>
+							<SearchIcon
+								onClick={searchKeyword}
+								sx={{
+									position: 'absolute',
+									right: '8px',
+									color: '#000',
+									cursor: 'pointer',
+									top: '4px',
+								}}
+							/>
+							<S.SearchBar
+								ref={inputRef}
+								type="text"
+								placeholder="어떤 상품을 찾으시나요?"
+							/>
+						</S.SearchBox>
+					</S.UserSearchContainer>
 					<S.UserInfoContainer>
 						<UserInfo
 							user_profile_url={headerMock.data.user_info.user_profile_url}
 							user_nick_name={headerMock.data.user_info.user_nick_name}
 						/>
 					</S.UserInfoContainer>
-				</S.UserSearchContainer>
-			</S.Container>
+				</S.Container>
+			</S.HeaderContainer>
 		</Box>
 	) : null
 }
@@ -100,9 +105,17 @@ export default HeaderScroll
 
 export const S = {}
 
+S.HeaderContainer = styled.div`
+	width: ${({ theme }) =>
+		theme.isDesktop || theme.isTabletAndLaptop ? '1100px' : '100%'};
+	padding: ${({ theme }) =>
+		theme.isTablet || theme.isMobileAndTablet ? '0 16px' : ''};
+	margin: 0 auto;
+`
+
 S.Container = styled.div`
-	width: 100%;
-	${flexCenter}
+	display: flex;
+	justify-content: space-between;
 	height: 100%;
 	span {
 		cursor: pointer;
@@ -115,7 +128,6 @@ S.Container = styled.div`
 S.UserSearchContainer = styled.form`
 	display: flex;
 	align-items: center;
-	margin: 0 32px;
 `
 
 S.SearchBox = styled.div`
@@ -149,9 +161,9 @@ S.UserInfoContainer = styled.div`
 S.Box = styled(Box)`
 	display: flex;
 	align-items: center;
-	justify-content: ${({ istablet }) =>
-		istablet === 'true' ? 'flex-start' : 'center'};
-	gap: ${({ istablet }) => (istablet === 'true' ? '10px' : '36px')};
-	font-size: ${({ istablet }) => (istablet === 'true' ? '14px' : '18px')};
-	width: 100%;
+	justify-content: space-between;
+	gap: ${({ istablet }) => (istablet === 'true' ? '10px' : '64px')};
+	font-size: ${({ theme }) =>
+		theme.isTablet || theme.isMobileAndTablet ? '0' : '18px'};
 `
+0

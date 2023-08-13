@@ -4,44 +4,70 @@ import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import SearchIcon from '@mui/icons-material/Search'
 import { IconButton } from '@mui/material'
+import { setSearchClickState, showChatState } from 'atom/chat/atom'
+import useMove from 'hooks/useMovePage'
 import { useState } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import styled from 'styled-components'
 
 const FooterMobile = () => {
+	const { linkMainPage, linkRegister, linkMyPage } = useMove()
+	const setShowChat = useSetRecoilState(showChatState)
+	const [searchClick, setSearchClick] = useRecoilState(setSearchClickState)
+
 	const footer = [
 		{
 			icon: <HomeIcon />,
 			label: '홈',
+			link: () => {
+				linkMainPage()
+			},
 		},
 		{
 			icon: <SearchIcon />,
 			label: '검색',
+			link: () => {
+				setSearchClick(true)
+			},
 		},
 		{
 			icon: <AddCircleIcon />,
 			label: '등록',
+			link: () => {
+				linkRegister()
+			},
 		},
 		{
 			icon: <ChatBubbleOutlineIcon />,
 			label: '채팅',
+			link: () => {
+				setShowChat(true)
+			},
 		},
 		{
 			icon: <PersonIcon />,
 			label: 'MY',
+			link: () => {
+				linkMyPage()
+			},
 		},
 	]
 
 	const [selected, setSelected] = useState(0)
 
-	const handleClick = index => {
+	const handleClick = (index, item) => {
+		if (index != 3) {
+			setShowChat(false)
+		}
 		setSelected(index)
+		item.link()
 	}
 	return (
 		<S.FooterContainer>
 			{footer.map((item, index) => (
 				<S.CustomBox
 					key={index}
-					onClick={() => handleClick(index)}
+					onClick={() => handleClick(index, item)}
 					selected={index === selected}
 				>
 					<IconButton>{item.icon}</IconButton>

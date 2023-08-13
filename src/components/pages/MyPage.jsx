@@ -28,7 +28,6 @@ S.Wrapper = styled.div`
 	display: flex;
 	flex-direction: ${({ theme }) => (theme.isDesktop ? 'row' : 'column')};
 	gap: 50px;
-	min-height: 100vh;
 `
 
 S.ContentWrap = styled.div`
