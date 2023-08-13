@@ -28,7 +28,7 @@ export const categories = [
 		path: 'children-books',
 	},
 	{
-		label: '여셩의류',
+		label: '여성의류',
 		path: 'women-clothing',
 	},
 	{

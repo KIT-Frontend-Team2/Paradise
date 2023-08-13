@@ -29,6 +29,7 @@ const DeProductSection = ({
 	isBuyer,
 	productInfo,
 	nickName,
+	roomId,
 }) => {
 	const [isLikeState, setIsLikeState] = useState(isLike | false)
 	const { linkModifyProduct } = useMove()
@@ -37,15 +38,15 @@ const DeProductSection = ({
 	const setShowChat = useSetRecoilState(showChatState)
 	const setChatLayout = useSetRecoilState(chatLayoutState)
 
-	const { mutateAsync: make } = useChatApi.useMakeChat(id)
+	const { mutate } = useChatApi.useMakeChat(id)
+	console.log(roomId)
 	const { mutate: send } = useChatApi.useSendChat(id)
 	const socket = useSocket()
 
-	const handleChatClick = async () => {
-		const res = await make({ id })
-		const roomId = res.data.room_idx
-		console.log(roomId)
-		const message = '채팅을 시작합니다.'
+	const handleChatClick = () => {
+		mutate(id)
+
+		const message = '채팅을 시작합니다'
 		const data = {
 			title: title,
 			createdAt: time,

@@ -123,6 +123,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						state={status}
 						productInfo={description}
 						nickName={nick_name}
+						roomId={productInfo.chat.map(chat => chat.idx)}
 					/>
 					<DeProductCategoryTag category={ProductsTags} />
 					<DeProductMapSection rightTitle={region} />
