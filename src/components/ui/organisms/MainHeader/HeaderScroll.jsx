@@ -19,7 +19,11 @@ const HeaderScroll = () => {
 
 	const searchKeyword = e => {
 		e.preventDefault()
-		const keyword = inputRef.current.value
+		const keyword = inputRef.current.value.trim()
+		if (keyword === '') {
+			alert('검색어를 입력해주세요')
+			return
+		}
 		linkSearchProduct(keyword)
 		inputRef.current.value = ''
 	}
