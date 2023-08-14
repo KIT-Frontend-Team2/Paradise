@@ -23,7 +23,7 @@ const DeUserCard = ({
 				<S.UserName>{userName}</S.UserName>
 				<S.UserInfo>
 					<S.ProductCount>{`상품 ` + productCount}</S.ProductCount>
-					<S.UserTemplate>{`온도 ` + userTemplate}</S.UserTemplate>
+					<S.UserTemplate>{`온도 ` + userTemplate}℃</S.UserTemplate>
 				</S.UserInfo>
 			</S.UserInfoBox>
 		</S.UserFlexBox>

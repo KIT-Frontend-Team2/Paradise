@@ -46,7 +46,7 @@ const DeUserProductSection = ({
 			) : (
 				<S.DefaultProductList>
 					<img src={defaultImg} alt={'사용자의 데이터가 없습니다.'} />
-					"해당 사용자의 판매 상품이 존재하지 않습니다.
+					해당 사용자의 판매 상품이 존재하지 않습니다.
 				</S.DefaultProductList>
 			)}
 		</S.ProductBox>

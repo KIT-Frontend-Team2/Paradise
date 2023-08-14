@@ -26,6 +26,7 @@ const ProductList = ({ products }) => {
 	if (isMobile) {
 		repeat = 2
 	}
+	const region = '서울시 강남구 역삼동'
 
 	return (
 		<S.Container repeat={repeat}>
@@ -37,10 +38,10 @@ const ProductList = ({ products }) => {
 						isLike={!!product.liked}
 						chat_count={product.product_chat_count}
 						img_url={product.img_url}
-						like={product.product_like_count}
+						like={product.product_like_count || 0}
 						name={product.title}
 						id={product.idx}
-						place={product.product_place} // 없음
+						place={region}
 						time={product.createdAt}
 						state={product.status}
 						content={product.product_content}
