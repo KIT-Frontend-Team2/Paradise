@@ -101,7 +101,7 @@ export const Section = styled.div`
 			padding: ${({ theme }) =>
 				theme.isDesktop || theme.isTabletAndLaptop
 					? '6em 0'
-					: `${theme.isTablet ? '4em 0' : '30vh 0 40vh'}`};
+					: `${theme.isTablet ? '4em 0' : '30vh 16px 40vh'}`};
 		}
 	}
 `
