@@ -17,6 +17,7 @@ import DeProductMapSection from '../../ui/organisms/DeProductMapSection/DeProduc
 import DeProductSection from '../../ui/organisms/DeProductSection/DeProductSection'
 import DeRelatedCarousel from '../../ui/organisms/DeRelatedCarousel/DeRelatedCarousel'
 import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUserProductSection'
+import detailPageMock from "../../../__mock__/datas/detailPage.mock";
 
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
@@ -75,6 +76,8 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
+	const {user_product_list,user_product_count} = detailPageMock.data.seller_info
+	const {recommended_product} = detailPageMock.data
 	const { mutate } = useViewListApi.usePostViewList(idx)
 
 	useEffect(() => {
@@ -130,8 +133,8 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					<DeUserProductSection
 						imgProfile={profile_url}
 						userTemplate={Ondo.ondo}
-						// itemData={user_product_list}
-						productCount={0}
+						itemData={user_product_list}
+						productCount={user_product_count}
 						userName={nick_name}
 						userId={user_idx}
 						containerWidth={containerWidth - 30}
@@ -152,7 +155,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					)}
 				</div>
 			</S.FlexBox>
-			<DeRelatedCarousel product={relatedProduct} />
+			<DeRelatedCarousel product={recommended_product} />
 		</Container>
 	)
 }
