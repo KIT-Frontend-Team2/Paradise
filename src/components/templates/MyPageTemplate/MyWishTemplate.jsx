@@ -60,4 +60,6 @@ S.Title = styled.h2`
 	text-align: left;
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `
-S.Content = styled.div``
+S.Content = styled.div`
+margin-bottom: 50px;
+`

@@ -182,9 +182,11 @@ S.Toggle = styled.div`
 	right: 0;
 `
 S.PlaceWithTimeBox = styled.div`
+	margin-top: 2.5px;
 	margin-bottom: 2.5px;
 	display: flex;
 	gap: 15px;
+	font-size:${({ theme }) => theme.FONT_SIZE.xsmall};
 `
 S.TitleBox = styled.div`
 	white-space: nowrap;
