@@ -186,7 +186,7 @@ S.PlaceWithTimeBox = styled.div`
 	margin-bottom: 2.5px;
 	display: flex;
 	gap: 15px;
-	font-size:${({ theme }) => theme.FONT_SIZE.xsmall};
+	font-size: ${({ theme }) => theme.FONT_SIZE.xsmall};
 `
 S.TitleBox = styled.div`
 	white-space: nowrap;

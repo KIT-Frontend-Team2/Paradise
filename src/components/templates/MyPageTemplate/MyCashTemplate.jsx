@@ -89,7 +89,7 @@ S.Title = styled.h2`
 	padding: 0 ${({ theme }) => (theme.isDesktop ? '0' : '16px')};
 `
 S.Content = styled.div`
-margin-bottom: 50px;
+	margin-bottom: 50px;
 `
 
 S.TotalPrice = styled.div`

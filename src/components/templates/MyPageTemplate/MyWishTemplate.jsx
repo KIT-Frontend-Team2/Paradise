@@ -61,5 +61,5 @@ S.Title = styled.h2`
 	display: ${({ theme }) => (theme.isDesktop ? 'block' : 'none')};
 `
 S.Content = styled.div`
-margin-bottom: 50px;
+	margin-bottom: 50px;
 `
