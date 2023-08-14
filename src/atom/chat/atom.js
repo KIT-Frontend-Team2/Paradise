@@ -14,3 +14,8 @@ export const chatLayoutState = atom({
 	key: 'chatLayout',
 	default: true,
 })
+
+export const setSearchClickState = atom({
+	key: 'searchClick',
+	default: false,
+})

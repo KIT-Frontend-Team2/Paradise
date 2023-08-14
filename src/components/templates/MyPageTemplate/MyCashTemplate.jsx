@@ -12,17 +12,23 @@ import { dateFomatter } from 'utils/formatter'
 const MyCashTemplate = () => {
 	const nowDate = new Date()
 	const startDate = dateFomatter(
-		new Date(nowDate.getFullYear(), nowDate.getMonth(), 1),
+		new Date(nowDate.getFullYear(), nowDate.getMonth()),
 	)
 	const endDate = dateFomatter(
 		new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0),
 	)
+
+	const MonthDate = nowDate.getMonth() + 1
+
+	const { data: getUserInfo } = useMypageApi.useGetinfo()
+	const { nick_name } = getUserInfo.data
 
 	const [catagory, setCatagory] = useState('seller')
 	const [start, setStartDate] = useState(startDate)
 	const [end, setEndDate] = useState(endDate)
 	const [curPage, setCurPage] = useState(1)
 	const { data } = useMypageApi.useAccountPage(curPage, catagory, start, end)
+	const { amount } = data.data
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
@@ -41,12 +47,12 @@ const MyCashTemplate = () => {
 	return (
 		<S.Wrapper>
 			<S.Title>
-				님의 {}월 <br />
+				{nick_name}님의 {MonthDate}월 <br />
 				가계부 입니다.
 			</S.Title>
 			<S.TotalPrice>
-				<MonthPrice amount={data.data.amount} />
-				<TotalPrice amount={data.data.amount} />
+				<MonthPrice amount={amount} />
+				<TotalPrice amount={amount} />
 			</S.TotalPrice>
 			<Calendar
 				setStartDate={setStartDate}
@@ -80,6 +86,7 @@ S.Title = styled.h2`
 	font-size: 24px;
 	font-weight: ${({ theme }) => theme.FONT_WEIGHT.medium};
 	text-align: left;
+	padding: 0 ${({ theme }) => (theme.isDesktop ? '0' : '16px')};
 `
 S.Content = styled.div``
 
