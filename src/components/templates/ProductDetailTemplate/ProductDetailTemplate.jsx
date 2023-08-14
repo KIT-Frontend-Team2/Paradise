@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import detailPageMock from '../../../__mock__/datas/detailPage.mock'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
 import useProductService from '../../../hooks/service/useProduct.service'
@@ -17,7 +18,6 @@ import DeProductMapSection from '../../ui/organisms/DeProductMapSection/DeProduc
 import DeProductSection from '../../ui/organisms/DeProductSection/DeProductSection'
 import DeRelatedCarousel from '../../ui/organisms/DeRelatedCarousel/DeRelatedCarousel'
 import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUserProductSection'
-import detailPageMock from "../../../__mock__/datas/detailPage.mock";
 
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
@@ -76,8 +76,9 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
-	const {user_product_list,user_product_count} = detailPageMock.data.seller_info
-	const {recommended_product} = detailPageMock.data
+	const { user_product_list, user_product_count } =
+		detailPageMock.data.seller_info
+	const { recommended_product } = detailPageMock.data
 	const { mutate } = useViewListApi.usePostViewList(idx)
 
 	useEffect(() => {
