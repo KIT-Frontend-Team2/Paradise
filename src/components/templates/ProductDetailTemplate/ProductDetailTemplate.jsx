@@ -22,7 +22,7 @@ import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUser
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
 
-	const { product } = productInfo.relatedProduct
+	// const { product } = productInfo.relatedProduct
 	let {
 		ProductImages,
 		createdAt,
@@ -50,7 +50,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		ChartDate[ChartDate.length - 1],
 	)
 
-	const relatedProduct = product.filter(data => data.idx !== idx)
+	// const relatedProduct = product.filter(data => data.idx !== idx)
 	useEffect(() => {
 		if (
 			getMonthPriceAvg(data.data.cumulativeAvgPrice, ChartDate).filter(
@@ -172,6 +172,7 @@ S.Flex = styled.div`
 	gap: 30px;
 `
 S.FlexBox = styled(S.Flex)`
+	margin-top: 30px;
 	padding-bottom: 30px;
 	display: ${({ theme }) =>
 		theme.isDesktop || theme.isTablet || theme.isTabletAndLaptop
