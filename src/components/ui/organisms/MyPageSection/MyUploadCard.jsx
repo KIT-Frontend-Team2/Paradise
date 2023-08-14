@@ -104,28 +104,41 @@ const MyUploadCard = ({
 				</S.ImageBox>
 			)}
 			<S.PlaceWithTimeBox>
-				<span>{place}</span>
+				{MyContentValue === 'recent' || MyContentValue === 'cash' ? (
+					<span>서울시 강남구 역삼동</span>
+				) : (
+					<span>{place}</span>
+				)}
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
 			{price !== 0 ? (
 				<S.PriceBox>{formatNumberToMoney(price) + '원'}</S.PriceBox>
 			) : (
-				<S.PriceBox />
+				<S.PriceBox>{formatNumberToMoney(0) + '원'}</S.PriceBox>
 			)}
 			<S.FlexBox>
-				{like > 0 && (
-					<S.IconWithText>
-						<FavoriteBorderIcon />
-						<span>{like}</span>
-					</S.IconWithText>
+				{MyContentValue !== 'wish' ? (
+					<>
+						<S.IconWithText>
+							<FavoriteBorderIcon />
+							<span>3</span>
+						</S.IconWithText>
+					</>
+				) : (
+					<>
+						{like > 0 && (
+							<S.IconWithText>
+								<FavoriteBorderIcon />
+								<span>{like}</span>
+							</S.IconWithText>
+						)}
+					</>
 				)}
-				{chat_count > 0 && (
-					<S.IconWithText>
-						<ChatBubbleOutlineOutlinedIcon />
-						<span>{chat_count}</span>
-					</S.IconWithText>
-				)}
+				<S.IconWithText>
+					<ChatBubbleOutlineOutlinedIcon />
+					<span>3</span>
+				</S.IconWithText>
 			</S.FlexBox>
 		</S.Card>
 	)

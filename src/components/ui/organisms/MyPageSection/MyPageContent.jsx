@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box'
 import { myMenuAtom } from 'atom/mypage/atom'
-import Container from 'components/layout/Container'
 import Button from 'components/ui/atoms/Button/Button'
 import { useDevice } from 'hooks/mediaQuery/useDevice'
 import React, { useState } from 'react'
@@ -8,6 +7,7 @@ import { useRecoilValue } from 'recoil'
 import { styled } from 'styled-components'
 
 import Customchecbox from '../../../../assets/images/checkbox.png'
+import EmptySection from '../EmptySection/EmptySection'
 import Myselect from './MySelect'
 import MyUploadCard from './MyUploadCard'
 
@@ -71,84 +71,84 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 
 	return (
 		<S.Wrapper>
-			<Container>
-				{MyContentValue !== 'recent' ? (
-					<S.Filter>
-						{MyContentValue === 'mySell' ? (
-							<S.Left>
-								<Button
-									type="button"
-									label={'판매'}
-									variant={'primary-outlined'}
-									size={'small'}
-									onClick={() => {
-										handleFilter('0')
-									}}
-								/>
-								<Button
-									type="button"
-									label={'나눔'}
-									size={'small'}
-									variant={'outlined'}
-									onClick={() => {
-										handleFilter('1')
-									}}
-								/>
-							</S.Left>
-						) : (
-							''
-						)}
-						{MyContentValue === 'wish' || MyContentValue === 'recent' ? (
-							<S.Left>
-								<Button
-									type="button"
-									label={'판매'}
-									variant={'primary-outlined'}
-									size={'small'}
-									onClick={() => {
-										handleIsFliter('true')
-									}}
-								/>
-								<Button
-									type="button"
-									label={'나눔'}
-									size={'small'}
-									variant={'outlined'}
-									onClick={() => {
-										handleIsFliter('false')
-									}}
-								/>
-							</S.Left>
-						) : (
-							''
-						)}
-						{MyContentValue === 'mySell' ? (
-							<S.Right>
-								<input type="checkbox" />
-								<label className="checklabel">판매완료</label>
-							</S.Right>
-						) : (
-							''
-						)}
-					</S.Filter>
-				) : (
-					''
-				)}
-				{MyContentValue === 'cash' ? (
-					<S.BottomFilter>
-						<S.BLeftFilter>
-							<li onClick={() => handleFilter('seller')}>판매 내역</li>
-							<li onClick={() => handleFilter('buyer')}>구매 내역</li>
-						</S.BLeftFilter>
-						<S.BRightFilter>
-							<Box sx={{ minWidth: 60 }}>
-								<Myselect handleFilter={handleFilter} />
-							</Box>
-						</S.BRightFilter>
-					</S.BottomFilter>
-				) : (
-					''
-				)}
+			{MyContentValue !== 'recent' ? (
+				<S.Filter>
+					{MyContentValue === 'mySell' ? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => {
+									handleFilter('0')
+								}}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() => {
+									handleFilter('1')
+								}}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
+					{MyContentValue === 'wish' || MyContentValue === 'recent' ? (
+						<S.Left>
+							<Button
+								type="button"
+								label={'판매'}
+								variant={'primary-outlined'}
+								size={'small'}
+								onClick={() => {
+									handleIsFliter('false')
+								}}
+							/>
+							<Button
+								type="button"
+								label={'나눔'}
+								size={'small'}
+								variant={'outlined'}
+								onClick={() => {
+									handleIsFliter('true')
+								}}
+							/>
+						</S.Left>
+					) : (
+						''
+					)}
+					{MyContentValue === 'mySell' ? (
+						<S.Right>
+							<input type="checkbox" />
+							<label className="checklabel">판매완료</label>
+						</S.Right>
+					) : (
+						''
+					)}
+				</S.Filter>
+			) : (
+				''
+			)}
+			{MyContentValue === 'cash' ? (
+				<S.BottomFilter>
+					<S.BLeftFilter>
+						<li onClick={() => handleFilter('seller')}>판매 내역</li>
+						<li onClick={() => handleFilter('buyer')}>구매 내역</li>
+					</S.BLeftFilter>
+					<S.BRightFilter>
+						<Box sx={{ minWidth: 60 }}>
+							<Myselect handleFilter={handleFilter} />
+						</Box>
+					</S.BRightFilter>
+				</S.BottomFilter>
+			) : (
+				''
+			)}
+			{products.length !== 0 ? (
 				<S.Content repeat={repeat}>
 					{MyContentValue === 'mySell'
 						? products.map(item => (
@@ -258,12 +258,9 @@ const MyPageContent = ({ products, setCatagory, filter }) => {
 						  ))
 						: ''}
 				</S.Content>
-				{/* <Pagination
-      page={1} // 현재 페이지 번호
-      item_length={10} // 한 페이지에서 보여지는 아이템들의 개수
-      total={100} // 아이템들의 총 길이
-    /> */}
-			</Container>
+			) : (
+				<EmptySection titleMessage={'구매한 상품이 없습니다'} />
+			)}
 		</S.Wrapper>
 	)
 }
