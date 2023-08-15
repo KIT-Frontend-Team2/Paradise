@@ -3,7 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 import MainLogo from '../../../assets/images/main-logo.png'
+import MobileLogo from '../../../assets/images/mobileLogo.jpg'
 import useSidebar from '../../../hooks/common/useSidebar'
+import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useMove from '../../../hooks/useMovePage'
 import Container from '../../layout/Container'
 import SSlideBanner from '../../ui/molecules/SlideBanner/SSlideBanner'
@@ -14,10 +16,11 @@ import MaSection from '../../ui/organisms/MaSection/MaSection'
 const MainPageTemplate = ({ productInfo }) => {
 	const { linkRegister } = useMove()
 	const { linkSellList, linkShareList } = useMove()
-
+	const { isMobile } = useDevice()
 	useSidebar()
 	const { usedProduct, freeProduct } = productInfo
-	const mainLogo = [MainLogo]
+	const mainLogo = [isMobile ? MobileLogo : MainLogo]
+
 	return (
 		<>
 			<S.MainBannerBox>

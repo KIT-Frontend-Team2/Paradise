@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import useMove from '../../../../hooks/useMovePage'
 import Button from '../../atoms/Button/Button'
 
-const DeUserProductButton = ({ width, productCount, userId }) => {
+const DeUserProductButton = ({ width, productCount = 20, userId = 423 }) => {
 	if (productCount <= 6) return null
 	productCount -= 6
 
@@ -38,6 +38,7 @@ const S = {}
 
 S.ButtonBox = styled.div`
 	width: ${({ width }) => width}px;
+
 	> button {
 		border: 1px solid #36bac6;
 		background-color: #36bac6;

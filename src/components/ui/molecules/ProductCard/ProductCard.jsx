@@ -19,7 +19,8 @@ const ProductCard = ({
 	isLike,
 	img_url,
 	time,
-	chat_count,
+	chat_count = 0,
+	like = 0,
 	state = '판매중',
 	price,
 }) => {
@@ -27,6 +28,16 @@ const ProductCard = ({
 	const { linkDetailPage } = useMove()
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
 	const { region } = userRepository.getUser()
+
+	const changeString = (string, limitLength) => {
+		if (string.length > limitLength) {
+			const array = string.split(' ')
+			array.length = 3
+			return array.join(' ')
+		}
+		return string
+	}
+
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 	return (
 		<S.Card>
@@ -52,7 +63,7 @@ const ProductCard = ({
 				)}
 			</S.ImgBox>
 			<S.PlaceWithTimeBox>
-				<span>{region}</span>
+				<span>{changeString(region, 10)}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
@@ -64,11 +75,13 @@ const ProductCard = ({
 			<S.FlexBox>
 				<S.IconWithText>
 					<FavoriteBorderIcon />
-					<span>{Number(likeState)}</span>
+					<span>
+						{like !== 0 ? (likeState ? like : like - 1) : Number(likeState)}
+					</span>
 				</S.IconWithText>
 				<S.IconWithText>
 					<ChatBubbleOutlineOutlinedIcon />
-					<span>{chat_count || 0}</span>
+					<span>{chat_count}</span>
 				</S.IconWithText>
 			</S.FlexBox>
 		</S.Card>
