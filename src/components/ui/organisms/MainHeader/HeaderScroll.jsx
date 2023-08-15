@@ -25,7 +25,7 @@ const HeaderScroll = () => {
 			return
 		}
 		if (!isStringOnly.test(keyword)) {
-			alert('제대로된 검색어를 입력해주세요. ex) 티셔츠')
+			alert('특수문자를 제외한 검색어를 입력해주세요.')
 			return
 		}
 		linkSearchProduct(keyword)
