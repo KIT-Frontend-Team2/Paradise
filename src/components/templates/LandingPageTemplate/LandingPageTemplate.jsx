@@ -86,7 +86,7 @@ const LandingPageTemplate = ({ type, movePage }) => {
 					</ul>
 				</S.Container>
 			</S.Section>
-			<S.Section className="section3 text-center">
+			<S.Section className="section3 text-center" type={type}>
 				<S.Container>
 					<S.Title2>
 						지금 {type === 'landing' && '로그인하고'} 동네 이웃들과
