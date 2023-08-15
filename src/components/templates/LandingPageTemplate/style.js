@@ -75,18 +75,34 @@ export const Section = styled.div`
 	}
 
 	&.section3 {
-		padding: ${({ theme }) =>
-			theme.isDesktop || theme.isTabletAndLaptop
-				? '6em 0'
-				: `${theme.isTablet ? '4em 0' : '30vh 0 40vh'}`};
-		background-image: url(${lastBg});
-		background-size: 110%;
-		background-repeat: no-repeat;
-		background-position: ${({ theme }) =>
-			theme.isDesktop || theme.isTabletAndLaptop
-				? 'center -30%'
-				: 'center bottom'};
-		min-height: 100vh;
+		position: relative;
+		min-height: ${({ type }) => (type === 'landing' ? '100vh' : '110vh')};
+
+		&:after {
+			content: '';
+			position: absolute;
+			max-width: 1300px;
+			margin: 0 auto;
+			inset: 0;
+			background-image: url(${lastBg});
+			background-size: 110%;
+			background-repeat: no-repeat;
+			background-position: ${({ theme }) =>
+				theme.isDesktop || theme.isTabletAndLaptop
+					? 'center -30%'
+					: 'center bottom'};
+		}
+
+		& > div {
+			position: absolute;
+			inset: 0;
+			z-index: 11;
+			min-height: 100vh;
+			padding: ${({ theme }) =>
+				theme.isDesktop || theme.isTabletAndLaptop
+					? '6em 0'
+					: `${theme.isTablet ? '4em 0' : '30vh 16px 40vh'}`};
+		}
 	}
 `
 
