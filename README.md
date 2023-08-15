@@ -8,6 +8,14 @@
 </div>
 
 <img src="https://github.com/KIT-Frontend-Team2/Paradise_/assets/115636461/a09ca487-07fc-46ee-82f5-2731c35f391b" />
+<br/>
+
+## 🏝️노션주소
+
+  
+```
+https://koreait-front-team2.notion.site/Paradise-2ca4e7c11066465d893e8c46e099550d?pvs=4
+```
 
 <br/>
 
