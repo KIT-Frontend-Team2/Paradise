@@ -19,8 +19,13 @@ const HeaderScroll = () => {
 	const searchKeyword = e => {
 		e.preventDefault()
 		const keyword = inputRef.current.value.trim()
+		const isStringOnly = /^[a-zA-Z가-힣\s]+$/
 		if (keyword === '') {
 			alert('검색어를 입력해주세요')
+			return
+		}
+		if (!isStringOnly.test(keyword)) {
+			alert('제대로된 검색어를 입력해주세요. ex) 티셔츠')
 			return
 		}
 		linkSearchProduct(keyword)
