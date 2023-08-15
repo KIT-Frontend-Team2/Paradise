@@ -104,7 +104,7 @@ const S = {}
 
 S.Wraaper = styled.div`
 	width: 200px;
-	height: 120px;
+	height: 150px;
 	position: absolute;
 	top: 200px;
 	right: 0;

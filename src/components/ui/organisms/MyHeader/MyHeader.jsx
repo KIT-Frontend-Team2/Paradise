@@ -1,13 +1,17 @@
 import EditIcon from '@mui/icons-material/Edit'
+import { showChatState } from 'atom/chat/atom'
 import { myMenuAtom } from 'atom/mypage/atom'
 import LoadUserApi from 'hooks/pageQuery/useLoadUser'
-import { useRecoilState } from 'recoil'
+import useMypageApi from 'hooks/service/useMypage.service'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { styled } from 'styled-components'
 
 import defaultImage from '../../../../assets/images/기본프로필/default_profile_1.png'
 
 const MyHeader = () => {
 	const [myMenu, setMyMenu] = useRecoilState(myMenuAtom)
+	const setShowChat = useSetRecoilState(showChatState)
+	const { data: userInfo } = useMypageApi.useGetinfo() // 판매자 지역 정보
 
 	const { getMyPageHeader } = LoadUserApi()
 	const { data } = getMyPageHeader()
@@ -15,7 +19,7 @@ const MyHeader = () => {
 	const { User, ondo, productsCount, likeCount, chatCount } = data.data
 	const { nickName, profileUrl } = User
 
-	const user_address = '서울시 강남구 역삼동'
+	const user_address = userInfo.data.region
 
 	const onClickMenu = path => {
 		setMyMenu(path)
@@ -50,7 +54,7 @@ const MyHeader = () => {
 							className={myMenu === 'mySell' ? 'on' : ''}
 							onClick={() => onClickMenu('mySell')}
 						>
-							{productsCount}
+							{productsCount || 0}
 						</S.Link>
 					</S.Box>
 					<S.Box>
@@ -66,7 +70,7 @@ const MyHeader = () => {
 						<S.Title>채팅</S.Title>
 						<S.Link
 							className={myMenu === 'chat' ? 'on' : ''}
-							onClick={() => window.alert('채팅 오픈')}
+							onClick={() => setShowChat(true)}
 						>
 							{chatCount}
 						</S.Link>

@@ -1,4 +1,6 @@
 import { myMenuAtom } from 'atom/mypage/atom'
+import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 
 import MyAccountTemplate from './MyAccountTemplate'
@@ -11,6 +13,11 @@ import MyWishTemplate from './MyWishTemplate'
 
 const MyContent = () => {
 	const myMenu = useRecoilValue(myMenuAtom)
+	const [_, setSearchParams] = useSearchParams()
+
+	useEffect(() => {
+		setSearchParams({})
+	}, [myMenu, setSearchParams])
 
 	switch (myMenu) {
 		case 'mySell':
