@@ -1,3 +1,4 @@
+import chatService from 'apis/service/chat.api'
 import useChatApi from 'hooks/service/useChat.service'
 import { useEffect, useRef, useState } from 'react'
 import { useSocket } from 'socket/socket'
@@ -21,14 +22,18 @@ const Chating = ({
 	const { data } = useChatApi.useGetChatLog(id)
 
 	const [message, setMessage] = useState('')
+	const [chat, setChat] = useState()
 	const { mutate } = useChatApi.useSendChat()
 
 	const socket = useSocket()
 
 	useEffect(() => {
+		chatService.getChatLog(id).then(res => {
+			setChat(res.data)
+		})
 		socket.emit('join', { room_idx: id })
 		socket.on('receiveMessage', data => {
-			mutate(data)
+			setChat(data)
 		})
 
 		return () => {
@@ -169,10 +174,12 @@ S.ChatInputContent = styled.div`
 
 S.MeesageContent = styled.div`
 	width: 100%;
-	height: calc(
-		700px - ${({ collapsed }) => (collapsed === 'true' ? '280px' : '320px')}
-	);
+	height: ${({ theme, collapsed }) =>
+		theme.isDesktop || theme.isTabletAndLaptop
+			? `calc( 700px - ${collapsed === 'true' ? '260px' : '320px'});`
+			: `calc(100vh - ${collapsed === 'true' ? '260px' : '320px'});`};
 
+	background-color: ${({ theme }) => theme.PALETTE.gray[100]};
 	overflow-y: auto;
 	padding-top: ${({ collapsed }) => (collapsed === 'true' ? '100px' : '160px')};
 `

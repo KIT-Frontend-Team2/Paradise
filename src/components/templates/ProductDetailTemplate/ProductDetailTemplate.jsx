@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import detailPageMock from '../../../__mock__/datas/detailPage.mock'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useResizeEventGetWidth from '../../../hooks/mediaQuery/useResizeEventGetWidth'
 import useProductService from '../../../hooks/service/useProduct.service'
@@ -21,7 +22,7 @@ import DeUserProductSection from '../../ui/organisms/DeUserProductSection/DeUser
 const ProductDetailTemplate = ({ productInfo }) => {
 	const { Ondo, nick_name, profile_url } = productInfo.searchProduct.User
 
-	const { product } = productInfo.relatedProduct
+	// const { product } = productInfo.relatedProduct
 	let {
 		ProductImages,
 		createdAt,
@@ -49,7 +50,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		ChartDate[ChartDate.length - 1],
 	)
 
-	const relatedProduct = product.filter(data => data.idx !== idx)
+	// const relatedProduct = product.filter(data => data.idx !== idx)
 	useEffect(() => {
 		if (
 			getMonthPriceAvg(data.data.cumulativeAvgPrice, ChartDate).filter(
@@ -75,6 +76,9 @@ const ProductDetailTemplate = ({ productInfo }) => {
 		},
 	}
 
+	const { user_product_list, user_product_count } =
+		detailPageMock.data.seller_info
+	const { recommended_product } = detailPageMock.data
 	const { mutate } = useViewListApi.usePostViewList(idx)
 
 	useEffect(() => {
@@ -114,7 +118,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					<DeProductSection
 						id={idx}
 						isBuyer={productInfo.isSeller}
-						chatCount={productInfo.product_chat_count}
+						chatCount={productInfo.chat.length}
 						isLike={!!liked}
 						like={productInfo.product_like}
 						price={price}
@@ -123,14 +127,15 @@ const ProductDetailTemplate = ({ productInfo }) => {
 						state={status}
 						productInfo={description}
 						nickName={nick_name}
+						roomId={productInfo.chat.map(chat => chat.idx)}
 					/>
 					<DeProductCategoryTag category={ProductsTags} />
 					<DeProductMapSection rightTitle={region} />
 					<DeUserProductSection
 						imgProfile={profile_url}
 						userTemplate={Ondo.ondo}
-						// itemData={user_product_list}
-						// productCount={user_product_count}
+						itemData={user_product_list}
+						productCount={user_product_count}
 						userName={nick_name}
 						userId={user_idx}
 						containerWidth={containerWidth - 30}
@@ -151,7 +156,7 @@ const ProductDetailTemplate = ({ productInfo }) => {
 					)}
 				</div>
 			</S.FlexBox>
-			<DeRelatedCarousel product={relatedProduct} />
+			<DeRelatedCarousel product={recommended_product} />
 		</Container>
 	)
 }
@@ -167,6 +172,7 @@ S.Flex = styled.div`
 	gap: 30px;
 `
 S.FlexBox = styled(S.Flex)`
+	margin-top: 30px;
 	padding-bottom: 30px;
 	display: ${({ theme }) =>
 		theme.isDesktop || theme.isTablet || theme.isTabletAndLaptop

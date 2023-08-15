@@ -5,7 +5,7 @@ import cssToken from 'styles/cssToken'
 
 import timeHelper from '../../../../utils/time-helper'
 
-const DeProductTitle = ({ title, time, like, chatCount }) => (
+const DeProductTitle = ({ title, time, like = 0, chatCount }) => (
 	<>
 		<S.ProductTitle>{title}</S.ProductTitle>
 		<S.ProductTitleBox>

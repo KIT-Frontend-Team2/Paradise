@@ -48,7 +48,6 @@ S.MessageContainer = styled.div`
 	grid-template-columns: ${({ $issender }) => ($issender ? '1fr' : '40px 1fr')};
 	gap: 3px;
 	width: 100%;
-	direction: ${({ $issender }) => ($issender ? 'rtl' : 'ltr')};
 `
 
 S.AvatarContainer = styled.div`
@@ -74,6 +73,7 @@ S.MessageBox = styled.div`
 	align-items: end;
 	padding-right: ${({ issender }) => (issender ? 0 : '10px')};
 	padding-bottom: 10px;
+	flex-direction: ${({ $issender }) => ($issender ? 'row-reverse' : 'row')};
 `
 
 S.MetaInfo = styled.div`
@@ -91,13 +91,15 @@ S.MessageTime = styled.span`
 	grid-column: 1;
 	font-size: 12px;
 	color: #999;
+	min-width: 60px;
 `
 
 S.MessageText = styled.div`
-	padding: 0.5rem;
-	background-color: ${({ $issender }) => ($issender ? '#009D91' : '#ddd')};
+	padding: 0.5rem 1rem;
+	background-color: ${({ $issender, theme }) =>
+		$issender ? theme.PALETTE.primary[100] : theme.PALETTE.white};
 	border-radius: ${({ $issender }) =>
-		$issender ? '10px 0 10px 10px' : '0 10px 10px 10px'};
+		$issender ? '20px 0 20px 20px' : '0 20px 20px 20px'};
 	color: ${({ $issender }) => ($issender ? '#fff' : '#333')};
 `
 S.UnreadIndicator = styled.div`

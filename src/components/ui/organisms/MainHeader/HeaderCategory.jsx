@@ -28,7 +28,7 @@ export const categories = [
 		path: 'children-books',
 	},
 	{
-		label: '여셩의류',
+		label: '여성의류',
 		path: 'women-clothing',
 	},
 	{
@@ -129,7 +129,8 @@ S.IconWrapper = styled.div`
 	}
 `
 S.DropdownMenu = styled.ul`
-	width: 100%;
+	width: ${({ theme }) =>
+		theme.isTablet || theme.isMobileAndTablet ? '180px' : '100%'};
 	position: absolute;
 	background-color: #fff;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

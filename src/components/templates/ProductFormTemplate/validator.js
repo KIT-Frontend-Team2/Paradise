@@ -5,6 +5,10 @@
 export const validateTitle = () => {
 	return {
 		required: '제목을 입력해주세요.',
+		maxLength: {
+			value: 19,
+			message: '제목은 최대 19글자까지 가능합니다.',
+		},
 	}
 }
 

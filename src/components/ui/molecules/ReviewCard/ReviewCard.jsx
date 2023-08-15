@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const ProductCard = ({ review_info, detailOpen }) => {
 	const { Product, Review, created_at } = review_info
 	return (
-		<S.Card size={200}>
+		<S.Card>
 			<S.ImgBox>
 				<img
 					style={{ cursor: 'pointer' }}
@@ -23,7 +23,7 @@ const ProductCard = ({ review_info, detailOpen }) => {
 			{Product.price !== 0 ? (
 				<S.PriceBox>{Product.price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<></>
+				<S.PriceBox>무료</S.PriceBox>
 			)}
 		</S.Card>
 	)
@@ -47,6 +47,7 @@ S.LikeBox = styled.div`
 
 S.Card = styled.div`
 	text-align: left;
+	width: 100%;
 `
 S.ImgBox = styled.div`
 	position: relative;
@@ -74,11 +75,10 @@ S.CloseBox = styled.div`
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
-
 	span {
 		font-weight: bold;
 		font-size: 12px;
-		color: ${({ theme }) => theme.PALETTE.white};
+		color: ${({ theme }) => theme.PALETTE.black};
 	}
 `
 

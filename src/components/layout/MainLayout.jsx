@@ -34,4 +34,5 @@ const S = {}
 
 S.Wrapper = styled.div`
 	position: relative;
+	min-height: 100vh;
 `
