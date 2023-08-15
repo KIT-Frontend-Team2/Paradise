@@ -2,12 +2,14 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import SellCheck from 'components/modal/mypage/SellCheck'
 import Button from 'components/ui/atoms/Button/Button'
+import { CHAGE_USERINFO } from 'consts/message'
 import useChatApi from 'hooks/service/useChat.service'
 import useMypageApi from 'hooks/service/useMypage.service'
 import useMove from 'hooks/useMovePage'
 import React, { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { styled } from 'styled-components'
+import toastMessage from 'utils/toast-message'
 
 const SellMenuBar = ({ prod_idx, filter }) => {
 	const { linkModifyProduct } = useMove()
@@ -26,13 +28,18 @@ const SellMenuBar = ({ prod_idx, filter }) => {
 	const page = searchParams.get('page')
 	const { data } = useChatApi.useGetChatProduct(page, prod_idx)
 	const chatUser = data.data
-	const { mutate } = useMypageApi.useDeleteProduct()
+	const { mutateAsync } = useMypageApi.useDeleteProduct()
 
-	const hadleDelete = () => {
+	const hadleDelete = async () => {
 		const confirmDelete = window.confirm('물품을 삭제하시겠습니까?')
-
+		const prod_idx = id
 		if (confirmDelete) {
-			mutate(prod_idx)
+			await toastMessage.promise(
+				mutateAsync(prod_idx),
+				CHAGE_USERINFO.DELETE_LOADING,
+				CHAGE_USERINFO.DELETE_SUCCESS,
+				CHAGE_USERINFO.DELETE_ERROR,
+			)
 		}
 	}
 

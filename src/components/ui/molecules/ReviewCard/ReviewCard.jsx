@@ -23,7 +23,7 @@ const ProductCard = ({ review_info, detailOpen }) => {
 			{Product.price !== 0 ? (
 				<S.PriceBox>{Product.price.toLocaleString() + '원'}</S.PriceBox>
 			) : (
-				<></>
+				<S.PriceBox>무료</S.PriceBox>
 			)}
 		</S.Card>
 	)

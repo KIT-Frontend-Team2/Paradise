@@ -10,23 +10,33 @@ import styled from 'styled-components'
 import useOneRequest from '../../../../hooks/common/useOneRequest'
 import useProductService from '../../../../hooks/service/useProduct.service'
 import useMove from '../../../../hooks/useMovePage'
+import userRepository from '../../../../repositories/UserRepository'
 import timeHelper from '../../../../utils/time-helper'
 
 const ProductCard = ({
 	id,
 	name,
-	place,
 	isLike,
 	img_url,
 	time,
-	like,
-	chat_count,
+	chat_count = 0,
+	like = 0,
 	state = '판매중',
 	price,
 }) => {
 	const [likeState, setLikeState] = useState(isLike)
 	const { linkDetailPage } = useMove()
 	const { mutateAsync } = useProductService.usePostWishAdd(id)
+	const { region } = userRepository.getUser()
+
+	const changeString = (string, limitLength) => {
+		if (string.length > limitLength) {
+			const array = string.split(' ')
+			array.length = 3
+			return array.join(' ')
+		}
+		return string
+	}
 
 	const onClick = useOneRequest(mutateAsync, setLikeState)
 	return (
@@ -53,7 +63,7 @@ const ProductCard = ({
 				)}
 			</S.ImgBox>
 			<S.PlaceWithTimeBox>
-				<span>{place}</span>
+				<span>{changeString(region, 10)}</span>
 				<span>{timeHelper(time)}</span>
 			</S.PlaceWithTimeBox>
 			<S.TitleBox>{name}</S.TitleBox>
@@ -63,18 +73,16 @@ const ProductCard = ({
 				<S.PriceBox>무료</S.PriceBox>
 			)}
 			<S.FlexBox>
-				{like > 0 && (
-					<S.IconWithText>
-						<FavoriteBorderIcon />
-						<span>{like}</span>
-					</S.IconWithText>
-				)}
-				{chat_count > 0 && (
-					<S.IconWithText>
-						<ChatBubbleOutlineOutlinedIcon />
-						<span>{chat_count}</span>
-					</S.IconWithText>
-				)}
+				<S.IconWithText>
+					<FavoriteBorderIcon />
+					<span>
+						{like !== 0 ? (likeState ? like : like - 1) : Number(likeState)}
+					</span>
+				</S.IconWithText>
+				<S.IconWithText>
+					<ChatBubbleOutlineOutlinedIcon />
+					<span>{chat_count}</span>
+				</S.IconWithText>
 			</S.FlexBox>
 		</S.Card>
 	)
@@ -160,6 +168,7 @@ S.ImgBox = styled.div`
 		height: 100%;
 		object-fit: cover;
 		transition: 1s;
+
 		&:hover {
 			transform: scale(1.05);
 		}

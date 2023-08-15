@@ -4,11 +4,16 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from '@mui/material'
 import { showChatState } from 'atom/chat/atom'
 import { useSetRecoilState } from 'recoil'
 
-const ChatHeader = ({ layout, setLayout }) => {
+const ChatHeader = ({ layout, setLayout, setSelectedChat }) => {
 	const setShowChat = useSetRecoilState(showChatState)
 	const handleClosed = () => {
 		setLayout(true)
 		setShowChat(false)
+		setSelectedChat(null)
+	}
+	const handleBack = () => {
+		setLayout(true)
+		setSelectedChat(null)
 	}
 	return (
 		<AppBar
@@ -24,11 +29,7 @@ const ChatHeader = ({ layout, setLayout }) => {
 		>
 			<Toolbar>
 				{!layout && (
-					<IconButton
-						edge="start"
-						aria-label="back"
-						onClick={() => setLayout(true)}
-					>
+					<IconButton edge="start" aria-label="back" onClick={handleBack}>
 						<ArrowBackIosIcon sx={{ color: '#fff', fontSize: '16px' }} />
 					</IconButton>
 				)}

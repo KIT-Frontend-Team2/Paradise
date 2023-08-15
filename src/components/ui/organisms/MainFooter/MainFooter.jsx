@@ -70,7 +70,7 @@ export default MainFooter
 export const S = {}
 
 S.Footer = styled.div`
-	position: relative;
+	position: absolute;
 	bottom: 0;
 	left: 0;
 	width: 100%;

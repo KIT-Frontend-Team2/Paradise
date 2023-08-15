@@ -26,7 +26,7 @@ const SProductCarousel = ({ products }) => {
 			setIsEnd(true)
 		}
 	}
-
+	console.log(products)
 	const handlePrev = () => {
 		if (swiperRef.current.swiper.isEnd) {
 			setIsEnd(!swiperRef.current.swiper.isEnd)
@@ -36,6 +36,7 @@ const SProductCarousel = ({ products }) => {
 			setIsBeginning(true)
 		}
 	}
+
 	return (
 		<S.Wrapper>
 			<Swiper
@@ -64,24 +65,34 @@ const SProductCarousel = ({ products }) => {
 				className="mySwiper"
 				ref={swiperRef}
 			>
-				{products.map(product => (
-					<SwiperSlide key={product.idx}>
-						<ProductCard
-							state={product.status}
-							size={200}
-							isLike={!!product.liked}
-							like={product.likeCount}
-							content={product.description}
-							place={product.product_place} //
-							chat_count={product.product_chat_count} //
-							id={product.idx}
-							time={product.createdAt}
-							img_url={product.img_url}
-							name={product.title}
-							price={product.price}
-						/>
-					</SwiperSlide>
-				))}
+				{products.map(product => {
+					const {
+						idx,
+						title,
+						price,
+						createdAt,
+						isLike,
+						likeCount,
+						img_url,
+						chatCount,
+					} = product
+					return (
+						<SwiperSlide key={idx}>
+							<ProductCard
+								state={'판매중'}
+								size={200}
+								isLike={isLike}
+								like={likeCount}
+								chat_count={chatCount} //
+								id={idx}
+								time={createdAt}
+								img_url={img_url}
+								name={title}
+								price={price}
+							/>
+						</SwiperSlide>
+					)
+				})}
 			</Swiper>
 			<div
 				className={
