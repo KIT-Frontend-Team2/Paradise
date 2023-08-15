@@ -1,9 +1,11 @@
+import MBanner1 from 'assets/images/m_main_1.jpg'
+import MBanner2 from 'assets/images/m_main_2.jpg'
+import PcBanner1 from 'assets/images/pc_main_1.jpg'
+import PcBanner2 from 'assets/images/pc_main_2.jpg'
 import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import MainLogo from '../../../assets/images/main-logo.png'
-import MobileLogo from '../../../assets/images/mobileLogo.jpg'
 import useSidebar from '../../../hooks/common/useSidebar'
 import { useDevice } from '../../../hooks/mediaQuery/useDevice'
 import useMove from '../../../hooks/useMovePage'
@@ -14,12 +16,12 @@ import MaLineBanner from '../../ui/organisms/MaLineBanner/MaLineBanner'
 import MaSection from '../../ui/organisms/MaSection/MaSection'
 
 const MainPageTemplate = ({ productInfo }) => {
-	const { linkRegister } = useMove()
+	const { linkRegister, linkBannerPage } = useMove()
 	const { linkSellList, linkShareList } = useMove()
 	const { isMobile } = useDevice()
 	useSidebar()
 	const { usedProduct, freeProduct } = productInfo
-	const mainLogo = [isMobile ? MobileLogo : MainLogo]
+	const mainLogo = isMobile ? [MBanner1, MBanner2] : [PcBanner1, PcBanner2]
 
 	return (
 		<>
@@ -29,6 +31,7 @@ const MainPageTemplate = ({ productInfo }) => {
 					loop={true}
 					isAuto={true}
 					autoplay={{ delay: 4000, disableOnInteraction: false }}
+					onClick={linkBannerPage}
 				/>
 			</S.MainBannerBox>
 			<Container>
@@ -95,5 +98,6 @@ MainPageTemplate.proptype = {
 const S = {}
 
 S.MainBannerBox = styled.div`
-	height: 510px;
+	height: ${({ theme }) => (theme.isMobile ? '' : '500px')};
+	cursor: pointer;
 `

@@ -15,7 +15,16 @@ const HeaderSearch = ({ newChat }) => {
 
 	const searchKeyword = e => {
 		e.preventDefault()
-		const keyword = inputRef.current.value
+		const keyword = inputRef.current.value.trim()
+		const isStringOnly = /^[a-zA-Z가-힣\s]+$/
+		if (keyword === '') {
+			alert('검색어를 입력해주세요.')
+			return
+		}
+		if (!isStringOnly.test(keyword)) {
+			alert('특수문자를 제외한 검색어를 입력해주세요.')
+			return
+		}
 		linkSearchProduct(keyword)
 		inputRef.current.value = ''
 	}

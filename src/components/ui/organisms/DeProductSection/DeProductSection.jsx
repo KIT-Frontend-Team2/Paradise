@@ -46,7 +46,7 @@ const DeProductSection = ({
 	const handleChatClick = () => {
 		mutate(id)
 
-		const message = '채팅을 시작합니다'
+		const message = '채팅을 시작합니다.'
 		const data = {
 			title: title,
 			createdAt: time,

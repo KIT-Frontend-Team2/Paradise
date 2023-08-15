@@ -61,32 +61,32 @@ const detailPageMock = {
 			user_product_count: 47, // 판매자가 올린 게시물수
 			user_product_list: [
 				{
-					id: '120',
+					id: '905',
 					name: '스피커 팝니다.',
 					img: 'https://media.bunjang.co.kr/product/230484040_1_1691897500_w856.jpg', // 상품의 대표 이미지 주소
 				},
 				{
-					id: '50',
+					id: '906',
 					name: '타월 원피스',
 					img: 'https://media.bunjang.co.kr/product/232309588_1_1691322456_w856.jpg',
 				},
 				{
-					id: '44',
-					name: '원피스',
+					id: '907',
+					name: '검은색 원피스 나눔합니다.',
 					img: 'https://media.bunjang.co.kr/product/232913741_1_1691822779_w856.jpg',
 				},
 				{
-					id: '145',
+					id: '908',
 					name: '남성용 자켓',
 					img: 'https://media.bunjang.co.kr/product/231109606_1_1690293719_w856.jpg',
 				},
 				{
-					id: '23',
+					id: '909',
 					name: '바람막이 점퍼',
 					img: 'https://media.bunjang.co.kr/product/229313542_1_1690981707_w856.jpg',
 				},
 				{
-					id: '14',
+					id: '910',
 					name: '블랙 원피스',
 					img: 'https://media.bunjang.co.kr/product/232756360_1_1691773079_w856.jpg',
 				},
