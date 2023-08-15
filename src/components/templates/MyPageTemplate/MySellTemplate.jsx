@@ -14,14 +14,13 @@ const MySellTemplate = () => {
 	const { page_size, count } = data.data.pagination
 	const [searchParams, _] = useSearchParams()
 
-
 	const handlePageChange = newpage => {
 		setCurPage(newpage)
-		searchParams.set('page' , newpage)
+		searchParams.set('page', newpage)
 	}
 
 	useEffect(() => {
-		const pageParam = searchParams.get('page' ) 
+		const pageParam = searchParams.get('page')
 		if (pageParam) {
 			setCurPage(parseInt(pageParam))
 		}
