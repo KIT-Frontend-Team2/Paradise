@@ -29,6 +29,9 @@ const useMove = () => {
 	const linkSearchProduct = keyWord =>
 		topMove(API_KEY.PRODUCT + API_KEY.SEARCH + `/${keyWord.split('/')[0]}`)
 
+	const linkBannerPage = () =>
+		topMove(API_KEY.PRODUCT + API_KEY.SEARCH + `/여성의류`)
+
 	const linkModifyProduct = productId =>
 		topMove(API_KEY.PRODUCT + API_KEY.UPDATE + `/${productId}`)
 
@@ -58,6 +61,7 @@ const useMove = () => {
 		linkUserProduct,
 		linkSearchProduct,
 		linkModifyProduct,
+		linkBannerPage,
 		linkAuthPage,
 		linkRegister,
 		prevPage,
