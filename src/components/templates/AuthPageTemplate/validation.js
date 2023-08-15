@@ -4,7 +4,6 @@ export const Validation = yup.object({
 	nickname: yup.string().required('필수 입력 사항입니다.'),
 	email: yup
 		.string()
-		.max(20, '이메일의 최대 길이는 20자 미만입니다.')
 		.required('필수 입력 사항입니다.')
 		.email('이메일 형식이 아닙니다.')
 		.matches(/\S+@\S+\.\S+/, '이메일 형식으로 입력해주세요'),

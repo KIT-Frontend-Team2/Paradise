@@ -14,8 +14,8 @@ const MyMenu = () => {
 			label: '관심 상품',
 		},
 		{
-			path: 'recent',
-			label: '최근 본 상품',
+			path: 'review',
+			label: '리뷰 관리',
 		},
 		{
 			path: 'cash',
@@ -24,10 +24,6 @@ const MyMenu = () => {
 		{
 			path: 'account',
 			label: '계정관리',
-		},
-		{
-			path: 'review',
-			label: '리뷰 관리',
 		},
 	]
 	const onClickMenu = path => {
