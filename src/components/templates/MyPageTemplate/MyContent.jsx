@@ -8,15 +8,24 @@ import MyRecentTemplate from './MyRecentTemplate'
 import MyReviewTemplate from './MyReviewTemplate'
 import MySellTemplate from './MySellTemplate'
 import MyWishTemplate from './MyWishTemplate'
+import { useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
+
 
 const MyContent = () => {
 	const myMenu = useRecoilValue(myMenuAtom)
+  const [_, setSearchParams] = useSearchParams()
+
+  useEffect(() => {
+    setSearchParams({})
+  }, [myMenu, setSearchParams])
+
 
 	switch (myMenu) {
 		case 'mySell':
-			return <MySellTemplate />
+			return <MySellTemplate/>
 		case 'wish':
-			return <MyWishTemplate />
+			return <MyWishTemplate/>
 		case 'recent':
 			return <MyRecentTemplate />
 		case 'cash':
