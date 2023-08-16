@@ -151,7 +151,6 @@ npm run storybook
     </td>
      <td>
        <img src="https://github.com/KIT-Frontend-Team2/Paradise/assets/115636461/682ac913-3879-4225-93cc-d85ba847f0c5" alt="카테고리별모아보기" />
-
     </td>
   </tr>
   <tr>
